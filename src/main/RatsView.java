@@ -47,30 +47,38 @@ public class RatsView extends PApplet {
 		background(0);
 		
 		Point mouse = MouseInfo.getPointerInfo().getLocation();
+		zoom = constrain(zoom, 1.0f, 2.0f);
+
+		scale(zoom);
 		/**
 		 * Rotation on the screen
 		 */
 //		float rotx = (mouseY/600.0f)*-2*PI+PI;
 //		float roty = (mouseX/600.0f)*2*PI-PI;
 //		float rotz = rotzfactor*PI/36;
-		float rotx = (mouse.y/600.0f)*-2*PI+PI;
-		float roty = (mouse.x/600.0f)*2*PI-PI;
+		float rotx = (2*mouse.x/600.0f)*-2*PI+PI;
+		float roty = (2*mouse.y/600.0f)*-2*PI-PI;
 		float rotz = rotzfactor*PI/36;
 		
 //		translate(0, 0, rotz);
 		
 		pushMatrix();
 		
+		//TODO fiz dimensions to dimensions of the room. Check coordinates from trajectory, and units
 //		camera(mouseX, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
 //		scale(zoom, zoom, zoom not working
 		translate(width/2, height/2);
-		rotateX(rotx);  //
-		rotateY(roty);  // rotate drawing coordinates according to user input variables
-		rotateZ(rotz);  //
-		box(250);
+		rotateX(roty);  
+		rotateZ(rotx);  
 		
 		pushMatrix();
-		scale(350, 350, 350);
+		strokeWeight(2.0f);
+		translate(0, 0, 100);
+		box(width/2, width/2, 200);
+		popMatrix();
+		
+		pushMatrix();
+		scale(700, 700, 700);
 		cube();
 		popMatrix();
 		for (int i=0; i<NUMBER_DRONES; i++) {
@@ -97,19 +105,35 @@ public class RatsView extends PApplet {
 	}
 	
 	public void mouseWheel(MouseEvent event) {
-		zoom += event.getCount();
+		if(event.getCount() >= 0) { 
+		    zoom += 0.005; 
+		  } 
+		  else {
+		    zoom -= 0.01; 
+		  }
 	}
 	
 	public void cube() {
-		// Front
-			noStroke();
-		  beginShape(QUADS);
-		  fill(255, 255, 0, 100);
-		  vertex(-1, -1,  1);
-		  vertex( 1, -1,  1);
-		  vertex( 1,  1,  1);
-		  vertex(-1,  1,  1);
-		  endShape();
+		// Room floor
+		noStroke();
+		beginShape(QUADS);
+		fill(255, 255, 0, 100);
+		vertex(-1, -1,  0);
+		vertex( 1, -1,  0);
+		vertex( 1,  1,  0);
+		vertex(-1,  1,  0);
+		endShape();
+		
+		// Room back (x,z) plane
+		noStroke();
+		beginShape(TRIANGLE);
+		fill(255, 0, 255, 100);
+		vertex(-1, -1,  0);
+		vertex( 0, -1,  1);
+		vertex( 1,  -1,  0);
+		endShape();
+				
+		
 		  // Back
 //		  beginShape(QUADS);
 //		  fill(255,255,0);

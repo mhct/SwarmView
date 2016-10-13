@@ -21,8 +21,7 @@ public class Drone {
 		double y = trajectory.getDesiredPositionY(timeStep);
 		double z = trajectory.getDesiredPositionZ(timeStep);
 //		double yaw = trajectory.getDesiredAngleZ(timeStep);
-		Sprite currentSprite = Sprite.create((float)x, (float)y);
-//		Sprite currentSprite = Sprite.create(canvas.mouseX, canvas.mouseY);
+		Sprite currentSprite = Sprite.create((float)x, (float)y, (float)z);
 		
 		previousSprites[spriteIndex] = currentSprite;
 		if (spriteIndex + 1 == BUFFER_SIZE) {
@@ -55,11 +54,12 @@ public class Drone {
 	}
 	
 	static class Sprite {
-		private float x, y;
+		private float x, y, z;
 		
-		private Sprite(float x, float y) {
+		private Sprite(float x, float y, float z) {
 			this.x = x;
 			this.y = y;
+			this.z = z;
 		}
 		
 		public void draw(PApplet canvas, float alfa) {
@@ -68,15 +68,14 @@ public class Drone {
 			canvas.pushMatrix();
 			canvas.noFill();
 			canvas.stroke(255, alfa);
-			canvas.translate(x,  y, 0);
-//			canvas.ellipse(x, y, 10, 10);
-			canvas.sphereDetail(20);
-			canvas.sphere(10);
+			canvas.translate(x,  y, z);
+			canvas.sphereDetail(12);
+			canvas.sphere(5);
 			canvas.popMatrix();
 		}
 		
-		public static Sprite create(float x, float y) {
-			return new Sprite(x, y);
+		public static Sprite create(float x, float y, float z) {
+			return new Sprite(x, y, z);
 		}
 	}
 }
