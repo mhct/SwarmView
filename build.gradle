@@ -1,0 +1,67 @@
+group 'io.github.mariohct'
+version '1.0-SNAPSHOT'
+
+apply plugin: "java"
+apply plugin: "jacoco"
+
+apply plugin: 'application'
+mainClassName = 'RatsView'
+
+jacoco {
+    toolVersion = "0.7.5.201505241946"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+task testReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/allTests")
+}
+
+test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/test.exec")
+        classDumpFile = file("$buildDir/build/classes/test")
+    }
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        xml {
+            enabled true
+            destination "${buildDir}/reports/jacoco/jacoco.xml"
+        }
+        csv.enabled false
+        html {
+            enabled true
+            destination "${buildDir}/jacocoHtml"
+        }
+    }
+//    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url "https://github.com/agentwise/mvn-repo/raw/master"
+    }
+}
+
+dependencies {
+    compile 'org.processing:processing-core:3.2.1'
+    compile 'org.processing:gluegen-rt:2.3.2'
+    compile 'org.processing:gluegen-rt-natives-mac:2.3.2'
+    compile 'org.processing:jogl:2.3.2'
+    compile 'org.processing:jogl-natives-mac:2.3.2'
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
