@@ -59,9 +59,4 @@ dependencies {
     compile 'org.processing:jogl-natives-mac:2.3.2'
 }
 
-idea {
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
-}
+
