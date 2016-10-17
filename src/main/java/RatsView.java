@@ -1,7 +1,5 @@
 package main;
 
-import applications.trajectory.CircleTrajectory4D;
-import applications.trajectory.geom.point.Point3D;
 import control.Trajectory4d;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
@@ -32,12 +30,7 @@ public class RatsView extends PApplet {
 	public void setup() {
 		fill(255);
 		timeStep = 0;
-		
-		Trajectory4d trajectory = CircleTrajectory4D.builder()
-				.setLocation(Point3D.create(0, 0, 100))
-				.setRadius(50)
-				.setFrequency(0.008)
-				.build();
+        Trajectory4d trajectory = null;		
 		for (int i=0; i<NUMBER_DRONES; i++) {
 			drones[i] = new Drone(this, trajectory);
 		}
