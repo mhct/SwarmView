@@ -5,7 +5,10 @@ import processing.core.PApplet;
 import processing.event.MouseEvent;
 
 import java.awt.MouseInfo;
-import java.awt.Point; 
+import java.awt.Point;
+
+import applications.trajectory.CircleTrajectory4D;
+import applications.trajectory.geom.point.Point3D; 
 
 public class RatsView extends PApplet {
 	private final int NUMBER_DRONES = 1;
@@ -30,7 +33,17 @@ public class RatsView extends PApplet {
 	public void setup() {
 		fill(255);
 		timeStep = 0;
-        Trajectory4d trajectory = null;		
+		
+		/**
+		 * Add trajectories here
+		 */
+        Trajectory4d trajectory = CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(width/4, height/4, 100))
+				.setRadius(50)
+				.setFrequency(0.008)
+				.build();
+        
+        
 		for (int i=0; i<NUMBER_DRONES; i++) {
 			drones[i] = new Drone(this, trajectory);
 		}
