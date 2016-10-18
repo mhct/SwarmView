@@ -14,7 +14,7 @@ import applications.trajectory.geom.point.Point3D;
 public class RatsView extends PApplet {
 	private static final float MAX_ZOOM = 4.0f;
 	private static final float MIN_ZOOM = 0.3f;
-	private final int NUMBER_DRONES = 1;
+	private final int NUMBER_DRONES = 4;
 	Drone[] drones = new Drone[NUMBER_DRONES];
 	int rotzfactor = 0;
 	float zoom = 1.0f;
@@ -46,14 +46,35 @@ public class RatsView extends PApplet {
 		 */
 //        Trajectory4d trajectory = ;
         
-		for (int i=0; i<NUMBER_DRONES; i++) {
+//		for (int i=0; i<NUMBER_DRONES; i++) {
 			//trajectories are done in meters
-			drones[i] = new Drone(this, CircleTrajectory4D.builder()
-					.setLocation(Point3D.create(4, 4, 1))
-					.setRadius(4)
-					.setFrequency(0.11)
-					.build());
-		}
+		
+		drones[0] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 1))
+				.setRadius(2)
+				.setFrequency(0.22)
+				.build(), color(255, 50, 50), 50);
+
+		drones[1] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 2))
+				.setRadius(2)
+				.setFrequency(-0.22)
+				.build());
+		
+		drones[2] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 3))
+				.setRadius(2)
+				.setFrequency(0.22)
+				.build(), color(2, 100, 233), 50);
+		
+		drones[3] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 4))
+				.setRadius(2)
+				.setFrequency(-0.22)
+				.build(), color(200, 10, 233), 50);
+		
+		
+//		}
 		
 	}
 	
