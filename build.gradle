@@ -3,9 +3,18 @@ version '1.0-SNAPSHOT'
 
 apply plugin: "java"
 apply plugin: "jacoco"
+apply plugin: "eclipse"
+
 
 apply plugin: 'application'
 mainClassName = 'main.RatsView'
+
+
+eclipse {
+    classpath {
+       downloadSources=true
+    }
+}
 
 jacoco {
     toolVersion = "0.7.5.201505241946"
