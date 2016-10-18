@@ -21,7 +21,7 @@ public class Drone {
 		double y = trajectory.getDesiredPositionY(timeStep);
 		double z = trajectory.getDesiredPositionZ(timeStep);
 //		double yaw = trajectory.getDesiredAngleZ(timeStep);
-		Sprite currentSprite = Sprite.create((float)x, (float)y, (float)z);
+		Sprite currentSprite = Sprite.create((float)x * 100.0f, (float)y * 100.0f, (float)z * 100.0f);
 		
 		previousSprites[spriteIndex] = currentSprite;
 		if (spriteIndex + 1 == BUFFER_SIZE) {

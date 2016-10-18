@@ -12,9 +12,10 @@ import applications.trajectory.CircleTrajectory4D;
 import applications.trajectory.geom.point.Point3D; 
 
 public class RatsView extends PApplet {
-	private final int NUMBER_DRONES = 4;
+	private static final float MAX_ZOOM = 4.0f;
+	private static final float MIN_ZOOM = 0.3f;
+	private final int NUMBER_DRONES = 1;
 	Drone[] drones = new Drone[NUMBER_DRONES];
-	private float timeStep;
 	int rotzfactor = 0;
 	float zoom = 1.0f;
 	final int displayDimensionX = 1024;
@@ -23,6 +24,8 @@ public class RatsView extends PApplet {
 	private int lastMouseX;
 	private int lastMouseY;
 	private float lastZoom;
+	private int initialTime = 0;
+	private float rotz;
 	
 	public static void main(String[] args) {
 		PApplet.main(RatsView.class);
@@ -37,19 +40,18 @@ public class RatsView extends PApplet {
 	@Override
 	public void setup() {
 		fill(255);
-		timeStep = 0;
 		
 		/**
 		 * Add trajectories here
 		 */
 //        Trajectory4d trajectory = ;
         
-        rectMode(CORNER);
 		for (int i=0; i<NUMBER_DRONES; i++) {
+			//trajectories are done in meters
 			drones[i] = new Drone(this, CircleTrajectory4D.builder()
-					.setLocation(Point3D.create(width/4, height/4, i*100 +40))
-					.setRadius(i*50)
-					.setFrequency(0.001)
+					.setLocation(Point3D.create(4, 4, 1))
+					.setRadius(4)
+					.setFrequency(0.11)
 					.build());
 		}
 		
@@ -68,25 +70,30 @@ public class RatsView extends PApplet {
 		}
 		
 		positionView(lastMouseX, lastMouseY, lastZoom);
-		pushMatrix();
 		
-		text("0, 0, 0", 0.0f, 0.0f, 0.0f);
+		
+		pushMatrix();
 		strokeWeight(2.0f);
-//		translate(0, 0, 100);
-		box(800, 800, 500);
-		popMatrix();
-		
-		pushMatrix();
-		scale(700, 700, 700);
-		drawStage();
-		popMatrix();
-		for (int i=0; i<NUMBER_DRONES; i++) {
-			drones[i].displayNext(timeStep);
-		}
-		
+		translate(0, 0, 200);
+		box(800, 800, 400);
 		popMatrix();
 
-		timeStep = timeStep + 1.0f;
+		drawStage();
+		
+		
+		pushMatrix();
+		translate(-400, -400, 0);
+		text("Origin", 0.0f, 0.0f, 0.0f);
+		int currentTime = millis();
+		if (initialTime  == 0) {
+			initialTime = millis();
+		}
+		for (int i=0; i<NUMBER_DRONES; i++) {
+			drones[i].displayNext((currentTime-initialTime)/1000.0f);
+		}
+		popMatrix();
+		
+		popMatrix();
 	}
 	
 	/**
@@ -94,7 +101,7 @@ public class RatsView extends PApplet {
 	 * 
 	 */
 	private void positionView(float x, float y, float zoom) {
-		zoom = constrain(zoom, 0.3f, 4.0f);
+		zoom = constrain(zoom, MIN_ZOOM, MAX_ZOOM);
 		scale(zoom);
 	
 		/**
@@ -102,7 +109,7 @@ public class RatsView extends PApplet {
 		 */
 		float rotx = (2*x/(float) displayDimensionX)*-2*PI+PI;
 		float roty = (2*y/(float) displayDimensionY)*-2*PI-PI;
-		float rotz = rotzfactor*PI/36;
+		rotz = rotzfactor*PI/36;
 	
 		pushMatrix();
 		translate(width/(2*zoom), height/(2*zoom), rotz/zoom);
@@ -111,10 +118,10 @@ public class RatsView extends PApplet {
 	}
 	
 	public void mouseWheel(MouseEvent event) {
-		if(event.getCount() >= 0) { 
-		    zoom += 0.05; 
+		if(event.getCount() >= 0 && zoom <= MAX_ZOOM) { 
+		    zoom += 0.05;
 		  } 
-		  else {
+		  else if (zoom >= MIN_ZOOM) {
 		    zoom -= 0.05; 
 		  }
 	}
@@ -141,6 +148,9 @@ public class RatsView extends PApplet {
 		return mouseActive;
 	}
 	public void drawStage() {
+		pushMatrix();
+		scale(700, 700, 700);
+		
 		// Room floor
 		noStroke();
 		beginShape(QUADS);
@@ -159,6 +169,8 @@ public class RatsView extends PApplet {
 		vertex( 0, -1,  1);
 		vertex( 1,  -1,  0);
 		endShape();
+		
+		popMatrix();
 	}
 
 }
