@@ -1,6 +1,5 @@
 package main;
 
-import control.Trajectory4d;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -15,7 +14,7 @@ import applications.trajectory.geom.point.Point3D;
 public class RatsView extends PApplet {
 	private static final float MAX_ZOOM = 4.0f;
 	private static final float MIN_ZOOM = 0.3f;
-	private final int NUMBER_DRONES = 1;
+	private final int NUMBER_DRONES = 4;
 	Drone[] drones = new Drone[NUMBER_DRONES];
 	int rotzfactor = 0;
 	float zoom = 1.0f;
@@ -45,9 +44,7 @@ public class RatsView extends PApplet {
 		/**
 		 * Add trajectories here
 		 */
-//        Trajectory4d trajectory = ;
         
-
 		NerveTrajectoryIntroduction nerve;
 		try {
 			nerve = new NerveTrajectoryIntroduction();
@@ -56,6 +53,30 @@ public class RatsView extends PApplet {
 			e.printStackTrace();
 		}
 		
+		//drones[0] = new Drone(this, CircleTrajectory4D.builder()
+		//        .setLocation(Point3D.create(4, 4, 1))
+		//        .setRadius(2)
+		//        .setFrequency(0.22)
+		//        .build(), color(255, 50, 50), 50);
+
+		drones[1] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 2))
+				.setRadius(2)
+				.setFrequency(-0.22)
+				.build());
+		
+		drones[2] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 3))
+				.setRadius(2)
+				.setFrequency(0.22)
+				.build(), color(2, 100, 233), 50);
+		
+		drones[3] = new Drone(this, CircleTrajectory4D.builder()
+				.setLocation(Point3D.create(4, 4, 4))
+				.setRadius(2)
+				.setFrequency(-0.22)
+				.build(), color(200, 10, 233), 50);
+	
 	}
 	
 	@Override
@@ -148,6 +169,10 @@ public class RatsView extends PApplet {
 	private boolean mouseIsActive() {
 		return mouseActive;
 	}
+	
+	/**
+	 * Draws the stage on the screen
+	 */
 	public void drawStage() {
 		pushMatrix();
 		scale(700, 700, 700);
@@ -170,6 +195,8 @@ public class RatsView extends PApplet {
 		vertex( 0, -1,  1);
 		vertex( 1,  -1,  0);
 		endShape();
+		
+		// TODO draw markers for the x,y,z coordinates on the corners
 		
 		popMatrix();
 	}
