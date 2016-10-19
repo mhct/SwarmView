@@ -6,7 +6,7 @@ import processing.core.PApplet;
 public class Drone {
 	private final PApplet canvas;
 	private final Trajectory4d trajectory;
-	private final int BUFFER_SIZE = 50;
+	private final int BUFFER_SIZE = 20;
 	private Sprite[] previousSprites = new Sprite[BUFFER_SIZE];
 	private int spriteIndex = 0;
 	private boolean bufferFull = false;

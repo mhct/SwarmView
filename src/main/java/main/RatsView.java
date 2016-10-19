@@ -9,6 +9,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 
 import applications.trajectory.CircleTrajectory4D;
+import applications.trajectory.NerveTrajectoryIntroduction;
 import applications.trajectory.geom.point.Point3D; 
 
 public class RatsView extends PApplet {
@@ -46,13 +47,13 @@ public class RatsView extends PApplet {
 		 */
 //        Trajectory4d trajectory = ;
         
-		for (int i=0; i<NUMBER_DRONES; i++) {
-			//trajectories are done in meters
-			drones[i] = new Drone(this, CircleTrajectory4D.builder()
-					.setLocation(Point3D.create(4, 4, 1))
-					.setRadius(4)
-					.setFrequency(0.11)
-					.build());
+
+		NerveTrajectoryIntroduction nerve;
+		try {
+			nerve = new NerveTrajectoryIntroduction();
+	        drones[0] = new Drone(this, nerve);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 	}
