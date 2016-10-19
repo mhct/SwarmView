@@ -12,10 +12,10 @@ import control.Trajectory4d;
  */
 public abstract class TwinDrones {
     protected static final double orientation = -Math.PI / 2;
-    protected final Point3D centerPoint = Point3D.origin();
     protected final double operatingHeight = 1.5;
+    protected final Point3D centerPoint = Point3D.create(4, 5, operatingHeight);
     protected final double waitAtStation = 1;
-    protected final double circleTiming = 2;
+    protected final double circleTiming = 3;
 
     TwinDrones() {
     }
@@ -63,7 +63,7 @@ public abstract class TwinDrones {
         private final Point4D wp1 = Point4D.create(3, 5, operatingHeight, orientation);
         private final Point4D wp2 = Point4D.create(5, 5, operatingHeight, orientation);
         private final double velocity = 1.5;
-        private final double phaseToConnectStart = Math.PI;
+        private final double phaseToConnectStart = 0;
         private final double frequency = 1 / 5d;
 
         @Override

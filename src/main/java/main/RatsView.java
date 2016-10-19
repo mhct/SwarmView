@@ -2,6 +2,7 @@ package main;
 
 import control.Trajectory4d;
 import processing.core.PApplet;
+import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import show.TwinDrones;
 
@@ -10,13 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RatsView extends PApplet {
+    private static final float MAX_ZOOM = 4.0f;
+    private static final float MIN_ZOOM = 0.3f;
     private final int NUMBER_DRONES = 2;
     Drone[] drones = new Drone[NUMBER_DRONES];
-    private float timeStep;
     int rotzfactor = 0;
     float zoom = 1.0f;
     final int displayDimensionX = 1024;
     final int displayDimensionY = 800;
+    private boolean mouseActive = true;
+    private int lastMouseX;
+    private int lastMouseY;
+    private float lastZoom;
+    private int initialTime = 0;
+    private float rotz;
 
     public static void main(String[] args) {
         PApplet.main(RatsView.class);
@@ -31,7 +39,6 @@ public class RatsView extends PApplet {
     @Override
     public void setup() {
         fill(255);
-        timeStep = 0;
 
         List<Trajectory4d> droneTrajectories = new ArrayList<>();
         droneTrajectories.add(TwinDrones.createRomeoTrajectory());
@@ -55,49 +62,92 @@ public class RatsView extends PApplet {
         background(0);
 
         Point mouse = MouseInfo.getPointerInfo().getLocation();
-        zoom = constrain(zoom, 0.3f, 4.0f);
+
+        if (mouseIsActive()) {
+            lastMouseX = mouse.x;
+            lastMouseY = mouse.y;
+            lastZoom = zoom;
+        }
+
+        positionView(lastMouseX, lastMouseY, lastZoom);
+
+        pushMatrix();
+        strokeWeight(2.0f);
+        translate(0, 0, 200);
+        box(800, 800, 400);
+        popMatrix();
+
+        drawStage();
+
+        pushMatrix();
+        translate(-400, -400, 0);
+        text("Origin", 0.0f, 0.0f, 0.0f);
+        int currentTime = millis();
+        if (initialTime == 0) {
+            initialTime = millis();
+        }
+        for (int i = 0; i < NUMBER_DRONES; i++) {
+            drones[i].displayNext((currentTime - initialTime) / 1000.0f);
+        }
+        popMatrix();
+
+        popMatrix();
+    }
+
+    /**
+     * Positions the Scene view according to the last mouse movement
+     */
+    private void positionView(float x, float y, float zoom) {
+        zoom = constrain(zoom, MIN_ZOOM, MAX_ZOOM);
         scale(zoom);
 
         /**
          * Rotation of the screen
          */
-        float rotx = (2 * mouse.x / (float) displayDimensionX) * -2 * PI + PI;
-        float roty = (2 * mouse.y / (float) displayDimensionY) * -2 * PI - PI;
-        float rotz = rotzfactor * PI / 36;
+        float rotx = (2 * x / (float) displayDimensionX) * -2 * PI + PI;
+        float roty = (2 * y / (float) displayDimensionY) * -2 * PI - PI;
+        rotz = rotzfactor * PI / 36;
 
         pushMatrix();
-
         translate(width / (2 * zoom), height / (2 * zoom), rotz / zoom);
         rotateX(roty);
         rotateZ(rotx);
-
-        pushMatrix();
-        strokeWeight(2.0f);
-        translate(0, 0, 100);
-        box(width / 1.2f, width / 1.2f, 200);
-        popMatrix();
-
-        pushMatrix();
-        scale(700, 700, 700);
-        cube();
-        popMatrix();
-        for (int i = 0; i < NUMBER_DRONES; i++) {
-            drones[i].displayNext(timeStep);
-        }
-        popMatrix();
-
-        timeStep = timeStep + 1.0f;
     }
 
     public void mouseWheel(MouseEvent event) {
-        if (event.getCount() >= 0) {
+        if (event.getCount() >= 0 && zoom <= MAX_ZOOM) {
             zoom += 0.05;
-        } else {
+        } else if (zoom >= MIN_ZOOM) {
             zoom -= 0.05;
         }
     }
 
-    public void cube() {
+    @Override
+    public void keyPressed(KeyEvent event) {
+        if (event.getKey() == 'z') {
+            mouseToggle();
+        }
+    }
+
+    /**
+     * Activates or deactivates listening to mouse events
+     */
+    private void mouseToggle() {
+        if (mouseActive == true) {
+            mouseActive = false;
+        } else {
+            mouseActive = true;
+        }
+    }
+
+    private boolean mouseIsActive() {
+        return mouseActive;
+    }
+
+    public void drawStage() {
+        pushMatrix();
+        scale(700, 700, 700);
+
         // Room floor
         noStroke();
         beginShape(QUADS);
@@ -116,6 +166,7 @@ public class RatsView extends PApplet {
         vertex(0, -1, 1);
         vertex(1, -1, 0);
         endShape();
-    }
 
+        popMatrix();
+    }
 }

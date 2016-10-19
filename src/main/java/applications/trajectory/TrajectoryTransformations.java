@@ -6,6 +6,9 @@ import org.ejml.simple.SimpleMatrix;
 import util.RotationOrder;
 
 /**
+ * This utility class contains transformation utility functions for translating and rotating
+ * points in space.
+ *
  * @author Hoang Tung Dinh
  */
 public final class TrajectoryTransformations {
