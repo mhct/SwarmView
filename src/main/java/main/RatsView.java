@@ -1,6 +1,5 @@
 package main;
 
-import control.Trajectory4d;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -168,6 +167,10 @@ public class RatsView extends PApplet {
 	private boolean mouseIsActive() {
 		return mouseActive;
 	}
+	
+	/**
+	 * Draws the stage on the screen
+	 */
 	public void drawStage() {
 		pushMatrix();
 		scale(700, 700, 700);
@@ -190,6 +193,8 @@ public class RatsView extends PApplet {
 		vertex( 0, -1,  1);
 		vertex( 1,  -1,  0);
 		endShape();
+		
+		// TODO draw markers for the x,y,z coordinates on the corners
 		
 		popMatrix();
 	}
