@@ -2,7 +2,6 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
-import applications.trajectory.Trajectory1d;
 import control.Trajectory4d;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -15,7 +14,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */
-public final class CircleTrajectory4D extends PeriodicTrajectory implements Trajectory4d {
+final class CircleTrajectory4D extends PeriodicTrajectory implements Trajectory4d {
   private final Point3D location;
   private final CircleTrajectory2D xycircle;
   private final double scaleFactor;
@@ -68,7 +67,7 @@ public final class CircleTrajectory4D extends PeriodicTrajectory implements Traj
         new LinearTrajectory1D(constantYawAngle, 0));
   }
 
-  public static Builder builder() {
+  static Builder builder() {
     return new Builder();
   }
 

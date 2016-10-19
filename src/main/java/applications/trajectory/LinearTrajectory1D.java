@@ -1,7 +1,5 @@
 package applications.trajectory;
 
-import applications.trajectory.Trajectory1d;
-
 /**
  * A linear trajectory in one dimension.
  *

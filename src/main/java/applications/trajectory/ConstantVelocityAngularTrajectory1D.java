@@ -2,7 +2,6 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
 import com.google.common.annotations.VisibleForTesting;
-import applications.trajectory.Trajectory1d;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

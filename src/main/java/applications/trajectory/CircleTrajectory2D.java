@@ -2,7 +2,6 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
-import applications.trajectory.Trajectory2d;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
