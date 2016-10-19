@@ -3,9 +3,7 @@ package main;
 import java.awt.MouseInfo;
 import java.awt.Point;
 
-import applications.trajectory.CircleTrajectory4D;
 import applications.trajectory.NerveTrajectoryIntroduction;
-import applications.trajectory.geom.point.Point3D;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -14,7 +12,7 @@ import show.TwinDrones;
 public class RatsView extends PApplet {
 	private static final float MAX_ZOOM = 4.0f;
 	private static final float MIN_ZOOM = 0.3f;
-	private final int NUMBER_DRONES = 4;
+	private final int NUMBER_DRONES = 3;
 	Drone[] drones = new Drone[NUMBER_DRONES];
 	int rotzfactor = 0;
 	float zoom = 1.0f;
@@ -48,26 +46,26 @@ public class RatsView extends PApplet {
 		try {
 	        drones[0] = new Drone(this, new NerveTrajectoryIntroduction());
 	
-            drones[1] = new Drone(this, CircleTrajectory4D.builder()
-                    .setLocation(Point3D.create(4, 4, 2))
-                    .setRadius(2)
-                    .setFrequency(-0.22)
-                    .build());
-            
-            drones[2] = new Drone(this, CircleTrajectory4D.builder()
-                    .setLocation(Point3D.create(4, 4, 3))
-                    .setRadius(2)
-                    .setFrequency(0.22)
-                    .build(), color(2, 100, 233), 50);
-            
-            drones[3] = new Drone(this, CircleTrajectory4D.builder()
-                    .setLocation(Point3D.create(4, 4, 4))
-                    .setRadius(2)
-                    .setFrequency(-0.22)
-                    .build(), color(200, 10, 233), 50);
+//            drones[1] = new Drone(this, CircleTrajectory4D.builder()
+//                    .setLocation(Point3D.create(4, 4, 2))
+//                    .setRadius(2)
+//                    .setFrequency(-0.22)
+//                    .build());
+//            
+//            drones[2] = new Drone(this, CircleTrajectory4D.builder()
+//                    .setLocation(Point3D.create(4, 4, 3))
+//                    .setRadius(2)
+//                    .setFrequency(0.22)
+//                    .build(), color(2, 100, 233), 50);
+//            
+//            drones[3] = new Drone(this, CircleTrajectory4D.builder()
+//                    .setLocation(Point3D.create(4, 4, 4))
+//                    .setRadius(2)
+//                    .setFrequency(-0.22)
+//                    .build(), color(200, 10, 233), 50);
         
-            drones[4] = new Drone(this, TwinDrones.createRomeoTrajectory());
-            drones[5] = new Drone(this, TwinDrones.createJulietTrajectory());
+            drones[1] = new Drone(this, TwinDrones.createRomeoTrajectory());
+            drones[2] = new Drone(this, TwinDrones.createJulietTrajectory());
                 
         } catch (Exception e) {
 			e.printStackTrace();

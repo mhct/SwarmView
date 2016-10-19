@@ -6,15 +6,17 @@ package applications.trajectory;
 import java.util.ArrayList;
 
 import applications.trajectory.geom.point.Point3D;
-import control.Trajectory4d;
+import control.FiniteTrajectory4d;
+import control.dto.Pose;
 
 /**
  * @author tom
  *
  */
-public class NerveTrajectoryIntroduction implements Trajectory4d {
+public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 
 	private ArrayList<LineTrajectory> lineTrajectories = new ArrayList<LineTrajectory>();
+	private double duration;
 	
 	public NerveTrajectoryIntroduction () throws Exception {
 		
@@ -53,6 +55,8 @@ public class NerveTrajectoryIntroduction implements Trajectory4d {
 			line = new LineTrajectory(startPosition, endPosition, startTime, startTime+duration);
 			this.lineTrajectories.add(line);
 		}
+		
+		this.duration = startTime + duration;
 
 	}
 	
@@ -68,40 +72,19 @@ public class NerveTrajectoryIntroduction implements Trajectory4d {
 		return this.lineTrajectories.get(this.lineTrajectories.size()-1);
 	}
 	
-	/* (non-Javadoc)
-	 * @see control.Trajectory4d#getDesiredPositionX(double)
-	 */
 	@Override
-	public double getDesiredPositionX(double timeInSeconds) {
-		LineTrajectory line = this.getCurrentLineTrajectory(timeInSeconds);
-		return line.getDesiredPositionX(timeInSeconds);
+	public double getTrajectoryDuration() {
+		return duration;
 	}
 
-	/* (non-Javadoc)
-	 * @see control.Trajectory4d#getDesiredPositionY(double)
-	 */
-	@Override
-	public double getDesiredPositionY(double timeInSeconds) {
-		LineTrajectory line = this.getCurrentLineTrajectory(timeInSeconds);
-		return line.getDesiredPositionY(timeInSeconds);
-	}
 
-	/* (non-Javadoc)
-	 * @see control.Trajectory4d#getDesiredPositionZ(double)
-	 */
 	@Override
-	public double getDesiredPositionZ(double timeInSeconds) {
+	public Pose getDesiredPosition(double timeInSeconds) {
 		LineTrajectory line = this.getCurrentLineTrajectory(timeInSeconds);
-		return line.getDesiredPositionZ(timeInSeconds);
-	}
-
-	/* (non-Javadoc)
-	 * @see control.Trajectory4d#getDesiredAngleZ(double)
-	 */
-	@Override
-	public double getDesiredAngleZ(double timeInSeconds) {
-		// TODO Auto-generated method stub
-		return 0;
+		return Pose.create(line.getDesiredPositionX(timeInSeconds),
+				line.getDesiredPositionY(timeInSeconds),
+				line.getDesiredPositionZ(timeInSeconds),
+				line.getDesiredAngleZ(timeInSeconds));
 	}
 
 }

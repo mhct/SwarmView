@@ -30,6 +30,7 @@ public class ZDropTrajectoryTest {
   }
 
   private void init() {
+	  // FIXME check if a FiniteTrajectory4d or a Trajectory4d should be tested here
     target.getDesiredPositionX(0);
     target.getDesiredPositionY(0);
     target.getDesiredPositionZ(0);

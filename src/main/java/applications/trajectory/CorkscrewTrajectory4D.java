@@ -4,6 +4,7 @@ import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import com.google.auto.value.AutoValue;
 import control.FiniteTrajectory4d;
+import control.dto.Pose;
 import util.RotationOrder;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -143,18 +144,6 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         return new Builder();
     }
 
-    @Override
-    public double getTrajectoryDuration() {
-        return unitTrajectory.getTrajectoryDuration();
-    }
-
-    @Override
-    public double getDesiredPositionX(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getX();
-    }
-
     private void refreshCache(double time) {
         if (!isEqual(cache.getTimeMark(), time)) {
             Point4D beforeTransPoint =
@@ -206,22 +195,8 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
                 + '}';
     }
 
-    @Override
-    public double getDesiredPositionY(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getY();
-    }
-
     private Point4D getOrigin() {
         return origin;
-    }
-
-    @Override
-    public double getDesiredPositionZ(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getZ();
     }
 
     private Point3D getDestination() {
@@ -229,13 +204,21 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
     }
 
     @Override
-    public double getDesiredAngleZ(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getAngle();
+    public double getTrajectoryDuration() {
+        return unitTrajectory.getTrajectoryDuration();
     }
-
-    @AutoValue
+    
+    @Override
+	public Pose getDesiredPosition(double timeInSeconds) {
+    	final double currentTime = getRelativeTime(timeInSeconds);
+    	refreshCache(currentTime);
+		return Pose.create(translationTransform(getCachePoint()).getX(), 
+				translationTransform(getCachePoint()).getY(),
+				translationTransform(getCachePoint()).getY(), 
+				translationTransform(getCachePoint()).getAngle());
+	}
+    
+	@AutoValue
     abstract static class Point4DCache {
 
         public abstract Point4D getDestinationPoint();
@@ -361,7 +344,6 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
             return speed;
         }
 
-        @Override
         public double getDesiredPositionX(double timeInSeconds) {
             if (atEnd) {
                 return endPoint;
@@ -399,21 +381,26 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
             }
         }
 
-        @Override
         public double getDesiredPositionY(double timeInSeconds) {
             return circlePlane.getDesiredPositionOrdinate(timeInSeconds);
         }
 
-        @Override
         public double getDesiredPositionZ(double timeInSeconds) {
             return circlePlane.getDesiredPositionAbscissa(timeInSeconds);
         }
 
-        @Override
         public double getDesiredAngleZ(double timeInSeconds) {
             return 0;
         }
 
+        @Override
+        public Pose getDesiredPosition(double timeInSeconds) {
+        	return Pose.create(getDesiredPositionX(timeInSeconds), 
+        			getDesiredPositionY(timeInSeconds),
+        			getDesiredAngleZ(timeInSeconds),
+        			getDesiredAngleZ(timeInSeconds));
+        }
+        
         @Override
         public double getTrajectoryDuration() {
             return endPoint / speed;

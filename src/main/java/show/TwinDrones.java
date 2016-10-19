@@ -20,13 +20,13 @@ public abstract class TwinDrones {
     TwinDrones() {
     }
 
-    protected abstract Trajectory4d getTrajectory();
+    protected abstract FiniteTrajectory4d getTrajectory();
 
-    public static Trajectory4d createRomeoTrajectory() {
+    public static FiniteTrajectory4d createRomeoTrajectory() {
         return new Romeo().getTrajectory();
     }
 
-    public static Trajectory4d createJulietTrajectory() {
+    public static FiniteTrajectory4d createJulietTrajectory() {
         return new Juliet().getTrajectory();
     }
 
@@ -40,7 +40,7 @@ public abstract class TwinDrones {
         private final double frequency = 1 / 5d;
 
         @Override
-        protected Trajectory4d getTrajectory() {
+        protected FiniteTrajectory4d getTrajectory() {
             FiniteTrajectory4d firstLeg = Trajectories
                     .newStraightLineTrajectory(takeOff, wp1, velocity);
             FiniteTrajectory4d lastLeg = Trajectories
@@ -67,7 +67,7 @@ public abstract class TwinDrones {
         private final double frequency = 1 / 5d;
 
         @Override
-        protected Trajectory4d getTrajectory() {
+        protected FiniteTrajectory4d getTrajectory() {
             FiniteTrajectory4d firstLeg = Trajectories
                     .newStraightLineTrajectory(takeOff, wp1, velocity);
             FiniteTrajectory4d lastLeg = Trajectories

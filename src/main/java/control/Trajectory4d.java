@@ -34,10 +34,4 @@ public interface Trajectory4d {
    */
   double getDesiredAngleZ(double timeInSeconds);
   
-  default Pose getDesiredPosition(double timeInSeconds) {
-	  return Pose.create(getDesiredPositionX(timeInSeconds), 
-			  getDesiredPositionY(timeInSeconds), 
-			  getDesiredPositionZ(timeInSeconds), 
-			  getDesiredAngleZ(timeInSeconds));
-  }
 }

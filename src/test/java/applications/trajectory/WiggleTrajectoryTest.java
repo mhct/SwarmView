@@ -28,6 +28,7 @@ public class WiggleTrajectoryTest {
   }
 
   @Test
+  // FIXME check if a FiniteTrajectory4d or a Trajectory4d should be tested here
   public void testWiggle() {
     List<Double> samplesX = Lists.newArrayList();
     List<Double> samplesY = Lists.newArrayList();

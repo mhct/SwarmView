@@ -9,16 +9,24 @@ abstract public class Pose {
 		return new AutoValue_Pose(x, y, z, yaw);
 	}
 
-	  /** @return The X coordinate. */
-	  public abstract double x();
+	public static Pose create(Pose originalPose) {
+		return new AutoValue_Pose(originalPose.x(),
+				originalPose.y(),
+				originalPose.z(),
+				originalPose.yaw());
+	}
+	
+	/** @return The X coordinate. */
+	public abstract double x();
 
-	  /** @return The Y coordinate. */
-	  public abstract double y();
+	/** @return The Y coordinate. */
+	public abstract double y();
 
-	  /** @return The Z coordinate. */
-	  public abstract double z();
+	/** @return The Z coordinate. */
+	public abstract double z();
 
-	  /** @return The yaw angle orientation. */
-	  public abstract double yaw();
+	/** @return The yaw angle orientation. */
+	public abstract double yaw();
+
 
 }

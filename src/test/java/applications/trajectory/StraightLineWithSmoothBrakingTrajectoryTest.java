@@ -17,11 +17,11 @@ public class StraightLineWithSmoothBrakingTrajectoryTest extends StraightLineTra
     @Override
     protected void createTargets() {
         target =
-                Trajectories.newStraightLineWithSmoothBrakingTrajectory(before, after, speed,
-                        brakingMark);
+        		TrajectoryUtils.createFrom(Trajectories.newStraightLineWithSmoothBrakingTrajectory(before, after, speed,
+                        brakingMark));
         target2 =
-                Trajectories.newStraightLineWithSmoothBrakingTrajectory(
-                        before, afterNotOrigin, speed, brakingMark);
+        		TrajectoryUtils.createFrom(Trajectories.newStraightLineWithSmoothBrakingTrajectory(
+                        before, afterNotOrigin, speed, brakingMark));
     }
 
     @Test

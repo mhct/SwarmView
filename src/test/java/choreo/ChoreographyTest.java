@@ -40,6 +40,7 @@ public class ChoreographyTest {
 
     @Test
     public void testTwoSegmentTrajectoryChoreo() {
+    	  // FIXME check if a FiniteTrajectory4d or a Trajectory4d should be tested here
         verifyTrajectoryPos4D(choreotarget, 2, Point4D.create(5, 5, 5, 2));
         //First invocation past duration still get's old point. all following
         // trigger change in segment for first call.

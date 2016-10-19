@@ -2,19 +2,20 @@ package main;
 
 import com.google.common.base.Preconditions;
 
-import control.Trajectory4d;
+import control.FiniteTrajectory4d;
+import control.dto.Pose;
 import processing.core.PApplet;
 
 public class Drone {
 	private final PApplet canvas;
-	private final Trajectory4d trajectory;
+	private final FiniteTrajectory4d trajectory;
 	private final int BUFFER_SIZE;
 	private final Sprite[] previousSprites;
 	private int spriteIndex = 0;
 	private boolean bufferFull = false;
 	private int color;
 	
-	Drone(PApplet canvas, Trajectory4d trajectory, int color, int trailSize) {
+	Drone(PApplet canvas, FiniteTrajectory4d trajectory, int color, int trailSize) {
 		Preconditions.checkNotNull(color);
 		Preconditions.checkArgument(trailSize >= 0 && trailSize <= 300);
 		
@@ -25,7 +26,7 @@ public class Drone {
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
-	Drone(PApplet canvas, Trajectory4d trajectory) {
+	Drone(PApplet canvas, FiniteTrajectory4d trajectory) {
 		this.canvas = canvas;
 		this.trajectory = trajectory;
 		this.color = 255;
@@ -34,9 +35,10 @@ public class Drone {
 	}
 	
 	void displayNext(float timeStep) {
-		double x = trajectory.getDesiredPositionX(timeStep);
-		double y = trajectory.getDesiredPositionY(timeStep);
-		double z = trajectory.getDesiredPositionZ(timeStep);
+		Pose pose = trajectory.getDesiredPosition(timeStep);
+		double x = pose.x();
+		double y = pose.y();
+		double z = pose.z();
 //		double yaw = trajectory.getDesiredAngleZ(timeStep);
 		Sprite currentSprite = Sprite.create((float)x * 100.0f, (float)y * 100.0f, (float)z * 100.0f, color);
 		

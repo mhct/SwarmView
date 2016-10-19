@@ -5,6 +5,7 @@ import choreo.Choreography;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
 import control.Trajectory4d;
+import control.dto.Pose;
 
 import java.util.List;
 
@@ -56,35 +57,15 @@ public class ZDropLineTrajectory extends BasicTrajectory implements FiniteTrajec
     target = builder.build();
   }
 
-  private static final void initTraj(Trajectory4d traj) {
-    traj.getDesiredPositionX(0);
-    traj.getDesiredPositionY(0);
-    traj.getDesiredPositionZ(0);
-    traj.getDesiredAngleZ(0);
+  private static final void initTraj(FiniteTrajectory4d traj) {
+	traj.getDesiredPosition(0);
   }
 
+  
   @Override
-  public double getDesiredPositionX(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getTargetTrajectory().getDesiredPositionX(currentTime);
-  }
-
-  @Override
-  public double getDesiredPositionY(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getTargetTrajectory().getDesiredPositionY(currentTime);
-  }
-
-  @Override
-  public double getDesiredPositionZ(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getTargetTrajectory().getDesiredPositionZ(currentTime);
-  }
-
-  @Override
-  public double getDesiredAngleZ(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getTargetTrajectory().getDesiredAngleZ(currentTime);
+  public Pose getDesiredPosition(double timeInSeconds) {
+  	final double currentTime = getRelativeTime(timeInSeconds);
+	return Pose.create(getTargetTrajectory().getDesiredPosition(currentTime));
   }
 
   private FiniteTrajectory4d getTargetTrajectory() {
