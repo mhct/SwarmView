@@ -7,7 +7,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * A swing trajectory in 1 dimensions of motion specified in a frequency (How many revolutions per
  * second) and a radius (half of the total distance covered). This swing trajectory follows a
- * periodic angular velocity function over the radian circle which manifests in slowed movements
+ * periodic angular enterVelocity function over the radian circle which manifests in slowed movements
  * near the edges of the range of motion.
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>

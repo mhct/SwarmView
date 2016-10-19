@@ -3,9 +3,12 @@ package show;
 import applications.trajectory.Trajectories;
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import choreo.Choreography;
 import control.FiniteTrajectory4d;
 import control.Trajectory4d;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
@@ -13,11 +16,20 @@ import control.Trajectory4d;
 public abstract class TwinDrones {
     protected static final double orientation = -Math.PI / 2;
     protected final double operatingHeight = 1.5;
-    protected final Point3D centerPoint = Point3D.create(4, 5, operatingHeight);
-    protected final double waitAtStation = 1;
-    protected final double circleTiming = 3;
+    protected final Point3D circleCenterPoint = Point3D.create(4, 4, operatingHeight);
+    protected final double waitAtStation = 1.5;
+    protected final double frequency = 1 / 2.32d; // ~max velocity achieved with f ~= 1/2.12 ~= 0.47
+    protected final double revolutions = 3.5;
+    protected final double circleTiming = (1 / frequency) * revolutions;
+    protected final double circleRadius = 1;
+    protected final double enterVelocity = 1;
+    protected final double exitVelocity = 2;
+    protected final double introEndTime = 15;
 
     TwinDrones() {
+        //TODO remove this when logback config file is available.
+        Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        root.setLevel(Level.INFO);
     }
 
     protected abstract Trajectory4d getTrajectory();
@@ -32,55 +44,81 @@ public abstract class TwinDrones {
 
     public static class Romeo extends TwinDrones {
         private final Point4D takeOff = Point4D.create(7, 5, operatingHeight, orientation);
-        private final Point4D endPoint = Point4D.origin();
-        private final Point4D wp1 = Point4D.create(5, 5, operatingHeight, orientation);
-        private final Point4D wp2 = Point4D.create(3, 5, operatingHeight, orientation);
-        private final double velocity = 1.5;
+        private final Point4D endPoint = Point4D.create(2, 6, operatingHeight, orientation);
+        private final Point4D wp1 = Point4D.create(5, 4, operatingHeight, orientation);
+        private final Point4D wp2 = Point4D.create(3, 4, operatingHeight, orientation);
         private final double phaseToConnectStart = Math.PI;
-        private final double frequency = 1 / 5d;
 
         @Override
         protected Trajectory4d getTrajectory() {
             FiniteTrajectory4d firstLeg = Trajectories
-                    .newStraightLineTrajectory(takeOff, wp1, velocity);
+                    .newStraightLineTrajectory(takeOff, wp1, enterVelocity);
             FiniteTrajectory4d lastLeg = Trajectories
-                    .newStraightLineTrajectory(wp2, endPoint, velocity);
+                    .newStraightLineTrajectory(wp2, endPoint, exitVelocity);
             Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder().fixYawAt(orientation)
-                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(1)
-                    .setLocation(centerPoint).build();
+                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
+                    .setLocation(circleCenterPoint).build();
 
-            return Choreography.builder().withTrajectory(firstLeg)
+            //            Choreography choreo = Choreography.builder().withTrajectory(firstLeg)
+            //                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
+            //                    .forTime(waitAtStation).withTrajectory(circleTraj).forTime
+            // (circleTiming)
+            //                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
+            //                    .forTime(waitAtStation).withTrajectory(lastLeg).build();
+
+            Choreography choreo = Choreography.builder().withTrajectory(firstLeg)
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
                     .forTime(waitAtStation).withTrajectory(circleTraj).forTime(circleTiming)
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .forTime(waitAtStation).withTrajectory(lastLeg).build();
+                    .forTime(waitAtStation).withTrajectory(lastLeg)
+                    .withTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
+                    .untillTime(introEndTime)
+                    .build();
+
+            LoggerFactory.getLogger(TwinDrones.class)
+                    .info("Trajecory for Romeo takes " + choreo.getTrajectoryDuration()
+                            + " seconds to perform fully.");
+            return choreo;
         }
     }
 
     public static class Juliet extends TwinDrones {
         private final Point4D takeOff = Point4D.create(1, 5, operatingHeight, orientation);
-        private final Point4D endPoint = Point4D.origin();
-        private final Point4D wp1 = Point4D.create(3, 5, operatingHeight, orientation);
-        private final Point4D wp2 = Point4D.create(5, 5, operatingHeight, orientation);
-        private final double velocity = 1.5;
+        private final Point4D endPoint = Point4D.create(6, 6, operatingHeight, orientation);
+        private final Point4D wp1 = Point4D.create(3, 4, operatingHeight, orientation);
+        private final Point4D wp2 = Point4D.create(5, 4, operatingHeight, orientation);
         private final double phaseToConnectStart = 0;
-        private final double frequency = 1 / 5d;
 
         @Override
         protected Trajectory4d getTrajectory() {
             FiniteTrajectory4d firstLeg = Trajectories
-                    .newStraightLineTrajectory(takeOff, wp1, velocity);
+                    .newStraightLineTrajectory(takeOff, wp1, enterVelocity);
             FiniteTrajectory4d lastLeg = Trajectories
-                    .newStraightLineTrajectory(wp2, endPoint, velocity);
+                    .newStraightLineTrajectory(wp2, endPoint, exitVelocity);
             Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder().fixYawAt(orientation)
-                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(1)
-                    .setLocation(centerPoint).build();
+                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
+                    .setLocation(circleCenterPoint).build();
 
-            return Choreography.builder().withTrajectory(firstLeg)
+            //            Choreography choreo = Choreography.builder().withTrajectory(firstLeg)
+            //                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
+            //                    .forTime(waitAtStation).withTrajectory(circleTraj).forTime
+            // (circleTiming)
+            //                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
+            //                    .forTime(waitAtStation).withTrajectory(lastLeg).build();
+
+            Choreography choreo = Choreography.builder().withTrajectory(firstLeg)
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
                     .forTime(waitAtStation).withTrajectory(circleTraj).forTime(circleTiming)
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .forTime(waitAtStation).withTrajectory(lastLeg).build();
+                    .forTime(waitAtStation).withTrajectory(lastLeg)
+                    .withTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
+                    .untillTime(introEndTime)
+                    .build();
+
+            LoggerFactory.getLogger(TwinDrones.class)
+                    .info("Trajecory for Juliet takes " + choreo.getTrajectoryDuration()
+                            + " seconds to perform fully.");
+            return choreo;
         }
     }
 }

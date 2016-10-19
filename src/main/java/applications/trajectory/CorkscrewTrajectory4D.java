@@ -20,8 +20,8 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
 
     private static final double EPSILON = 0.00000001d;
     private static final String VELOCITY_ERROR_MESSAGE =
-            "velocity component is higher than 1 for the given origin-destination points, "
-                    + "velocity, radius and frequency values.";
+            "enterVelocity component is higher than 1 for the given origin-destination points, "
+                    + "enterVelocity, radius and frequency values.";
     private final UnitTrajectory unitTrajectory;
     private final double aroundX;
     private final double aroundY;
@@ -102,27 +102,27 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
     }
 
     /**
-     * Calculates whether for a given velocity vector component, magnitude and perpendicular
-     * velocity
-     * magnitude from the circle movement parameters, the velocity component is still within
-     * acceptable bounds. The velocity component for x, Vx = speedX + circleX where speedX is the x
+     * Calculates whether for a given enterVelocity vector component, magnitude and perpendicular
+     * enterVelocity
+     * magnitude from the circle movement parameters, the enterVelocity component is still within
+     * acceptable bounds. The enterVelocity component for x, Vx = speedX + circleX where speedX is the x
      * component of the vector with magnitude |v| (specified by speed) and direction specified by
-     * destination-origin and where circleX represents the x component of the velocity vector of the
+     * destination-origin and where circleX represents the x component of the enterVelocity vector of the
      * circle movement at the moment where this vector attains its highest magnitude in the x
-     * component. The circle movement velocity vector is always perpendicular to the speed vector
-     * (destination-origin with |v|) and the magnitude of the circle velocity vector depends on the
+     * component. The circle movement enterVelocity vector is always perpendicular to the speed vector
+     * (destination-origin with |v|) and the magnitude of the circle enterVelocity vector depends on the
      * circle movement parameters (radius, frequency).
      *
-     * @param speedcomp    the component of the velocity. (eg. Vx as speed*cos(phi) with phi the
+     * @param speedcomp    the component of the enterVelocity. (eg. Vx as speed*cos(phi) with phi the
      *                     angle of
      *                     the vector with regards to the component unit vector.)
-     * @param speed        the speed or magnitude of the velocity vector |v|.
+     * @param speed        the speed or magnitude of the enterVelocity vector |v|.
      * @param radius       the radius of the circle that attains greatest magnitude perpendicular
      *                     to the
      *                     current component.
      * @param frequencythe frequency of the circle that attains greatest magnitude perpendicular to
      *                     the current component.
-     * @return false if for the given arguments, the component velocity is >1.
+     * @return false if for the given arguments, the component enterVelocity is >1.
      */
     private static boolean isValidVelocity(
             double speedcomp, double speed, double radius, double frequency) {
@@ -193,7 +193,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
     @Override
     public String toString() {
         return "CorkscrewTrajectory4D{"
-                + "velocity="
+                + "enterVelocity="
                 + unitTrajectory.getSpeed()
                 + ", origin point="
                 + getOrigin()
@@ -287,7 +287,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         /**
          * Default value = 1.
          *
-         * @param speed The linear velocity between origin and destination.
+         * @param speed The linear enterVelocity between origin and destination.
          * @return this builder
          */
         public Builder setSpeed(double speed) {

@@ -94,7 +94,7 @@ public class ZDropLineTrajectory extends BasicTrajectory implements FiniteTrajec
   @Override
   public String toString() {
     return "ZDropLineTrajectory{"
-        + "velocity="
+        + "enterVelocity="
         + velocity
         + ", src point="
         + src

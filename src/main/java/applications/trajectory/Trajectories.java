@@ -138,9 +138,9 @@ public final class Trajectories {
   /**
    * @param sourcePoint origin point of motion.
    * @param targetPoint destination point of motion.
-   * @param velocity the velocity to move with.
+   * @param velocity the enterVelocity to move with.
    * @return A new trajectory instance representing a straight line in space between two given
-   *     points at a given velocity.
+   *     points at a given enterVelocity.
    */
   public static FiniteTrajectory4d newStraightLineTrajectory(
       Point4D sourcePoint, Point4D targetPoint, double velocity) {
@@ -150,11 +150,11 @@ public final class Trajectories {
   /**
    * @param sourcePoint origin point of motion.
    * @param targetPoint destination point of motion.
-   * @param velocity the velocity to move with.
-   * @param brakeOnsetMark the percentage of the trajectory to perform at the given velocity.
+   * @param velocity the enterVelocity to move with.
+   * @param brakeOnsetMark the percentage of the trajectory to perform at the given enterVelocity.
    * @return A new trajectory instance representing a straight line in space between two given
-   *     points at a given velocity for a specified percentage of the trajectory and an implicit
-   *     smoothing towards 0 velocity afterwards.
+   *     points at a given enterVelocity for a specified percentage of the trajectory and an implicit
+   *     smoothing towards 0 enterVelocity afterwards.
    */
   public static FiniteTrajectory4d newStraightLineWithSmoothBrakingTrajectory(
       Point4D sourcePoint, Point4D targetPoint, double velocity, double brakeOnsetMark) {
@@ -164,7 +164,7 @@ public final class Trajectories {
   /**
    * @param sourcePoint origin point of motion.
    * @param targetPoint destination point of motion.
-   * @param velocity the velocity to move with.
+   * @param velocity the enterVelocity to move with.
    * @param drops the amount of drops to perform over the length of the trajectory.
    * @param dropDistance The distance to perform drop over.
    * @return a new straight line trajectory in xy plane with sudden drops in the z dimension.
@@ -181,7 +181,7 @@ public final class Trajectories {
   /**
    * @param sourcePoint origin point of motion with the initial angle.
    * @param targetPoint destination point of motion in 3D space.
-   * @param velocity the velocity to move with.
+   * @param velocity the enterVelocity to move with.
    * @param radius the radius of the corkscrew motion
    * @param frequency the frequency in time of completing the circular motion.
    * @param phase the phase displacement for this trajectory.

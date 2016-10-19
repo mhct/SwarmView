@@ -93,6 +93,38 @@ public class ChoreographyTest {
     }
 
     @Test
+    public void testUntillBuilder() {
+        double untill = 50;
+        holdTrajectory = Trajectories.newHoldPositionTrajectory(point);
+        pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
+        this.choreotarget =
+                Choreography.builder()
+                        .withTrajectory(holdTrajectory)
+                        .forTime(duration)
+                        .withTrajectory(pathTrajectory)
+                        .forTime(duration).withTrajectory(holdTrajectory).untillTime(untill)
+                        .build();
+
+        assertEquals(untill, choreotarget.getTrajectoryDuration(), 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUntillBuilderIllegal() {
+        double untill = 20;
+        holdTrajectory = Trajectories.newHoldPositionTrajectory(point);
+        pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
+        this.choreotarget =
+                Choreography.builder()
+                        .withTrajectory(holdTrajectory)
+                        .forTime(duration)
+                        .withTrajectory(pathTrajectory)
+                        .forTime(duration).withTrajectory(holdTrajectory).untillTime(untill)
+                        .build();
+
+        assertEquals(untill, choreotarget.getTrajectoryDuration(), 0);
+    }
+
+    @Test
     public void testFiniteTrajectory() {
         choreotarget =
                 Choreography.builder()

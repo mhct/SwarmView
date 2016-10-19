@@ -6,7 +6,7 @@ import control.FiniteTrajectory4d;
 
 /**
  * Trajectory that performs a wiggle effect in place. Note that this trajectory does not keep to the
- * usual velocity restraints.
+ * usual enterVelocity restraints.
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */

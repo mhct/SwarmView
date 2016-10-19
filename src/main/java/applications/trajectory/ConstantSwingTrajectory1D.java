@@ -7,7 +7,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * A swing trajectory in 1 dimensions of motion specified in a frequency (How many revolutions per
  * second) and a radius (half of the total distance covered). This swing trajectory follows a
- * constant angular velocity function over the radian cirle.
+ * constant angular enterVelocity function over the radian cirle.
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */

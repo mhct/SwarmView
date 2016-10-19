@@ -11,8 +11,8 @@ import static com.google.common.base.Preconditions.checkArgument;
  * Trajectory represent a straight line in space between two given points at a given speed. Once the
  * destination point has been reached, the trajectory enforces to hold position at the destination
  * point. The optional parameter velocityCutoffTimePercentage represents the percentage of the
- * tragjectory ( in time) to perform at the given velocity. The default value is 1, representing the
- * trajectory will reach its destination with a positive velocity in the direction of travel. This
+ * tragjectory ( in time) to perform at the given enterVelocity. The default value is 1, representing the
+ * trajectory will reach its destination with a positive enterVelocity in the direction of travel. This
  * will cause overshooting behavior. Choose a value < 1 to trigger the controller to start braking
  * sooner.
  *
@@ -37,13 +37,13 @@ class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajecto
     this.srcpoint = srcpoint;
     this.targetpoint = targetpoint;
     this.velocity = velocity;
-    checkArgument(velocity > 0, "The provided velocity should be strictly greater than 0.");
+    checkArgument(velocity > 0, "The provided enterVelocity should be strictly greater than 0.");
     checkArgument(
         velocityCutoffTimePercentage <= 1 && velocityCutoffTimePercentage > 0,
         "Velocity cutoff percentage should represent a percantage between 0 and 1.");
     checkArgument(
         velocity <= BasicTrajectory.MAX_ABSOLUTE_VELOCITY,
-        "The provided velocity should be smaller than BasicTrajectory" + ".MAX_ABSOLUTE_VELOCITY");
+        "The provided enterVelocity should be smaller than BasicTrajectory" + ".MAX_ABSOLUTE_VELOCITY");
     Point4D diff = Point4D.minus(targetpoint, srcpoint);
     this.totalDistance = Point3D.project(diff).norm();
     double speed = velocity;
@@ -92,7 +92,7 @@ class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajecto
   @Override
   public String toString() {
     return "StraightLineTrajectory4D{"
-        + "velocity="
+        + "enterVelocity="
         + getVelocity()
         + ", src point="
         + getSrcpoint()
