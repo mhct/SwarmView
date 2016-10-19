@@ -1,10 +1,16 @@
 package applications.trajectory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import applications.LineTrajectory;
 import applications.trajectory.geom.point.Point3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import control.Trajectory4d;
 
 public class LineTrajectory implements Trajectory4d {
-
+	private static final Logger logger = LoggerFactory.getLogger(LineTrajectory.class);
 	final double MAX_SPEED = 2.5;
 	
 	private Point3D startPosition;
@@ -30,7 +36,7 @@ public class LineTrajectory implements Trajectory4d {
 	}
 	
 	protected void calcDesiredPosition (double timeInSeconds) {
-		System.out.println("time is " + timeInSeconds);
+//		System.out.println("time is " + timeInSeconds);
 		if (timeInSeconds == this.currentTime) {
 			//
 		} else {

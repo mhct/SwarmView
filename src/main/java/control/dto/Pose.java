@@ -4,18 +4,12 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 abstract public class Pose {
-//	public final float x, y, z, yaw;
 	
-	Pose() {}
-	
-//	Pose(float x, float y, float z, float yaw) {
-//		this.x = x;
-//		this.y = y;
-//		this.z = z;
-//		this.yaw = yaw;
-//	}
+	public static AutoValue_Pose create(double x, double y, double z, double yaw) {
+		return new AutoValue_Pose(x, y, z, yaw);
+	}
 
-	/** @return The X coordinate. */
+	  /** @return The X coordinate. */
 	  public abstract double x();
 
 	  /** @return The Y coordinate. */

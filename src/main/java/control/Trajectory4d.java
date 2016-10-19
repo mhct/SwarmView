@@ -1,5 +1,7 @@
 package control;
 
+import control.dto.Pose;
+
 /** @author Hoang Tung Dinh */
 public interface Trajectory4d {
   /**
@@ -31,4 +33,11 @@ public interface Trajectory4d {
    * @return the desired position of the yaw
    */
   double getDesiredAngleZ(double timeInSeconds);
+  
+  default Pose getDesiredPosition(double timeInSeconds) {
+	  return Pose.create(getDesiredPositionX(timeInSeconds), 
+			  getDesiredPositionY(timeInSeconds), 
+			  getDesiredPositionZ(timeInSeconds), 
+			  getDesiredAngleZ(timeInSeconds));
+  }
 }
