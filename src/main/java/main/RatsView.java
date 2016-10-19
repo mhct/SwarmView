@@ -2,8 +2,15 @@ package main;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import applications.trajectory.NerveTrajectoryIntroduction;
+import applications.trajectory.checkers.OfflineMinimumDistanceCheckers;
+import control.FiniteTrajectory4d;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -42,9 +49,11 @@ public class RatsView extends PApplet {
 		/**
 		 * Add trajectories here
 		 */
-        
+        List<FiniteTrajectory4d> trajectories = new ArrayList<>();
 		try {
-	        drones[0] = new Drone(this, new NerveTrajectoryIntroduction());
+			FiniteTrajectory4d temp = new NerveTrajectoryIntroduction();
+			trajectories.add(temp);
+	        drones[0] = new Drone(this, temp);
 	
 //            drones[1] = new Drone(this, CircleTrajectory4D.builder()
 //                    .setLocation(Point3D.create(4, 4, 2))
@@ -64,13 +73,22 @@ public class RatsView extends PApplet {
 //                    .setFrequency(-0.22)
 //                    .build(), color(200, 10, 233), 50);
         
-            drones[1] = new Drone(this, TwinDrones.createRomeoTrajectory());
-            drones[2] = new Drone(this, TwinDrones.createJulietTrajectory());
+	        temp = TwinDrones.createRomeoTrajectory();
+	        trajectories.add(temp);
+            drones[1] = new Drone(this, temp);
+            
+            temp = TwinDrones.createJulietTrajectory();
+            trajectories.add(temp);
+            drones[2] = new Drone(this, temp);
                 
         } catch (Exception e) {
 			e.printStackTrace();
 		}
-		    
+		
+		/**
+		 * Safety checks for collision between drones
+		 */
+//		OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraint(trajectories, 1.0);
 	}
 	
 	@Override
