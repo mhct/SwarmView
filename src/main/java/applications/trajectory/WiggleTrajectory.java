@@ -3,6 +3,7 @@ package applications.trajectory;
 import applications.trajectory.geom.point.Point4D;
 import choreo.Choreography;
 import control.FiniteTrajectory4d;
+import control.dto.Pose;
 
 /**
  * Trajectory that performs a wiggle effect in place. Note that this trajectory does not keep to the
@@ -51,22 +52,7 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
   }
 
   @Override
-  public double getDesiredPositionX(double timeInSeconds) {
-    return target.getDesiredPositionX(timeInSeconds);
-  }
-
-  @Override
-  public double getDesiredPositionY(double timeInSeconds) {
-    return target.getDesiredPositionY(timeInSeconds);
-  }
-
-  @Override
-  public double getDesiredPositionZ(double timeInSeconds) {
-    return target.getDesiredPositionZ(timeInSeconds);
-  }
-
-  @Override
-  public double getDesiredAngleZ(double timeInSeconds) {
-    return target.getDesiredAngleZ(timeInSeconds);
+  public Pose getDesiredPosition(double timeInSeconds) {
+    return Pose.create(target.getDesiredPosition(timeInSeconds));
   }
 }

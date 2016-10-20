@@ -3,7 +3,6 @@ package applications.trajectory;
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import control.FiniteTrajectory4d;
-import control.Trajectory4d;
 
 /**
  * Utility factory class for creating motion primitives.

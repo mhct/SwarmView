@@ -4,6 +4,7 @@ import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import com.google.auto.value.AutoValue;
 import control.FiniteTrajectory4d;
+import control.dto.Pose;
 import util.RotationOrder;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -94,7 +95,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
                                 / StrictMath
                                 .sqrt(Math.pow(translated.getX(), 2) + StrictMath.pow(zyNorm, 2)));
         //set initial cache
-        this.cache = newCache(Point4D.origin(), -1);
+        this.cache = newCache(Pose.create(0, 0, 0, 0), -1);
     }
 
     private static double stableAtan(double y, double x) {
@@ -105,15 +106,20 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
      * Calculates whether for a given enterVelocity vector component, magnitude and perpendicular
      * enterVelocity
      * magnitude from the circle movement parameters, the enterVelocity component is still within
-     * acceptable bounds. The enterVelocity component for x, Vx = speedX + circleX where speedX is the x
+     * acceptable bounds. The enterVelocity component for x, Vx = speedX + circleX where speedX
+     * is the x
      * component of the vector with magnitude |v| (specified by speed) and direction specified by
-     * destination-origin and where circleX represents the x component of the enterVelocity vector of the
+     * destination-origin and where circleX represents the x component of the enterVelocity
+     * vector of the
      * circle movement at the moment where this vector attains its highest magnitude in the x
-     * component. The circle movement enterVelocity vector is always perpendicular to the speed vector
-     * (destination-origin with |v|) and the magnitude of the circle enterVelocity vector depends on the
+     * component. The circle movement enterVelocity vector is always perpendicular to the speed
+     * vector
+     * (destination-origin with |v|) and the magnitude of the circle enterVelocity vector depends
+     * on the
      * circle movement parameters (radius, frequency).
      *
-     * @param speedcomp    the component of the enterVelocity. (eg. Vx as speed*cos(phi) with phi the
+     * @param speedcomp    the component of the enterVelocity. (eg. Vx as speed*cos(phi) with phi
+     *                     the
      *                     angle of
      *                     the vector with regards to the component unit vector.)
      * @param speed        the speed or magnitude of the enterVelocity vector |v|.
@@ -135,7 +141,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         return true;
     }
 
-    static Point4DCache newCache(Point4D point, double timeMark) {
+    static Point4DCache newCache(Pose point, double timeMark) {
         return new AutoValue_CorkscrewTrajectory4D_Point4DCache(point, timeMark);
     }
 
@@ -143,27 +149,9 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         return new Builder();
     }
 
-    @Override
-    public double getTrajectoryDuration() {
-        return unitTrajectory.getTrajectoryDuration();
-    }
-
-    @Override
-    public double getDesiredPositionX(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getX();
-    }
-
     private void refreshCache(double time) {
         if (!isEqual(cache.getTimeMark(), time)) {
-            Point4D beforeTransPoint =
-                    Point4D.create(
-                            unitTrajectory.getDesiredPositionX(time),
-                            unitTrajectory.getDesiredPositionY(time),
-                            unitTrajectory.getDesiredPositionZ(time),
-                            unitTrajectory.getDesiredAngleZ(time));
-            setCache(beforeTransPoint, time);
+            setCache(unitTrajectory.getDesiredPosition(time), time);
         }
     }
 
@@ -171,7 +159,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         return rotationTransform(toTrans, aroundX, aroundY).plus(origin);
     }
 
-    private Point4D getCachePoint() {
+    private Pose getCachePoint() {
         return this.cache.getDestinationPoint();
     }
 
@@ -179,15 +167,13 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         return Math.abs(a - b) < EPSILON;
     }
 
-    private void setCache(Point4D beforeTransPoint, double time) {
+    private void setCache(Pose beforeTransPoint, double time) {
         this.cache = newCache(beforeTransPoint, time);
     }
 
     private static Point4D rotationTransform(Point4D toTrans, double aroundX, double aroundY) {
-        return Point4D.from(
-                TrajectoryTransformations.reverseRotation(
-                        Point3D.project(toTrans), aroundX, aroundY, 0, RotationOrder.XYZ),
-                0);
+        return Point4D.from(TrajectoryTransformations.reverseRotation(
+                Point3D.project(toTrans), aroundX, aroundY, 0, RotationOrder.XYZ), 0);
     }
 
     @Override
@@ -206,22 +192,8 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
                 + '}';
     }
 
-    @Override
-    public double getDesiredPositionY(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getY();
-    }
-
     private Point4D getOrigin() {
         return origin;
-    }
-
-    @Override
-    public double getDesiredPositionZ(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getZ();
     }
 
     private Point3D getDestination() {
@@ -229,16 +201,26 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
     }
 
     @Override
-    public double getDesiredAngleZ(double timeInSeconds) {
+    public double getTrajectoryDuration() {
+        return unitTrajectory.getTrajectoryDuration();
+    }
+
+    @Override
+    public Pose getDesiredPosition(double timeInSeconds) {
         final double currentTime = getRelativeTime(timeInSeconds);
         refreshCache(currentTime);
-        return translationTransform(getCachePoint()).getAngle();
+
+        Point4D cachePTransformed = translationTransform(Point4D.from(getCachePoint()));
+        return Pose.create(cachePTransformed.getX(),
+                cachePTransformed.getY(),
+                cachePTransformed.getZ(),
+                cachePTransformed.getAngle());
     }
 
     @AutoValue
     abstract static class Point4DCache {
 
-        public abstract Point4D getDestinationPoint();
+        public abstract Pose getDestinationPoint();
 
         public abstract double getTimeMark();
     }
@@ -361,7 +343,6 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
             return speed;
         }
 
-        @Override
         public double getDesiredPositionX(double timeInSeconds) {
             if (atEnd) {
                 return endPoint;
@@ -399,19 +380,24 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
             }
         }
 
-        @Override
         public double getDesiredPositionY(double timeInSeconds) {
             return circlePlane.getDesiredPositionOrdinate(timeInSeconds);
         }
 
-        @Override
         public double getDesiredPositionZ(double timeInSeconds) {
             return circlePlane.getDesiredPositionAbscissa(timeInSeconds);
         }
 
-        @Override
         public double getDesiredAngleZ(double timeInSeconds) {
             return 0;
+        }
+
+        @Override
+        public Pose getDesiredPosition(double timeInSeconds) {
+            return Pose.create(getDesiredPositionX(timeInSeconds),
+                    getDesiredPositionY(timeInSeconds),
+                    getDesiredPositionZ(timeInSeconds),
+                    getDesiredAngleZ(timeInSeconds));
         }
 
         @Override

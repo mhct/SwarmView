@@ -1,7 +1,7 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import control.Trajectory4d;
+import control.FiniteTrajectory4d;
 
 /**
  * Utility class for static utilities used in defining trajectories.
@@ -97,4 +97,47 @@ public final class TrajectoryUtils {
                 trajectory.getDesiredPositionX(time), trajectory.getDesiredPositionY(time),
                 trajectory.getDesiredPositionZ(time), trajectory.getDesiredAngleZ(time));
     }
+
+    /**
+     * Sample a trajectory for a given time.
+     *
+     * @param trajectory the trajectory to sample.
+     * @param time       the time point for which to sample a trajectory.
+     * @return a point4D instance containing the sample location values.
+     */
+    public static Point4D sampleTrajectory(FiniteTrajectory4d trajectory, double time) {
+    	return Point4D.create(
+    			trajectory.getDesiredPosition(time).x(), trajectory.getDesiredPosition(time).y(),
+    			trajectory.getDesiredPosition(time).z(), trajectory.getDesiredPosition(time).yaw());
+    }
+    
+    /** 
+     * Creates a wrapper instance of a FiniteTrajectory4d class, to translate it to a Trajectory4d class
+     */
+    public static Trajectory4d createFrom(FiniteTrajectory4d finiteTrajectory) {
+    	return new Trajectory4d() {
+			private final FiniteTrajectory4d trajectory = finiteTrajectory;
+    		
+			@Override
+			public double getDesiredPositionZ(double timeInSeconds) {
+				return trajectory.getDesiredPosition(timeInSeconds).z();
+			}
+			
+			@Override
+			public double getDesiredPositionY(double timeInSeconds) {
+				return trajectory.getDesiredPosition(timeInSeconds).y();
+			}
+			
+			@Override
+			public double getDesiredPositionX(double timeInSeconds) {
+				return trajectory.getDesiredPosition(timeInSeconds).x();
+			}
+			
+			@Override
+			public double getDesiredAngleZ(double timeInSeconds) {
+				return trajectory.getDesiredPosition(timeInSeconds).yaw();
+			}
+		};
+    }
+     
 }

@@ -3,7 +3,9 @@ package choreo;
 import applications.trajectory.Trajectories;
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
-import control.Trajectory4d;
+import control.FiniteTrajectory4d;
+import applications.trajectory.Trajectory4d;
+import control.dto.Pose;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,14 +45,14 @@ public class ChoreographyTest {
         verifyTrajectoryPos4D(choreotarget, 2, Point4D.create(5, 5, 5, 2));
         //First invocation past duration still get's old point. all following
         // trigger change in segment for first call.
-        choreotarget.getDesiredPositionX(0d + duration);
+        choreotarget.getDesiredPosition(0d + duration);
         verifyTrajectoryPos4D(
                 choreotarget, (1 / frequency) + duration, Point4D.create(radius, 0, 0, 0));
     }
 
     @Test
     public void testComplexExample() {
-        Trajectory4d first =
+        FiniteTrajectory4d first =
                 Trajectories.newStraightLineTrajectory(
                         Point4D.create(0, 0, 1.5, 0), Point4D.create(5, 5, 5, 0), 0.6);
         Trajectory4d second =
@@ -65,23 +67,21 @@ public class ChoreographyTest {
                         .withTrajectory(third)
                         .forTime(30)
                         .build();
-        assertNotEquals(0, choreo.getDesiredPositionX(1));
-        assertNotEquals(0, choreo.getDesiredPositionY(1));
-        assertNotEquals(0, choreo.getDesiredPositionZ(1));
-        assertEquals(0, choreo.getDesiredAngleZ(1), 0);
+        Pose p = choreo.getDesiredPosition(1);
+        assertNotEquals(0, p.x());
+        assertNotEquals(0, p.y());
+        assertNotEquals(0, p.z());
+        assertEquals(0, p.yaw(), 0);
     }
 
     @Test
     public void testWithRealStartTimes() {
         double timeShift = 380;
-        choreotarget.getDesiredPositionX(timeShift);
-        choreotarget.getDesiredPositionY(timeShift);
-        choreotarget.getDesiredPositionZ(timeShift);
-
+        choreotarget.getDesiredPosition(timeShift);
         verifyTrajectoryPos4D(choreotarget, 2, Point4D.create(5, 5, 5, 2));
         //First invocation past duration still get's old point. all following
         // trigger change in segment for first call.
-        choreotarget.getDesiredPositionX(timeShift + 0d + duration);
+        choreotarget.getDesiredPosition(timeShift + 0d + duration);
         verifyTrajectoryPos4D(
                 choreotarget, (1 / frequency) + timeShift + duration,
                 Point4D.create(radius, 0, 0, 0));

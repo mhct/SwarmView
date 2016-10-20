@@ -3,7 +3,7 @@ package applications.trajectory;
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import control.FiniteTrajectory4d;
-import control.Trajectory4d;
+import control.dto.Pose;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -62,27 +62,12 @@ class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajecto
   }
 
   @Override
-  public double getDesiredPositionX(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getCurrentTrajectory().getDesiredPositionX(currentTime);
-  }
-
-  @Override
-  public double getDesiredPositionY(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getCurrentTrajectory().getDesiredPositionY(currentTime);
-  }
-
-  @Override
-  public double getDesiredPositionZ(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getCurrentTrajectory().getDesiredPositionZ(currentTime);
-  }
-
-  @Override
-  public double getDesiredAngleZ(double timeInSeconds) {
-    final double currentTime = getRelativeTime(timeInSeconds);
-    return getCurrentTrajectory().getDesiredAngleZ(currentTime);
+  public Pose getDesiredPosition(double timeInSeconds) {
+	  final double currentTime = getRelativeTime(timeInSeconds);
+	  return Pose.create(getCurrentTrajectory().getDesiredPositionX(currentTime),
+			  getCurrentTrajectory().getDesiredPositionY(currentTime),
+			  getCurrentTrajectory().getDesiredPositionZ(currentTime),
+			  getCurrentTrajectory().getDesiredAngleZ(currentTime));
   }
 
   protected Trajectory4d getCurrentTrajectory() {

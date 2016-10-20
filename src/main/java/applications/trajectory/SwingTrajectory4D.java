@@ -1,7 +1,6 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import control.Trajectory4d;
 
 /**
  * Swing trajectory in 3D space as a 4D trajectory.

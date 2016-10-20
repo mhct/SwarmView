@@ -1,12 +1,14 @@
 package choreo;
 
 import applications.trajectory.BasicTrajectory;
+import applications.trajectory.TrajectoryUtils;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import control.FiniteTrajectory4d;
-import control.Trajectory4d;
+import applications.trajectory.Trajectory4d;
+import control.dto.Pose;
 
 import java.util.List;
 import java.util.Queue;
@@ -78,35 +80,14 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
     }
 
     @Override
-    public double getDesiredPositionX(double timeInSeconds) {
+    public Pose getDesiredPosition(double timeInSeconds) {
         setStartTime(timeInSeconds);
         final double currentTime = timeInSeconds - getStartTime();
         checkChoreoSegments(currentTime);
-        return getCurrentSegment().getTarget().getDesiredPositionX(currentTime);
-    }
-
-    @Override
-    public double getDesiredPositionY(double timeInSeconds) {
-        setStartTime(timeInSeconds);
-        final double currentTime = timeInSeconds - getStartTime();
-        checkChoreoSegments(currentTime);
-        return getCurrentSegment().getTarget().getDesiredPositionY(currentTime);
-    }
-
-    @Override
-    public double getDesiredPositionZ(double timeInSeconds) {
-        setStartTime(timeInSeconds);
-        final double currentTime = timeInSeconds - getStartTime();
-        checkChoreoSegments(currentTime);
-        return getCurrentSegment().getTarget().getDesiredPositionZ(currentTime);
-    }
-
-    @Override
-    public double getDesiredAngleZ(double timeInSeconds) {
-        setStartTime(timeInSeconds);
-        final double currentTime = timeInSeconds - getStartTime();
-        checkChoreoSegments(currentTime);
-        return getCurrentSegment().getTarget().getDesiredAngleZ(currentTime);
+        return Pose.create(getCurrentSegment().getTarget().getDesiredPositionX(currentTime),
+                getCurrentSegment().getTarget().getDesiredPositionY(currentTime),
+                getCurrentSegment().getTarget().getDesiredPositionZ(currentTime),
+                getCurrentSegment().getTarget().getDesiredAngleZ(currentTime));
     }
 
     @Override
@@ -203,7 +184,7 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
         @Override
         public BuildableStepBuilder withTrajectory(FiniteTrajectory4d trajectory) {
             addSegmentWithDuration(tempTarget, tempDuration);
-            this.tempTarget = trajectory;
+            this.tempTarget = TrajectoryUtils.createFrom(trajectory);
             this.tempDuration = trajectory.getTrajectoryDuration();
             return this;
         }

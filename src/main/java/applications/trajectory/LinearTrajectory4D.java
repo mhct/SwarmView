@@ -1,7 +1,6 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import control.Trajectory4d;
 
 /**
  * A linear trajectory in four dimensions as a composite of four 1d linear components.

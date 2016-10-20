@@ -6,7 +6,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
-import control.Trajectory4d;
 
 import java.util.Collection;
 import java.util.List;
@@ -190,7 +189,7 @@ public class CollisionDetector {
   @AutoValue
   public abstract static class Collision {
     public static Collision create(
-        double time, double distance, Trajectory4d first, Trajectory4d second) {
+        double time, double distance, FiniteTrajectory4d first, FiniteTrajectory4d second) {
       return new AutoValue_CollisionDetector_Collision(time, distance, first, second);
     }
 
@@ -198,8 +197,8 @@ public class CollisionDetector {
 
     public abstract double getActualDistance();
 
-    public abstract Trajectory4d getFirstCollidingTrajectory();
+    public abstract FiniteTrajectory4d getFirstCollidingTrajectory();
 
-    public abstract Trajectory4d getSecondCollidingTrajectory();
+    public abstract FiniteTrajectory4d getSecondCollidingTrajectory();
   }
 }

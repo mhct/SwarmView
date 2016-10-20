@@ -1,7 +1,6 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import control.Trajectory4d;
 
 /** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
 class HoldPositionTrajectory4D implements Trajectory4d {

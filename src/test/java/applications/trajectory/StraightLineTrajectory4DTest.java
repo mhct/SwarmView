@@ -1,7 +1,6 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import control.Trajectory4d;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,8 +29,8 @@ public class StraightLineTrajectory4DTest {
   }
 
   protected void createTargets() {
-    target = Trajectories.newStraightLineTrajectory(before, after, speed);
-    target2 = Trajectories.newStraightLineTrajectory(before, afterNotOrigin, speed);
+    target = TrajectoryUtils.createFrom(Trajectories.newStraightLineTrajectory(before, after, speed));
+    target2 = TrajectoryUtils.createFrom(Trajectories.newStraightLineTrajectory(before, afterNotOrigin, speed));
   }
 
   private void init() {
@@ -117,8 +116,8 @@ public class StraightLineTrajectory4DTest {
   @Test
   public void testTrajectoryProgression() throws Exception {
     double duration = 10492;
-    target = Trajectories.newStraightLineTrajectory(before, after, speed);
-    target2 = Trajectories.newStraightLineTrajectory(before, afterNotOrigin, speed);
+    target = TrajectoryUtils.createFrom(Trajectories.newStraightLineTrajectory(before, after, speed));
+    target2 = TrajectoryUtils.createFrom(Trajectories.newStraightLineTrajectory(before, afterNotOrigin, speed));
     assertEquals(0, target.getDesiredPositionX(duration + 0), 0);
     assertEquals(5, target.getDesiredPositionX(duration + 5), 0);
     assertEquals(10, target.getDesiredPositionX(duration + 10), 0);

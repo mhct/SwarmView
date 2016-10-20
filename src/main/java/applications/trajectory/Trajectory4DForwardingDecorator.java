@@ -1,7 +1,5 @@
 package applications.trajectory;
 
-import control.Trajectory4d;
-
 /**
  * Forwarding decorator for trajectory4D instances with inner-trajectory4D hooks.
  *
