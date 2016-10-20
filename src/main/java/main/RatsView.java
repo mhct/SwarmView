@@ -26,11 +26,15 @@ public class RatsView extends PApplet {
 	final int displayDimensionX = 1024;
 	final int displayDimensionY = 800;
 	private boolean mouseActive = true;
+	private boolean timerActive = true;
+	private boolean simulationActive = true;
+	
 	private int lastMouseX;
 	private int lastMouseY;
 	private float lastZoom;
 	private int initialTime = 0;
 	private float rotz;
+	private int lastTimeStep;
 	
 	public static void main(String[] args) {
 		PApplet.main(RatsView.class);
@@ -46,6 +50,11 @@ public class RatsView extends PApplet {
 	public void setup() {
 		fill(255);
 		
+		initializeTrajectories();
+	}
+	
+	private void initializeTrajectories() {
+		initialTime = 0;
 		/**
 		 * Add trajectories here
 		 */
@@ -53,7 +62,7 @@ public class RatsView extends PApplet {
 		try {
 			FiniteTrajectory4d temp = new NerveTrajectoryIntroduction();
 			trajectories.add(temp);
-	        drones[0] = new Drone(this, temp);
+	        drones[0] = new Drone(this, temp, color(0, 244, 200), 1);
 	
 //            drones[1] = new Drone(this, CircleTrajectory4D.builder()
 //                    .setLocation(Point3D.create(4, 4, 2))
@@ -88,7 +97,7 @@ public class RatsView extends PApplet {
 		/**
 		 * Safety checks for collision between drones
 		 */
-//		OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraint(trajectories, 1.0);
+//		OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraint(trajectories, 1.0);	
 	}
 	
 	@Override
@@ -114,16 +123,27 @@ public class RatsView extends PApplet {
 
 		drawStage();
 		
-		
 		pushMatrix();
 		translate(-400, -400, 0);
 		text("Origin", 0.0f, 0.0f, 0.0f);
-		int currentTime = millis();
-		if (initialTime  == 0) {
-			initialTime = millis();
+		
+		int timeStep;
+		if (simulationIsActive()) {
+			int currentTime = millis();
+			if (initialTime  == 0) {
+				initialTime = millis();
+			}
+			timeStep = currentTime-initialTime;
+			lastTimeStep = timeStep;
+		} else {
+			timeStep = lastTimeStep;
+		}
+		
+		if (timerIsActive()) {
+			drawTimer(timeStep);
 		}
 		for (int i=0; i<NUMBER_DRONES; i++) {
-			drones[i].displayNext((currentTime-initialTime)/1000.0f);
+			drones[i].displayNext((timeStep)/1000.0f);
 		}
 		popMatrix();
 		
@@ -160,10 +180,25 @@ public class RatsView extends PApplet {
 		  }
 	}
 	
+	/**
+	 * Handles user input via the keyboard
+	 */
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (event.getKey() == 'z') {
 			 mouseToggle();
+		}
+		
+		if (event.getKey() == 't') {
+			timerToggle();
+		}
+		
+		if (event.getKey() == 'p') {
+			pauseToggle();
+		}
+		
+		if (event.getKey() == 'r') {
+			initializeTrajectories();
 		}
 	}
 	
@@ -178,8 +213,54 @@ public class RatsView extends PApplet {
 		}
 	}
 	
+	/**
+	 * Activates/deactivates the timer
+	 */
+	private void timerToggle() {
+		if (timerActive  == true) {
+			timerActive = false;
+		} else {
+			timerActive = true;
+		}
+	}
+	
+	/**
+	 * Activates/deactivates the simulation
+	 */
+	private void pauseToggle() {
+		if (simulationActive == true) {
+			simulationActive = false;
+		} else {
+			simulationActive = true;
+		}
+	}
+	
 	private boolean mouseIsActive() {
 		return mouseActive;
+	}
+	
+	private boolean timerIsActive() {
+		return timerActive;
+	}
+	
+	private boolean simulationIsActive() {
+		return simulationActive;
+	}
+	/**
+	 * Draws timer
+	 * @param time in milliseconds
+	 */
+	public void drawTimer(double time) {
+		pushMatrix();
+		rotateX(-PI/2);
+		fill(255);
+		textSize(72);
+		
+		int seconds = (int) (time / 1000) % 60 ;
+		int minutes = (int) ((time / (1000*60)) % 60);
+		int milliseconds = (int) (time % 1000);
+		text(String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
+		popMatrix();
 	}
 	
 	/**
