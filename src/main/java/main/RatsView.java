@@ -1,11 +1,11 @@
 package main;
 
-import applications.trajectory.NerveTrajectoryIntroduction;
 import control.FiniteTrajectory4d;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import show.TwinDrones;
+import rats.acts.introduction.NerveTrajectoryIntroduction;
+import rats.acts.introduction.TwinDrones;
 
 import java.awt.*;
 import java.util.ArrayList;

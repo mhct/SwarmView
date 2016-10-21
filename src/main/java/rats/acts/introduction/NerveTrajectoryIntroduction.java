@@ -1,10 +1,11 @@
 /**
  * 
  */
-package applications.trajectory;
+package rats.acts.introduction;
 
 import java.util.ArrayList;
 
+import applications.trajectory.LineTrajectory;
 import applications.trajectory.geom.point.Point3D;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
