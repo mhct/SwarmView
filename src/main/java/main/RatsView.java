@@ -1,21 +1,20 @@
 package main;
 
-import control.FiniteTrajectory4d;
+import java.awt.MouseInfo;
+import java.awt.Point;
+
+import control.Act;
+import control.DroneName;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import rats.acts.introduction.NerveTrajectoryIntroduction;
-import rats.acts.introduction.TwinDrones;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import rats.acts.introduction.IntroductionAct;
 
 public class RatsView extends PApplet {
 	private static final float MAX_ZOOM = 4.0f;
 	private static final float MIN_ZOOM = 0.3f;
 	private final int NUMBER_DRONES = 3;
-	Drone[] drones = new Drone[NUMBER_DRONES];
+	DroneView[] drones = new DroneView[NUMBER_DRONES];
 	int rotzfactor = 0;
 	float zoom = 1.0f;
 	final int displayDimensionX = 1024;
@@ -50,26 +49,15 @@ public class RatsView extends PApplet {
 	
 	private void initializeTrajectories() {
 		initialTime = 0;
+		Act introduction = new IntroductionAct();
+		
 		/**
 		 * Add trajectories here
 		 */
-        List<FiniteTrajectory4d> trajectories = new ArrayList<>();
-		try {
-			FiniteTrajectory4d temp = new NerveTrajectoryIntroduction();
-			trajectories.add(temp);
-	        drones[0] = new Drone(this, temp, color(0, 244, 200), 1);
-	        
-	        temp = TwinDrones.createRomeoTrajectory();
-	        trajectories.add(temp);
-            drones[1] = new Drone(this, temp, color(200, 100, 10), 20);
-            
-            temp = TwinDrones.createJulietTrajectory();
-            trajectories.add(temp);
-            drones[2] = new Drone(this, temp, color(200, 0, 200), 50);
+        drones[0] = new DroneView(this, introduction.getTrajectory(DroneName.Nerve), color(0, 244, 200), 1);
+        drones[1] = new DroneView(this, introduction.getTrajectory(DroneName.Romeo), color(200, 100, 10), 20);
+        drones[2] = new DroneView(this, introduction.getTrajectory(DroneName.Juliet), color(200, 0, 200), 50);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         /**
          * Safety checks for collision between drones
