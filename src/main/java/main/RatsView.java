@@ -4,6 +4,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 
 import control.Act;
+import control.Choreography;
 import control.DroneName;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
@@ -13,8 +14,7 @@ import rats.acts.introduction.IntroductionAct;
 public class RatsView extends PApplet {
 	private static final float MAX_ZOOM = 4.0f;
 	private static final float MIN_ZOOM = 0.3f;
-	private final int NUMBER_DRONES = 3;
-	DroneView[] drones = new DroneView[NUMBER_DRONES];
+	DroneView[] drones;
 	int rotzfactor = 0;
 	float zoom = 1.0f;
 	final int displayDimensionX = 1024;
@@ -29,6 +29,8 @@ public class RatsView extends PApplet {
 	private int initialTime = 0;
 	private float rotz;
 	private int lastTimeStep;
+	
+	Choreography choreo;
 	
 	public static void main(String[] args) {
 		PApplet.main(RatsView.class);
@@ -48,17 +50,28 @@ public class RatsView extends PApplet {
 	}
 	
 	private void initializeTrajectories() {
-		initialTime = 0;
-		Act introduction = new IntroductionAct();
+		initialTime = 0; //TODO add separate method to reset the view parameters
+
+		//
+		// Defines the acts of the show
+		//
+		Act introduction = IntroductionAct.create();
 		
-		/**
-		 * Add trajectories here
-		 */
-        drones[0] = new DroneView(this, introduction.getTrajectory(DroneName.Nerve), color(0, 244, 200), 1);
-        drones[1] = new DroneView(this, introduction.getTrajectory(DroneName.Romeo), color(200, 100, 10), 20);
-        drones[2] = new DroneView(this, introduction.getTrajectory(DroneName.Juliet), color(200, 0, 200), 50);
+		//
+		// Configures the whole Choreography
+		//
+		choreo = Choreography.create(35, 3);
+		choreo.addAct(introduction, 60);
+		
+		//
+		//Configures the view
+		//
+		drones = new DroneView[choreo.getNumberDrones()];
 
-
+		drones[0] = new DroneView(this, choreo.getFullTrajectory(DroneName.Nerve), color(0, 244, 200), 1);
+        drones[1] = new DroneView(this, choreo.getFullTrajectory(DroneName.Romeo), color(200, 100, 10), 50);
+        drones[2] = new DroneView(this, choreo.getFullTrajectory(DroneName.Juliet), color(200, 0, 200), 50);
+		
         /**
          * Safety checks for collision between drones
          */
@@ -108,14 +121,14 @@ public class RatsView extends PApplet {
 		if (timerIsActive()) {
 			drawTimer(timeStep);
 		}
-		for (int i=0; i<NUMBER_DRONES; i++) {
+		for (int i=0; i<choreo.getNumberDrones(); i++) {
 			drones[i].displayNext((timeStep)/1000.0f);
 		}
 		popMatrix();
 		
 		popMatrix();
 	}
-	
+
 	/**
 	 * Positions the Scene view according to the last mouse movement
 	 * 

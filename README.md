@@ -14,3 +14,18 @@ New **Drone** objects can be created by specifying
 - Drone(PApplet canvas, FiniteTrajectory4d trajectory)
 - Drone(PApplet canvas, FiniteTrajectory4d trajectory, int color, int trailSize)
 
+
+
+
+Introduction StartTime, EndTime
+Chaos StartTime, EndTime
+Attack StartTime, EndTime
+Taming StartTime, EndTime
+Exit StartTime, EndTime
+
+
+Act config
+Introduction, Nerve, (x, y, z), (x1, y2, z2) 
+Introduction, Romeo, (x, y, z), (x1, y2, z2) 
+Introduction, Juliett, (x, y, z), (x1, y2, z2) 
+Introduction, Fievel, (x, y, z), (x1, y2, z2) 
