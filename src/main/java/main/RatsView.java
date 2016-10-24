@@ -62,6 +62,9 @@ public class RatsView extends PApplet {
 		//
 		choreo = Choreography.create(35, 3);
 		choreo.addAct(introduction, 60);
+		choreo.addAct(introduction, 90);
+		choreo.addAct(introduction, 120);
+		choreo.addAct(introduction, 140);
 		
 		//
 		//Configures the view
@@ -152,10 +155,10 @@ public class RatsView extends PApplet {
 	
 	public void mouseWheel(MouseEvent event) {
 		if(event.getCount() >= 0 && zoom <= MAX_ZOOM) { 
-		    zoom += 0.05;
+		    zoom += 0.01;
 		  } 
 		  else if (zoom >= MIN_ZOOM) {
-		    zoom -= 0.05; 
+		    zoom -= 0.01; 
 		  }
 	}
 	
