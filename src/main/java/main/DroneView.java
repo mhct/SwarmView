@@ -6,7 +6,7 @@ import control.FiniteTrajectory4d;
 import control.dto.Pose;
 import processing.core.PApplet;
 
-public class Drone {
+public class DroneView {
 	private final PApplet canvas;
 	private final FiniteTrajectory4d trajectory;
 	private final int BUFFER_SIZE;
@@ -15,7 +15,7 @@ public class Drone {
 	private boolean bufferFull = false;
 	private int color;
 	
-	Drone(PApplet canvas, FiniteTrajectory4d trajectory, int color, int trailSize) {
+	DroneView(PApplet canvas, FiniteTrajectory4d trajectory, int color, int trailSize) {
 		Preconditions.checkNotNull(color);
 		Preconditions.checkArgument(trailSize >= 0 && trailSize <= 300);
 		
@@ -26,7 +26,7 @@ public class Drone {
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
-	Drone(PApplet canvas, FiniteTrajectory4d trajectory) {
+	DroneView(PApplet canvas, FiniteTrajectory4d trajectory) {
 		this.canvas = canvas;
 		this.trajectory = trajectory;
 		this.color = 255;

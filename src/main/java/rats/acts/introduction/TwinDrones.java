@@ -1,4 +1,4 @@
-package show;
+package rats.acts.introduction;
 
 import applications.trajectory.Trajectories;
 import applications.trajectory.Trajectory4d;
