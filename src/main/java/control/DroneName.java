@@ -10,5 +10,6 @@ public enum DroneName {
 	Nerve,
 	Romeo,
 	Juliet,
-	Fievel
+	Fievel,
+	Dumbo
 }

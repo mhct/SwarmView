@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */
-class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajectory4d {
+public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajectory4d {
     private final Point4D srcpoint;
     private final Point4D targetpoint;
     private final double velocity;
@@ -30,13 +30,13 @@ class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajecto
     private final double totalDistance;
     private Trajectory4d currentTraj;
 
-    static StraightLineTrajectory4D createWithCustomVelocity(Point4D srcpoint, Point4D targetpoint,
+    public static StraightLineTrajectory4D createWithCustomVelocity(Point4D srcpoint, Point4D targetpoint,
             double velocity) {
         return new StraightLineTrajectory4D(srcpoint, targetpoint, velocity);
 
     }
 
-    static StraightLineTrajectory4D createWithCustomTravelDuration(Point4D srcpoint,
+    public static StraightLineTrajectory4D createWithCustomTravelDuration(Point4D srcpoint,
             Point4D targetpoint, double duration) {
         double velocity = Point4D.distance(srcpoint, targetpoint) / duration;
         return new StraightLineTrajectory4D(srcpoint, targetpoint, velocity);
