@@ -59,7 +59,17 @@ repositories {
         url "https://github.com/agentwise/mvn-repo/raw/master"
     }
 
+	maven {
+        url "http://oss.sonatype.org/content/groups/public"
+    }
+
     jcenter()
+}
+
+jar {
+	manifest {
+		attributes "Main-Class": "main.RatsView"
+	}
 }
 
 dependencies {
@@ -70,6 +80,7 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.20'
 	compile 'ch.qos.logback:logback-classic:1.1.7'
     compile 'org.ejml:all:0.29'
+	compile 'org.yaml:snakeyaml:1.17'
 	
     testCompile 'pl.pragmatists:JUnitParams:1.0.5'
     testCompile 'junit:junit:4.12'

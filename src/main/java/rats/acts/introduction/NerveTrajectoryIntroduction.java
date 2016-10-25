@@ -19,10 +19,9 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 	private ArrayList<LineTrajectory> lineTrajectories = new ArrayList<LineTrajectory>();
 	private double duration;
 	
-	public NerveTrajectoryIntroduction () throws Exception {
-		
+	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition) throws Exception {
 		double[][] path = {
-				{ 	7,	6, 		0.0,  	4 },	// start position, with start time
+				{ 	initialPosition.x(),	initialPosition.y(), 		initialPosition.z(),  	4 },	// start position, with start time
 				{ 	7,	6, 		0.5,  	1 },	// go into position
 				{ 	7,	6, 		0.5,  	1 },
 				{ 	2, 	4, 		1.5,  	2.5 },
@@ -38,7 +37,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 				{ 	2, 	2, 		4,  	1 },
 				{ 	2, 	2, 		2.5,  	0.8 },
 				{ 	2, 	2, 		4,  	1 },
-				{ 	2, 	2, 		4,  	2 },
+				{ 	finalPosition.x(),	finalPosition.y(), 		finalPosition.z(),  	2 },
 		};
 		
 		double startTime = path[0][3];

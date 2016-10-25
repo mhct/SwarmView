@@ -1,13 +1,15 @@
 package control;
 
+import java.util.List;
+
 import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class ActConfiguration {
-	static ActConfiguration create(Act act, double duration) {
-		return new AutoValue_ActConfiguration(act, duration);
+	public static ActConfiguration create(double duration, List<DronePositionConfiguration> dronePositionConfiguration) {
+		return new AutoValue_ActConfiguration(duration, dronePositionConfiguration);
 	}
 	
-	abstract Act act();
 	abstract double duration();
+	abstract List<DronePositionConfiguration> dronePositionConfiguration();
 }
