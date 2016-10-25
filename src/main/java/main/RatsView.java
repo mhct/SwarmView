@@ -2,14 +2,23 @@ package main;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import control.Act;
+import control.ActConfiguration;
 import control.Choreography;
-import control.DroneName;
+import static control.DroneName.*;
+import control.DronePositionConfiguration;
+import control.dto.Pose;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+import rats.acts.attack.AttackAct;
+import rats.acts.chaos.ChaosAct;
 import rats.acts.introduction.IntroductionAct;
+import rats.acts.taming.TamingAct;
 
 public class RatsView extends PApplet {
 	private static final float MAX_ZOOM = 4.0f;
@@ -53,24 +62,73 @@ public class RatsView extends PApplet {
 		initialTime = 0; //TODO add separate method to reset the view parameters
 
 		//
-		// Defines the acts of the show
+		//Specification of initial drone positions for Introduction
 		//
-		Act introduction = IntroductionAct.create();
+		List<DronePositionConfiguration> introPositions = new ArrayList<>();
+		introPositions.add(DronePositionConfiguration.create(Nerve, Pose.create(7.0, 6.0, 1.0, 0.0),  Pose.create(2.0, 2.0, 4.0, 0.0)));
+		introPositions.add(DronePositionConfiguration.create(Romeo, Pose.create(7.0, 5.0, 1.0, 0.0),  Pose.create(1.1, 5.0, 1.5, 0.0)));
+		introPositions.add(DronePositionConfiguration.create(Juliet, Pose.create(1.0, 5.0, 1.0, 0.0), Pose.create(4.9, 5.0, 1.5, 0.0)));
+		introPositions.add(DronePositionConfiguration.create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
+		introPositions.add(DronePositionConfiguration.create(Dumbo, Pose.create(2.0, 3.0, 1.0, 0.0),  Pose.create(4.0, 3.5, 2.5, 0.0)));
+		ActConfiguration introConfiguration = ActConfiguration.create(50, introPositions);
+		Act introduction = IntroductionAct.create(introConfiguration);
+
+		//
+		//Specification of initial drone positions for Chaos
+		//
+		List<DronePositionConfiguration> chaosPositions = new ArrayList<>();
+		chaosPositions.add(DronePositionConfiguration.create(Nerve,  introduction.finalPosition(Nerve),  Pose.create(6.0, 6.0, 2.0, 0.0)));
+		chaosPositions.add(DronePositionConfiguration.create(Romeo,  introduction.finalPosition(Romeo),  Pose.create(3.5, 4.0, 1.0, 0.0)));
+		chaosPositions.add(DronePositionConfiguration.create(Juliet, introduction.finalPosition(Juliet), Pose.create(1.0, 1.0, 2.5, 0.0)));
+		chaosPositions.add(DronePositionConfiguration.create(Fievel, introduction.finalPosition(Fievel), Pose.create(2.0, 5.0, 2.0, 0.0)));
+		chaosPositions.add(DronePositionConfiguration.create(Dumbo,  introduction.finalPosition(Dumbo),  Pose.create(1.5, 3.0, 1.0, 0.0)));
+		ActConfiguration chaosConfiguration = ActConfiguration.create(5, chaosPositions);
+		Act chaos = ChaosAct.create(chaosConfiguration);
+
+		//
+		//Specification of initial drone positions for Attack
+		//
+		List<DronePositionConfiguration> attackPositions = new ArrayList<>();
+		attackPositions.add(DronePositionConfiguration.create(Nerve,  chaos.finalPosition(Nerve),  Pose.create(4.5, 3.0, 2.0, 0.0)));
+		attackPositions.add(DronePositionConfiguration.create(Romeo,  chaos.finalPosition(Romeo),  Pose.create(3.5, 3.0, 2.5, 0.0)));
+		attackPositions.add(DronePositionConfiguration.create(Juliet, chaos.finalPosition(Juliet), Pose.create(2.0, 6.0, 2.0, 0.0)));
+		attackPositions.add(DronePositionConfiguration.create(Fievel, chaos.finalPosition(Fievel), Pose.create(5.0, 5.5, 2.5, 0.0)));
+		attackPositions.add(DronePositionConfiguration.create(Dumbo,  chaos.finalPosition(Dumbo),  Pose.create(3.0, 6.1, 1.0, 0.0)));
+		ActConfiguration attackConfiguration = ActConfiguration.create(5, attackPositions);
+		Act attack = AttackAct.create(attackConfiguration);
+
+		//
+		//Specification of initial drone positions for Taming
+		//
+		List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
+		tamingPositions.add(DronePositionConfiguration.create(Nerve,  attack.finalPosition(Nerve),  Pose.create(2.0, 2.0, 1.5, 0.0)));
+		tamingPositions.add(DronePositionConfiguration.create(Romeo,  attack.finalPosition(Romeo),  Pose.create(3.0, 3.0, 1.5, 0.0)));
+		tamingPositions.add(DronePositionConfiguration.create(Juliet, attack.finalPosition(Juliet), Pose.create(4.0, 4.0, 1.5, 0.0)));
+		tamingPositions.add(DronePositionConfiguration.create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
+		tamingPositions.add(DronePositionConfiguration.create(Dumbo,  attack.finalPosition(Dumbo),  Pose.create(6.0, 6.0, 1.5, 0.0)));
+		ActConfiguration tamingConfiguration = ActConfiguration.create(5, tamingPositions);
+		Act taming = TamingAct.create(tamingConfiguration);		
 		
 		//
 		// Configures the whole Choreography
 		//
-		choreo = Choreography.create(35, 3);
-		choreo.addAct(introduction, 60);
+		choreo = Choreography.create(60, 5);
+		choreo.addAct(introduction);
+		choreo.addAct(chaos);
+		choreo.addAct(attack);
+		choreo.addAct(taming);
+		
 		
 		//
 		//Configures the view
 		//
 		drones = new DroneView[choreo.getNumberDrones()];
 
-		drones[0] = new DroneView(this, choreo.getFullTrajectory(DroneName.Nerve), color(0, 244, 200), 1);
-        drones[1] = new DroneView(this, choreo.getFullTrajectory(DroneName.Romeo), color(200, 100, 10), 50);
-        drones[2] = new DroneView(this, choreo.getFullTrajectory(DroneName.Juliet), color(200, 0, 200), 50);
+		drones[0] = new DroneView(this, choreo.getFullTrajectory(Nerve), color(0, 244, 200), 1);
+        drones[1] = new DroneView(this, choreo.getFullTrajectory(Romeo), color(200, 100, 10), 50);
+        drones[2] = new DroneView(this, choreo.getFullTrajectory(Juliet), color(200, 0, 200), 50);
+        drones[3] = new DroneView(this, choreo.getFullTrajectory(Fievel), color(255, 255, 200), 50);
+        drones[4] = new DroneView(this, choreo.getFullTrajectory(Dumbo), color(120, 255, 250), 50);
 		
         /**
          * Safety checks for collision between drones
