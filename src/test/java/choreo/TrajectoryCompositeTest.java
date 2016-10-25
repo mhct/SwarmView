@@ -1,10 +1,10 @@
 package choreo;
 
 import applications.trajectory.Trajectories;
+import applications.trajectory.Trajectory4d;
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import control.FiniteTrajectory4d;
-import applications.trajectory.Trajectory4d;
 import control.dto.Pose;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +16,9 @@ import static org.junit.Assert.assertNotEquals;
 /**
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */
-public class ChoreographyTest {
+public class TrajectoryCompositeTest {
 
-    private Choreography choreotarget;
+    private TrajectoryComposite choreotarget;
     private double duration = 20d;
     private Trajectory4d pathTrajectory;
     private Trajectory4d holdTrajectory;
@@ -32,7 +32,7 @@ public class ChoreographyTest {
         holdTrajectory = Trajectories.newHoldPositionTrajectory(point);
         pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
         this.choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(holdTrajectory)
                         .forTime(duration)
                         .withTrajectory(pathTrajectory)
@@ -58,8 +58,8 @@ public class ChoreographyTest {
         Trajectory4d second =
                 Trajectories.newCircleTrajectory4D(Point3D.create(4, 5, 5), 1, 0.10, Math.PI / 4);
         Trajectory4d third = Trajectories.newHoldPositionTrajectory(Point4D.create(1, 1, 2, 0));
-        Choreography choreo =
-                Choreography.builder()
+        TrajectoryComposite choreo =
+                TrajectoryComposite.builder()
                         .withTrajectory(first)
                         .forTime(20)
                         .withTrajectory(second)
@@ -98,7 +98,7 @@ public class ChoreographyTest {
         holdTrajectory = Trajectories.newHoldPositionTrajectory(point);
         pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
         this.choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(holdTrajectory)
                         .forTime(duration)
                         .withTrajectory(pathTrajectory)
@@ -114,7 +114,7 @@ public class ChoreographyTest {
         holdTrajectory = Trajectories.newHoldPositionTrajectory(point);
         pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
         this.choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(holdTrajectory)
                         .forTime(duration)
                         .withTrajectory(pathTrajectory)
@@ -127,7 +127,7 @@ public class ChoreographyTest {
     @Test
     public void testFiniteTrajectory() {
         choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
@@ -135,7 +135,7 @@ public class ChoreographyTest {
         assertEquals(2, choreotarget.getTrajectoryDuration(), 0);
 
         choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
@@ -143,7 +143,7 @@ public class ChoreographyTest {
                         .build();
         assertEquals(5, choreotarget.getTrajectoryDuration(), 0);
         choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
@@ -153,7 +153,7 @@ public class ChoreographyTest {
         assertEquals(7, choreotarget.getTrajectoryDuration(), 0);
 
         choreotarget =
-                Choreography.builder()
+                TrajectoryComposite.builder()
                         .withTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
@@ -163,5 +163,16 @@ public class ChoreographyTest {
                         .forTime(10)
                         .build();
         assertEquals(14, choreotarget.getTrajectoryDuration(), 0);
+    }
+
+    @Test
+    public void testNoMonotonicity() {
+        verifyTrajectoryPos4D(choreotarget, 2, Point4D.create(5, 5, 5, 2));
+        verifyTrajectoryPos4D(
+                choreotarget, (1 / frequency) + duration, Point4D.create(radius, 0, 0, 0));
+        verifyTrajectoryPos4D(choreotarget, 2, Point4D.create(5, 5, 5, 2));
+        verifyTrajectoryPos4D(
+                choreotarget, (1 / frequency) + duration, Point4D.create(radius, 0, 0, 0));
+        verifyTrajectoryPos4D(choreotarget, 2, Point4D.create(5, 5, 5, 2));
     }
 }

@@ -6,7 +6,7 @@ import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import choreo.Choreography;
+import choreo.TrajectoryComposite;
 import control.FiniteTrajectory4d;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ public abstract class TwinDrones {
                     .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
                     .setLocation(circleCenterPoint).build();
 
-            Choreography choreo = Choreography.builder()
+            TrajectoryComposite choreo = TrajectoryComposite.builder()
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
                     .forTime(startIntroAt).withTrajectory(firstLeg)
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
@@ -96,7 +96,7 @@ public abstract class TwinDrones {
                     .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
                     .setLocation(circleCenterPoint).build();
 
-            Choreography choreo = Choreography.builder()
+            TrajectoryComposite choreo = TrajectoryComposite.builder()
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
                     .forTime(startIntroAt).withTrajectory(firstLeg)
                     .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))

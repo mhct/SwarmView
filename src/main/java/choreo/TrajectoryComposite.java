@@ -1,20 +1,19 @@
 package choreo;
 
 import applications.trajectory.BasicTrajectory;
+import applications.trajectory.Trajectory4d;
 import applications.trajectory.TrajectoryUtils;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
+import com.google.common.collect.Maps;
 import control.FiniteTrajectory4d;
-import applications.trajectory.Trajectory4d;
 import control.dto.Pose;
 
 import java.util.List;
-import java.util.Queue;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * A choreography represents a sequence of different trajectories to be executed for set durations.
@@ -22,20 +21,26 @@ import static org.slf4j.LoggerFactory.getLogger;
  * from the lower level control point-of-view. Using the builder, one can create choreography
  * instances and configure them with different trajectories to be executed in sequence.
  * <p>A choreography can and should only be consumed once and cannot be reused.
+ * Instances of TrajectoryComposite are immutable for safety purposes and should be built using
+ * TrajectoryComposite.Builder().
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */
-public final class Choreography extends BasicTrajectory implements FiniteTrajectory4d {
-    private final ImmutableList<ChoreoSegment> initialSegments;
-    private final Queue<ChoreoSegment> segments;
-    private double timeWindowShift;
-    private boolean hasRun;
+public final class TrajectoryComposite extends BasicTrajectory implements FiniteTrajectory4d {
+    private final List<TrajectoryCompositeSegment> compositeSegments;
+    private final Map<Trajectory4d, Double> absoluteStartTimes;
+    private final double totalDuration;
 
-    private Choreography(List<ChoreoSegment> segmentsArg) {
+    private TrajectoryComposite(List<TrajectoryCompositeSegment> segmentsArg) {
         super();
-        initialSegments = ImmutableList.copyOf(segmentsArg);
-        segments = Queues.newArrayDeque(segmentsArg);
-        timeWindowShift = 0d;
+        compositeSegments = ImmutableList.copyOf(segmentsArg);
+        absoluteStartTimes = Maps.newLinkedHashMap();
+        double startTime = 0;
+        for (TrajectoryCompositeSegment seg : compositeSegments) {
+            this.absoluteStartTimes.put(seg.getTarget(), startTime);
+            startTime += seg.getDuration();
+        }
+        this.totalDuration = startTime;
     }
 
     /**
@@ -45,63 +50,39 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
         return new Builder();
     }
 
-    private void checkChoreoSegments(double timeInSeconds) {
-        logFirstTime();
-        double normTime = normalize(timeInSeconds);
-        if (normTime >= getCurrentSegment().getDuration()) {
-            shiftSegments();
-        }
-    }
-
-    private void logFirstTime() {
-        if (!hasRun && getLogger(Choreography.class).isDebugEnabled()) {
-            hasRun = true;
-            getLogger(Choreography.class)
-                    .debug("Executing first choreo segment: " + segments.peek());
-        }
-    }
-
-    private void shiftSegments() {
-        if (this.segments.size() > 1) {
-            this.timeWindowShift += segments.poll().getDuration();
-            if (getLogger(Choreography.class).isDebugEnabled()) {
-                getLogger(Choreography.class)
-                        .debug("Executing next choreo segment: " + segments.peek());
-            }
-        }
-    }
-
-    private double normalize(double timeInSeconds) {
-        return timeInSeconds - timeWindowShift;
-    }
-
-    private ChoreoSegment getCurrentSegment() {
-        return segments.peek();
-    }
-
     @Override
     public Pose getDesiredPosition(double timeInSeconds) {
-        setStartTime(timeInSeconds);
-        final double currentTime = timeInSeconds - getStartTime();
-        checkChoreoSegments(currentTime);
-        return Pose.create(getCurrentSegment().getTarget().getDesiredPositionX(currentTime),
-                getCurrentSegment().getTarget().getDesiredPositionY(currentTime),
-                getCurrentSegment().getTarget().getDesiredPositionZ(currentTime),
-                getCurrentSegment().getTarget().getDesiredAngleZ(currentTime));
+        Trajectory4d tSegment = getCompositeSegmentAt(timeInSeconds);
+        double relativeTime = timeInSeconds - getStartTimeForSegment(tSegment);
+        return Pose.create(tSegment.getDesiredPositionX(relativeTime),
+                tSegment.getDesiredPositionY(relativeTime),
+                tSegment.getDesiredPositionZ(relativeTime),
+                tSegment.getDesiredAngleZ(relativeTime));
+    }
+
+    private Trajectory4d getCompositeSegmentAt(double timeInSeconds) {
+        for (TrajectoryCompositeSegment traj : compositeSegments) {
+            if (timeInSeconds >= absoluteStartTimes.get(traj.getTarget())
+                    && timeInSeconds <= absoluteStartTimes.get(traj.getTarget()) + traj
+                    .getDuration()) {
+                return traj.getTarget();
+            }
+        }
+        return compositeSegments.get(compositeSegments.size() - 1).getTarget();
+    }
+
+    private double getStartTimeForSegment(Trajectory4d segment) {
+        return absoluteStartTimes.get(segment);
     }
 
     @Override
     public String toString() {
-        return "Choreography{" + "Choreo segments=" + initialSegments + '}';
+        return "TrajectoryComposite{" + "Choreo segments=" + compositeSegments + '}';
     }
 
     @Override
     public double getTrajectoryDuration() {
-        double totalDuration = 0;
-        for (ChoreoSegment s : initialSegments) {
-            totalDuration += s.getDuration();
-        }
-        return totalDuration;
+        return this.totalDuration;
     }
 
     /**
@@ -123,7 +104,7 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
         /**
          * @return A fully built choreography instance.
          */
-        Choreography build();
+        TrajectoryComposite build();
     }
 
     /**
@@ -148,7 +129,7 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
      * execute this trajectory.
      */
     @AutoValue
-    abstract static class ChoreoSegment {
+    abstract static class TrajectoryCompositeSegment {
         /**
          * @return The trajectory to be executed in this segment.
          */
@@ -165,7 +146,7 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
      */
     public static final class Builder implements BuildableStepBuilder {
 
-        private final List<ChoreoSegment> segments;
+        private final List<TrajectoryCompositeSegment> segments;
         private Trajectory4d tempTarget;
         private double tempDuration;
         private boolean initial = true;
@@ -190,9 +171,9 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
         }
 
         @Override
-        public Choreography build() {
+        public TrajectoryComposite build() {
             addSegmentWithDuration(tempTarget, tempDuration);
-            return new Choreography(segments);
+            return new TrajectoryComposite(segments);
         }
 
         @Override
@@ -227,7 +208,8 @@ public final class Choreography extends BasicTrajectory implements FiniteTraject
 
         private void addSegmentWithDuration(Trajectory4d target, double duration) {
             if (hasTempState()) {
-                segments.add(new AutoValue_Choreography_ChoreoSegment(target, duration));
+                segments.add(new AutoValue_TrajectoryComposite_TrajectoryCompositeSegment(target,
+                        duration));
             }
             reset();
         }

@@ -1,7 +1,7 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import choreo.Choreography;
+import choreo.TrajectoryComposite;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
 
@@ -17,7 +17,7 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
   private final FiniteTrajectory4d target;
 
   WiggleTrajectory(Point4D centerPoint, int wiggles, double timeToStayAtEdges) {
-    Choreography.Builder builder = Choreography.builder();
+    TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
     double orientation = centerPoint.getAngle();
     Point4D endRight =
         Point4D.create(

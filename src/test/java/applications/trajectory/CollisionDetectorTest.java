@@ -2,7 +2,7 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
-import choreo.Choreography;
+import choreo.TrajectoryComposite;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class CollisionDetectorTest {
   @Before
   public void setUp() {
     this.holdPos =
-        Choreography.builder()
+        TrajectoryComposite.builder()
             .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(5, 0, 5, 0)))
             .forTime(10)
             .build();
@@ -38,7 +38,7 @@ public class CollisionDetectorTest {
             Point4D.create(0, 0, 5, 0), Point4D.create(5, 0, 5, 0), 0.5);
     double freq = 0.1;
     this.circ1 =
-        Choreography.builder()
+        TrajectoryComposite.builder()
             .withTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
@@ -48,7 +48,7 @@ public class CollisionDetectorTest {
             .forTime(100)
             .build();
     this.circ1_phase =
-        Choreography.builder()
+        TrajectoryComposite.builder()
             .withTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
@@ -59,7 +59,7 @@ public class CollisionDetectorTest {
             .forTime(100)
             .build();
     this.circ2 =
-        Choreography.builder()
+        TrajectoryComposite.builder()
             .withTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
@@ -73,7 +73,7 @@ public class CollisionDetectorTest {
         Trajectories.newCorkscrewTrajectory(
             Point4D.create(1, 1, 1, 0), Point3D.create(10, 10, 10), 0.5, 1, 0.10, 0);
     this.cork1 =
-        Choreography.builder()
+        TrajectoryComposite.builder()
             .withTrajectory(cork)
             .forTime(cork.getTrajectoryDuration() - EPS)
             .build();
@@ -82,7 +82,7 @@ public class CollisionDetectorTest {
         Trajectories.newCorkscrewTrajectory(
             Point4D.create(1, 1, 1, 0), Point3D.create(10, 10, 10), 0.5, 1, 0.10, Math.PI);
     this.cork1_phase =
-        Choreography.builder()
+        TrajectoryComposite.builder()
             .withTrajectory(cork)
             .forTime(cork.getTrajectoryDuration() - EPS)
             .build();
@@ -133,8 +133,8 @@ public class CollisionDetectorTest {
   @Test
   public void testNonConnectingSegments() {
 
-    Choreography.BuildableStepBuilder t1Builder =
-        Choreography.builder()
+    TrajectoryComposite.BuildableStepBuilder t1Builder =
+        TrajectoryComposite.builder()
             .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
             .forTime(5)
             .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
@@ -142,8 +142,8 @@ public class CollisionDetectorTest {
 
     FiniteTrajectory4d t1 = t1Builder.build();
 
-    Choreography.BuildableStepBuilder t2Builder =
-        Choreography.builder()
+    TrajectoryComposite.BuildableStepBuilder t2Builder =
+        TrajectoryComposite.builder()
             .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
             .forTime(5)
             .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))

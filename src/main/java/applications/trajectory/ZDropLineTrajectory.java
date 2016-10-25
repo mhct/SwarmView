@@ -1,7 +1,7 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import choreo.Choreography;
+import choreo.TrajectoryComposite;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
@@ -32,7 +32,7 @@ public class ZDropLineTrajectory extends BasicTrajectory implements FiniteTrajec
     this.src = before;
     this.dst = after;
     this.velocity = speed;
-    Choreography.Builder builder = Choreography.builder();
+    TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
 
     List<Point4D> points = Lists.newArrayList();
     List<Point4D> dropPoints = Lists.newArrayList();

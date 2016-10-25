@@ -58,7 +58,7 @@ public class RatsView extends PApplet {
 		Act introduction = IntroductionAct.create();
 		
 		//
-		// Configures the whole Choreography
+		// Configures the whole TrajectoryComposite
 		//
 		choreo = Choreography.create(35, 3);
 		choreo.addAct(introduction, 60);
