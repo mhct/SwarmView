@@ -127,6 +127,8 @@ public class RatsView extends PApplet {
 		drones[0] = new DroneView(this, choreo.getFullTrajectory(Nerve), color(0, 244, 200), 1);
         drones[1] = new DroneView(this, choreo.getFullTrajectory(Romeo), color(200, 100, 10), 50);
         drones[2] = new DroneView(this, choreo.getFullTrajectory(Juliet), color(200, 0, 200), 50);
+        drones[3] = new DroneView(this, choreo.getFullTrajectory(Fievel), color(255, 255, 200), 50);
+        drones[4] = new DroneView(this, choreo.getFullTrajectory(Dumbo), color(120, 255, 250), 50);
 		
         /**
          * Safety checks for collision between drones
