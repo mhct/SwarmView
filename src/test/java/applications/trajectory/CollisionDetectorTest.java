@@ -30,8 +30,8 @@ public class CollisionDetectorTest {
   public void setUp() {
     this.holdPos =
         TrajectoryComposite.builder()
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(5, 0, 5, 0)))
-            .forTime(10)
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(5, 0, 5, 0)))
+            .withDuration(10)
             .build();
     this.lin1 =
         Trajectories.newStraightLineTrajectory(
@@ -39,34 +39,34 @@ public class CollisionDetectorTest {
     double freq = 0.1;
     this.circ1 =
         TrajectoryComposite.builder()
-            .withTrajectory(
+            .addTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
                     .setLocation(Point3D.create(1, 1, 5))
                     .setFrequency(freq)
                     .build())
-            .forTime(100)
+            .withDuration(100)
             .build();
     this.circ1_phase =
         TrajectoryComposite.builder()
-            .withTrajectory(
+            .addTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
                     .setLocation(Point3D.create(1, 1, 5))
                     .setFrequency(freq)
                     .setPhase(Math.PI)
                     .build())
-            .forTime(100)
+            .withDuration(100)
             .build();
     this.circ2 =
         TrajectoryComposite.builder()
-            .withTrajectory(
+            .addTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
                     .setLocation(Point3D.create(1, 1, 6))
                     .setFrequency(freq)
                     .build())
-            .forTime(100)
+            .withDuration(100)
             .build();
 
     FiniteTrajectory4d cork =
@@ -74,8 +74,8 @@ public class CollisionDetectorTest {
             Point4D.create(1, 1, 1, 0), Point3D.create(10, 10, 10), 0.5, 1, 0.10, 0);
     this.cork1 =
         TrajectoryComposite.builder()
-            .withTrajectory(cork)
-            .forTime(cork.getTrajectoryDuration() - EPS)
+            .addTrajectory(cork)
+            .withDuration(cork.getTrajectoryDuration() - EPS)
             .build();
 
     cork =
@@ -83,8 +83,8 @@ public class CollisionDetectorTest {
             Point4D.create(1, 1, 1, 0), Point3D.create(10, 10, 10), 0.5, 1, 0.10, Math.PI);
     this.cork1_phase =
         TrajectoryComposite.builder()
-            .withTrajectory(cork)
-            .forTime(cork.getTrajectoryDuration() - EPS)
+            .addTrajectory(cork)
+            .withDuration(cork.getTrajectoryDuration() - EPS)
             .build();
   }
 
@@ -135,19 +135,19 @@ public class CollisionDetectorTest {
 
     TrajectoryComposite.BuildableStepBuilder t1Builder =
         TrajectoryComposite.builder()
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
-            .forTime(5)
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
-            .forTime(5);
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
+            .withDuration(5)
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
+            .withDuration(5);
 
     FiniteTrajectory4d t1 = t1Builder.build();
 
     TrajectoryComposite.BuildableStepBuilder t2Builder =
         TrajectoryComposite.builder()
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
-            .forTime(5)
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
-            .forTime(5);
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
+            .withDuration(5)
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
+            .withDuration(5);
 
     FiniteTrajectory4d t2 = t2Builder.build();
 

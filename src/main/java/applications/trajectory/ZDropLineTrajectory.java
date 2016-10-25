@@ -49,9 +49,9 @@ public class ZDropLineTrajectory extends BasicTrajectory implements FiniteTrajec
                     .add(Point4D.create(p.getX(), p.getY(), p.getZ() - dropDistance, p.getAngle()));
         }
         for (int i = 0; i < drops; i++) {
-            builder.withTrajectory(
+            builder.addTrajectory(
                     Trajectories.newStraightLineTrajectory(points.get(i), dropPoints.get(i), 1));
-            builder.withTrajectory(
+            builder.addTrajectory(
                     Trajectories
                             .newStraightLineTrajectory(dropPoints.get(i), points.get(i + 1), 1));
         }

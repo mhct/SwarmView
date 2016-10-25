@@ -93,13 +93,13 @@ public final class TrajectoryComposite extends BasicTrajectory implements Finite
          * @param trajectory The trajectory to add.
          * @return this builder instance.
          */
-        BuildableStepBuilder withTrajectory(FiniteTrajectory4d trajectory);
+        BuildableStepBuilder addTrajectory(FiniteTrajectory4d trajectory);
 
         /**
          * @param trajectory The trajectory to add to the choreography.
          * @return A builder instance to specify the duration to execute given trajectory for.
          */
-        TimingRequiredStepBuilder withTrajectory(Trajectory4d trajectory);
+        TimingRequiredStepBuilder addTrajectory(Trajectory4d trajectory);
 
         /**
          * @return A fully built choreography instance.
@@ -115,13 +115,13 @@ public final class TrajectoryComposite extends BasicTrajectory implements Finite
          * @param duration the duration of the previously added trajectory.
          * @return A Builder instance.
          */
-        BuildableStepBuilder forTime(double duration);
+        BuildableStepBuilder withDuration(double duration);
 
         /**
          * @param timeMark The timing mark in the future untill when to execute the current segment.
          * @return A Builder instance.
          */
-        BuildableStepBuilder untillTime(double timeMark);
+        BuildableStepBuilder untillTotalDuration(double timeMark);
     }
 
     /**
@@ -156,14 +156,14 @@ public final class TrajectoryComposite extends BasicTrajectory implements Finite
         }
 
         @Override
-        public TimingRequiredStepBuilder withTrajectory(Trajectory4d trajectory) {
+        public TimingRequiredStepBuilder addTrajectory(Trajectory4d trajectory) {
             addSegmentWithDuration(tempTarget, tempDuration);
             this.tempTarget = trajectory;
             return this;
         }
 
         @Override
-        public BuildableStepBuilder withTrajectory(FiniteTrajectory4d trajectory) {
+        public BuildableStepBuilder addTrajectory(FiniteTrajectory4d trajectory) {
             addSegmentWithDuration(tempTarget, tempDuration);
             this.tempTarget = TrajectoryUtils.createFrom(trajectory);
             this.tempDuration = trajectory.getTrajectoryDuration();
@@ -177,21 +177,21 @@ public final class TrajectoryComposite extends BasicTrajectory implements Finite
         }
 
         @Override
-        public BuildableStepBuilder forTime(double duration) {
+        public BuildableStepBuilder withDuration(double duration) {
             checkArgument(duration > 0, "Duration should be > 0");
             this.tempDuration = duration;
             return this;
         }
 
         @Override
-        public BuildableStepBuilder untillTime(double timeMark) {
+        public BuildableStepBuilder untillTotalDuration(double timeMark) {
             double diffUntillMark = calcDiff(timeMark);
             if (diffUntillMark < 0) {
                 throw new IllegalArgumentException(
-                        "Current applications.trajectory.composites would already last longer than the given time to mark the"
-                                + " end.");
+                        "Current applications.trajectory.composites would already last longer "
+                                + "than the given total duration");
             }
-            return forTime(diffUntillMark);
+            return withDuration(diffUntillMark);
         }
 
         private double calcDiff(double timeMark) {

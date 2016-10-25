@@ -34,14 +34,14 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
 
     for (int i = 0; i < wiggles; i++) {
       builder
-          .withTrajectory(Trajectories.newHoldPositionTrajectory(endRight))
-          .forTime(timeToStayAtEdges);
+          .addTrajectory(Trajectories.newHoldPositionTrajectory(endRight))
+          .withDuration(timeToStayAtEdges);
       builder
-          .withTrajectory(Trajectories.newHoldPositionTrajectory(endLeft))
-          .forTime(2 * timeToStayAtEdges);
+          .addTrajectory(Trajectories.newHoldPositionTrajectory(endLeft))
+          .withDuration(2 * timeToStayAtEdges);
       builder
-          .withTrajectory(Trajectories.newHoldPositionTrajectory(centerPoint))
-          .forTime(TIME_TO_REST_AT_ORIGIN);
+          .addTrajectory(Trajectories.newHoldPositionTrajectory(centerPoint))
+          .withDuration(TIME_TO_REST_AT_ORIGIN);
     }
     target = builder.build();
   }

@@ -62,14 +62,14 @@ public abstract class TwinDrones {
                     .setLocation(circleCenterPoint).build();
 
             TrajectoryComposite choreo = TrajectoryComposite.builder()
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
-                    .forTime(startIntroAt).withTrajectory(firstLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
-                    .forTime(waitAtStation).withTrajectory(circleTraj).forTime(circleTiming)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .forTime(waitAtStation).withTrajectory(lastLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
-                    .untillTime(introEndTime + startIntroAt)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
+                    .withDuration(startIntroAt).addTrajectory(firstLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
+                    .withDuration(waitAtStation).addTrajectory(circleTraj).withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
+                    .withDuration(waitAtStation).addTrajectory(lastLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
+                    .untillTotalDuration(introEndTime + startIntroAt)
                     .build();
 
             LoggerFactory.getLogger(TwinDrones.class)
@@ -97,14 +97,14 @@ public abstract class TwinDrones {
                     .setLocation(circleCenterPoint).build();
 
             TrajectoryComposite choreo = TrajectoryComposite.builder()
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
-                    .forTime(startIntroAt).withTrajectory(firstLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
-                    .forTime(waitAtStation).withTrajectory(circleTraj).forTime(circleTiming)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .forTime(waitAtStation).withTrajectory(lastLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
-                    .untillTime(introEndTime + startIntroAt)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
+                    .withDuration(startIntroAt).addTrajectory(firstLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
+                    .withDuration(waitAtStation).addTrajectory(circleTraj).withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
+                    .withDuration(waitAtStation).addTrajectory(lastLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
+                    .untillTotalDuration(introEndTime + startIntroAt)
                     .build();
 
             LoggerFactory.getLogger(TwinDrones.class)

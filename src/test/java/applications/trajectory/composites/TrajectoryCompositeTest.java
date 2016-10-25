@@ -34,10 +34,10 @@ public class TrajectoryCompositeTest {
         pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
         this.choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(holdTrajectory)
-                        .forTime(duration)
-                        .withTrajectory(pathTrajectory)
-                        .forTime(duration)
+                        .addTrajectory(holdTrajectory)
+                        .withDuration(duration)
+                        .addTrajectory(pathTrajectory)
+                        .withDuration(duration)
                         .build();
     }
 
@@ -61,12 +61,12 @@ public class TrajectoryCompositeTest {
         Trajectory4d third = Trajectories.newHoldPositionTrajectory(Point4D.create(1, 1, 2, 0));
         TrajectoryComposite choreo =
                 TrajectoryComposite.builder()
-                        .withTrajectory(first)
-                        .forTime(20)
-                        .withTrajectory(second)
-                        .forTime(40)
-                        .withTrajectory(third)
-                        .forTime(30)
+                        .addTrajectory(first)
+                        .withDuration(20)
+                        .addTrajectory(second)
+                        .withDuration(40)
+                        .addTrajectory(third)
+                        .withDuration(30)
                         .build();
         Pose p = choreo.getDesiredPosition(1);
         assertNotEquals(0, p.x());
@@ -102,10 +102,10 @@ public class TrajectoryCompositeTest {
         pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
         this.choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(holdTrajectory)
-                        .forTime(duration)
-                        .withTrajectory(pathTrajectory)
-                        .forTime(duration).withTrajectory(holdTrajectory).untillTime(untill)
+                        .addTrajectory(holdTrajectory)
+                        .withDuration(duration)
+                        .addTrajectory(pathTrajectory)
+                        .withDuration(duration).addTrajectory(holdTrajectory).untillTotalDuration(untill)
                         .build();
 
         assertEquals(untill, choreotarget.getTrajectoryDuration(), 0);
@@ -118,10 +118,10 @@ public class TrajectoryCompositeTest {
         pathTrajectory = Trajectories.newCircleTrajectory4D(Point3D.origin(), radius, frequency, 0);
         this.choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(holdTrajectory)
-                        .forTime(duration)
-                        .withTrajectory(pathTrajectory)
-                        .forTime(duration).withTrajectory(holdTrajectory).untillTime(untill)
+                        .addTrajectory(holdTrajectory)
+                        .withDuration(duration)
+                        .addTrajectory(pathTrajectory)
+                        .withDuration(duration).addTrajectory(holdTrajectory).untillTotalDuration(untill)
                         .build();
 
         assertEquals(untill, choreotarget.getTrajectoryDuration(), 0);
@@ -131,7 +131,7 @@ public class TrajectoryCompositeTest {
     public void testFiniteTrajectory() {
         choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(
+                        .addTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
                         .build();
@@ -139,31 +139,31 @@ public class TrajectoryCompositeTest {
 
         choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(
+                        .addTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
-                        .forTime(5)
+                        .withDuration(5)
                         .build();
         assertEquals(5, choreotarget.getTrajectoryDuration(), 0);
         choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(
+                        .addTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
-                        .withTrajectory(Trajectories.newExamplePendulumSwingTrajectory())
-                        .forTime(5)
+                        .addTrajectory(Trajectories.newExamplePendulumSwingTrajectory())
+                        .withDuration(5)
                         .build();
         assertEquals(7, choreotarget.getTrajectoryDuration(), 0);
 
         choreotarget =
                 TrajectoryComposite.builder()
-                        .withTrajectory(
+                        .addTrajectory(
                                 Trajectories.newStraightLineTrajectory(
                                         Point4D.origin(), Point4D.create(1, 0, 0, 0), 0.5))
-                        .withTrajectory(Trajectories.newExamplePendulumSwingTrajectory())
-                        .forTime(2)
-                        .withTrajectory(Trajectories.newExampleCircleTrajectory4D())
-                        .forTime(10)
+                        .addTrajectory(Trajectories.newExamplePendulumSwingTrajectory())
+                        .withDuration(2)
+                        .addTrajectory(Trajectories.newExampleCircleTrajectory4D())
+                        .withDuration(10)
                         .build();
         assertEquals(14, choreotarget.getTrajectoryDuration(), 0);
     }
