@@ -22,7 +22,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 	public NerveTrajectoryIntroduction () throws Exception {
 		
 		double[][] path = {
-                {       7,      6,              1,      4       },      // start position, with start time
+                {       7,      6,              1,      0       },      // start position, with start time
                 {       3,      5,              1.5,    1.7 },
                 {       4,      5,              2,      0.5 },
                 {       2,      5,              2,      0.82 },
@@ -32,6 +32,9 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
                 {       2,      5,              2.5,    0.7 },
                 {       4,      5,              1.5,    0.91 },
                 {       3,      5,              2.5,    0.57 },
+                {       4,      5,              1.5,    0.57 },
+                {       3.5,	5,	 	        1.5,    0.21 },
+                {       4.5,	5,          	1.5,    0.41 },
                 {       4,      5,              1.5,    0.57 },
                 {       3.5,	5,	 	        1.5,    0.21 },
                 {       4.5,	5,          	1.5,    0.41 },
