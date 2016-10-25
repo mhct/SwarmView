@@ -12,29 +12,19 @@ import control.dto.Pose;
  *
  */
 public class Choreography {
-	private double durationInSec;
 	private int numberDrones;
 	private final List<Act> acts = new ArrayList<>();;
 
 	private Choreography() {};
 	
-	private Choreography(double durationInSec, int numberDrones) {
-		this.durationInSec = durationInSec;
+	private Choreography(int numberDrones) {
 		this.numberDrones = numberDrones;
 	}
 
-	public static Choreography create(double durationInSec, int numberDrones) {
-		Choreography choreo = new Choreography(durationInSec, numberDrones);
+	public static Choreography create(int numberDrones) {
+		Choreography choreo = new Choreography(numberDrones);
 		
 		return choreo;
-	}
-	
-	public double getDurationInSec() {
-		return durationInSec;
-	}
-	
-	public void setDurationInSec(double durationInSec) {
-		this.durationInSec = durationInSec;
 	}
 	
 	public int getNumberDrones() {
