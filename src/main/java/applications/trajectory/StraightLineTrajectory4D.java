@@ -88,11 +88,10 @@ class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajecto
 
     @Override
     public Pose getDesiredPosition(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        return Pose.create(getCurrentTrajectory().getDesiredPositionX(currentTime),
-                getCurrentTrajectory().getDesiredPositionY(currentTime),
-                getCurrentTrajectory().getDesiredPositionZ(currentTime),
-                getCurrentTrajectory().getDesiredAngleZ(currentTime));
+        return Pose.create(getCurrentTrajectory().getDesiredPositionX(timeInSeconds),
+                getCurrentTrajectory().getDesiredPositionY(timeInSeconds),
+                getCurrentTrajectory().getDesiredPositionZ(timeInSeconds),
+                getCurrentTrajectory().getDesiredAngleZ(timeInSeconds));
     }
 
     protected Trajectory4d getCurrentTrajectory() {

@@ -9,43 +9,35 @@ import applications.trajectory.geom.point.Point4D;
  */
 class LinearTrajectory4D extends BasicTrajectory implements Trajectory4d {
 
-  private final Trajectory1d linearX;
-  private final Trajectory1d linearY;
-  private final Trajectory1d linearZ;
-  private final Trajectory1d angleZ;
+    private final Trajectory1d linearX;
+    private final Trajectory1d linearY;
+    private final Trajectory1d linearZ;
+    private final Trajectory1d angleZ;
 
-  LinearTrajectory4D(Point4D startComponent, Point4D speedComponent) {
-    this.linearX = new LinearTrajectory1D(startComponent.getX(), speedComponent.getX());
-    this.linearY = new LinearTrajectory1D(startComponent.getY(), speedComponent.getY());
-    this.linearZ = new LinearTrajectory1D(startComponent.getZ(), speedComponent.getZ());
-    this.angleZ = new LinearTrajectory1D(startComponent.getAngle(), speedComponent.getAngle());
-  }
+    LinearTrajectory4D(Point4D startComponent, Point4D speedComponent) {
+        this.linearX = new LinearTrajectory1D(startComponent.getX(), speedComponent.getX());
+        this.linearY = new LinearTrajectory1D(startComponent.getY(), speedComponent.getY());
+        this.linearZ = new LinearTrajectory1D(startComponent.getZ(), speedComponent.getZ());
+        this.angleZ = new LinearTrajectory1D(startComponent.getAngle(), speedComponent.getAngle());
+    }
 
-  @Override
-  public double getDesiredPositionX(double timeInSeconds) {
-    setStartTime(timeInSeconds);
-    final double currentTime = timeInSeconds - getStartTime();
-    return this.linearX.getDesiredPosition(currentTime);
-  }
+    @Override
+    public double getDesiredPositionX(double timeInSeconds) {
+        return this.linearX.getDesiredPosition(timeInSeconds);
+    }
 
-  @Override
-  public double getDesiredPositionY(double timeInSeconds) {
-    setStartTime(timeInSeconds);
-    final double currentTime = timeInSeconds - getStartTime();
-    return this.linearY.getDesiredPosition(currentTime);
-  }
+    @Override
+    public double getDesiredPositionY(double timeInSeconds) {
+        return this.linearY.getDesiredPosition(timeInSeconds);
+    }
 
-  @Override
-  public double getDesiredPositionZ(double timeInSeconds) {
-    setStartTime(timeInSeconds);
-    final double currentTime = timeInSeconds - getStartTime();
-    return this.linearZ.getDesiredPosition(currentTime);
-  }
+    @Override
+    public double getDesiredPositionZ(double timeInSeconds) {
+        return this.linearZ.getDesiredPosition(timeInSeconds);
+    }
 
-  @Override
-  public double getDesiredAngleZ(double timeInSeconds) {
-    setStartTime(timeInSeconds);
-    final double currentTime = timeInSeconds - getStartTime();
-    return this.angleZ.getDesiredPosition(currentTime);
-  }
+    @Override
+    public double getDesiredAngleZ(double timeInSeconds) {
+        return this.angleZ.getDesiredPosition(timeInSeconds);
+    }
 }

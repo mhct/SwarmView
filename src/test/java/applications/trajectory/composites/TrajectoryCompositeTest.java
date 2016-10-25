@@ -1,4 +1,4 @@
-package choreo;
+package applications.trajectory.composites;
 
 import applications.trajectory.Trajectories;
 import applications.trajectory.Trajectory4d;
@@ -7,6 +7,7 @@ import applications.trajectory.geom.point.Point4D;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static applications.trajectory.TestUtils.verifyTrajectoryPos4D;
@@ -75,6 +76,8 @@ public class TrajectoryCompositeTest {
     }
 
     @Test
+    @Ignore("This test is ignored because the specifications changed. We now assume all "
+            + "trajectories start at time t=0s. This test will be removed in later versions.")
     public void testWithRealStartTimes() {
         double timeShift = 380;
         choreotarget.getDesiredPosition(timeShift);

@@ -28,19 +28,4 @@ public abstract class BasicTrajectory {
     protected Point4D getLinearDisplacement() {
         return this.linearDisplacement;
     }
-
-    protected double getRelativeTime(double timeInSeconds) {
-        setStartTime(timeInSeconds);
-        return timeInSeconds - getStartTime();
-    }
-
-    protected double getStartTime() {
-        return this.startTime;
-    }
-
-    protected void setStartTime(double timeInSeconds) {
-        if (startTime < 0) {
-            startTime = timeInSeconds;
-        }
-    }
 }

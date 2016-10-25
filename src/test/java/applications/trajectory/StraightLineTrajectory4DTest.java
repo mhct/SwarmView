@@ -2,6 +2,7 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static applications.trajectory.TestUtils.EPSILON;
@@ -118,6 +119,8 @@ public class StraightLineTrajectory4DTest {
     }
 
     @Test
+    @Ignore("This test is ignored because the specifications changed. We now assume all "
+            + "trajectories start at time t=0s. This test will be removed in later versions.")
     public void testTrajectoryProgression() throws Exception {
         double duration = 10492;
         target = TrajectoryUtils

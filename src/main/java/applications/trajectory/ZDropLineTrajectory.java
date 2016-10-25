@@ -1,7 +1,7 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import choreo.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
@@ -19,72 +19,72 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 public class ZDropLineTrajectory extends BasicTrajectory implements FiniteTrajectory4d {
 
-  private final FiniteTrajectory4d target;
-  private final Point4D src;
-  private final Point4D dst;
-  private final double velocity;
+    private final FiniteTrajectory4d target;
+    private final Point4D src;
+    private final Point4D dst;
+    private final double velocity;
 
-  ZDropLineTrajectory(
-      Point4D before, Point4D after, double speed, double drops, double dropDistance) {
-    checkArgument(
-        before.getZ() == after.getZ(),
-        "Origin and destination should be in the same horizontal plane.");
-    this.src = before;
-    this.dst = after;
-    this.velocity = speed;
-    TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
+    ZDropLineTrajectory(
+            Point4D before, Point4D after, double speed, double drops, double dropDistance) {
+        checkArgument(
+                before.getZ() == after.getZ(),
+                "Origin and destination should be in the same horizontal plane.");
+        this.src = before;
+        this.dst = after;
+        this.velocity = speed;
+        TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
 
-    List<Point4D> points = Lists.newArrayList();
-    List<Point4D> dropPoints = Lists.newArrayList();
-    FiniteTrajectory4d traj = Trajectories.newStraightLineTrajectory(before, after, 1);
-    double duration = traj.getTrajectoryDuration();
-    initTraj(traj);
-    for (int i = 0; i < drops; i++) {
-      double mark = (duration / drops) * i;
-      points.add(sampleTrajectory(traj, mark));
+        List<Point4D> points = Lists.newArrayList();
+        List<Point4D> dropPoints = Lists.newArrayList();
+        FiniteTrajectory4d traj = Trajectories.newStraightLineTrajectory(before, after, 1);
+        double duration = traj.getTrajectoryDuration();
+        initTraj(traj);
+        for (int i = 0; i < drops; i++) {
+            double mark = (duration / drops) * i;
+            points.add(sampleTrajectory(traj, mark));
+        }
+        points.add(after);
+        for (Point4D p : points) {
+            dropPoints
+                    .add(Point4D.create(p.getX(), p.getY(), p.getZ() - dropDistance, p.getAngle()));
+        }
+        for (int i = 0; i < drops; i++) {
+            builder.withTrajectory(
+                    Trajectories.newStraightLineTrajectory(points.get(i), dropPoints.get(i), 1));
+            builder.withTrajectory(
+                    Trajectories
+                            .newStraightLineTrajectory(dropPoints.get(i), points.get(i + 1), 1));
+        }
+        target = builder.build();
     }
-    points.add(after);
-    for (Point4D p : points) {
-      dropPoints.add(Point4D.create(p.getX(), p.getY(), p.getZ() - dropDistance, p.getAngle()));
+
+    private static final void initTraj(FiniteTrajectory4d traj) {
+        traj.getDesiredPosition(0);
     }
-    for (int i = 0; i < drops; i++) {
-      builder.withTrajectory(
-          Trajectories.newStraightLineTrajectory(points.get(i), dropPoints.get(i), 1));
-      builder.withTrajectory(
-          Trajectories.newStraightLineTrajectory(dropPoints.get(i), points.get(i + 1), 1));
+
+    @Override
+    public Pose getDesiredPosition(double timeInSeconds) {
+        return Pose.create(getTargetTrajectory().getDesiredPosition(timeInSeconds));
     }
-    target = builder.build();
-  }
 
-  private static final void initTraj(FiniteTrajectory4d traj) {
-	traj.getDesiredPosition(0);
-  }
+    private FiniteTrajectory4d getTargetTrajectory() {
+        return target;
+    }
 
-  
-  @Override
-  public Pose getDesiredPosition(double timeInSeconds) {
-  	final double currentTime = getRelativeTime(timeInSeconds);
-	return Pose.create(getTargetTrajectory().getDesiredPosition(currentTime));
-  }
+    @Override
+    public String toString() {
+        return "ZDropLineTrajectory{"
+                + "enterVelocity="
+                + velocity
+                + ", src point="
+                + src
+                + ", target point="
+                + dst
+                + '}';
+    }
 
-  private FiniteTrajectory4d getTargetTrajectory() {
-    return target;
-  }
-
-  @Override
-  public String toString() {
-    return "ZDropLineTrajectory{"
-        + "enterVelocity="
-        + velocity
-        + ", src point="
-        + src
-        + ", target point="
-        + dst
-        + '}';
-  }
-
-  @Override
-  public double getTrajectoryDuration() {
-    return getTargetTrajectory().getTrajectoryDuration();
-  }
+    @Override
+    public double getTrajectoryDuration() {
+        return getTargetTrajectory().getTrajectoryDuration();
+    }
 }

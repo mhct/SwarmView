@@ -1,4 +1,4 @@
-package choreo;
+package applications.trajectory.composites;
 
 /**
  * Listener interface for timing events.

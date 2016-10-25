@@ -3,4 +3,4 @@
  *
  * @author Kristof Coninx.
  */
-package choreo;
+package applications.trajectory.composites;

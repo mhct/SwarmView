@@ -1,7 +1,7 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import choreo.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
 

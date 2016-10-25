@@ -2,7 +2,7 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
-import choreo.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
 import org.junit.Before;

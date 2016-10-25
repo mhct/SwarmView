@@ -1,4 +1,4 @@
-package choreo;
+package applications.trajectory.composites;
 
 import applications.trajectory.BasicTrajectory;
 import applications.trajectory.Trajectory4d;
@@ -188,7 +188,7 @@ public final class TrajectoryComposite extends BasicTrajectory implements Finite
             double diffUntillMark = calcDiff(timeMark);
             if (diffUntillMark < 0) {
                 throw new IllegalArgumentException(
-                        "Current choreo would already last longer than the given time to mark the"
+                        "Current applications.trajectory.composites would already last longer than the given time to mark the"
                                 + " end.");
             }
             return forTime(diffUntillMark);

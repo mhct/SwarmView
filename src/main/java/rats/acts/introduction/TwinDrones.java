@@ -6,7 +6,7 @@ import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import choreo.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite;
 import control.FiniteTrajectory4d;
 import org.slf4j.LoggerFactory;
 

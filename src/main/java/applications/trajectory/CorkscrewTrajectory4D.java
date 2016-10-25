@@ -207,9 +207,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
 
     @Override
     public Pose getDesiredPosition(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        refreshCache(currentTime);
-
+        refreshCache(timeInSeconds);
         Point4D cachePTransformed = translationTransform(Point4D.from(getCachePoint()));
         return Pose.create(cachePTransformed.getX(),
                 cachePTransformed.getY(),
