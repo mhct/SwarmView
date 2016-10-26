@@ -38,8 +38,8 @@ public class IntroductionAct extends Act {
 			act.addTrajectory(Nerve, new NerveTrajectoryIntroduction(act.initialPosition(Nerve), act.finalPosition(Nerve)));
 			act.addTrajectory(Romeo, TwinDrones.createRomeoTrajectory());
 			act.addTrajectory(Juliet, TwinDrones.createJulietTrajectory());
-			act.addTrajectory(Fievel, IntroductionAct.exampleLineTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel), act.getDuration()));
-			act.addTrajectory(Dumbo, IntroductionAct.exampleLineTrajectory(act.initialPosition(Dumbo), act.finalPosition(Dumbo), act.getDuration()));
+			act.addTrajectory(Fievel, IntroductionAct.exampleLineTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel), 10));
+			act.addTrajectory(Dumbo, IntroductionAct.exampleLineTrajectory(act.initialPosition(Dumbo), act.finalPosition(Dumbo), 10));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
