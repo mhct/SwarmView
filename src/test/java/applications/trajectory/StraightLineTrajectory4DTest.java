@@ -119,12 +119,28 @@ public class StraightLineTrajectory4DTest {
     }
 
     @Test
+    public void testTrajectoryProgression() throws Exception {
+        double duration = 10;
+        target = TrajectoryUtils
+                .createFrom(Trajectories
+                        .newStraightLineTrajectoryWithDuration(before, after, duration));
+        assertEquals(0, target.getDesiredPositionX(0), EPSILON);
+        assertEquals(5, target.getDesiredPositionX(5), EPSILON);
+        assertEquals(10, target.getDesiredPositionX(10), EPSILON);
+        assertEquals(10, target.getDesiredPositionX(15), EPSILON);
+        assertEquals(10, target.getDesiredPositionX(10), EPSILON);
+        assertEquals(5, target.getDesiredPositionX(5), EPSILON);
+        assertEquals(0, target.getDesiredPositionX(0), EPSILON);
+    }
+
+    @Test
     @Ignore("This test is ignored because the specifications changed. We now assume all "
             + "trajectories start at time t=0s. This test will be removed in later versions.")
-    public void testTrajectoryProgression() throws Exception {
+    public void testTrajectoryRandomAccess() throws Exception {
         double duration = 10492;
         target = TrajectoryUtils
-                .createFrom(Trajectories.newStraightLineTrajectory(before, after, speed));
+                .createFrom(
+                        Trajectories.newStraightLineTrajectoryWithDuration(before, after, speed));
         target2 = TrajectoryUtils
                 .createFrom(Trajectories.newStraightLineTrajectory(before, afterNotOrigin, speed));
         assertEquals(0, target.getDesiredPositionX(duration + 0), EPSILON);
