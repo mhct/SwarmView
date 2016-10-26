@@ -79,7 +79,7 @@ public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteT
                         velocity * (diff.getX() / totalDistance),
                         velocity * (diff.getY() / totalDistance),
                         velocity * (diff.getZ() / totalDistance),
-                        diff.getAngle() / endTime);
+                        diff.getAngle() / (totalDistance / speed));
         this.holdTraj = new HoldPositionTrajectory4D(targetpoint);
         this.moveTraj =
                 new LinearTrajectory4D(srcpoint, speedComponent);
