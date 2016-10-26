@@ -69,7 +69,7 @@ public class RatsView extends PApplet {
 		introPositions.add(DronePositionConfiguration.create(Romeo, Pose.create(7.0, 5.0, 1.0, 0.0),  Pose.create(1.1, 5.0, 1.5, 0.0)));
 		introPositions.add(DronePositionConfiguration.create(Juliet, Pose.create(1.0, 5.0, 1.0, 0.0), Pose.create(4.9, 5.0, 1.5, 0.0)));
 		introPositions.add(DronePositionConfiguration.create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
-		introPositions.add(DronePositionConfiguration.create(Dumbo, Pose.create(2.0, 3.0, 1.0, 0.0),  Pose.create(4.0, 3.5, 2.5, 0.0)));
+		introPositions.add(DronePositionConfiguration.create(Dumbo, Pose.create(2.0, 3.0, 1.0f, 0.0),  Pose.create(4.0, 3.5, 2.5, 0.0)));
 		ActConfiguration introConfiguration = ActConfiguration.create(50, introPositions);
 		Act introduction = IntroductionAct.create(introConfiguration);
 

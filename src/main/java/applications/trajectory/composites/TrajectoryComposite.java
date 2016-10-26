@@ -54,6 +54,8 @@ public final class TrajectoryComposite extends BasicTrajectory implements Finite
     public Pose getDesiredPosition(double timeInSeconds) {
         Trajectory4d tSegment = getCompositeSegmentAt(timeInSeconds);
         double relativeTime = timeInSeconds - getStartTimeForSegment(tSegment);
+        checkArgument(relativeTime >= 0,
+                "Cannot call upon trajectory positions with negative time.");
         return Pose.create(tSegment.getDesiredPositionX(relativeTime),
                 tSegment.getDesiredPositionY(relativeTime),
                 tSegment.getDesiredPositionZ(relativeTime),
