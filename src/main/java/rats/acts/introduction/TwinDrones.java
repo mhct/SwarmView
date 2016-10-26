@@ -6,7 +6,7 @@ import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import choreo.Choreography;
+import applications.trajectory.composites.TrajectoryComposite;
 import control.FiniteTrajectory4d;
 import org.slf4j.LoggerFactory;
 
@@ -61,15 +61,15 @@ public abstract class TwinDrones {
                     .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
                     .setLocation(circleCenterPoint).build();
 
-            Choreography choreo = Choreography.builder()
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
-                    .forTime(startIntroAt).withTrajectory(firstLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
-                    .forTime(waitAtStation).withTrajectory(circleTraj).forTime(circleTiming)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .forTime(waitAtStation).withTrajectory(lastLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
-                    .untillTime(introEndTime + startIntroAt)
+            TrajectoryComposite choreo = TrajectoryComposite.builder()
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
+                    .withDuration(startIntroAt).addTrajectory(firstLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
+                    .withDuration(waitAtStation).addTrajectory(circleTraj).withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
+                    .withDuration(waitAtStation).addTrajectory(lastLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
+                    .untillTotalDuration(introEndTime + startIntroAt)
                     .build();
 
             LoggerFactory.getLogger(TwinDrones.class)
@@ -96,15 +96,15 @@ public abstract class TwinDrones {
                     .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
                     .setLocation(circleCenterPoint).build();
 
-            Choreography choreo = Choreography.builder()
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
-                    .forTime(startIntroAt).withTrajectory(firstLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
-                    .forTime(waitAtStation).withTrajectory(circleTraj).forTime(circleTiming)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .forTime(waitAtStation).withTrajectory(lastLeg)
-                    .withTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
-                    .untillTime(introEndTime + startIntroAt)
+            TrajectoryComposite choreo = TrajectoryComposite.builder()
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(takeOff))
+                    .withDuration(startIntroAt).addTrajectory(firstLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
+                    .withDuration(waitAtStation).addTrajectory(circleTraj).withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
+                    .withDuration(waitAtStation).addTrajectory(lastLeg)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(endPoint))
+                    .untillTotalDuration(introEndTime + startIntroAt)
                     .build();
 
             LoggerFactory.getLogger(TwinDrones.class)

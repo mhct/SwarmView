@@ -114,7 +114,7 @@ public class RatsView extends PApplet {
 		Act taming = TamingAct.create(tamingConfiguration);		
 		
 		//
-		// Configures the whole Choreography
+		// Configures the whole TrajectoryComposite
 		//
 		choreo = Choreography.create(5);
 

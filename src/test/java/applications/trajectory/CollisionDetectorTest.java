@@ -2,7 +2,7 @@ package applications.trajectory;
 
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
-import choreo.Choreography;
+import applications.trajectory.composites.TrajectoryComposite;
 import com.google.common.collect.Lists;
 import control.FiniteTrajectory4d;
 import org.junit.Before;
@@ -29,62 +29,62 @@ public class CollisionDetectorTest {
   @Before
   public void setUp() {
     this.holdPos =
-        Choreography.builder()
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(5, 0, 5, 0)))
-            .forTime(10)
+        TrajectoryComposite.builder()
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(5, 0, 5, 0)))
+            .withDuration(10)
             .build();
     this.lin1 =
         Trajectories.newStraightLineTrajectory(
             Point4D.create(0, 0, 5, 0), Point4D.create(5, 0, 5, 0), 0.5);
     double freq = 0.1;
     this.circ1 =
-        Choreography.builder()
-            .withTrajectory(
+        TrajectoryComposite.builder()
+            .addTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
                     .setLocation(Point3D.create(1, 1, 5))
                     .setFrequency(freq)
                     .build())
-            .forTime(100)
+            .withDuration(100)
             .build();
     this.circ1_phase =
-        Choreography.builder()
-            .withTrajectory(
+        TrajectoryComposite.builder()
+            .addTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
                     .setLocation(Point3D.create(1, 1, 5))
                     .setFrequency(freq)
                     .setPhase(Math.PI)
                     .build())
-            .forTime(100)
+            .withDuration(100)
             .build();
     this.circ2 =
-        Choreography.builder()
-            .withTrajectory(
+        TrajectoryComposite.builder()
+            .addTrajectory(
                 Trajectories.circleTrajectoryBuilder()
                     .setRadius(1)
                     .setLocation(Point3D.create(1, 1, 6))
                     .setFrequency(freq)
                     .build())
-            .forTime(100)
+            .withDuration(100)
             .build();
 
     FiniteTrajectory4d cork =
         Trajectories.newCorkscrewTrajectory(
             Point4D.create(1, 1, 1, 0), Point3D.create(10, 10, 10), 0.5, 1, 0.10, 0);
     this.cork1 =
-        Choreography.builder()
-            .withTrajectory(cork)
-            .forTime(cork.getTrajectoryDuration() - EPS)
+        TrajectoryComposite.builder()
+            .addTrajectory(cork)
+            .withDuration(cork.getTrajectoryDuration() - EPS)
             .build();
 
     cork =
         Trajectories.newCorkscrewTrajectory(
             Point4D.create(1, 1, 1, 0), Point3D.create(10, 10, 10), 0.5, 1, 0.10, Math.PI);
     this.cork1_phase =
-        Choreography.builder()
-            .withTrajectory(cork)
-            .forTime(cork.getTrajectoryDuration() - EPS)
+        TrajectoryComposite.builder()
+            .addTrajectory(cork)
+            .withDuration(cork.getTrajectoryDuration() - EPS)
             .build();
   }
 
@@ -133,21 +133,21 @@ public class CollisionDetectorTest {
   @Test
   public void testNonConnectingSegments() {
 
-    Choreography.BuildableStepBuilder t1Builder =
-        Choreography.builder()
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
-            .forTime(5)
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
-            .forTime(5);
+    TrajectoryComposite.BuildableStepBuilder t1Builder =
+        TrajectoryComposite.builder()
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
+            .withDuration(5)
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
+            .withDuration(5);
 
     FiniteTrajectory4d t1 = t1Builder.build();
 
-    Choreography.BuildableStepBuilder t2Builder =
-        Choreography.builder()
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
-            .forTime(5)
-            .withTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
-            .forTime(5);
+    TrajectoryComposite.BuildableStepBuilder t2Builder =
+        TrajectoryComposite.builder()
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(-1, 0, 0, 0)))
+            .withDuration(5)
+            .addTrajectory(Trajectories.newHoldPositionTrajectory(Point4D.create(1, 0, 0, 0)))
+            .withDuration(5);
 
     FiniteTrajectory4d t2 = t2Builder.build();
 

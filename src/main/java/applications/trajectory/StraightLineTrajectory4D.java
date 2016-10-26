@@ -30,7 +30,8 @@ public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteT
     private final double totalDistance;
     private Trajectory4d currentTraj;
 
-    public static StraightLineTrajectory4D createWithCustomVelocity(Point4D srcpoint, Point4D targetpoint,
+    public static StraightLineTrajectory4D createWithCustomVelocity(Point4D srcpoint,
+            Point4D targetpoint,
             double velocity) {
         return new StraightLineTrajectory4D(srcpoint, targetpoint, velocity);
 
@@ -72,27 +73,34 @@ public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteT
         this.totalDistance = Point3D.project(diff).norm();
         double speed = velocity;
         checkArgument(totalDistance > 0, "Distance to travel cannot be zero.");
-        this.endTime = totalDistance / speed;
+        this.endTime = (totalDistance / speed) * velocityCutoffTimePercentage;
         Point4D speedComponent =
                 Point4D.create(
                         velocity * (diff.getX() / totalDistance),
                         velocity * (diff.getY() / totalDistance),
                         velocity * (diff.getZ() / totalDistance),
-                        diff.getAngle() / endTime);
+                        diff.getAngle() / (totalDistance / speed));
         this.holdTraj = new HoldPositionTrajectory4D(targetpoint);
         this.moveTraj =
-                new HoldPositionForwarder(srcpoint, speedComponent,
-                        endTime * velocityCutoffTimePercentage);
+                new LinearTrajectory4D(srcpoint, speedComponent);
         this.currentTraj = moveTraj;
     }
 
     @Override
     public Pose getDesiredPosition(double timeInSeconds) {
-        final double currentTime = getRelativeTime(timeInSeconds);
-        return Pose.create(getCurrentTrajectory().getDesiredPositionX(currentTime),
-                getCurrentTrajectory().getDesiredPositionY(currentTime),
-                getCurrentTrajectory().getDesiredPositionZ(currentTime),
-                getCurrentTrajectory().getDesiredAngleZ(currentTime));
+        moveOrHoldTrajectory(timeInSeconds);
+        return Pose.create(getCurrentTrajectory().getDesiredPositionX(timeInSeconds),
+                getCurrentTrajectory().getDesiredPositionY(timeInSeconds),
+                getCurrentTrajectory().getDesiredPositionZ(timeInSeconds),
+                getCurrentTrajectory().getDesiredAngleZ(timeInSeconds));
+    }
+
+    private void moveOrHoldTrajectory(double timeInSeconds) {
+        if (timeInSeconds >= endTime) {
+            currentTraj = holdTraj;
+        } else {
+            currentTraj = moveTraj;
+        }
     }
 
     protected Trajectory4d getCurrentTrajectory() {
@@ -130,29 +138,5 @@ public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteT
 
     public final double getTotalDistance() {
         return totalDistance;
-    }
-
-    private class HoldPositionForwarder extends Trajectory4DForwardingDecorator {
-        private final double endTime;
-
-        HoldPositionForwarder(Point4D srcComp, Point4D speedComp, double endTime) {
-            super(new LinearTrajectory4D(srcComp, speedComp));
-            this.endTime = endTime;
-        }
-
-        @Override
-        protected void positionDelegate(double timeInSeconds) {
-            if (timeInSeconds >= endTime) {
-                setHoldPosition(true);
-            }
-        }
-
-        private void setHoldPosition(boolean shouldHold) {
-            if (shouldHold) {
-                currentTraj = holdTraj;
-            } else {
-                currentTraj = moveTraj;
-            }
-        }
     }
 }

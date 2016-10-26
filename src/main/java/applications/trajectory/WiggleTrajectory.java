@@ -1,7 +1,7 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
-import choreo.Choreography;
+import applications.trajectory.composites.TrajectoryComposite;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
 
@@ -17,7 +17,7 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
   private final FiniteTrajectory4d target;
 
   WiggleTrajectory(Point4D centerPoint, int wiggles, double timeToStayAtEdges) {
-    Choreography.Builder builder = Choreography.builder();
+    TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
     double orientation = centerPoint.getAngle();
     Point4D endRight =
         Point4D.create(
@@ -34,14 +34,14 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
 
     for (int i = 0; i < wiggles; i++) {
       builder
-          .withTrajectory(Trajectories.newHoldPositionTrajectory(endRight))
-          .forTime(timeToStayAtEdges);
+          .addTrajectory(Trajectories.newHoldPositionTrajectory(endRight))
+          .withDuration(timeToStayAtEdges);
       builder
-          .withTrajectory(Trajectories.newHoldPositionTrajectory(endLeft))
-          .forTime(2 * timeToStayAtEdges);
+          .addTrajectory(Trajectories.newHoldPositionTrajectory(endLeft))
+          .withDuration(2 * timeToStayAtEdges);
       builder
-          .withTrajectory(Trajectories.newHoldPositionTrajectory(centerPoint))
-          .forTime(TIME_TO_REST_AT_ORIGIN);
+          .addTrajectory(Trajectories.newHoldPositionTrajectory(centerPoint))
+          .withDuration(TIME_TO_REST_AT_ORIGIN);
     }
     target = builder.build();
   }
