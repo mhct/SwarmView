@@ -3,10 +3,7 @@ package control;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-
-import applications.trajectory.geom.point.Point3D;
+import control.dto.Pose;
 
 /**
  * This class represents an act of a show. 
@@ -22,20 +19,25 @@ import applications.trajectory.geom.point.Point3D;
  *
  */
 public class Act {
-	Map<DroneName, FiniteTrajectory4d> trajectories;
-	Multimap<DroneName, Point3D> dronePositions = ArrayListMultimap.create();
+	private Map<DroneName, FiniteTrajectory4d> trajectories;
+	private Map<DroneName, DronePositionConfiguration> dronePositions;
+	private double duration;
 	
-	public Act() {
-		trajectories = new HashMap<DroneName, FiniteTrajectory4d>();
+	public Act(ActConfiguration configuration) {
+		this.duration = configuration.duration();
 		
-//		initializeTrajectories();
+		trajectories = new HashMap<>();
+		dronePositions = new HashMap<>();
+		for (DronePositionConfiguration droneConf: configuration.dronePositionConfiguration()) {
+			dronePositions.put(droneConf.name(), droneConf);
+		}
 	}
 
 	/**
 	 * Returns the trajectory of a drone, for this act
 	 * 
-	 * @param drone
-	 * @return
+	 * @param droneName the name of a drone participating in the act
+	 * @return trajectory of the drone in the act
 	 */
 	public FiniteTrajectory4d getTrajectory(DroneName drone) {
 		return trajectories.get(drone);
@@ -51,6 +53,30 @@ public class Act {
 	 */
 	public void addTrajectory(DroneName droneName, FiniteTrajectory4d trajectory) {
 		trajectories.put(droneName, trajectory);
+	}
+
+	/**
+	 * Returns the specified initial position of a drone
+	 * 
+	 * @param droneName the name of a drone participating in the act
+	 * @return initial specified position of the drone in this act
+	 */
+	public Pose initialPosition(DroneName droneName) {
+		return dronePositions.get(droneName).initialPosition();
+	}
+
+	/**
+	 * Returns the specified final position of a drone
+	 * 
+	 * @param droneName the name of a drone participating in the act
+	 * @return final specified position of the drone in this act
+	 */
+	public Pose finalPosition(DroneName droneName) {
+		return dronePositions.get(droneName).finalPosition();
+	}
+	
+	public double getDuration() {
+		return duration;
 	}
 
 }

@@ -6,7 +6,6 @@ package rats.acts.introduction;
 import java.util.ArrayList;
 
 import applications.trajectory.LineTrajectory;
-import applications.trajectory.geom.point.Point3D;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
 
@@ -19,10 +18,9 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 	private ArrayList<LineTrajectory> lineTrajectories = new ArrayList<LineTrajectory>();
 	private double duration;
 	
-	public NerveTrajectoryIntroduction () throws Exception {
-		
+	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition) throws Exception {
 		double[][] path = {
-                {       7,      6,              1,      0       },      // start position, with start time
+				{ 	initialPosition.x(),	initialPosition.y(), 		initialPosition.z(),  	0 },	// start position, with start time
                 {       3,      5,              1.5,    1.7 },
                 {       4,      5,              2,      0.5 },
                 {       2,      5,              2,      0.82 },
@@ -44,12 +42,12 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
                 {       2,      2,              4,      0.62 },
                 {       2,      2,              4,      0.5 },
                 {       2,      2,              2.5,    0.8 },
-                {       2,      2,              4,      0.8 },
+				{ 	finalPosition.x(),	finalPosition.y(), 		finalPosition.z(),  	1 },
 		};
 		
 		double startTime = path[0][3];
-		Point3D endPosition = Point3D.create (path[0][0], path[0][1], path[0][2]);
-		Point3D startPosition;
+		Pose endPosition = Pose.create (path[0][0], path[0][1], path[0][2], 0);
+		Pose startPosition;
 		double duration = 0;
 		
 		LineTrajectory line;
@@ -58,7 +56,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 			startTime += duration;
 			duration = lineInfo[3];
 			startPosition = endPosition;
-			endPosition = Point3D.create (lineInfo[0], lineInfo[1], lineInfo[2]);
+			endPosition = Pose.create (lineInfo[0], lineInfo[1], lineInfo[2], 0);
 			line = new LineTrajectory(startPosition, endPosition, startTime, startTime+duration);
 			this.lineTrajectories.add(line);
 		}
@@ -88,10 +86,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 	@Override
 	public Pose getDesiredPosition(double timeInSeconds) {
 		LineTrajectory line = this.getCurrentLineTrajectory(timeInSeconds);
-		return Pose.create(line.getDesiredPositionX(timeInSeconds),
-				line.getDesiredPositionY(timeInSeconds),
-				line.getDesiredPositionZ(timeInSeconds),
-				line.getDesiredAngleZ(timeInSeconds));
+		return line.getDesiredPosition (timeInSeconds);
 	}
 
 }
