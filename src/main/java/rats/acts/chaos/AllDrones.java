@@ -1,7 +1,9 @@
 package rats.acts.chaos;
 
 import applications.trajectory.Trajectories;
+import applications.trajectory.Trajectory4d;
 import applications.trajectory.composites.TrajectoryComposite;
+import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -21,12 +23,14 @@ public abstract class AllDrones {
     protected static final double orientation = -Math.PI / 2;
     protected final double actStartTime = 0;
     protected final double frequency = 1 / 2.32d; // ~max velocity achieved with f ~= 1/2.12 ~= 0.47
-    protected final double revolutions = 3.5;
+    protected final double revolutions = 3.0;
     protected final double circleTiming = (1 / frequency) * revolutions;
+    protected final double circleRadius = 1;
     protected final double introEndTime = 15;
     protected final double actDuration = 45;
     protected final double baseVelocity = 1.5;
     protected final double waitAtStation = 2;
+
     private List<Pose> wayPoints;
 
     AllDrones(List<Pose> waypoints) {
@@ -59,43 +63,45 @@ public abstract class AllDrones {
         return new Nerve(waypoints, duration).getTrajectory();
     }
 
-    protected FiniteTrajectory4d configTrajectory() {
-        FiniteTrajectory4d firstLeg = Trajectories
-                .newStraightLineTrajectory(getStartPoint(), getWayPoint1(), baseVelocity);
-        FiniteTrajectory4d secondLeg = Trajectories
-                .newStraightLineTrajectory(getWayPoint1(), getWayPoint2(), baseVelocity);
-        FiniteTrajectory4d thirdLeg = Trajectories
-                .newStraightLineTrajectory(getWayPoint2(), getWayPoint3(), baseVelocity);
-        FiniteTrajectory4d fourthLeg = Trajectories
-                .newStraightLineTrajectory(getWayPoint3(), getWayPoint4(), baseVelocity);
-        FiniteTrajectory4d lastLeg = Trajectories
-                .newStraightLineTrajectory(getWayPoint4(), getEndPoint(), baseVelocity);
-
-        TrajectoryComposite choreo = TrajectoryComposite.builder()
-                .addTrajectory(Trajectories.newHoldPositionTrajectory(getStartPoint()))
-                .withDuration(waitAtStation + actStartTime)
-                .addTrajectory(firstLeg)
+    protected FiniteTrajectory4d getFirstLeg() {
+        return TrajectoryComposite.builder().addTrajectory(Trajectories
+                .newStraightLineTrajectory(getStartPoint(), getWayPoint1(), baseVelocity))
                 .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint1()))
-                .withDuration(waitAtStation)
-                .addTrajectory(secondLeg)
-                .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint2()))
-                .withDuration(waitAtStation)
-                .addTrajectory(thirdLeg)
-                .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint3()))
-                .withDuration(waitAtStation)
-                .addTrajectory(fourthLeg)
-                .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint4()))
-                .withDuration(waitAtStation)
-                .addTrajectory(lastLeg)
-                .addTrajectory(Trajectories.newHoldPositionTrajectory(getEndPoint()))
-                //                .untillTotalDuration(waitAtStation + actStartTime + actDuration)
-                .withDuration(waitAtStation)
-                .build();
+                .withDuration(waitAtStation + actStartTime).build();
+    }
 
-        LoggerFactory.getLogger(AllDrones.class)
-                .info("Trajecory for this drone takes " + choreo.getTrajectoryDuration()
-                        + " seconds to perform fully.");
-        return choreo;
+    protected FiniteTrajectory4d getSecondLeg() {
+        return TrajectoryComposite.builder().addTrajectory(Trajectories
+                .newStraightLineTrajectory(getWayPoint1(), getWayPoint2(), baseVelocity))
+                .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint2()))
+                .withDuration(waitAtStation).build();
+    }
+
+    protected FiniteTrajectory4d getThirdLeg() {
+        return TrajectoryComposite.builder().addTrajectory(Trajectories
+                .newStraightLineTrajectory(getWayPoint2(), getWayPoint3(), baseVelocity))
+                .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint3()))
+                .withDuration(waitAtStation).build();
+    }
+
+    protected FiniteTrajectory4d getFourthLeg() {
+        return TrajectoryComposite.builder().addTrajectory(Trajectories
+                .newStraightLineTrajectory(getWayPoint3(), getWayPoint4(), baseVelocity))
+                .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint4()))
+                .withDuration(waitAtStation).build();
+    }
+
+    protected FiniteTrajectory4d getLastLeg() {
+        return TrajectoryComposite.builder().addTrajectory(Trajectories
+                .newStraightLineTrajectory(getWayPoint4(), getEndPoint(), baseVelocity))
+                .addTrajectory(Trajectories.newHoldPositionTrajectory(getEndPoint()))
+                .withDuration(waitAtStation).build();
+    }
+
+    protected FiniteTrajectory4d compose(List<FiniteTrajectory4d> components) {
+        TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
+        components.forEach(t -> builder.addTrajectory(t));
+        return builder.build();
     }
 
     protected Point4D getStartPoint() {
@@ -123,6 +129,7 @@ public abstract class AllDrones {
     }
 
     public static class Romeo extends AllDrones {
+        private final double phaseToConnectStart = Math.PI;
 
         public Romeo(List<Pose> waypoints, double duration) {
             super(waypoints);
@@ -130,11 +137,23 @@ public abstract class AllDrones {
 
         @Override
         protected FiniteTrajectory4d getTrajectory() {
-            return configTrajectory();
+            Point3D circleCenterPoint = Point3D
+                    .plus(Point3D.project(getWayPoint1()), Point3D.create(1, 0, 0));
+            Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder().fixYawAt(orientation)
+                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
+                    .setLocation(circleCenterPoint).build();
+
+            FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(circleTraj)
+                    .withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint1()))
+                    .withDuration(waitAtStation).build();
+            return compose(Lists.newArrayList(getFirstLeg(), circle, getSecondLeg(), getThirdLeg(),
+                    getFourthLeg(), getLastLeg()));
         }
     }
 
     public static class Juliet extends AllDrones {
+        private final double phaseToConnectStart = -Math.PI / 2;
 
         public Juliet(List<Pose> waypoints, double duration) {
             super(waypoints);
@@ -142,11 +161,23 @@ public abstract class AllDrones {
 
         @Override
         protected FiniteTrajectory4d getTrajectory() {
-            return configTrajectory();
+            Point3D circleCenterPoint = Point3D
+                    .plus(Point3D.project(getWayPoint1()), Point3D.create(0, 1, 0));
+            Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder().fixYawAt(orientation)
+                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
+                    .setLocation(circleCenterPoint).build();
+
+            FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(circleTraj)
+                    .withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(getWayPoint1()))
+                    .withDuration(waitAtStation).build();
+            return compose(Lists.newArrayList(getFirstLeg(), circle, getSecondLeg(), getThirdLeg(),
+                    getFourthLeg(), getLastLeg()));
         }
     }
 
     public static class Nerve extends AllDrones {
+        private final double phaseToConnectStart = -Math.PI / 2;
 
         public Nerve(List<Pose> waypoints, double duration) {
             super(waypoints);
@@ -154,7 +185,18 @@ public abstract class AllDrones {
 
         @Override
         protected FiniteTrajectory4d getTrajectory() {
-            return configTrajectory();
+            Point3D circleCenterPoint = Point3D
+                    .minus(Point3D.project(getEndPoint()), Point3D.create(0, 1, 0));
+            Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder().fixYawAt(orientation)
+                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
+                    .setLocation(circleCenterPoint).build();
+
+            FiniteTrajectory4d pendulum = TrajectoryComposite.builder().addTrajectory(circleTraj)
+                    .withDuration(circleTiming)
+                    .addTrajectory(Trajectories.newHoldPositionTrajectory(getEndPoint()))
+                    .withDuration(waitAtStation).build();
+            return compose(Lists.newArrayList(getFirstLeg(), getSecondLeg(), getThirdLeg(),
+                    getFourthLeg(), getLastLeg(), pendulum));
         }
     }
 
@@ -166,7 +208,9 @@ public abstract class AllDrones {
 
         @Override
         protected FiniteTrajectory4d getTrajectory() {
-            return configTrajectory();
+            return compose(Lists.newArrayList(getFirstLeg(), getSecondLeg(), getThirdLeg(),
+                    getFourthLeg(), getLastLeg()));
+
         }
     }
 
@@ -178,7 +222,9 @@ public abstract class AllDrones {
 
         @Override
         protected FiniteTrajectory4d getTrajectory() {
-            return configTrajectory();
+            return compose(Lists.newArrayList(getFirstLeg(), getSecondLeg(), getThirdLeg(),
+                    getFourthLeg(), getLastLeg()));
+
         }
 
     }

@@ -27,35 +27,35 @@ public class ChaosAct extends Act {
      */
     public static Act create(ActConfiguration configuration) {
         Act act = new ChaosAct(configuration);
-        double[][] nerveWPCoords = { //start: 2,2,4 end: 6,6,2
+        double[][] nerveWPCoords = { //start: 2,2,4 end: 6,6,2  cyan
                 { 2.5, 1.5, 2.5 },
                 { 3.5, 2.5, 3.0 },
                 { 6.0, 1.9, 4 },
-                { 4.5, 4.5, 2.5 }
+                { 5.0, 4.5, 2.5 }
         };
-        double[][] romeoWPCoords = { //start: 1.1, 5.0, 1.5 end: 3.5, 4.0, 1.0
-                { 3.5, 4.0, 1.0 },
+        double[][] romeoWPCoords = { //start: 1.1, 5.0, 1.5 end: 3.5, 4.0, 1.0  yellow
+                { 0.8, 5.0, 1.2 },
                 { 3.5, 4.0, 4.0 },
-                { 1.1, 5.0, 1.5 },
-                { 1.1, 5.0, 4 }
+                { 1.1, 4.0, 1.5 },
+                { 2.8, 4, 4 }
         };
-        double[][] julietWPCoords = { //start: 2,6,2 end: 1,1,3
-                { 3.5, 4.5, 3.5 },
-                { 1.5, 2.5, 2 },
+        double[][] julietWPCoords = { //start: 4.9, 5.0, 1.5 end: 1,1,3   purple
+                { 4.9, 5, 1.2 },
+                { 2, 3, 3.0 },
                 { 0.75, 1.6, 1.8 },
                 { 1.0, 1.2, 2.5 }
         };
-        double[][] fievelWPCoords = { //start: 5.0, 2.5, 1.0 end: 2, 5, 2
-                { 6.0, 2.5, 1.0 },
-                { 6.0, 6.0, 2.0 },
+        double[][] fievelWPCoords = { //start: 5.0, 2.5, 1.0 end: 2, 5, 2   green
+                { 6.0, 2.5, 2.0 },
+                { 6.2, 6.0, 3.2 },
+                { 6.2, 4.5, 4.0 },
                 { 2.5, 5.0, 4.0 },
-                { 1.0, 5.0, 1.8 }
         };
-        double[][] dumboWPCoords = { //start: 4.0, 3.5, 2.5 end: 1.5, 3, 1
+        double[][] dumboWPCoords = { //start: 4.0, 3.5, 2.5 end: 1.5, 3, 1   blue
                 { 1.5, 3.0, 1.0 },
                 { 4.0, 3.5, 3 },
                 { 1.5, 3.0, 3.0 },
-                { 4.0, 3.5, 2 }
+                { 3.8, 2,0, 2 }
         };
 
         List<Pose> nerveWPs = Lists
