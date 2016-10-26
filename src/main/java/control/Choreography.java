@@ -12,29 +12,19 @@ import control.dto.Pose;
  *
  */
 public class Choreography {
-	private double durationInSec;
 	private int numberDrones;
 	private final List<Act> acts = new ArrayList<>();;
 
 	private Choreography() {};
 	
-	private Choreography(double durationInSec, int numberDrones) {
-		this.durationInSec = durationInSec;
+	private Choreography(int numberDrones) {
 		this.numberDrones = numberDrones;
 	}
 
-	public static Choreography create(double durationInSec, int numberDrones) {
-		Choreography choreo = new Choreography(durationInSec, numberDrones);
+	public static Choreography create(int numberDrones) {
+		Choreography choreo = new Choreography(numberDrones);
 		
 		return choreo;
-	}
-	
-	public double getDurationInSec() {
-		return durationInSec;
-	}
-	
-	public void setDurationInSec(double durationInSec) {
-		this.durationInSec = durationInSec;
 	}
 	
 	public int getNumberDrones() {
@@ -79,8 +69,7 @@ public class Choreography {
 				
 				// if could not find any trajectory, returns null
 				// TODO raise RuntimeException, indicating the show does not last the ammount of timeInSeconds
-				System.out.println("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNOOOOOO\n\n\n\n");
-				return null;
+				throw new RuntimeException(String.format("This trajectory only lasts for %s seconds, but was invoked with %s seconds", getTrajectoryDuration(), timeInSeconds));
 			}
 		}; // end FiniteTrajectory4d implementation
 	}
