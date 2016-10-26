@@ -42,8 +42,9 @@ public class LineTrajectory implements FiniteTrajectory4d {
 	protected void calcDesiredPosition (double timeInSeconds) {
 		logger.trace("time is " + timeInSeconds);
 		
-		if ( !this.isActive(timeInSeconds) ) {
-			throw new IllegalArgumentException ("Position requested for a time out of bound of this trajectory (" + timeInSeconds + ")");
+		if ( timeInSeconds < 0) {
+			// throw new IllegalArgumentException ("Position requested for a time out of bound of this trajectory (" + timeInSeconds + ")");
+			throw new IllegalArgumentException ("Position requested for a negative time (" + timeInSeconds + ")");
 		}
 		
 		if (timeInSeconds == this.currentTime) {
@@ -57,14 +58,18 @@ public class LineTrajectory implements FiniteTrajectory4d {
 				this.currentPosition = this.endPosition;
 			} else {
 				double progress = (timeInSeconds - this.startTime) / (this.endTime - this.startTime);
-				this.currentPosition = Point3D.plus(
-										this.startPosition
+				Point3D startPos = Point3D.create(this.startPosition.x(), this.startPosition.y(), this.startPosition.z());
+				Point3D endPos = Point3D.create(this.endPosition.x(), this.endPosition.y(), this.endPosition.z());
+				
+				Point3D currentPos = Point3D.plus(
+								startPos
+								,
+								Point3D.scale(
+										Point3D.minus(endPos, startPos)
 										,
-										Point3D.scale(
-												Point3D.minus(this.endPosition, this.startPosition)
-												,
-												progress)
-										);
+										progress)
+								);
+				this.currentPosition = Pose.create(currentPos.getX(), currentPos.getY(), currentPos.getZ(), 0);
 			}
 		}
 		
