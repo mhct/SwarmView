@@ -1,7 +1,11 @@
 package rats.acts.chaos;
 
+import com.google.common.collect.Lists;
 import control.Act;
 import control.ActConfiguration;
+import control.dto.Pose;
+
+import java.util.List;
 
 import static control.DroneName.Dumbo;
 import static control.DroneName.Fievel;
@@ -10,6 +14,7 @@ import static control.DroneName.Nerve;
 import static control.DroneName.Romeo;
 
 public class ChaosAct extends Act {
+    protected static final double orientation = -Math.PI / 2;
 
     private ChaosAct(ActConfiguration configuration) {
         super(configuration);
@@ -22,23 +27,66 @@ public class ChaosAct extends Act {
      */
     public static Act create(ActConfiguration configuration) {
         Act act = new ChaosAct(configuration);
+        double[][] nerveWPCoords = { //start: 2,2,4 end: 6,6,2
+                { 2.5, 1.5, 2.5 },
+                { 3.5, 2.5, 3.0 },
+                { 6.0, 1.9, 4 },
+                { 4.5, 4.5, 2.5 }
+        };
+        double[][] romeoWPCoords = { //start: 1.1, 5.0, 1.5 end: 3.5, 4.0, 1.0
+                { 3.5, 4.0, 1.0 },
+                { 3.5, 4.0, 4.0 },
+                { 1.1, 5.0, 1.5 },
+                { 1.1, 5.0, 4 }
+        };
+        double[][] julietWPCoords = { //start: 2,6,2 end: 1,1,3
+                { 3.5, 4.5, 3.5 },
+                { 1.5, 2.5, 2 },
+                { 0.75, 1.6, 1.8 },
+                { 1.0, 1.2, 2.5 }
+        };
+        double[][] fievelWPCoords = { //start: 5.0, 2.5, 1.0 end: 2, 5, 2
+                { 6.0, 2.5, 1.0 },
+                { 6.0, 6.0, 2.0 },
+                { 2.5, 5.0, 4.0 },
+                { 1.0, 5.0, 1.8 }
+        };
+        double[][] dumboWPCoords = { //start: 4.0, 3.5, 2.5 end: 1.5, 3, 1
+                { 1.5, 3.0, 1.0 },
+                { 4.0, 3.5, 3 },
+                { 1.5, 3.0, 3.0 },
+                { 4.0, 3.5, 2 }
+        };
+
+        List<Pose> nerveWPs = Lists
+                .newArrayList(act.initialPosition(Nerve), coordToPose(nerveWPCoords[0]),
+                        coordToPose(nerveWPCoords[1]), coordToPose(nerveWPCoords[2]),
+                        coordToPose(nerveWPCoords[3]), act.finalPosition(Nerve));
+        List<Pose> romeoWPs = Lists
+                .newArrayList(act.initialPosition(Romeo), coordToPose(romeoWPCoords[0]),
+                        coordToPose(romeoWPCoords[1]), coordToPose(romeoWPCoords[2]),
+                        coordToPose(romeoWPCoords[3]), act.finalPosition(Romeo));
+        List<Pose> julietWPs = Lists
+                .newArrayList(act.initialPosition(Juliet), coordToPose(julietWPCoords[0]),
+                        coordToPose(julietWPCoords[1]), coordToPose(julietWPCoords[2]),
+                        coordToPose(julietWPCoords[3]), act.finalPosition(Juliet));
+        List<Pose> fievelWPs = Lists
+                .newArrayList(act.initialPosition(Fievel), coordToPose(fievelWPCoords[0]),
+                        coordToPose(fievelWPCoords[1]), coordToPose(fievelWPCoords[2]),
+                        coordToPose(fievelWPCoords[3]), act.finalPosition(Fievel));
+        List<Pose> dumboWPs = Lists
+                .newArrayList(act.initialPosition(Dumbo), coordToPose(dumboWPCoords[0]),
+                        coordToPose(dumboWPCoords[1]), coordToPose(dumboWPCoords[2]),
+                        coordToPose(dumboWPCoords[3]), act.finalPosition(Dumbo));
 
         try {
-            act.addTrajectory(Nerve, AllDrones
-                    .createNerveTrajectory(act.initialPosition(Nerve), act.finalPosition(Nerve),
-                            act.getDuration()));
-            act.addTrajectory(Romeo, AllDrones
-                    .createRomeoTrajectory(act.initialPosition(Romeo), act.finalPosition(Romeo),
-                            act.getDuration()));
-            act.addTrajectory(Juliet, AllDrones
-                    .createJulietTrajectory(act.initialPosition(Juliet), act.finalPosition(Juliet),
-                            act.getDuration()));
-            act.addTrajectory(Fievel, AllDrones
-                    .createFievelTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel),
-                            act.getDuration()));
-            act.addTrajectory(Dumbo, AllDrones
-                    .createDumboTrajectory(act.initialPosition(Dumbo), act.finalPosition(Dumbo),
-                            act.getDuration()));
+            act.addTrajectory(Nerve, AllDrones.createNerveTrajectory(nerveWPs, act.getDuration()));
+            act.addTrajectory(Romeo, AllDrones.createRomeoTrajectory(romeoWPs, act.getDuration()));
+            act.addTrajectory(Juliet,
+                    AllDrones.createJulietTrajectory(julietWPs, act.getDuration()));
+            act.addTrajectory(Fievel,
+                    AllDrones.createFievelTrajectory(fievelWPs, act.getDuration()));
+            act.addTrajectory(Dumbo, AllDrones.createDumboTrajectory(dumboWPs, act.getDuration()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,10 +94,7 @@ public class ChaosAct extends Act {
         return act;
     }
 
-    //    private static FiniteTrajectory4d exampleLineTrajectory(Pose initialPosition,
-    //            Pose finalPosition, double duration) {
-    //        return StraightLineTrajectory4D
-    //                .createWithCustomTravelDuration(Point4D.from(initialPosition),
-    //                        Point4D.from(finalPosition), duration);
-    //    }
+    private static Pose coordToPose(double[] coord) {
+        return Pose.create(coord[0], coord[1], coord[2], orientation);
+    }
 }
