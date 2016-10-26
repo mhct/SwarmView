@@ -1,15 +1,19 @@
 package main;
 
+import static control.DroneName.Dumbo;
+import static control.DroneName.Fievel;
+import static control.DroneName.Juliet;
+import static control.DroneName.Nerve;
+import static control.DroneName.Romeo;
+
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import control.Act;
 import control.ActConfiguration;
 import control.Choreography;
-import static control.DroneName.*;
 import control.DronePositionConfiguration;
 import control.dto.Pose;
 import processing.core.PApplet;
@@ -69,8 +73,8 @@ public class RatsView extends PApplet {
 		introPositions.add(DronePositionConfiguration.create(Romeo, Pose.create(7.0, 5.0, 1.0, 0.0),  Pose.create(1.1, 5.0, 1.5, 0.0)));
 		introPositions.add(DronePositionConfiguration.create(Juliet, Pose.create(1.0, 5.0, 1.0, 0.0), Pose.create(4.9, 5.0, 1.5, 0.0)));
 		introPositions.add(DronePositionConfiguration.create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
-		introPositions.add(DronePositionConfiguration.create(Dumbo, Pose.create(2.0, 3.0, 1.0, 0.0),  Pose.create(4.0, 3.5, 2.5, 0.0)));
-		ActConfiguration introConfiguration = ActConfiguration.create(50, introPositions);
+		introPositions.add(DronePositionConfiguration.create(Dumbo, Pose.create(4.0, 3.0, 1.0, 0.0),  Pose.create(4.0, 3.5, 2.5, 0.0)));
+		ActConfiguration introConfiguration = ActConfiguration.create(60, introPositions); //1"
 		Act introduction = IntroductionAct.create(introConfiguration);
 
 		//
@@ -82,7 +86,7 @@ public class RatsView extends PApplet {
 		chaosPositions.add(DronePositionConfiguration.create(Juliet, introduction.finalPosition(Juliet), Pose.create(1.0, 1.0, 2.5, 0.0)));
 		chaosPositions.add(DronePositionConfiguration.create(Fievel, introduction.finalPosition(Fievel), Pose.create(2.0, 5.0, 2.0, 0.0)));
 		chaosPositions.add(DronePositionConfiguration.create(Dumbo,  introduction.finalPosition(Dumbo),  Pose.create(1.5, 3.0, 1.0, 0.0)));
-		ActConfiguration chaosConfiguration = ActConfiguration.create(5, chaosPositions);
+		ActConfiguration chaosConfiguration = ActConfiguration.create(45, chaosPositions); //1" 45'
 		Act chaos = ChaosAct.create(chaosConfiguration);
 
 		//
@@ -94,7 +98,7 @@ public class RatsView extends PApplet {
 		attackPositions.add(DronePositionConfiguration.create(Juliet, chaos.finalPosition(Juliet), Pose.create(2.0, 6.0, 2.0, 0.0)));
 		attackPositions.add(DronePositionConfiguration.create(Fievel, chaos.finalPosition(Fievel), Pose.create(5.0, 5.5, 2.5, 0.0)));
 		attackPositions.add(DronePositionConfiguration.create(Dumbo,  chaos.finalPosition(Dumbo),  Pose.create(3.0, 6.1, 1.0, 0.0)));
-		ActConfiguration attackConfiguration = ActConfiguration.create(5, attackPositions);
+		ActConfiguration attackConfiguration = ActConfiguration.create(60, attackPositions); // 2" 45'
 		Act attack = AttackAct.create(attackConfiguration);
 
 		//
@@ -106,13 +110,13 @@ public class RatsView extends PApplet {
 		tamingPositions.add(DronePositionConfiguration.create(Juliet, attack.finalPosition(Juliet), Pose.create(4.0, 4.0, 1.5, 0.0)));
 		tamingPositions.add(DronePositionConfiguration.create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
 		tamingPositions.add(DronePositionConfiguration.create(Dumbo,  attack.finalPosition(Dumbo),  Pose.create(6.0, 6.0, 1.5, 0.0)));
-		ActConfiguration tamingConfiguration = ActConfiguration.create(5, tamingPositions);
+		ActConfiguration tamingConfiguration = ActConfiguration.create(120, tamingPositions); // 4" 45'
 		Act taming = TamingAct.create(tamingConfiguration);		
 		
 		//
 		// Configures the whole TrajectoryComposite
 		//
-		choreo = Choreography.create(60, 5);
+		choreo = Choreography.create(5);
 		choreo.addAct(introduction);
 		choreo.addAct(chaos);
 		choreo.addAct(attack);
@@ -179,9 +183,15 @@ public class RatsView extends PApplet {
 		if (timerIsActive()) {
 			drawTimer(timeStep);
 		}
-		for (int i=0; i<choreo.getNumberDrones(); i++) {
-			drones[i].displayNext((timeStep)/1000.0f);
+
+		try {
+			for (int i=0; i<choreo.getNumberDrones(); i++) {
+				drones[i].displayNext((timeStep)/1000.0f);
+			}
+		} catch (RuntimeException e) {
+			initializeTrajectories();
 		}
+		
 		popMatrix();
 		
 		popMatrix();
