@@ -25,7 +25,6 @@ public class SwingTrajectory4DTest {
     @Before
     public void setUp() {
         target = Trajectories.newPendulumSwingTrajectory(origin, radius, frequency, 0);
-        //TODO test this as well.
         targetPlaneShift =
                 Trajectories.newPendulumSwingTrajectory(origin, radius, frequency, planeshift);
     }
