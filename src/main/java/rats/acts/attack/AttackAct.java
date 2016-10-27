@@ -27,11 +27,11 @@ public class AttackAct extends Act {
 		Act act = new AttackAct(configuration);
 		
 		try {
-			act.addTrajectory(Nerve, AttackAct.exampleLineTrajectory(act.initialPosition(Nerve), act.finalPosition(Nerve), act.getDuration()));
-			act.addTrajectory(Romeo, AttackAct.exampleLineTrajectory(act.initialPosition(Romeo), act.finalPosition(Romeo), act.getDuration()));
-			act.addTrajectory(Juliet, AttackAct.exampleLineTrajectory(act.initialPosition(Juliet), act.finalPosition(Juliet), act.getDuration()));
-			act.addTrajectory(Fievel, AttackAct.exampleLineTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel), act.getDuration()));
-			act.addTrajectory(Dumbo, AttackAct.exampleLineTrajectory(act.initialPosition(Dumbo), act.finalPosition(Dumbo), act.getDuration()));
+			act.addTrajectory(Nerve, AttackAct.exampleLineTrajectory(act.initialPosition(Nerve), act.finalPosition(Nerve), 20));
+			act.addTrajectory(Romeo, AttackAct.exampleLineTrajectory(act.initialPosition(Romeo), act.finalPosition(Romeo), 20));
+			act.addTrajectory(Juliet, AttackAct.exampleLineTrajectory(act.initialPosition(Juliet), act.finalPosition(Juliet), 30));
+			act.addTrajectory(Fievel, AttackAct.exampleLineTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel), 30));
+			act.addTrajectory(Dumbo, AttackAct.exampleLineTrajectory(act.initialPosition(Dumbo), act.finalPosition(Dumbo), 30));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
