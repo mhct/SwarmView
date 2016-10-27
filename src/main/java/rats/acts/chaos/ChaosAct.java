@@ -14,7 +14,7 @@ import static control.DroneName.Nerve;
 import static control.DroneName.Romeo;
 
 public class ChaosAct extends Act {
-    protected static final double orientation = -Math.PI / 2;
+    protected static final double orientation = -Math.PI / 2d;
 
     private ChaosAct(ActConfiguration configuration) {
         super(configuration);
@@ -55,7 +55,7 @@ public class ChaosAct extends Act {
                 { 1.5, 3.0, 1.0 },
                 { 4.0, 3.5, 3 },
                 { 1.5, 3.0, 3.0 },
-                { 3.8, 2,0, 2 }
+                { 3.8, 2, 0, 2 }
         };
 
         List<Pose> nerveWPs = Lists

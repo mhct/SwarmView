@@ -177,7 +177,7 @@ public abstract class AllDrones {
     }
 
     public static class Nerve extends AllDrones {
-        private final double phaseToConnectStart = -Math.PI / 2;
+        private final double phaseToConnectStart = -Math.PI / 2d;
 
         public Nerve(List<Pose> waypoints, double duration) {
             super(waypoints);
@@ -186,10 +186,15 @@ public abstract class AllDrones {
         @Override
         protected FiniteTrajectory4d getTrajectory() {
             Point3D circleCenterPoint = Point3D
-                    .minus(Point3D.project(getEndPoint()), Point3D.create(0, 1, 0));
-            Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder().fixYawAt(orientation)
-                    .setFrequency(frequency).setPhase(phaseToConnectStart).setRadius(circleRadius)
-                    .setLocation(circleCenterPoint).build();
+                    .minus(Point3D.project(getEndPoint()), Point3D.create(0, 0.5, 0));
+            //            Trajectory4d circleTraj = Trajectories.circleTrajectoryBuilder()
+            // .fixYawAt(orientation)
+            //                    .setFrequency(frequency).setPhase(phaseToConnectStart)
+            // .setRadius(circleRadius)
+            //                    .setLocation(circleCenterPoint).build();
+            Trajectory4d circleTraj = Trajectories.swingTrajectoryBuilder().setRadius(0.5)
+                    .setFrequency(frequency).setOrigin(Point4D.from(circleCenterPoint, orientation))
+                    .setXzPlaneAngle(Math.PI / 2d).build();
 
             FiniteTrajectory4d pendulum = TrajectoryComposite.builder().addTrajectory(circleTraj)
                     .withDuration(circleTiming)
