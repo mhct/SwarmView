@@ -83,4 +83,12 @@ public class Choreography {
     public void addAct(Act act) {
         acts.add(act);
     }
+    
+    public double getChoreographyDuration() {
+    	double duration = 0.0;
+    	for (Act act: acts) {
+    		duration += act.getDuration();
+    	}
+    	return duration;
+    }
 }

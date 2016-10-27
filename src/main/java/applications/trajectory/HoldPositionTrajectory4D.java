@@ -1,15 +1,20 @@
 package applications.trajectory;
 
 import applications.trajectory.geom.point.Point4D;
+import control.dto.Pose;
 
 /** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
-class HoldPositionTrajectory4D implements Trajectory4d {
+public class HoldPositionTrajectory4D implements Trajectory4d {
   private final Point4D targetPoint;
 
   HoldPositionTrajectory4D(Point4D targetpoint) {
     this.targetPoint = targetpoint;
   }
 
+  public static HoldPositionTrajectory4D create(Pose pose) {
+	  return new HoldPositionTrajectory4D(Point4D.from(pose));
+  }
+  
   @Override
   public double getDesiredPositionX(double timeInSeconds) {
     return targetPoint.getX();

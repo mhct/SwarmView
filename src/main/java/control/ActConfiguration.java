@@ -6,10 +6,9 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class ActConfiguration {
-	public static ActConfiguration create(double duration, List<DronePositionConfiguration> dronePositionConfiguration) {
-		return new AutoValue_ActConfiguration(duration, dronePositionConfiguration);
+	public static ActConfiguration create(List<DronePositionConfiguration> dronePositionConfiguration) {
+		return new AutoValue_ActConfiguration(dronePositionConfiguration);
 	}
 	
-	abstract double duration();
 	abstract List<DronePositionConfiguration> dronePositionConfiguration();
 }
