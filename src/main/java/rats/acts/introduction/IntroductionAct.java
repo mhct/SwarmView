@@ -35,7 +35,7 @@ public class IntroductionAct extends Act {
 		
 		try {
 			//TODO Parsing the trajectories configuration will be added here
-			act.addTrajectory(Nerve, new NerveTrajectoryIntroduction(act.initialPosition(Nerve), act.finalPosition(Nerve)));
+			act.addTrajectory(Nerve, new NerveTrajectoryIntroduction2(act.initialPosition(Nerve), act.finalPosition(Nerve)));
 			act.addTrajectory(Romeo, TwinDrones.createRomeoTrajectory());
 			act.addTrajectory(Juliet, TwinDrones.createJulietTrajectory());
 			act.addTrajectory(Fievel, IntroductionAct.exampleLineTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel), act.getDuration()));
