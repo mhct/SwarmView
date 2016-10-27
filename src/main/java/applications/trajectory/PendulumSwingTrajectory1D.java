@@ -10,6 +10,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * periodic angular enterVelocity function over the radian circle which manifests in slowed
  * movements
  * near the edges of the range of motion.
+ * This 1D trajectory assumes the X-dimension of the (x,y,z) space.
  *
  * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
  */
