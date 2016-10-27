@@ -3,26 +3,20 @@
  */
 package rats.acts.interact;
 
-import static control.DroneName.Dumbo;
-import static control.DroneName.Fievel;
-import static control.DroneName.Juliet;
-import static control.DroneName.Nerve;
-import static control.DroneName.Romeo;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import applications.trajectory.LineTrajectory;
-import applications.trajectory.geom.point.Point3D;
+import applications.trajectory.StraightLineTrajectory4D;
+import applications.trajectory.Trajectories;
+import applications.trajectory.composites.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite.Builder;
+import applications.trajectory.geom.point.Point4D;
 import control.Act;
 import control.ActConfiguration;
 import control.DroneName;
 import control.DronePositionConfiguration;
-import control.FiniteTrajectory4d;
 import control.dto.Pose;
-import rats.acts.attack.AttackAct;
-import rats.acts.introduction.NerveTrajectoryIntroduction;
 
 /**
  * @author tom
@@ -35,40 +29,76 @@ public class InterAct extends Act {
 	private InterAct (ActConfiguration configuration) {
 		super(configuration);
 	}
-	
-	public static Act create (HashMap<DroneName, Pose> initialPoses, HashMap<DroneName, Pose> finalPoses) {
 
+	public static Act create (ActConfiguration configuration) {
+		return createWithSequentialMovement(configuration, 0.0);
+	}
+
+	public static Act createWithSequentialMovement (ActConfiguration configuration) {
+		return createWithSequentialMovement (configuration, TIME_BETWEEN_STARTS);
+	}
 		
-		List<DronePositionConfiguration> positions = new ArrayList<>();
-		positions.add(DronePositionConfiguration.create(Nerve,  initialPoses.get(DroneName.Nerve),  finalPoses.get(DroneName.Nerve)));
-		positions.add(DronePositionConfiguration.create(Romeo,  chaos.finalPosition(Romeo),  Pose.create(3.5, 3.0, 2.5, 0.0)));
-		positions.add(DronePositionConfiguration.create(Juliet, chaos.finalPosition(Juliet), Pose.create(2.0, 6.0, 2.0, 0.0)));
-		positions.add(DronePositionConfiguration.create(Fievel, chaos.finalPosition(Fievel), Pose.create(5.0, 5.5, 2.5, 0.0)));
-		positions.add(DronePositionConfiguration.create(Dumbo,  chaos.finalPosition(Dumbo),  Pose.create(3.0, 6.1, 1.0, 0.0)));
-		ActConfiguration attackConfiguration = ActConfiguration.create(5, positions);
-		
-		
-		Act act = new InterAct(null);
+	public static Act createWithSequentialMovement (ActConfiguration configuration, double timeBetween) {
+			
+		Act act = new InterAct(configuration);
 		
 		int number = 0;
 		for (DroneName drone : DroneName.values()) {
+
+			Builder trajectoryBuilder = TrajectoryComposite.builder();
+
+			Pose initPos	= act.initialPosition(drone);
+			Point4D initPoint4D = Point4D.create(initPos.x(), initPos.y(), initPos.z(), initPos.yaw());
+			Pose finalPos 	= act.finalPosition(drone);
+			Point4D finalPoint4D = Point4D.create(finalPos.x(), finalPos.y(), finalPos.z(), finalPos.yaw());
 			
-			Pose initPos	= initialPoses.get(drone);
-			Pose finalPos 	= finalPoses.get(drone);
-			
-			act.addTrajectory(drone, new LineTrajectory(
-											initPos,
-											finalPos,
-											0 + number * TIME_BETWEEN_STARTS ));
+			try {
+				double timeBeforeStart = 0.1 + number * timeBetween;
+				trajectoryBuilder
+					.addTrajectory(
+							Trajectories.newHoldPositionTrajectory(initPoint4D))
+					.withDuration(timeBeforeStart);
+
+				trajectoryBuilder
+					.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(
+																			initPoint4D,
+																			finalPoint4D,
+																			0.6));
+				act.addTrajectory(drone, trajectoryBuilder.build());
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			number++;
 		}
 		
 		return act;
 	}
-		
+
+	public static Act create (Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions) {
+		return createWithSequentialMovement (initialPositions, finalPositions, 0.0);
+	}
+
+	public static Act createWithSequentialMovement (Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions) {
+		return createWithSequentialMovement (initialPositions, finalPositions, TIME_BETWEEN_STARTS);
+	}
+	
+	public static Act createWithSequentialMovement (Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions, double timeBetween) {
+
+		List<DronePositionConfiguration> positions = new ArrayList<>();
+
+		for (DroneName drone : DroneName.values()) {
+			positions.add(DronePositionConfiguration.create(drone, initialPositions.get(drone),  finalPositions.get(drone)));
+		}
+		ActConfiguration configuration = ActConfiguration.create(positions); //1"
+
+		return createWithSequentialMovement (configuration, timeBetween);
+	}
+
 	public static Act create (Act prevAct, Act nextAct) {
 		
-		return create(prevAct.getFinalPoses(), nextAct.getInitialPoses());
+		return create(prevAct.finalPositions(), nextAct.initialPositions());
 
 	}
 	

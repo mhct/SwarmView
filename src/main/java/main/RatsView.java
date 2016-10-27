@@ -25,8 +25,8 @@ import rats.acts.introduction.IntroductionAct;
 import rats.acts.taming.TamingAct;
 
 public class RatsView extends PApplet {
-	private static final float MAX_ZOOM = 4.0f;
-	private static final float MIN_ZOOM = 0.3f;
+	private static final float MAX_ZOOM = 8.0f;
+	private static final float MIN_ZOOM = 0.1f;
 	DroneView[] drones;
 	int rotzfactor = 0;
 	float zoom = 1.0f;
@@ -113,7 +113,7 @@ public class RatsView extends PApplet {
 		tamingPositions.add(DronePositionConfiguration.create(Juliet, attack.finalPosition(Juliet), Pose.create(4.0, 4.0, 1.5, 0.0)));
 		tamingPositions.add(DronePositionConfiguration.create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
 		tamingPositions.add(DronePositionConfiguration.create(Dumbo,  attack.finalPosition(Dumbo),  Pose.create(6.0, 6.0, 1.5, 0.0)));
-		ActConfiguration tamingConfiguration = ActConfiguration.create(tamingPositions); // 4" 45'
+		ActConfiguration tamingConfiguration = ActConfiguration.create(tamingPositions);
 		Act taming = TamingAct.create(tamingConfiguration);		
 		taming.lockAndBuild();
 		

@@ -37,6 +37,13 @@ public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteT
 
     }
 
+    public static StraightLineTrajectory4D createWithPercentageVelocity(Point4D srcpoint,
+            Point4D targetpoint,
+            double percentageVelocity) {
+        return createWithCustomVelocity (srcpoint, targetpoint, percentageVelocity * BasicTrajectory.MAX_ABSOLUTE_VELOCITY);
+
+    }
+
     public static StraightLineTrajectory4D createWithCustomTravelDuration(Point4D srcpoint,
             Point4D targetpoint, double duration) {
         double velocity = Point4D.distance(srcpoint, targetpoint) / duration;

@@ -10,7 +10,6 @@ import applications.trajectory.geom.point.Point4D;
 public abstract class BasicTrajectory {
     public static final double MAX_ABSOLUTE_VELOCITY = 3;
     protected final Point4D linearDisplacement;
-    private double startTime = -1;
 
     protected BasicTrajectory(Point4D displacement) {
         this.linearDisplacement = displacement;

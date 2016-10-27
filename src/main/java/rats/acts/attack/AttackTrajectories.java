@@ -3,8 +3,12 @@
  */
 package rats.acts.attack;
 
+import applications.trajectory.HoldPositionTrajectory4D;
 import applications.trajectory.LineTrajectory;
+import applications.trajectory.StraightLineTrajectory4D;
 import applications.trajectory.Trajectory4d;
+import applications.trajectory.composites.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite.Builder;
 import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import control.FiniteTrajectory4d;
@@ -26,8 +30,8 @@ public class AttackTrajectories {
 	
 	
 	private static final double TIME_BETWEEN_INITIATING_TO_GO_TO_START_ATTACK_POSITION = 1;
-	private static final double TIME_TO_ENGAGE = 1;
-	private static final double TIME_TO_RETREAT = 2;
+	private static final double PERCENTAGE_SPEED_TO_ENGAGE = 1;
+	private static final double PERCENTAGE_SPEED_TO_RETREAT = 0.6;
 
 
 	public AttackTrajectories (Point3D middle, double initialHeight, double attackHeight, double initialRadius, double attackRadius) {
@@ -42,32 +46,42 @@ public class AttackTrajectories {
 
 		// first we create a line trajectory from the current position to the position to start the attack
 		
-		Point3D startPositionAttack;
+		Point4D startPositionAttack;
 		double x = this.middle.getX() + this.initialRadius * Math.cos( idDrone * 2*Math.PI/numberOfDrones);
 		double y = this.middle.getY() + this.initialRadius * Math.sin( idDrone * 2*Math.PI/numberOfDrones);
 		double z = this.initialHeight;
-		startPositionAttack = Point3D.create(x, y, z);
+		startPositionAttack = Point4D.create(x, y, z, 0);
 		
-		Point3D attackingPosition;
+		Point4D attackingPosition;
 		x = this.middle.getX() + this.attackRadius * Math.cos( idDrone * 2*Math.PI/numberOfDrones);
 		y = this.middle.getY() + this.attackRadius * Math.sin( idDrone * 2*Math.PI/numberOfDrones);
 		z = this.attackHeight;
-		attackingPosition = Point3D.create(x, y, z);
+		attackingPosition = Point4D.create(x, y, z, 0);
 		
 		
-		double startTimeAttack = 0 + sequenceOfAttack * TIME_BETWEEN_INITIATING_TO_GO_TO_START_ATTACK_POSITION;
-		double endTimeAttack   = startTimeAttack + TIME_TO_ENGAGE;
-		double endTimeRetreat   = endTimeAttack + TIME_TO_RETREAT;
+		double startTimeAttack = 0.01 + sequenceOfAttack * TIME_BETWEEN_INITIATING_TO_GO_TO_START_ATTACK_POSITION;
+		// double endTimeAttack   = startTimeAttack + TIME_TO_ENGAGE;
+		// double endTimeRetreat   = endTimeAttack + TIME_TO_RETREAT;
 		
-		Trajectory4d line = null;
-		try {
-			line = new LineTrajectory (startPositionAttack, attackingPosition, startTimeAttack, endTimeAttack);
-			line = new LineTrajectory (attackingPosition, startPositionAttack, endTimeAttack, endTimeRetreat);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return line;
+		Builder trajectoryBuilder = TrajectoryComposite.builder();
+		StraightLineTrajectory4D line;
+		
+		// First hover until it's your turn...
+		
+		trajectoryBuilder.addTrajectory(HoldPositionTrajectory4D.createFromPosition4D(startPositionAttack))
+						.withDuration(startTimeAttack);
+		
+		// Now GO ATTACK !!
+		
+		line = StraightLineTrajectory4D.createWithPercentageVelocity(startPositionAttack, attackingPosition, PERCENTAGE_SPEED_TO_ENGAGE);
+		trajectoryBuilder.addTrajectory(line);
+		
+		// And retreat...
+		
+		line = StraightLineTrajectory4D.createWithPercentageVelocity(attackingPosition, startPositionAttack, PERCENTAGE_SPEED_TO_RETREAT);
+		trajectoryBuilder.addTrajectory(line);
+		
+		return trajectoryBuilder.build();
 	}
 
 }

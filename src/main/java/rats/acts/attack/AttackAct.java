@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package rats.acts.attack;
 
 import static control.DroneName.Dumbo;
@@ -6,14 +9,37 @@ import static control.DroneName.Juliet;
 import static control.DroneName.Nerve;
 import static control.DroneName.Romeo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import applications.trajectory.StraightLineTrajectory4D;
-import applications.trajectory.geom.point.Point4D;
+import applications.trajectory.Trajectory4d;
+import applications.trajectory.composites.TrajectoryComposite;
+import applications.trajectory.composites.TrajectoryComposite.Builder;
+import applications.trajectory.geom.point.Point3D;
 import control.Act;
 import control.ActConfiguration;
+import control.DroneName;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
+import rats.acts.interact.HoverAct;
+import rats.acts.interact.InterAct;
+import rats.acts.introduction.IntroductionAct;
+import rats.acts.introduction.NerveTrajectoryIntroduction;
+import rats.acts.introduction.TwinDrones;
 
+/**
+ *  Attack Act definition
+ *
+ * @author tom
+ *
+ */
 public class AttackAct extends Act {
+	
+	private static final double WAIT_BEFORE_SINGLE_ATTACK = 1;
 
 	private AttackAct(ActConfiguration configuration) {
 		super(configuration);
@@ -24,22 +50,56 @@ public class AttackAct extends Act {
 	 * @return
 	 */
 	public static Act create(ActConfiguration configuration) {
-		Act act = new AttackAct(configuration);
 		
-		try {
-			act.addTrajectory(Nerve, AttackAct.exampleLineTrajectory(act.initialPosition(Nerve), act.finalPosition(Nerve), 20));
-			act.addTrajectory(Romeo, AttackAct.exampleLineTrajectory(act.initialPosition(Romeo), act.finalPosition(Romeo), 20));
-			act.addTrajectory(Juliet, AttackAct.exampleLineTrajectory(act.initialPosition(Juliet), act.finalPosition(Juliet), 30));
-			act.addTrajectory(Fievel, AttackAct.exampleLineTrajectory(act.initialPosition(Fievel), act.finalPosition(Fievel), 30));
-			act.addTrajectory(Dumbo, AttackAct.exampleLineTrajectory(act.initialPosition(Dumbo), act.finalPosition(Dumbo), 30));
-		} catch (Exception e) {
-			e.printStackTrace();
+		Act act = new AttackAct (configuration);
+
+		Act firstAttack = SingleAttackAct.create (Point3D.create(5, 3, 0),	// position of the dancer
+												3.5, 	1,					// height to start attack from, and height to stop
+												2.5, 	0.75);				// radius to start attack from, and radius to stop
+		firstAttack.lockAndBuild();
+		
+		Act secondAttack = SingleAttackAct.create (Point3D.create(2, 5, 0),	// position of the dancer
+												2.5, 	1,					// height to start attack from, and height to stop
+												1.5, 	0.5);				// radius to start attack from, and radius to stop
+		secondAttack.lockAndBuild();
+
+
+		Act moveToFirstAttackPositions = InterAct.createWithSequentialMovement(act.initialPositions(), firstAttack.initialPositions());
+		moveToFirstAttackPositions.lockAndBuild();
+		Act holdBeforeFirstAttack = HoverAct.create(moveToFirstAttackPositions.finalPositions(), WAIT_BEFORE_SINGLE_ATTACK);
+		holdBeforeFirstAttack.lockAndBuild();
+		Act moveToSecondAttackPositions = InterAct.create(firstAttack.finalPositions(), secondAttack.initialPositions());
+		moveToSecondAttackPositions.lockAndBuild();
+		Act holdBeforeSecondAttack = HoverAct.create(moveToSecondAttackPositions.finalPositions(), WAIT_BEFORE_SINGLE_ATTACK);
+		holdBeforeSecondAttack.lockAndBuild();
+		Act moveToFinalPositions = InterAct.create(secondAttack.finalPositions(), act.finalPositions());
+		moveToFinalPositions.lockAndBuild();
+		
+		List<Act> acts = new ArrayList<Act>();
+		acts.add(moveToFirstAttackPositions);
+		acts.add(holdBeforeFirstAttack);
+		acts.add(firstAttack);
+		acts.add(moveToSecondAttackPositions);
+		acts.add(holdBeforeSecondAttack);
+		acts.add(secondAttack);
+		acts.add(moveToFinalPositions);
+		
+		
+
+		for (DroneName drone: DroneName.values()) {
+			
+			Builder trajectoryBuilder = TrajectoryComposite.builder();
+			
+			for (Act subAct: acts) {
+				trajectoryBuilder.addTrajectory(subAct.getTrajectory(drone));
+			}
+			
+			FiniteTrajectory4d droneTrajectory = trajectoryBuilder.build(); 
+			act.addTrajectory(drone, droneTrajectory);
+			
 		}
 		
 		return act;
 	}
-	
-	private static FiniteTrajectory4d exampleLineTrajectory(Pose initialPosition, Pose finalPosition, double duration) {
-		return StraightLineTrajectory4D.createWithCustomTravelDuration(Point4D.from(initialPosition), Point4D.from(finalPosition), duration);
-	}
+
 }
