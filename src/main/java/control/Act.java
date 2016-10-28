@@ -35,6 +35,7 @@ public class Act {
 		for (DronePositionConfiguration droneConf: configuration.dronePositionConfiguration()) {
 			dronePositions.put(droneConf.name(), droneConf);
 		}
+		setInitialAndFinalPositions();
 	}
 
 	/**
@@ -111,6 +112,16 @@ public class Act {
 	 * Locks the current instance of the Act, not allowing new modifications.
 	 */
 	public void lockAndBuild() {
+		
+		setDuration();
+		addPositionHoldShortTrajectories();
+		objectLocked = true;
+	}
+
+	/**
+	 * 
+	 */
+	private void setInitialAndFinalPositions() {
 		initialPositions = new LinkedHashMap<>(dronePositions.size());
 		for (Map.Entry<DroneName, DronePositionConfiguration> e: dronePositions.entrySet()) {
 			initialPositions.put(e.getKey(), e.getValue().initialPosition());
@@ -118,12 +129,8 @@ public class Act {
 		
 		finalPositions = new LinkedHashMap<>(dronePositions.size());
 		for (Map.Entry<DroneName, DronePositionConfiguration> e: dronePositions.entrySet()) {
-			finalPositions.put(e.getKey(), e.getValue().initialPosition());
+			finalPositions.put(e.getKey(), e.getValue().finalPosition());
 		}
-		
-		setDuration();
-		addPositionHoldShortTrajectories();
-		objectLocked = true;
 	}
 	
 	private void setDuration() {

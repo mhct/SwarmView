@@ -4,24 +4,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import applications.trajectory.geom.point.Point3D;
+import control.FiniteTrajectory4d;
+import control.dto.Pose;
 
-public class LineTrajectory implements Trajectory4d {
+public class LineTrajectory implements FiniteTrajectory4d {
 	private static final Logger logger = LoggerFactory.getLogger(LineTrajectory.class);
-	final double MAX_SPEED = 2.5;
 	
-	private Point3D startPosition;
-	private Point3D endPosition;
+	final 	static double MAX_SPEED = 2.5;
+	final 	static double DEFAULT_SPEED = MAX_SPEED * 0.8;
+	
+	private Pose startPosition;
+	private Pose endPosition;
 	private double startTime;
 	private double endTime;
 	
 	private double currentTime = -1;
-	private Point3D currentPosition = Point3D.origin();
+	private Pose currentPosition = Pose.create(0, 0, 0, 0);
 	
-	public LineTrajectory (Point3D startPosition, Point3D endPosition, double startTime, double endTime) throws Exception {
-		double requiredSpeed = Point3D.distance(startPosition, endPosition) / (endTime - startTime);
+	public LineTrajectory (Pose startPosition, Pose endPosition, double startTime) throws Exception {
+		this(startPosition, endPosition, startTime, startTime + (Pose.computeEuclideanDistance (startPosition, endPosition) / DEFAULT_SPEED));
+	}
+	
+	public LineTrajectory (Pose startPosition, Pose endPosition, double startTime, double endTime) throws Exception {
+		double requiredSpeed = Pose.computeEuclideanDistance(startPosition, endPosition) / (endTime - startTime);
 		if (requiredSpeed >= MAX_SPEED) {
 			throw new Exception("Unrealisticly fast trajectory: " + startPosition + " --> " + endPosition
-					+ "(minimum time required is " + (Point3D.distance(startPosition, endPosition) / MAX_SPEED) +  ")");
+					+ "(minimum time required is " + (Pose.computeEuclideanDistance(startPosition, endPosition) / MAX_SPEED) +  ")");
 		}
 		this.startPosition = startPosition;
 		this.endPosition = endPosition;
@@ -33,6 +41,12 @@ public class LineTrajectory implements Trajectory4d {
 	
 	protected void calcDesiredPosition (double timeInSeconds) {
 		logger.trace("time is " + timeInSeconds);
+		
+		if ( timeInSeconds < 0) {
+			// throw new IllegalArgumentException ("Position requested for a time out of bound of this trajectory (" + timeInSeconds + ")");
+			throw new IllegalArgumentException ("Position requested for a negative time (" + timeInSeconds + ")");
+		}
+		
 		if (timeInSeconds == this.currentTime) {
 			//
 		} else {
@@ -44,41 +58,46 @@ public class LineTrajectory implements Trajectory4d {
 				this.currentPosition = this.endPosition;
 			} else {
 				double progress = (timeInSeconds - this.startTime) / (this.endTime - this.startTime);
-				this.currentPosition = Point3D.plus(
-										this.startPosition
+				Point3D startPos = Point3D.create(this.startPosition.x(), this.startPosition.y(), this.startPosition.z());
+				Point3D endPos = Point3D.create(this.endPosition.x(), this.endPosition.y(), this.endPosition.z());
+				
+				Point3D currentPos = Point3D.plus(
+								startPos
+								,
+								Point3D.scale(
+										Point3D.minus(endPos, startPos)
 										,
-										Point3D.scale(
-												Point3D.minus(this.endPosition, this.startPosition)
-												,
-												progress)
-										);
+										progress)
+								);
+				this.currentPosition = Pose.create(currentPos.getX(), currentPos.getY(), currentPos.getZ(), 0);
 			}
 		}
 		
 	}
-	@Override
-	public double getDesiredPositionX(double timeInSeconds) {
-		this.calcDesiredPosition(timeInSeconds);
-		return this.currentPosition.getX();
-	}
-
-	@Override
-	public double getDesiredPositionY(double timeInSeconds) {
-		this.calcDesiredPosition(timeInSeconds);
-		return this.currentPosition.getY();
-	}
-
-	@Override
-	public double getDesiredPositionZ(double timeInSeconds) {
-		this.calcDesiredPosition(timeInSeconds);
-		return Math.min(8.0-this.getDesiredPositionX(timeInSeconds), this.currentPosition.getZ());
-	}
-
-	@Override
-	public double getDesiredAngleZ(double timeInSeconds) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+//	@Override
+//	public double getDesiredPositionX(double timeInSeconds) {
+//		this.calcDesiredPosition(timeInSeconds);
+//		return this.currentPosition.getX();
+//	}
+//
+//	@Override
+//	public double getDesiredPositionY(double timeInSeconds) {
+//		this.calcDesiredPosition(timeInSeconds);
+//		return this.currentPosition.getY();
+//	}
+//
+//	@Override
+//	public double getDesiredPositionZ(double timeInSeconds) {
+//		this.calcDesiredPosition(timeInSeconds);
+//		return Math.min(8.0-this.getDesiredPositionX(timeInSeconds), this.currentPosition.getZ());
+//	}
+//
+//	@Override
+//	public double getDesiredAngleZ(double timeInSeconds) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 	public boolean isActive(double timeInSeconds) {
 		if ((timeInSeconds >= this.startTime) && (timeInSeconds <= this.endTime))
@@ -92,6 +111,18 @@ public class LineTrajectory implements Trajectory4d {
 			return true;
 		else
 			return false;	
+	}
+
+	@Override
+	public double getTrajectoryDuration() {
+		// TODO Auto-generated method stub
+		return this.endTime - this.startTime;
+	}
+
+	@Override
+	public Pose getDesiredPosition(double timeInSeconds) {
+		this.calcDesiredPosition(timeInSeconds);
+		return this.currentPosition;
 	}
 
 }

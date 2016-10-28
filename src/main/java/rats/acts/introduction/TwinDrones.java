@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class TwinDrones {
     protected static final double orientation = -Math.PI / 2;
-    protected final double startIntroAt = 30;
+    protected final double startIntroAt = 15;
     protected final double operatingHeight = 1.5;
     protected final double endHeight = 1.5;
     protected final Point3D circleCenterPoint = Point3D.create(4, 4, operatingHeight);

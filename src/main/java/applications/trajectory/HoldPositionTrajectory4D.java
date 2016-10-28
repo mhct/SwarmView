@@ -15,6 +15,10 @@ public class HoldPositionTrajectory4D implements Trajectory4d {
 	  return new HoldPositionTrajectory4D(Point4D.from(pose));
   }
   
+  public static HoldPositionTrajectory4D createFromPosition4D(Point4D position) {
+	  return new HoldPositionTrajectory4D(position);
+  }
+  
   @Override
   public double getDesiredPositionX(double timeInSeconds) {
     return targetPoint.getX();
