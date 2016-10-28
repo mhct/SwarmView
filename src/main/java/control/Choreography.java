@@ -1,10 +1,9 @@
 package control;
 
-import control.dto.Pose;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+
+import control.dto.Pose;
 
 /**
  * Defines the choreography (movements) of all drones in a complete dance show
@@ -90,8 +89,8 @@ public class Choreography {
     	return duration;
     }
 
-	public String getCurrentActName(double timeStep) {
-		double accumulatedTime = 0.0;
+	public String getCurrentActName(float timeStep) {
+		float accumulatedTime = 0.0f;
 		for (Act act: acts) {
 			if (timeStep >= accumulatedTime && timeStep < accumulatedTime + act.getDuration()) {
 				return act.getActName();

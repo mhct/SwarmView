@@ -43,6 +43,8 @@ public class RatsView extends PApplet {
     private int lastTimeStep;
 
     Choreography choreo;
+	private int deltaTime = 0;
+	private int deltaTimeTemp;
 
     public static void main(String[] args) {
         PApplet.main(RatsView.class);
@@ -62,7 +64,8 @@ public class RatsView extends PApplet {
     }
 
     private void initializeTrajectories() {
-        initialTime = 0; //TODO add separate method to reset the view parameters
+        initialTime = millis(); //TODO add separate method to reset the view parameters
+        deltaTime = 0;
 
         //
         //Specification of initial drone positions for Introduction
@@ -142,10 +145,10 @@ public class RatsView extends PApplet {
         // Configures the whole TrajectoryComposite
         //
         choreo = Choreography.create(5);
-        choreo.addAct(introduction);
+//        choreo.addAct(introduction);
         choreo.addAct(chaos);
-        choreo.addAct(attack);
-        choreo.addAct(taming);
+//        choreo.addAct(attack);
+//        choreo.addAct(taming);
 
         //
         //Configures the view
@@ -196,21 +199,11 @@ public class RatsView extends PApplet {
 		translate(-400, -400, 0);
 		text("Origin", 0.0f, 0.0f, 0.0f);
 		
-		int timeStep;
-		if (simulationIsActive()) {
-			int currentTime = millis();
-			if (initialTime  == 0) {
-				initialTime = millis();
-			}
-			
-			timeStep = currentTime-initialTime;
-			lastTimeStep = timeStep;
-		} else {
-			timeStep = lastTimeStep;
-		}
+		
+		int timeStep = getCurrentTimeStep();
 		
 		if (timerIsActive()) {
-			drawTimer(timeStep, choreo.getCurrentActName(timeStep/1000.0));
+			drawTimer(timeStep, choreo.getCurrentActName(timeStep/1000.0f));
 		}
 
 		for (int i=0; i<choreo.getNumberDrones(); i++) {
@@ -222,6 +215,25 @@ public class RatsView extends PApplet {
 		popMatrix();
 	}
 
+	private int getCurrentTimeStep() {
+		int proposedTimeStep = 0, timeStep = 0;
+		if (simulationIsActive()) {
+			int currentTime = millis();
+			proposedTimeStep = currentTime-initialTime+deltaTime;
+		} else {
+			proposedTimeStep = lastTimeStep;
+		}
+		
+		if (proposedTimeStep/1000.0f - choreo.getChoreographyDuration() < 0.001) {
+			timeStep = proposedTimeStep;
+			lastTimeStep = timeStep;
+		} else {
+			timeStep = lastTimeStep;
+		}
+
+		return timeStep;
+	}
+	
 	/**
 	 * Positions the Scene view according to the last mouse movement
 	 * 
@@ -302,8 +314,11 @@ public class RatsView extends PApplet {
 	private void pauseToggle() {
 		if (simulationActive == true) {
 			simulationActive = false;
+			deltaTimeTemp = lastTimeStep;
 		} else {
 			simulationActive = true;
+			initialTime = millis();
+			deltaTime = deltaTimeTemp;
 		}
 	}
 	
