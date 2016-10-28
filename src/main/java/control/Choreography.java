@@ -14,13 +14,9 @@ import java.util.List;
 public class Choreography {
     private int numberDrones;
     private final List<Act> acts = new ArrayList<>();
-	private LinkedHashMap<Integer, String> actNames;
-    ;
 
     private Choreography() {
     }
-
-    ;
 
     private Choreography(int numberDrones) {
         this.numberDrones = numberDrones;
@@ -94,12 +90,13 @@ public class Choreography {
     	return duration;
     }
 
-	public String getCurrentActName(int timeStep) {
+	public String getCurrentActName(double timeStep) {
 		double accumulatedTime = 0.0;
 		for (Act act: acts) {
 			if (timeStep >= accumulatedTime && timeStep < accumulatedTime + act.getDuration()) {
 				return act.getActName();
 			}
+			accumulatedTime += act.getDuration();
 		}
 		
 		return "no act";

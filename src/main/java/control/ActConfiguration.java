@@ -14,7 +14,7 @@ public abstract class ActConfiguration {
 		return new AutoValue_ActConfiguration("", dronePositionConfiguration);
 	}
 	
-	abstract List<DronePositionConfiguration> dronePositionConfiguration();
-
 	abstract String actName();
+
+	abstract List<DronePositionConfiguration> dronePositionConfiguration();
 }

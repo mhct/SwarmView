@@ -210,7 +210,7 @@ public class RatsView extends PApplet {
 		}
 		
 		if (timerIsActive()) {
-			drawTimer(timeStep, choreo.getCurrentActName(timeStep));
+			drawTimer(timeStep, choreo.getCurrentActName(timeStep/1000.0));
 		}
 
 		for (int i=0; i<choreo.getNumberDrones(); i++) {
@@ -332,7 +332,7 @@ public class RatsView extends PApplet {
 		int minutes = (int) ((time / (1000*60)) % 60);
 		int milliseconds = (int) (time % 1000);
 		text(String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
-		text(msg, 100.0f, -450.0f, 0.0f);
+		text(msg, 400.0f, -450.0f, 0.0f);
 		popMatrix();
 	}
 	
