@@ -78,7 +78,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
         introPositions.add(DronePositionConfiguration
                 .create(Dumbo, Pose.create(4.0, 3.0, 1.0, 0.0), Pose.create(4.0, 3.5, 2.5, 0.0)));
-        ActConfiguration introConfiguration = ActConfiguration.create(introPositions); //1"
+        ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions); //1"
         Act introduction = IntroductionAct.create(introConfiguration);
         introduction.lockAndBuild();
 
@@ -98,7 +98,7 @@ public class RatsView extends PApplet {
                         Pose.create(2.0, 5.0, 2.0, 0.0)));
         chaosPositions.add(DronePositionConfiguration
                 .create(Dumbo, introduction.finalPosition(Dumbo), Pose.create(1.5, 3.0, 1.0, 0.0)));
-        ActConfiguration chaosConfiguration = ActConfiguration.create(chaosPositions); //1" 45'
+        ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions); //1" 45'
         Act chaos = ChaosAct.create(chaosConfiguration);
         chaos.lockAndBuild();
 
@@ -116,7 +116,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, chaos.finalPosition(Fievel), Pose.create(5.0, 5.5, 2.5, 0.0)));
         attackPositions.add(DronePositionConfiguration
                 .create(Dumbo, chaos.finalPosition(Dumbo), Pose.create(3.0, 6.1, 1.0, 0.0)));
-        ActConfiguration attackConfiguration = ActConfiguration.create(attackPositions); // 2" 45'
+        ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions); // 2" 45'
         Act attack = AttackAct.create(attackConfiguration);
         attack.lockAndBuild();
         //
@@ -134,7 +134,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(Dumbo, attack.finalPosition(Dumbo), Pose.create(6.0, 6.0, 1.5, 0.0)));
-        ActConfiguration tamingConfiguration = ActConfiguration.create(tamingPositions); // 4" 45'
+        ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions); // 4" 45'
         Act taming = TamingAct.create(tamingConfiguration);
         taming.lockAndBuild();
 
@@ -210,7 +210,7 @@ public class RatsView extends PApplet {
 		}
 		
 		if (timerIsActive()) {
-			drawTimer(timeStep);
+			drawTimer(timeStep, choreo.getCurrentActName(timeStep));
 		}
 
 		for (int i=0; i<choreo.getNumberDrones(); i++) {
@@ -322,7 +322,7 @@ public class RatsView extends PApplet {
 	 * Draws timer
 	 * @param time in milliseconds
 	 */
-	public void drawTimer(double time) {
+	public void drawTimer(double time, String msg) {
 		pushMatrix();
 		rotateX(-PI/2);
 		fill(255);
@@ -332,6 +332,7 @@ public class RatsView extends PApplet {
 		int minutes = (int) ((time / (1000*60)) % 60);
 		int milliseconds = (int) (time % 1000);
 		text(String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
+		text(msg, 100.0f, -450.0f, 0.0f);
 		popMatrix();
 	}
 	

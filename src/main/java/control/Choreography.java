@@ -3,6 +3,7 @@ package control;
 import control.dto.Pose;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 public class Choreography {
     private int numberDrones;
     private final List<Act> acts = new ArrayList<>();
+	private LinkedHashMap<Integer, String> actNames;
     ;
 
     private Choreography() {
@@ -91,4 +93,15 @@ public class Choreography {
     	}
     	return duration;
     }
+
+	public String getCurrentActName(int timeStep) {
+		double accumulatedTime = 0.0;
+		for (Act act: acts) {
+			if (timeStep >= accumulatedTime && timeStep < accumulatedTime + act.getDuration()) {
+				return act.getActName();
+			}
+		}
+		
+		return "no act";
+	}
 }
