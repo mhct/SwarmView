@@ -81,7 +81,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
         introPositions.add(DronePositionConfiguration
                 .create(Dumbo, Pose.create(7.0, 3.0, 1.0, 0.0), Pose.create(4.0, 3.5, 2.5, 0.0)));
-        ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions); //1"
+        ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions);
 
         Act introduction = IntroductionAct.create(introConfiguration);
         introduction.lockAndBuild();
@@ -102,7 +102,7 @@ public class RatsView extends PApplet {
                         Pose.create(2.0, 5.0, 2.0, 0.0)));
         chaosPositions.add(DronePositionConfiguration
                 .create(Dumbo, introduction.finalPosition(Dumbo), Pose.create(1.5, 3.0, 1.0, 0.0)));
-        ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions); //1" 45'
+        ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions);
         Act chaos = ChaosAct.create(chaosConfiguration);
         chaos.lockAndBuild();
 
@@ -120,7 +120,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, chaos.finalPosition(Fievel), Pose.create(5.0, 5.5, 2.5, 0.0)));
         attackPositions.add(DronePositionConfiguration
                 .create(Dumbo, chaos.finalPosition(Dumbo), Pose.create(3.0, 6.1, 1.0, 0.0)));
-        ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions); // 2" 45'
+        ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions);
         Act attack = AttackAct.create(attackConfiguration);
         attack.lockAndBuild();
         //
@@ -138,7 +138,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(Dumbo, attack.finalPosition(Dumbo), Pose.create(6.0, 6.0, 1.5, 0.0)));
-        ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions); // 4" 45'
+        ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions);
         Act taming = TamingAct.create(tamingConfiguration);
         taming.lockAndBuild();
 
@@ -157,15 +157,15 @@ public class RatsView extends PApplet {
         drones = new DroneView[choreo.getNumberDrones()];
 
         drones[0] = new DroneView(this, choreo.getFullTrajectory(Nerve), color(0, 200, 200),
-                10);   //cyan
+                10, Nerve.toString());   //cyan
         drones[1] = new DroneView(this, choreo.getFullTrajectory(Romeo), color(200, 200, 0),
-                10);  //yellow
+                10, Romeo.toString());  //yellow
         drones[2] = new DroneView(this, choreo.getFullTrajectory(Juliet), color(200, 0, 200),
-                10); //purple
+                10, Juliet.toString()); //purple
         drones[3] = new DroneView(this, choreo.getFullTrajectory(Fievel), color(0, 255, 0),
-                10);  //green
+                10, Fievel.toString());  //green
         drones[4] = new DroneView(this, choreo.getFullTrajectory(Dumbo), color(0, 0, 250),
-                10);   //blue
+                10, Dumbo.toString());   //blue
         /**
          * Safety checks for collision between drones
          */
@@ -187,7 +187,6 @@ public class RatsView extends PApplet {
 		
 		positionView(lastMouseX, lastMouseY, lastZoom);
 		
-		
 		pushMatrix();
 		strokeWeight(2.0f);
 		translate(0, 0, 200);
@@ -200,17 +199,13 @@ public class RatsView extends PApplet {
 		translate(-400, -400, 0);
 		text("Origin", 0.0f, 0.0f, 0.0f);
 		
-		
 		int timeStep = getCurrentTimeStep();
-		
 		if (timerIsActive()) {
 			drawTimer(timeStep, choreo.getCurrentActName(timeStep/1000.0f));
 		}
-
 		for (int i=0; i<choreo.getNumberDrones(); i++) {
 			drones[i].displayNext((timeStep)/1000.0f);
 		}
-		
 		popMatrix();
 		
 		popMatrix();
@@ -327,7 +322,7 @@ public class RatsView extends PApplet {
 		return mouseActive;
 	}
 	
-	private boolean timerIsActive() {
+	public boolean timerIsActive() {
 		return timerActive;
 	}
 	
