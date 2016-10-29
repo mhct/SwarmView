@@ -43,6 +43,8 @@ public class RatsView extends PApplet {
     private int lastTimeStep;
 
     Choreography choreo;
+	private int deltaTime = 0;
+	private int deltaTimeTemp;
 
     public static void main(String[] args) {
         PApplet.main(RatsView.class);
@@ -58,17 +60,12 @@ public class RatsView extends PApplet {
     public void setup() {
         fill(255);
 
-        try {
-            Thread.sleep(16000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-        
         initializeTrajectories();
     }
 
     private void initializeTrajectories() {
-        initialTime = 0; //TODO add separate method to reset the view parameters
+        initialTime = millis(); //TODO add separate method to reset the view parameters
+        deltaTime = 0;
 
         //
         //Specification of initial drone positions for Introduction
@@ -84,7 +81,8 @@ public class RatsView extends PApplet {
                 .create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
         introPositions.add(DronePositionConfiguration
                 .create(Dumbo, Pose.create(7.0, 3.0, 1.0, 0.0), Pose.create(4.0, 3.5, 2.5, 0.0)));
-        ActConfiguration introConfiguration = ActConfiguration.create(introPositions); //1"
+        ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions); //1"
+
         Act introduction = IntroductionAct.create(introConfiguration);
         introduction.lockAndBuild();
 
@@ -104,7 +102,7 @@ public class RatsView extends PApplet {
                         Pose.create(2.0, 5.0, 2.0, 0.0)));
         chaosPositions.add(DronePositionConfiguration
                 .create(Dumbo, introduction.finalPosition(Dumbo), Pose.create(1.5, 3.0, 1.0, 0.0)));
-        ActConfiguration chaosConfiguration = ActConfiguration.create(chaosPositions); //1" 45'
+        ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions); //1" 45'
         Act chaos = ChaosAct.create(chaosConfiguration);
         chaos.lockAndBuild();
 
@@ -122,7 +120,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, chaos.finalPosition(Fievel), Pose.create(5.0, 5.5, 2.5, 0.0)));
         attackPositions.add(DronePositionConfiguration
                 .create(Dumbo, chaos.finalPosition(Dumbo), Pose.create(3.0, 6.1, 1.0, 0.0)));
-        ActConfiguration attackConfiguration = ActConfiguration.create(attackPositions); // 2" 45'
+        ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions); // 2" 45'
         Act attack = AttackAct.create(attackConfiguration);
         attack.lockAndBuild();
         //
@@ -140,7 +138,7 @@ public class RatsView extends PApplet {
                 .create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(Dumbo, attack.finalPosition(Dumbo), Pose.create(6.0, 6.0, 1.5, 0.0)));
-        ActConfiguration tamingConfiguration = ActConfiguration.create(tamingPositions); // 4" 45'
+        ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions); // 4" 45'
         Act taming = TamingAct.create(tamingConfiguration);
         taming.lockAndBuild();
 
@@ -202,21 +200,11 @@ public class RatsView extends PApplet {
 		translate(-400, -400, 0);
 		text("Origin", 0.0f, 0.0f, 0.0f);
 		
-		int timeStep;
-		if (simulationIsActive()) {
-			int currentTime = millis();
-			if (initialTime  == 0) {
-				initialTime = millis();
-			}
-			
-			timeStep = currentTime-initialTime;
-			lastTimeStep = timeStep;
-		} else {
-			timeStep = lastTimeStep;
-		}
+		
+		int timeStep = getCurrentTimeStep();
 		
 		if (timerIsActive()) {
-			drawTimer(timeStep);
+			drawTimer(timeStep, choreo.getCurrentActName(timeStep/1000.0f));
 		}
 
 		for (int i=0; i<choreo.getNumberDrones(); i++) {
@@ -228,6 +216,25 @@ public class RatsView extends PApplet {
 		popMatrix();
 	}
 
+	private int getCurrentTimeStep() {
+		int proposedTimeStep = 0, timeStep = 0;
+		if (simulationIsActive()) {
+			int currentTime = millis();
+			proposedTimeStep = currentTime-initialTime+deltaTime;
+		} else {
+			proposedTimeStep = lastTimeStep;
+		}
+		
+		if (proposedTimeStep/1000.0f - choreo.getChoreographyDuration() < 0.001) {
+			timeStep = proposedTimeStep;
+			lastTimeStep = timeStep;
+		} else {
+			timeStep = lastTimeStep;
+		}
+
+		return timeStep;
+	}
+	
 	/**
 	 * Positions the Scene view according to the last mouse movement
 	 * 
@@ -308,8 +315,11 @@ public class RatsView extends PApplet {
 	private void pauseToggle() {
 		if (simulationActive == true) {
 			simulationActive = false;
+			deltaTimeTemp = lastTimeStep;
 		} else {
 			simulationActive = true;
+			initialTime = millis();
+			deltaTime = deltaTimeTemp;
 		}
 	}
 	
@@ -328,7 +338,7 @@ public class RatsView extends PApplet {
 	 * Draws timer
 	 * @param time in milliseconds
 	 */
-	public void drawTimer(double time) {
+	public void drawTimer(double time, String msg) {
 		pushMatrix();
 		rotateX(-PI/2);
 		fill(255);
@@ -338,6 +348,7 @@ public class RatsView extends PApplet {
 		int minutes = (int) ((time / (1000*60)) % 60);
 		int milliseconds = (int) (time % 1000);
 		text(String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
+		text(msg, 400.0f, -450.0f, 0.0f);
 		popMatrix();
 	}
 	

@@ -52,7 +52,7 @@ public class DumboIntroduction {
 			currentPosition = newWigglePosition;
 			
 			// Now hover before wiggle
-			Hover hoverBeforeWiggle = new Hover (currentPosition, 1);
+			Hover hoverBeforeWiggle = new Hover (currentPosition, 0.5);
 			trajectoryBuilder.addTrajectory(hoverBeforeWiggle);
 
 			// Now WIGGLE !!

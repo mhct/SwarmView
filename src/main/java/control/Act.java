@@ -28,8 +28,10 @@ public class Act {
 	private boolean objectLocked;
 	private LinkedHashMap<DroneName, Pose> initialPositions;
 	private LinkedHashMap<DroneName, Pose> finalPositions;
+	private String actName;
 	
 	public Act(ActConfiguration configuration) {
+		actName = configuration.actName();
 		trajectories = new HashMap<>();
 		dronePositions = new HashMap<>();
 		for (DronePositionConfiguration droneConf: configuration.dronePositionConfiguration()) {
@@ -159,6 +161,10 @@ public class Act {
 	
 	private boolean isLocked() {
 		return objectLocked;
+	}
+
+	public String getActName() {
+		return actName;
 	}
 
 }

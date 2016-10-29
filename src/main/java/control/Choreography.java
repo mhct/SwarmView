@@ -1,9 +1,9 @@
 package control;
 
-import control.dto.Pose;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import control.dto.Pose;
 
 /**
  * Defines the choreography (movements) of all drones in a complete dance show
@@ -13,12 +13,9 @@ import java.util.List;
 public class Choreography {
     private int numberDrones;
     private final List<Act> acts = new ArrayList<>();
-    ;
 
     private Choreography() {
     }
-
-    ;
 
     private Choreography(int numberDrones) {
         this.numberDrones = numberDrones;
@@ -91,4 +88,16 @@ public class Choreography {
     	}
     	return duration;
     }
+
+	public String getCurrentActName(float timeStep) {
+		float accumulatedTime = 0.0f;
+		for (Act act: acts) {
+			if (timeStep >= accumulatedTime && timeStep < accumulatedTime + act.getDuration()) {
+				return act.getActName();
+			}
+			accumulatedTime += act.getDuration();
+		}
+		
+		return "no act";
+	}
 }

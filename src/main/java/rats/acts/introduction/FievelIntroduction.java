@@ -25,10 +25,12 @@ public class FievelIntroduction {
 	public FievelIntroduction (Pose initialPose, Pose finalPose, double start) {
 		
 		double[][] path = {
-					{ 	4, 4, 2,		 0.4,  0.45,	2, -1 },	// mid point pendulum, frequency, radius, revolutions, direction
-					{ 	3, 5, 2.5,		 0.3,  1,		2, 1 },
-					{ 	4, 2, 3,		 0.18, 1.2,		1, -1 },
-					{ 	5, 5, 2,		 0.4,  0.5,		2, 1 },
+					{ 	4, 4, 2,		 0.4,  0.45,	1, 0 },	// mid point pendulum, frequency, radius, revolutions, direction
+					{ 	4.1, 4, 2,		 0.4,  0.45,	1, Math.PI },	// mid point pendulum, frequency, radius, revolutions, direction
+					{ 	4, 3.5, 2.5,	 0.3,  1,		2, Math.PI*3/4 },
+					// { 	4, 2, 3,	 0.18, 1.2,		1, Math.PI },
+					{ 	5, 5, 2,		 0.4,  0.5,		1, Math.PI*1.25 },
+					{ 	5.1, 5, 2,		 0.4,  0.5,		1, 2*Math.PI-Math.PI*1.25 },
 			};
 		
 		Point4D currentPosition = Point4D.from(initialPose);
@@ -49,11 +51,11 @@ public class FievelIntroduction {
 			double radius = lineInfo[4];
 			double revolutions = lineInfo[5];
 		    double duration = (1 / frequency) * revolutions;
-		    double direction = (lineInfo[6] == -1) ? 0 : 1;
+		    double direction = lineInfo[6];
 
 			Trajectory4d circleTraj = Trajectories.swingTrajectoryBuilder().setRadius(radius)
                     .setFrequency(frequency).setOrigin(Point4D.from(circleCenterPoint, 0))
-                    .setXzPlaneAngle(Math.PI * direction).build();
+                    .setXzPlaneAngle(direction).build();
 			Point4D startCircleTraj = Point4D.create (	circleTraj.getDesiredPositionX(0),
 														circleTraj.getDesiredPositionY(0),
 														circleTraj.getDesiredPositionZ(0),
