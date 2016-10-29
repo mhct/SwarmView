@@ -14,8 +14,9 @@ public class DroneView {
 	private int spriteIndex = 0;
 	private boolean bufferFull = false;
 	private int color;
+	private String name;
 	
-	DroneView(PApplet canvas, FiniteTrajectory4d trajectory, int color, int trailSize) {
+	DroneView(RatsView canvas, FiniteTrajectory4d trajectory, int color, int trailSize, String name) {
 		Preconditions.checkNotNull(color);
 		Preconditions.checkArgument(trailSize >= 0 && trailSize <= 300);
 		
@@ -23,6 +24,7 @@ public class DroneView {
 		this.trajectory = trajectory;
 		this.color = color;
 		this.BUFFER_SIZE = trailSize;
+		this.name = name;
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
@@ -39,7 +41,6 @@ public class DroneView {
 		double x = pose.x();
 		double y = pose.y();
 		double z = pose.z();
-//		double yaw = trajectory.getDesiredAngleZ(timeStep);
 		Sprite currentSprite = Sprite.create((float)x * 100.0f, (float)y * 100.0f, (float)z * 100.0f, color);
 		
 		previousSprites[spriteIndex] = currentSprite;
@@ -48,7 +49,7 @@ public class DroneView {
 		} 
 		spriteIndex = (spriteIndex+1) % BUFFER_SIZE;
 		showSprites();
-		currentSprite.draw(canvas, 255);
+		currentSprite.draw(canvas, 255, name);
 
 	}
 	
@@ -83,15 +84,24 @@ public class DroneView {
 			this.color = color;
 		}
 		
-		public void draw(PApplet canvas, float alfa) {
+		public void draw(PApplet canvas, float alfa, String spriteMsg) {
 			canvas.pushMatrix();
 			canvas.noFill();
 			canvas.stroke(color, alfa);
 			canvas.translate(x,  y, z);
+			canvas.rotateX(-canvas.PI/2);
+			if (!"".equals(spriteMsg)) {
+				canvas.textSize(26);
+				canvas.text(spriteMsg, -20.0f, -20.0f, -10.0f);
+			}
 			canvas.sphereDetail(12);
 			canvas.sphere(20);
 			canvas.stroke(255);
 			canvas.popMatrix();
+		}
+		
+		public void draw(PApplet canvas, float alfa) {
+			draw(canvas, alfa, "");
 		}
 		
 		public static Sprite create(float x, float y, float z, int color) {

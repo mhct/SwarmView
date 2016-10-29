@@ -44,7 +44,7 @@ public class ChaosActTest {
                 .create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
         introPositions.add(DronePositionConfiguration
                 .create(Dumbo, Pose.create(2.0, 3.0, 1.0f, 0.0), Pose.create(4.0, 3.5, 2.5, 0.0)));
-        ActConfiguration introConfiguration = ActConfiguration.create(50, introPositions);
+        ActConfiguration introConfiguration = ActConfiguration.create(introPositions);
         Act introduction = IntroductionAct.create(introConfiguration);
         List<DronePositionConfiguration> chaosPositions = new ArrayList<>();
         chaosPositions.add(DronePositionConfiguration
@@ -61,7 +61,7 @@ public class ChaosActTest {
                         Pose.create(2.0, 5.0, 2.0, 0.0)));
         chaosPositions.add(DronePositionConfiguration
                 .create(Dumbo, introduction.finalPosition(Dumbo), Pose.create(1.5, 3.0, 1.0, 0.0)));
-        ActConfiguration chaosConfiguration = ActConfiguration.create(5, chaosPositions);
+        ActConfiguration chaosConfiguration = ActConfiguration.create(chaosPositions);
         this.chaos = ChaosAct.create(chaosConfiguration);
     }
 
