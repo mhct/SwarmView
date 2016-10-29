@@ -3,6 +3,7 @@
  */
 package rats.acts.introduction;
 
+import applications.trajectory.Hover;
 import applications.trajectory.StraightLineTrajectory4D;
 import applications.trajectory.composites.TrajectoryComposite;
 import applications.trajectory.geom.point.Point4D;
@@ -19,7 +20,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 	private double duration;
 	private FiniteTrajectory4d trajectory;
 
-	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition) throws Exception {
+	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition, double start) throws Exception {
 		double[][] path = {
 				{ 	initialPosition.x(),	initialPosition.y(), 		initialPosition.z(),  	0 },	// start position, start time is ignored
                 {       7,      5,              1.5,    0.3 },
@@ -44,12 +45,18 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 				{ 	finalPosition.x(),	finalPosition.y(), 		finalPosition.z(),  	1 },
 		};
 		
-		double startTime = 0;  // path[0][3];
+		double startTime = 0;
 		Point4D endPosition = Point4D.create (path[0][0], path[0][1], path[0][2], 0);
 		Point4D startPosition;
-		double duration = 0;
+		double duration = start;
 		
 		Builder trajectoryBuilder = TrajectoryComposite.builder();
+		
+		if (start > 0) {
+			Hover hoverBeforeBegin = new Hover (initialPosition, start);
+			trajectoryBuilder.addTrajectory(hoverBeforeBegin);
+		}
+		
 		StraightLineTrajectory4D line;
 		
 		for(int i = 1 ; i < path.length; i++) {
@@ -62,7 +69,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 			trajectoryBuilder.addTrajectory(line);
 		}
 		
-		this.duration = startTime + duration;
+		this.duration = startTime;
 		this.trajectory = trajectoryBuilder.build();
 
 	}

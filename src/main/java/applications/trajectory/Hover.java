@@ -3,6 +3,7 @@
  */
 package applications.trajectory;
 
+import applications.trajectory.geom.point.Point4D;
 import control.FiniteTrajectory4d;
 import control.dto.Pose;
 
@@ -12,13 +13,18 @@ import control.dto.Pose;
  */
 public class Hover implements FiniteTrajectory4d {
 
-	private Pose pose;
+	private Point4D pose;
 	private double duration;
 
 	public Hover (Pose pose, double duration) {
+		this(Point4D.from(pose), duration);
+	}
+
+	public Hover (Point4D pose, double duration) {
 		this.pose = pose;
 		this.duration = duration;
 	}
+
 	/* (non-Javadoc)
 	 * @see control.FiniteTrajectory4d#getTrajectoryDuration()
 	 */
@@ -36,7 +42,7 @@ public class Hover implements FiniteTrajectory4d {
 		if (timeInSeconds < 0) {
 			throw new IllegalArgumentException ("Pose for time < 0 is not allowed ("+timeInSeconds+")");
 		}
-		return this.pose;
+		return Pose.create(this.pose.getX(), this.pose.getY(), this.pose.getZ(), this.pose.getAngle());
 	}
 
 }

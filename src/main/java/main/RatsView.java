@@ -58,6 +58,12 @@ public class RatsView extends PApplet {
     public void setup() {
         fill(255);
 
+        try {
+            Thread.sleep(16000);
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+        
         initializeTrajectories();
     }
 
@@ -73,11 +79,11 @@ public class RatsView extends PApplet {
         introPositions.add(DronePositionConfiguration
                 .create(Romeo, Pose.create(7.0, 5.0, 1.0, 0.0), Pose.create(1.1, 5.0, 1.5, 0.0)));
         introPositions.add(DronePositionConfiguration
-                .create(Juliet, Pose.create(1.0, 5.0, 1.0, 0.0), Pose.create(4.9, 5.0, 1.5, 0.0)));
+                .create(Juliet, Pose.create(1.0, 5.0, 1.0, 0.0), Pose.create(6.9, 5.0, 1.5, 0.0)));
         introPositions.add(DronePositionConfiguration
                 .create(Fievel, Pose.create(1.0, 6.0, 1.0, 0.0), Pose.create(5.0, 2.5, 1.0, 0.0)));
         introPositions.add(DronePositionConfiguration
-                .create(Dumbo, Pose.create(4.0, 3.0, 1.0, 0.0), Pose.create(4.0, 3.5, 2.5, 0.0)));
+                .create(Dumbo, Pose.create(7.0, 3.0, 1.0, 0.0), Pose.create(4.0, 3.5, 2.5, 0.0)));
         ActConfiguration introConfiguration = ActConfiguration.create(introPositions); //1"
         Act introduction = IntroductionAct.create(introConfiguration);
         introduction.lockAndBuild();
@@ -153,15 +159,15 @@ public class RatsView extends PApplet {
         drones = new DroneView[choreo.getNumberDrones()];
 
         drones[0] = new DroneView(this, choreo.getFullTrajectory(Nerve), color(0, 200, 200),
-                1);   //cyan
+                10);   //cyan
         drones[1] = new DroneView(this, choreo.getFullTrajectory(Romeo), color(200, 200, 0),
-                50);  //yellow
+                10);  //yellow
         drones[2] = new DroneView(this, choreo.getFullTrajectory(Juliet), color(200, 0, 200),
-                50); //purple
+                10); //purple
         drones[3] = new DroneView(this, choreo.getFullTrajectory(Fievel), color(0, 255, 0),
-                50);  //green
+                10);  //green
         drones[4] = new DroneView(this, choreo.getFullTrajectory(Dumbo), color(0, 0, 250),
-                50);   //blue
+                10);   //blue
         /**
          * Safety checks for collision between drones
          */

@@ -16,7 +16,7 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
   private static final double TIME_TO_REST_AT_ORIGIN = 0.001d;
   private final FiniteTrajectory4d target;
 
-  WiggleTrajectory(Point4D centerPoint, int wiggles, double timeToStayAtEdges) {
+  public WiggleTrajectory(Point4D centerPoint, int wiggles, double timeToStayAtEdges) {
     TrajectoryComposite.Builder builder = TrajectoryComposite.builder();
     double orientation = centerPoint.getAngle();
     Point4D endRight =
@@ -32,17 +32,18 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
             centerPoint.getZ(),
             orientation);
 
+    builder
+    	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(centerPoint, endLeft, 1));
+
     for (int i = 0; i < wiggles; i++) {
       builder
-          .addTrajectory(Trajectories.newHoldPositionTrajectory(endRight))
-          .withDuration(timeToStayAtEdges);
+          	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endLeft, endRight, 1));
       builder
-          .addTrajectory(Trajectories.newHoldPositionTrajectory(endLeft))
-          .withDuration(2 * timeToStayAtEdges);
-      builder
-          .addTrajectory(Trajectories.newHoldPositionTrajectory(centerPoint))
-          .withDuration(TIME_TO_REST_AT_ORIGIN);
+      		.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endRight, endLeft, 1));
     }
+    builder
+    	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endLeft, centerPoint, 1));
+
     target = builder.build();
   }
 
