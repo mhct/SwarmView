@@ -380,4 +380,14 @@ public class CorkscrewTrajectory4DTest {
                 Trajectories.newCorkscrewTrajectory(start, end, velocity, radius, frequency, 0);
         verifyBounds(trajectory, 1000, radius, start, Point4D.from(end, orientation));
     }
+
+    @Test
+    public void testHoldAtEnd() {
+        Pose desiredPosition = trajectory.getDesiredPosition(300);
+        assertNotEquals(0, desiredPosition.x());
+        assertNotEquals(0, desiredPosition.y());
+        Pose desiredPosition2 = trajectory.getDesiredPosition(350);
+        assertEquals(desiredPosition, desiredPosition2);
+
+    }
 }
