@@ -1,5 +1,16 @@
 package main;
 
+import static control.DroneName.Dumbo;
+import static control.DroneName.Fievel;
+import static control.DroneName.Juliet;
+import static control.DroneName.Nerve;
+import static control.DroneName.Romeo;
+
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import control.Act;
 import control.ActConfiguration;
 import control.Choreography;
@@ -13,16 +24,6 @@ import rats.acts.chaos.ChaosAct;
 import rats.acts.introduction.IntroductionAct;
 import rats.acts.taming.TamingAct;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static control.DroneName.Dumbo;
-import static control.DroneName.Fievel;
-import static control.DroneName.Juliet;
-import static control.DroneName.Nerve;
-import static control.DroneName.Romeo;
-
 public class RatsView extends PApplet {
     private static final float MAX_ZOOM = 4.0f;
     private static final float MIN_ZOOM = 0.3f;
@@ -33,7 +34,8 @@ public class RatsView extends PApplet {
     final int displayDimensionY = 800;
     private boolean mouseActive = true;
     private boolean timerActive = true;
-    private boolean simulationActive = true;
+    private boolean droneNameActive = true;
+    private boolean simulationActive = false;
 
     private int lastMouseX;
     private int lastMouseY;
@@ -59,7 +61,6 @@ public class RatsView extends PApplet {
     @Override
     public void setup() {
         fill(255);
-
         initializeTrajectories();
     }
 
@@ -123,10 +124,10 @@ public class RatsView extends PApplet {
         ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions);
         Act attack = AttackAct.create(attackConfiguration);
         attack.lockAndBuild();
+
         //
-        //		//
-        //		//Specification of initial drone positions for Taming
-        //		//
+		//Specification of initial drone positions for Taming
+		//
         List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
         tamingPositions.add(DronePositionConfiguration
                 .create(Nerve, attack.finalPosition(Nerve), Pose.create(2.0, 2.0, 1.5, 0.0)));
@@ -179,7 +180,7 @@ public class RatsView extends PApplet {
 		
 		Point mouse = MouseInfo.getPointerInfo().getLocation();
 		
-		if (mouseIsActive()) {
+		if (isMouseActive()) {
 			lastMouseX = mouse.x;
 			lastMouseY = mouse.y;
 			lastZoom = zoom;
@@ -200,7 +201,7 @@ public class RatsView extends PApplet {
 		text("Origin", 0.0f, 0.0f, 0.0f);
 		
 		int timeStep = getCurrentTimeStep();
-		if (timerIsActive()) {
+		if (isTimerActive()) {
 			drawTimer(timeStep, choreo.getCurrentActName(timeStep/1000.0f));
 		}
 		for (int i=0; i<choreo.getNumberDrones(); i++) {
@@ -277,6 +278,10 @@ public class RatsView extends PApplet {
 			pauseToggle();
 		}
 		
+		if (event.getKey() == 'd') {
+			droneNameToggle();
+		}
+		
 		if (event.getKey() == 'r') {
 			initializeTrajectories();
 		}
@@ -305,6 +310,17 @@ public class RatsView extends PApplet {
 	}
 	
 	/**
+	 * Activates/deactivates the display of the drone name
+	 */
+	private void droneNameToggle() {
+		if (droneNameActive  == true) {
+			droneNameActive = false;
+		} else {
+			droneNameActive = true;
+		}
+	}
+	
+	/**
 	 * Activates/deactivates the simulation
 	 */
 	private void pauseToggle() {
@@ -318,12 +334,16 @@ public class RatsView extends PApplet {
 		}
 	}
 	
-	private boolean mouseIsActive() {
+	private boolean isMouseActive() {
 		return mouseActive;
 	}
 	
-	public boolean timerIsActive() {
+	public boolean isTimerActive() {
 		return timerActive;
+	}
+	
+	public boolean isDroneNameActive() {
+		return droneNameActive ;
 	}
 	
 	private boolean simulationIsActive() {
@@ -344,16 +364,6 @@ public class RatsView extends PApplet {
 		int milliseconds = (int) (time % 1000);
 		text(String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
 		text(msg, 400.0f, -450.0f, 0.0f);
-		popMatrix();
-	}
-	
-	private void drawEndMessage() {
-		pushMatrix();
-		rotateX(-PI/2);
-		fill(255);
-		textSize(72);
-		
-		text("Show is over. Press (r) to restart.", -100.0f, -200.0f, 0.0f);
 		popMatrix();
 	}
 	

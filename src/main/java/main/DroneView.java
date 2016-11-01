@@ -7,7 +7,7 @@ import control.dto.Pose;
 import processing.core.PApplet;
 
 public class DroneView {
-	private final PApplet canvas;
+	private final RatsView canvas;
 	private final FiniteTrajectory4d trajectory;
 	private final int BUFFER_SIZE;
 	private final Sprite[] previousSprites;
@@ -28,7 +28,7 @@ public class DroneView {
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
-	DroneView(PApplet canvas, FiniteTrajectory4d trajectory) {
+	DroneView(RatsView canvas, FiniteTrajectory4d trajectory) {
 		this.canvas = canvas;
 		this.trajectory = trajectory;
 		this.color = 255;
@@ -49,7 +49,12 @@ public class DroneView {
 		} 
 		spriteIndex = (spriteIndex+1) % BUFFER_SIZE;
 		showSprites();
-		currentSprite.draw(canvas, 255, name);
+		
+		if (canvas.isDroneNameActive()) {
+			currentSprite.draw(canvas, 255, name);
+		} else {
+			currentSprite.draw(canvas, 255);
+		}
 
 	}
 	
@@ -89,7 +94,7 @@ public class DroneView {
 			canvas.noFill();
 			canvas.stroke(color, alfa);
 			canvas.translate(x,  y, z);
-			canvas.rotateX(-canvas.PI/2);
+			canvas.rotateX(-PApplet.PI/2);
 			if (!"".equals(spriteMsg)) {
 				canvas.textSize(26);
 				canvas.text(spriteMsg, -20.0f, -20.0f, -10.0f);

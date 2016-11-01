@@ -3,9 +3,12 @@ Configure IDE to use autovalue
 - http://www.codeaffine.com/2014/03/04/using-the-autovalue-code-generator-in-eclipse/
 
 ## Using the View
-The view has 4 key-bindings defined:
+The presentation starts in a paused state.
+
+The view has key-bindings defined as:
 - **z** activates/deactivates the mouse
 - **t** displays/hides the simulation time
+- **d** displays/hides the drone names
 - **SPACE key** pauses the simulation view. Note that the simulation time continues advancing in the background. Imagine this option as a snapshot in time.
 - **r** restarts the simulation
 
