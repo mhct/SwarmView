@@ -35,7 +35,7 @@ public class RatsView extends PApplet {
     private boolean mouseActive = true;
     private boolean timerActive = true;
     private boolean droneNameActive = true;
-    private boolean simulationActive = true;
+    private boolean simulationActive = false;
 
     private int lastMouseX;
     private int lastMouseY;
@@ -61,13 +61,6 @@ public class RatsView extends PApplet {
     @Override
     public void setup() {
         fill(255);
-
-        try {
-            Thread.sleep(16000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-        
         initializeTrajectories();
     }
 
@@ -130,10 +123,10 @@ public class RatsView extends PApplet {
         ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions);
         Act attack = AttackAct.create(attackConfiguration);
         attack.lockAndBuild();
+
         //
-        //		//
-        //		//Specification of initial drone positions for Taming
-        //		//
+		//Specification of initial drone positions for Taming
+		//
         List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
         tamingPositions.add(DronePositionConfiguration
                 .create(Nerve, attack.finalPosition(Nerve), Pose.create(2.0, 2.0, 1.5, 0.0)));
@@ -370,16 +363,6 @@ public class RatsView extends PApplet {
 		int milliseconds = (int) (time % 1000);
 		text(String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
 		text(msg, 400.0f, -450.0f, 0.0f);
-		popMatrix();
-	}
-	
-	private void drawEndMessage() {
-		pushMatrix();
-		rotateX(-PI/2);
-		fill(255);
-		textSize(72);
-		
-		text("Show is over. Press (r) to restart.", -100.0f, -200.0f, 0.0f);
 		popMatrix();
 	}
 	
