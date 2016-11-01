@@ -324,17 +324,22 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         private final double speed;
         private final double frequency;
         private final double radius;
-        private Trajectory2d circlePlane;
-        private boolean atEnd;
+        private final Trajectory2d circlePlane;
+        private final Trajectory2d holdAtEnd;
+        private final double endOrdinate, endAbscissa;
+        private final double duration;
 
         private UnitTrajectory(CircleTrajectory2D circlePlane, double speed, double endPoint) {
             this.linear = new LinearTrajectory1D(0, speed);
             this.circlePlane = circlePlane;
+            this.holdAtEnd = new NoMovement2DTrajectory();
             this.endPoint = endPoint;
-            this.atEnd = false;
             this.speed = speed;
             this.frequency = circlePlane.getFrequency();
             this.radius = circlePlane.getRadius();
+            this.duration = endPoint / speed;
+            this.endOrdinate = circlePlane.getDesiredPositionOrdinate(endPoint / speed);
+            this.endAbscissa = circlePlane.getDesiredPositionAbscissa(endPoint / speed);
         }
 
         double getSpeed() {
@@ -342,11 +347,7 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         }
 
         public double getDesiredPositionX(double timeInSeconds) {
-            if (atEnd) {
-                return endPoint;
-            }
-            if (linear.getDesiredPosition(timeInSeconds) > endPoint) {
-                markEnd();
+            if (timeInSeconds > duration) {
                 return endPoint;
             }
             return linear.getDesiredPosition(timeInSeconds);
@@ -356,33 +357,21 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
             return radius;
         }
 
-        private void markEnd() {
-            this.atEnd = true;
-            this.circlePlane = new NoMovement2DTrajectory();
-        }
-
         double getFrequency() {
             return frequency;
         }
 
-        private class NoMovement2DTrajectory implements Trajectory2d {
-
-            @Override
-            public double getDesiredPositionAbscissa(double timeInSeconds) {
-                return 0;
-            }
-
-            @Override
-            public double getDesiredPositionOrdinate(double timeInSeconds) {
-                return 0;
-            }
-        }
-
         public double getDesiredPositionY(double timeInSeconds) {
+            if (timeInSeconds > duration) {
+                return holdAtEnd.getDesiredPositionOrdinate(timeInSeconds);
+            }
             return circlePlane.getDesiredPositionOrdinate(timeInSeconds);
         }
 
         public double getDesiredPositionZ(double timeInSeconds) {
+            if (timeInSeconds > duration) {
+                return holdAtEnd.getDesiredPositionAbscissa(timeInSeconds);
+            }
             return circlePlane.getDesiredPositionAbscissa(timeInSeconds);
         }
 
@@ -401,6 +390,19 @@ public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements F
         @Override
         public double getTrajectoryDuration() {
             return endPoint / speed;
+        }
+
+        private class NoMovement2DTrajectory implements Trajectory2d {
+
+            @Override
+            public double getDesiredPositionAbscissa(double timeInSeconds) {
+                return endAbscissa;
+            }
+
+            @Override
+            public double getDesiredPositionOrdinate(double timeInSeconds) {
+                return endOrdinate;
+            }
         }
     }
 }
