@@ -138,7 +138,7 @@ public class RatsView extends PApplet {
         tamingPositions.add(DronePositionConfiguration
                 .create(Fievel, attack.finalPosition(Fievel), Pose.create(5.0, 5.0, 1.5, 0.0)));
         tamingPositions.add(DronePositionConfiguration
-                .create(Dumbo, attack.finalPosition(Dumbo), Pose.create(6.0, 6.0, 1.5, 0.0)));
+                .create(Dumbo, attack.finalPosition(Dumbo), Pose.create(6.0, 6.1, 1.5, 0.0)));
         ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions);
         Act taming = TamingAct.create(tamingConfiguration);
         taming.lockAndBuild();
@@ -147,9 +147,9 @@ public class RatsView extends PApplet {
         // Configures the whole TrajectoryComposite
         //
         choreo = Choreography.create(5);
-        choreo.addAct(introduction);
-        choreo.addAct(chaos);
-        choreo.addAct(attack);
+//        choreo.addAct(introduction);
+//        choreo.addAct(chaos);
+//        choreo.addAct(attack);
         choreo.addAct(taming);
 
         //
