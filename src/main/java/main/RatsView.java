@@ -147,9 +147,9 @@ public class RatsView extends PApplet {
         // Configures the whole TrajectoryComposite
         //
         choreo = Choreography.create(5);
-        choreo.addAct(introduction);
-        choreo.addAct(chaos);
-        choreo.addAct(attack);
+//        choreo.addAct(introduction);
+//        choreo.addAct(chaos);
+//        choreo.addAct(attack);
         choreo.addAct(taming);
 
         //
@@ -221,7 +221,7 @@ public class RatsView extends PApplet {
 			proposedTimeStep = lastTimeStep;
 		}
 		
-		if (proposedTimeStep/1000.0f - choreo.getChoreographyDuration() < 0.001) {
+		if (proposedTimeStep/1000.0f - choreo.getChoreographyDuration() < 0.0001) {
 			timeStep = proposedTimeStep;
 			lastTimeStep = timeStep;
 		} else {

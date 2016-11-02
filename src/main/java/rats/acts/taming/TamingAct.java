@@ -12,10 +12,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import applications.trajectory.CircleTrajectory4D;
 import applications.trajectory.Hover;
 import applications.trajectory.StraightLineTrajectory4D;
 import applications.trajectory.composites.TrajectoryComposite;
 import applications.trajectory.composites.TrajectoryComposite.Builder;
+import applications.trajectory.geom.point.Point3D;
 import applications.trajectory.geom.point.Point4D;
 import control.Act;
 import control.ActConfiguration;
@@ -148,6 +150,10 @@ public class TamingAct extends Act {
 				drones.values().forEach(drone -> drone.moveAway(center, -distanceAway, durationAway));
 			}
 			
+			//circling
+			drones.values().forEach(drone -> drone.moveCircle(center, true, 10));
+			drones.values().forEach(drone -> drone.moveCircle(center, false, 10));
+			
 		}
 
 	}
@@ -160,6 +166,36 @@ public class TamingAct extends Act {
 		public Particle(Pose initial) {
 			this.current = Point4D.from(initial);
 			movementParts = new ArrayList<>();
+		}
+
+		public void moveCircle(Point4D center, boolean clockwise, double duration) {
+			double frequency;
+			if (clockwise) {
+				frequency = 0.1;
+			} else {
+				frequency = -0.1;
+			}
+			double dx = current.getX() - center.getX();
+			double dy = current.getY() - center.getY();
+			double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
+			if (Math.abs(dy - 0.0) >= 0.00001) {
+				double theta = Math.acos(dx/(distanceToCenter));
+				if (dy <= 0.0) {
+					theta += Math.PI;
+				} 
+				
+				FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(
+						CircleTrajectory4D.builder()
+						.setLocation(Point3D.project(center))
+						.setPhase(theta)
+						.fixYawAt(-Math.PI/2)
+						.setRadius(distanceToCenter)
+						.setFrequency(frequency)
+						.build()).withDuration(duration).build();
+				this.addMovement(circle);
+			} else {
+				this.addMovement(new Hover(current, duration));
+			}
 		}
 
 		public void moveDown(double distance, double duration) {
