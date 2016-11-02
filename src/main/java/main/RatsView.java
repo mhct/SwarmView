@@ -147,9 +147,9 @@ public class RatsView extends PApplet {
         // Configures the whole TrajectoryComposite
         //
         choreo = Choreography.create(5);
-//        choreo.addAct(introduction);
-//        choreo.addAct(chaos);
-//        choreo.addAct(attack);
+        choreo.addAct(introduction);
+        choreo.addAct(chaos);
+        choreo.addAct(attack);
         choreo.addAct(taming);
 
         //

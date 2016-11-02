@@ -33,10 +33,6 @@ public class TamingAct extends Act {
 		
 	}
 	
-//	public FiniteTrajectory4d getTrajectory(DroneName drone) {
-//		return swarm.get(drone);
-//	}
-	
 	/**
 	 * Adds all the movements of this act
 	 * @return
@@ -80,10 +76,10 @@ public class TamingAct extends Act {
 		
 		try {
 			for (DroneName drone: DroneName.values()) {
-				act.addTrajectory(drone, TrajectoryComposite.builder().
-						addTrajectory(goToPosition.getTrajectory(drone)).
-						addTrajectory(swarm.get(drone)).
-						addTrajectory(goToFinalPosition.getTrajectory(drone)).build());
+				act.addTrajectory(drone, TrajectoryComposite.builder()
+						.addTrajectory(goToPosition.getTrajectory(drone))
+						.addTrajectory(swarm.get(drone))
+						.addTrajectory(goToFinalPosition.getTrajectory(drone)).build());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,34 +196,38 @@ public class TamingAct extends Act {
 
 		public void moveDown(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, 0.0);
-			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+			moveToPoint(destination, duration);
 		}
 
 		public void moveUp(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() + distance, 0.0);
-			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+			moveToPoint(destination, duration);
 		}
 		
 		public void moveRight(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX()-distance, current.getY(), current.getZ(), 0.0);
-			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+			moveToPoint(destination, duration);
 		}
 
 		public void moveLeft(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX()+distance, current.getY(), current.getZ(), 0.0);
-			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+			moveToPoint(destination, duration);
 		}
 
 		public void moveNorth(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX(), current.getY()+distance, current.getZ(), 0.0);
-			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+			moveToPoint(destination, duration);
 		}
 
 		public void moveSouth(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX(), current.getY()-distance, current.getZ(), 0.0);
-			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+			moveToPoint(destination, duration);
 		}
 
+		private void moveToPoint(Point4D destination, double duration) {
+			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+		}
+		
 		public void moveAway(Point4D center, double distance, double duration) {
 			double dx = current.getX() - center.getX();
 			double dy = current.getY() - center.getY();
