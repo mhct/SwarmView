@@ -19,7 +19,7 @@ public abstract class ActConfiguration {
 		return new AutoValue_ActConfiguration("", dronePositionConfiguration);
 	}
 	
-	public static ActConfiguration createFromInitialFinapPositions(Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions) {
+	public static ActConfiguration createFromInitialFinalPositions(Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions) {
 
 		List<DronePositionConfiguration> positions = new ArrayList<>();
 

@@ -54,7 +54,7 @@ public class TamingAct extends Act {
 		beginMovement.put(Juliet, Pose.create(4, 6, 1.5, 0));
 		
 		List<DroneName> beginMovementOrder = Arrays.asList(Nerve, Romeo, Fievel, Dumbo, Juliet);
-		ActConfiguration beginActConfiguration = ActConfiguration.createFromInitialFinapPositions(act.initialPositions(), beginMovement);
+		ActConfiguration beginActConfiguration = ActConfiguration.createFromInitialFinalPositions(act.initialPositions(), beginMovement);
 		Act goToPosition = InterAct.createWithOrderedSequentialMovement(beginActConfiguration, 1.0, beginMovementOrder);
 		goToPosition.lockAndBuild();
 		
@@ -73,7 +73,7 @@ public class TamingAct extends Act {
 		moveToFinalPositionMovement.put(Fievel, swarm.getFinalPose(Fievel));
 		moveToFinalPositionMovement.put(Dumbo, swarm.getFinalPose(Dumbo));
 		moveToFinalPositionMovement.put(Juliet, swarm.getFinalPose(Juliet));
-		ActConfiguration goUpActConfiguration = ActConfiguration.createFromInitialFinapPositions(moveToFinalPositionMovement, act.finalPositions());
+		ActConfiguration goUpActConfiguration = ActConfiguration.createFromInitialFinalPositions(moveToFinalPositionMovement, act.finalPositions());
 		Act goToFinalPosition = InterAct.createWithSequentialMovement(goUpActConfiguration, 1.0);
 		
 		try {

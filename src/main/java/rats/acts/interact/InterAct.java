@@ -95,7 +95,7 @@ public class InterAct extends Act {
 	}
 	
 	public static Act createWithSequentialMovement (Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions, double timeBetween) {
-		ActConfiguration configuration = ActConfiguration.createFromInitialFinapPositions(initialPositions, finalPositions);
+		ActConfiguration configuration = ActConfiguration.createFromInitialFinalPositions(initialPositions, finalPositions);
 		return createWithSequentialMovement (configuration, timeBetween);
 	}
 
