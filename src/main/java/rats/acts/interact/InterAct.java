@@ -3,7 +3,6 @@
  */
 package rats.acts.interact;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import applications.trajectory.geom.point.Point4D;
 import control.Act;
 import control.ActConfiguration;
 import control.DroneName;
-import control.DronePositionConfiguration;
 import control.dto.Pose;
 
 /**
@@ -37,13 +35,25 @@ public class InterAct extends Act {
 	public static Act createWithSequentialMovement (ActConfiguration configuration) {
 		return createWithSequentialMovement (configuration, TIME_BETWEEN_STARTS);
 	}
-		
+	
 	public static Act createWithSequentialMovement (ActConfiguration configuration, double timeBetween) {
-			
+		return createWithOrderedSequentialMovement(configuration, timeBetween, null);
+	}
+	
+	public static Act createWithOrderedSequentialMovement (ActConfiguration configuration, double timeBetween, List<DroneName> movementOrder) {
+		DroneName[] droneMovementOrder = new DroneName[DroneName.values().length];
+		
+		// Initializes the drone movement order
+		if (movementOrder != null && movementOrder.size() == DroneName.values().length) {
+			droneMovementOrder = movementOrder.toArray(droneMovementOrder);
+		} else {
+			droneMovementOrder = DroneName.values();
+		}
+		
 		Act act = new InterAct(configuration);
 		
 		int number = 0;
-		for (DroneName drone : DroneName.values()) {
+		for (DroneName drone : droneMovementOrder) {
 
 			Builder trajectoryBuilder = TrajectoryComposite.builder();
 
@@ -85,14 +95,7 @@ public class InterAct extends Act {
 	}
 	
 	public static Act createWithSequentialMovement (Map<DroneName,Pose> initialPositions, Map<DroneName,Pose> finalPositions, double timeBetween) {
-
-		List<DronePositionConfiguration> positions = new ArrayList<>();
-
-		for (DroneName drone : DroneName.values()) {
-			positions.add(DronePositionConfiguration.create(drone, initialPositions.get(drone),  finalPositions.get(drone)));
-		}
-		ActConfiguration configuration = ActConfiguration.create(positions); //1"
-
+		ActConfiguration configuration = ActConfiguration.createFromInitialFinalPositions(initialPositions, finalPositions);
 		return createWithSequentialMovement (configuration, timeBetween);
 	}
 
