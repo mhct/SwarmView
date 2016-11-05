@@ -10,7 +10,7 @@ import control.dto.Pose;
  *
  * @author Mario h.c.t.
  */
-public class Choreography {
+public class Choreography implements ChoreographyView {
     private int numberDrones;
     private final List<Act> acts = new ArrayList<>();
 
@@ -27,6 +27,7 @@ public class Choreography {
         return choreo;
     }
 
+    @Override
     public int getNumberDrones() {
         return numberDrones;
     }
@@ -35,6 +36,7 @@ public class Choreography {
         this.numberDrones = numberDrones;
     }
 
+    @Override
     public FiniteTrajectory4d getFullTrajectory(DroneName name) {
         //iterate over all acts,
         //retrieve the trajectory per dronename
@@ -81,6 +83,7 @@ public class Choreography {
         acts.add(act);
     }
     
+    @Override
     public double getChoreographyDuration() {
     	double duration = 0.0;
     	for (Act act: acts) {
@@ -89,6 +92,7 @@ public class Choreography {
     	return duration;
     }
 
+    @Override
 	public String getCurrentActName(float timeStep) {
 		float accumulatedTime = 0.0f;
 		for (Act act: acts) {
@@ -100,4 +104,14 @@ public class Choreography {
 		
 		return "no act";
 	}
+    
+    @Override
+    public List<FiniteTrajectory4d> getAllTrajectories() {
+    	List<FiniteTrajectory4d> trajectories = new ArrayList<FiniteTrajectory4d>();
+    	for (DroneName drone: DroneName.values()) {
+    		trajectories.add(getFullTrajectory(drone));
+    	}
+    	
+    	return trajectories;
+    }
 }
