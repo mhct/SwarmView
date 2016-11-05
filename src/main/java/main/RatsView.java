@@ -221,7 +221,7 @@ public class RatsView extends PApplet {
 			proposedTimeStep = lastTimeStep;
 		}
 		
-		if (proposedTimeStep/1000.0f - choreo.getChoreographyDuration() < 0.001) {
+		if (proposedTimeStep/1000.0f - choreo.getChoreographyDuration() < 0.0001) {
 			timeStep = proposedTimeStep;
 			lastTimeStep = timeStep;
 		} else {
