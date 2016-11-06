@@ -26,16 +26,21 @@ task testReport(type: TestReport) {
 }
 
 //create a single Jar with all dependencies
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'RatsView',
-                'Main-Class': 'main.RatsView'
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
+//task fatJar(type: Jar) {
+//    manifest {
+//        attributes 'Implementation-Title': 'RatsView',
+//                'Main-Class': 'main.RatsView'
+//    }
+//    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with jar
+//}
 
+//jar {
+//     from sourceSets.main.allSource
+//}
+
+ 
 test {
     jacoco {
         destinationFile = file("$buildDir/jacoco/test.exec")
@@ -81,6 +86,10 @@ jar {
 	manifest {
 		attributes "Main-Class": "main.RatsView"
 	}
+}
+task jarSources(type:Jar){
+    from sourceSets.main.allSource
+    classifier = 'source'
 }
 
 dependencies {

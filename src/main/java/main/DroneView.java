@@ -36,7 +36,7 @@ public class DroneView {
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
-	void displayNext(float timeStep) {
+	Pose displayNext(float timeStep) {
 		Pose pose = trajectory.getDesiredPosition(timeStep);
 		double x = pose.x();
 		double y = pose.y();
@@ -56,6 +56,7 @@ public class DroneView {
 			currentSprite.draw(canvas, 255);
 		}
 
+		return pose;
 	}
 	
 	
@@ -93,7 +94,7 @@ public class DroneView {
 			canvas.pushMatrix();
 			canvas.noFill();
 			canvas.stroke(color, alfa);
-			canvas.translate(x,  y, z);
+			canvas.translate(x, y, z);
 			canvas.rotateX(-PApplet.PI/2);
 			if (!"".equals(spriteMsg)) {
 				canvas.textSize(26);

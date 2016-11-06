@@ -6,6 +6,7 @@ import static control.DroneName.Juliet;
 import static control.DroneName.Nerve;
 import static control.DroneName.Romeo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import rats.acts.taming.TamingAct;
 public class RatsShow {
 	
 	public static ChoreographyView createChoreography() {
-        //
+		//
         //Specification of initial drone positions for Introduction
         //
         List<DronePositionConfiguration> introPositions = new ArrayList<>();

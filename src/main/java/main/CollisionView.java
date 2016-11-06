@@ -16,7 +16,8 @@ public class CollisionView {
 		canvas.noFill();
 		canvas.translate((float)point.getX()*100, (float)point.getY()*100, (float)point.getZ()*100);
 		canvas.textSize(100);
-		canvas.text("X", 0, 0, 0);
+//		canvas.text("X", 0, 0, 0);
+		canvas.box(50);
 		canvas.stroke(255);
 		canvas.popMatrix();
 	}
