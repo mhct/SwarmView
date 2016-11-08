@@ -45,11 +45,11 @@ public class TamingAct extends Act {
 		// Go to initial positions
 		//
 		Map<DroneName, Pose> beginMovement = new LinkedHashMap<DroneName, Pose>(5);
-		beginMovement.put(Nerve, Pose.create(6, 3, 1.5, 0));
-		beginMovement.put(Romeo, Pose.create(4, 3, 1.5, 0));
-		beginMovement.put(Fievel, Pose.create(5, 4.5, 1.5, 0));
-		beginMovement.put(Dumbo, Pose.create(6, 6, 1.5, 0));
-		beginMovement.put(Juliet, Pose.create(4, 6, 1.5, 0));
+		beginMovement.put(Nerve, Pose.create(5.0, 2.0, 1.5, 0));
+		beginMovement.put(Romeo, Pose.create(3.0, 2.0, 1.5, 0));
+		beginMovement.put(Fievel, Pose.create(4, 6.0, 1.5, 0));
+		beginMovement.put(Dumbo, Pose.create(6.2, 4.5, 1.5, 0));
+		beginMovement.put(Juliet, Pose.create(1.8, 4.5, 1.5, 0));
 		
 		List<DroneName> beginMovementOrder = Arrays.asList(Nerve, Romeo, Fievel, Dumbo, Juliet);
 		ActConfiguration beginActConfiguration = ActConfiguration.createFromInitialFinalPositions(act.initialPositions(), beginMovement);
@@ -137,18 +137,21 @@ public class TamingAct extends Act {
 			
 			Point4D center = Point4D.create(5, 4.5, 1.5, 0);
 			final double durationAway = 1;
-			final double distanceAway = 2.0;
+			final double distanceAway = 1.0;
 
+			//reduce square size
+			drones.values().forEach(drone -> drone.moveAway(center, -distanceAway, durationAway));
+			
 			for (int i=0; i<4; i++) {
 				//grow square
-				drones.values().forEach(drone -> drone.moveAway(center, distanceAway, durationAway));
-				//reduce square size
-				drones.values().forEach(drone -> drone.moveAway(center, -distanceAway, durationAway));
+				drones.values().forEach(drone -> drone.moveAway(center, distanceAway+1.0, durationAway+1.0));
+				//grow square
+				drones.values().forEach(drone -> drone.moveAway(center, -distanceAway-1.0, durationAway+1.0));
 			}
 			
 			//circling
-			drones.values().forEach(drone -> drone.moveCircle(center, true, 10));
-			drones.values().forEach(drone -> drone.moveCircle(center, false, 10));
+//			drones.values().forEach(drone -> drone.moveCircle(center, true, 10));
+//			drones.values().forEach(drone -> drone.moveCircle(center, false, 10));
 			
 		}
 
