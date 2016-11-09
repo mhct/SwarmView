@@ -36,12 +36,8 @@ task testReport(type: TestReport) {
 //    with jar
 //}
 
-//jar {
-//     from sourceSets.main.allSource
-//}
-
- 
 test {
+
     jacoco {
         destinationFile = file("$buildDir/jacoco/test.exec")
         classDumpFile = file("$buildDir/build/classes/test")
@@ -90,6 +86,16 @@ jar {
 task jarSources(type:Jar){
     from sourceSets.main.allSource
     classifier = 'source'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
 }
 
 dependencies {
