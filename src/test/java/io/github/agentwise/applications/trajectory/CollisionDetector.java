@@ -19,7 +19,7 @@ import static io.github.agentwise.applications.trajectory.geom.point.Point3D.sca
 import java.util.Collection;
 import java.util.List;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class CollisionDetector {
   private static final double DEFAULT_MINIMUM_DISTANCE = 1;
   private static final double DEFAULT_TIME_DELTA = 0.01;

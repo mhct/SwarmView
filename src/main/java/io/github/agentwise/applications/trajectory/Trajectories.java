@@ -7,7 +7,7 @@ import io.github.agentwise.control.FiniteTrajectory4d;
 /**
  * Utility factory class for creating motion primitives.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public final class Trajectories {
     private Trajectories() {

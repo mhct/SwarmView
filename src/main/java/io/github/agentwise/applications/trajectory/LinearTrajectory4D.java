@@ -5,7 +5,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
 /**
  * A linear trajectory in four dimensions as a composite of four 1d linear components.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 class LinearTrajectory4D extends BasicTrajectory implements Trajectory4d {
 

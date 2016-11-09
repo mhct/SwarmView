@@ -12,7 +12,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
  * near the edges of the range of motion.
  * This 1D trajectory assumes the X-dimension of the (x,y,z) space.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 class PendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory1d {
     private static final double MAXRANGE_VELOCITY_PERIODIC_PART = 0.649091;

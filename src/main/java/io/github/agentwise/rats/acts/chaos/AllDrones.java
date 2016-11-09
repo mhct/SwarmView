@@ -19,7 +19,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public abstract class AllDrones {
     protected static final double orientation = -Math.PI / 2;

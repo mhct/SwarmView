@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * will cause overshooting behavior. Choose a value < 1 to trigger the controller to start braking
  * sooner.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteTrajectory4d {
     private final Point4D srcpoint;

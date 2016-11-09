@@ -17,7 +17,7 @@ import static io.github.agentwise.applications.trajectory.CollisionDetector.Coll
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class CollisionDetectorTest {
 
   private FiniteTrajectory4d holdPos;

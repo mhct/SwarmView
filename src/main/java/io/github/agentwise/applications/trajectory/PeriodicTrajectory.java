@@ -5,7 +5,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
 /**
  * Abstract class for periodic trajectory commonalities.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public abstract class PeriodicTrajectory extends BasicTrajectory {
 

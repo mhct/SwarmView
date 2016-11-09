@@ -11,7 +11,7 @@ import io.github.agentwise.applications.trajectory.Trajectory1d;
 import io.github.agentwise.applications.trajectory.Trajectory2d;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public abstract class Periodic2DTest {
     protected final double lowFreq = 1 / 10;

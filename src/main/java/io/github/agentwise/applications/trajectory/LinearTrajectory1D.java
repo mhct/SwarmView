@@ -3,7 +3,7 @@ package io.github.agentwise.applications.trajectory;
 /**
  * A linear trajectory in one dimension.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 class LinearTrajectory1D extends BasicTrajectory implements Trajectory1d {
     private final double startComp;

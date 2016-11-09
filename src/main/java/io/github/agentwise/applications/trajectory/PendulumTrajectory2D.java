@@ -9,7 +9,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
  * per second) and a radius (the length of the virtual pendulum string). The pendulum trajectory is
  * a half circle but with with modeled transition from kinetic to potential energy and back.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public final class PendulumTrajectory2D extends PeriodicTrajectory implements Trajectory2d {
     private final Trajectory1d linearMovement;

@@ -9,7 +9,7 @@ import io.github.agentwise.control.dto.Pose;
  * Trajectory that performs a wiggle effect in place. Note that this trajectory does not keep to the
  * usual enterVelocity restraints.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajectory4d {
   private static final double WIGGLE_DISTANCE = 0.5d;

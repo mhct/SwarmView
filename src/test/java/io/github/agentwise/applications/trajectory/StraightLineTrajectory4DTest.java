@@ -17,7 +17,7 @@ import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityZ
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class StraightLineTrajectory4DTest {
     protected final double speed = 1;

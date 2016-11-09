@@ -5,7 +5,7 @@ import io.github.agentwise.control.FiniteTrajectory4d;
 /**
  * Trajectory server instances offer fully built finite trajectories.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public interface TrajectoryServer {
 

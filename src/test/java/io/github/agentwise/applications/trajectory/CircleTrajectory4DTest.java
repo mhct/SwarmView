@@ -13,7 +13,7 @@ import static io.github.agentwise.applications.trajectory.TestUtils.assertBounds
 
 import java.util.List;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class CircleTrajectory4DTest {
 
   private Trajectory4d target;

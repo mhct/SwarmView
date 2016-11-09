@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import io.github.agentwise.applications.trajectory.CircleTrajectory2D;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class CircleTrajectory2DTest extends Periodic2DTest {
 
   @Before

@@ -6,7 +6,7 @@ import io.github.agentwise.control.FiniteTrajectory4d;
 /**
  * Utility class for static utilities used in defining trajectories.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public final class TrajectoryUtils {
     private TrajectoryUtils() {

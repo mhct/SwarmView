@@ -5,7 +5,7 @@ import com.google.auto.value.AutoValue;
 /**
  * Point class for grouping a point in 4d space with angular orientation.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 @AutoValue
 public abstract class Point3D {

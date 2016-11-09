@@ -15,7 +15,7 @@ import static io.github.agentwise.applications.trajectory.TestUtils.assertBounds
 import static junit.framework.TestCase.assertEquals;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class SwingTrajectory4DTest {
 

@@ -12,7 +12,7 @@ import io.github.agentwise.control.dto.Pose;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public abstract class TwinDrones {
     protected static final double orientation = -Math.PI / 2;

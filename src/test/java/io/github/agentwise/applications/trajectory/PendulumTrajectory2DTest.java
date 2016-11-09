@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import io.github.agentwise.applications.trajectory.PendulumTrajectory2D;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class PendulumTrajectory2DTest extends Periodic2DTest {
 
   @Before

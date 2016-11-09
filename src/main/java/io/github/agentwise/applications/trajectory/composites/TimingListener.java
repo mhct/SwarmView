@@ -3,7 +3,7 @@ package io.github.agentwise.applications.trajectory.composites;
 /**
  * Listener interface for timing events.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 interface TimingListener {
   /**

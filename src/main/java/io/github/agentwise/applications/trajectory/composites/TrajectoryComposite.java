@@ -25,7 +25,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * Instances of TrajectoryComposite are immutable for safety purposes and should be built using
  * TrajectoryComposite.Builder().
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public final class TrajectoryComposite extends BasicTrajectory implements FiniteTrajectory4d {
     private final List<TrajectoryCompositeSegment> compositeSegments;

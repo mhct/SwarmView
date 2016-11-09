@@ -16,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * radius as perpendicular distance to the straight line (origin-destination) and a frequency to
  * specify the number of revolutions.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public final class CorkscrewTrajectory4D extends PeriodicTrajectory implements FiniteTrajectory4d {
 

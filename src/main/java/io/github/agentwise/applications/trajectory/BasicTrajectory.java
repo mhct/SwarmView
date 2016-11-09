@@ -5,7 +5,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
 /**
  * Basic trajectories to be executed and synced at the time set by the user.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public abstract class BasicTrajectory {
     public static final double MAX_ABSOLUTE_VELOCITY = 3;

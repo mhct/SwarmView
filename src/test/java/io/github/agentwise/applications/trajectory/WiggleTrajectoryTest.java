@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class WiggleTrajectoryTest {
     private static final double CENTERX = 10;

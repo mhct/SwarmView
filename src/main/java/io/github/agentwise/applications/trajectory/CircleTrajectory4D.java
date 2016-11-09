@@ -11,7 +11,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
  * xy-plane. This angle represents the angle between the xy-plane and the plane in which the circle
  * movement is performed.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public final class CircleTrajectory4D extends PeriodicTrajectory implements Trajectory4d {
   private final Point3D location;

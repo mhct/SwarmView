@@ -3,7 +3,7 @@ package io.github.agentwise.applications.trajectory;
 import io.github.agentwise.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.control.dto.Pose;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class HoldPositionTrajectory4D implements Trajectory4d {
   private final Point4D targetPoint;
 

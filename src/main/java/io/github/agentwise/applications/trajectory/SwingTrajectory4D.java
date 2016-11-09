@@ -5,7 +5,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
 /**
  * Swing trajectory in 3D space as a 4D trajectory.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 class SwingTrajectory4D extends PeriodicTrajectory implements Trajectory4d {
     private final Trajectory2d swing;

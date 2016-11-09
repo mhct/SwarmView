@@ -9,7 +9,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point4D;
  * second) and a radius (half of the total distance covered). This swing trajectory follows a
  * constant angular enterVelocity function over the radian cirle.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 class ConstantSwingTrajectory1D extends PeriodicTrajectory implements Trajectory1d {
     private final double freq2pi;

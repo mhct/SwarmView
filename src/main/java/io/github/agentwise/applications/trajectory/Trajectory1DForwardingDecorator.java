@@ -3,7 +3,7 @@ package io.github.agentwise.applications.trajectory;
 /**
  * Forwarding decorator for trajectory1D instances with inner-trajectory1D hooks.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public abstract class Trajectory1DForwardingDecorator implements Trajectory1d {
   private final Trajectory1d target;

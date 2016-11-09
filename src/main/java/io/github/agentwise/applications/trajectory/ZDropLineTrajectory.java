@@ -16,7 +16,7 @@ import static io.github.agentwise.applications.trajectory.TrajectoryUtils.sample
  * A straight line trajectory in xy plane with sudden drops in the z dimension. Source and
  * destination point shoudl be in the same z plane.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class ZDropLineTrajectory extends BasicTrajectory implements FiniteTrajectory4d {
 

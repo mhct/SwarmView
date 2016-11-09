@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * MultiTrajectoryServer instances offer multiple trajectory server instances.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public interface MultiTrajectoryServer {
 

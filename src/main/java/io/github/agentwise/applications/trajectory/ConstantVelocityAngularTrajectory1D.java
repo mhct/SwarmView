@@ -10,7 +10,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * A trajectory in 1 dimensions of motion specified in a frequency (How many revolutions per
  * second). This can be used for specifying angular motion.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 class ConstantVelocityAngularTrajectory1D extends PeriodicTrajectory implements Trajectory1d {
     private static final double TWOPI = Math.PI * 2;

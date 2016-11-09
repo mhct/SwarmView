@@ -26,7 +26,7 @@ import static io.github.agentwise.control.DroneName.Romeo;
 import static junit.framework.TestCase.assertEquals;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class ChaosActTest {
 

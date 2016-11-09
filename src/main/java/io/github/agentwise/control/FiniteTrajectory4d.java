@@ -3,7 +3,7 @@ package io.github.agentwise.control;
 import io.github.agentwise.control.dto.Pose;
 
 /**
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public interface FiniteTrajectory4d {
     /**

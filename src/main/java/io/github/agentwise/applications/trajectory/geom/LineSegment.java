@@ -7,7 +7,7 @@ import io.github.agentwise.applications.trajectory.geom.point.Point3D;
 /**
  * Parametric line segment (l) representing a straight line segment between two points in 3D space.
  *
- * @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be>
+ * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 @AutoValue
 public abstract class LineSegment {

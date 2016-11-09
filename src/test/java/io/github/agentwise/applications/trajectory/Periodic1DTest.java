@@ -9,7 +9,7 @@ import org.junit.Test;
 import io.github.agentwise.applications.trajectory.BasicTrajectory;
 import io.github.agentwise.applications.trajectory.Trajectory1d;
 
-/** @author Kristof Coninx <kristof.coninx AT cs.kuleuven.be> */
+/** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public abstract class Periodic1DTest {
   protected final double lowFreq = 1 / 10;
   protected final double highFreq = 1.5;
