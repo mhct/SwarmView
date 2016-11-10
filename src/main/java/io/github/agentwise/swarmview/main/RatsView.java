@@ -1,10 +1,10 @@
-package io.github.agentwise.main;
+package io.github.agentwise.swarmview.main;
 
-import static io.github.agentwise.control.DroneName.Dumbo;
-import static io.github.agentwise.control.DroneName.Fievel;
-import static io.github.agentwise.control.DroneName.Juliet;
-import static io.github.agentwise.control.DroneName.Nerve;
-import static io.github.agentwise.control.DroneName.Romeo;
+import static io.github.agentwise.swarmview.control.DroneName.Dumbo;
+import static io.github.agentwise.swarmview.control.DroneName.Fievel;
+import static io.github.agentwise.swarmview.control.DroneName.Juliet;
+import static io.github.agentwise.swarmview.control.DroneName.Nerve;
+import static io.github.agentwise.swarmview.control.DroneName.Romeo;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import io.github.agentwise.applications.trajectory.checkers.OfflineMinimumDistanceCheckers;
-import io.github.agentwise.applications.trajectory.checkers.OfflineMinimumDistanceCheckers.Violation;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.control.ChoreographyView;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.checkers.OfflineMinimumDistanceCheckers;
+import io.github.agentwise.swarmview.applications.trajectory.checkers.OfflineMinimumDistanceCheckers.Violation;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.control.ChoreographyView;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;

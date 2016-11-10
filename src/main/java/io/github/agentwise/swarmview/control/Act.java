@@ -1,12 +1,12 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import io.github.agentwise.applications.trajectory.HoldPositionTrajectory4D;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.HoldPositionTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * This class represents an act of a show. 

@@ -1,6 +1,6 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
-import io.github.agentwise.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
 
 /**
  * Trajectory server instances offer fully built finite trajectories.

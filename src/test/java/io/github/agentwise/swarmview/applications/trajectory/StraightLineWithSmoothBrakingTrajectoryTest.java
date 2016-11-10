@@ -1,12 +1,12 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.Trajectories;
-import io.github.agentwise.applications.trajectory.TrajectoryUtils;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectories;
+import io.github.agentwise.swarmview.applications.trajectory.TrajectoryUtils;
 
-import static io.github.agentwise.applications.trajectory.TestUtils.EPSILON;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityX;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.EPSILON;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 

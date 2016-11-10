@@ -1,16 +1,16 @@
-package io.github.agentwise.rats.acts.chaos;
+package io.github.agentwise.swarmview.rats.acts.chaos;
 
 import com.google.common.collect.Lists;
 
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
-import static io.github.agentwise.control.DroneName.Dumbo;
-import static io.github.agentwise.control.DroneName.Fievel;
-import static io.github.agentwise.control.DroneName.Juliet;
-import static io.github.agentwise.control.DroneName.Nerve;
-import static io.github.agentwise.control.DroneName.Romeo;
+import static io.github.agentwise.swarmview.control.DroneName.Dumbo;
+import static io.github.agentwise.swarmview.control.DroneName.Fievel;
+import static io.github.agentwise.swarmview.control.DroneName.Juliet;
+import static io.github.agentwise.swarmview.control.DroneName.Nerve;
+import static io.github.agentwise.swarmview.control.DroneName.Romeo;
 
 import java.util.List;
 

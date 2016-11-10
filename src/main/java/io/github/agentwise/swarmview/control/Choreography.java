@@ -1,9 +1,9 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * Defines the choreography (movements) of all drones in a complete dance show

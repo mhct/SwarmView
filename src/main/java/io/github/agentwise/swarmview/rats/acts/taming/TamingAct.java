@@ -1,10 +1,10 @@
-package io.github.agentwise.rats.acts.taming;
+package io.github.agentwise.swarmview.rats.acts.taming;
 
-import static io.github.agentwise.control.DroneName.Dumbo;
-import static io.github.agentwise.control.DroneName.Fievel;
-import static io.github.agentwise.control.DroneName.Juliet;
-import static io.github.agentwise.control.DroneName.Nerve;
-import static io.github.agentwise.control.DroneName.Romeo;
+import static io.github.agentwise.swarmview.control.DroneName.Dumbo;
+import static io.github.agentwise.swarmview.control.DroneName.Fievel;
+import static io.github.agentwise.swarmview.control.DroneName.Juliet;
+import static io.github.agentwise.swarmview.control.DroneName.Nerve;
+import static io.github.agentwise.swarmview.control.DroneName.Romeo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,19 +12,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.agentwise.applications.trajectory.CircleTrajectory4D;
-import io.github.agentwise.applications.trajectory.Hover;
-import io.github.agentwise.applications.trajectory.StraightLineTrajectory4D;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite.Builder;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.DroneName;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
-import io.github.agentwise.rats.acts.interact.InterAct;
+import io.github.agentwise.swarmview.applications.trajectory.CircleTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.Hover;
+import io.github.agentwise.swarmview.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite.Builder;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.DroneName;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
+import io.github.agentwise.swarmview.rats.acts.interact.InterAct;
 
 public class TamingAct extends Act {
 

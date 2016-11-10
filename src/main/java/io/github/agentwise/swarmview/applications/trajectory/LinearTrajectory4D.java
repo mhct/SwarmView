@@ -1,6 +1,6 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
 /**
  * A linear trajectory in four dimensions as a composite of four 1d linear components.

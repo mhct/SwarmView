@@ -1,4 +1,4 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
 import java.util.List;
 

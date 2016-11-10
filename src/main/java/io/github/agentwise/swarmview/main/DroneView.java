@@ -1,9 +1,9 @@
-package io.github.agentwise.main;
+package io.github.agentwise.swarmview.main;
 
 import com.google.common.base.Preconditions;
 
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 import processing.core.PApplet;
 
 public class DroneView {

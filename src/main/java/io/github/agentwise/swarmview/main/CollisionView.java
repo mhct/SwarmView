@@ -1,6 +1,6 @@
-package io.github.agentwise.main;
+package io.github.agentwise.swarmview.main;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
 
 public class CollisionView {
 	private final RatsView canvas;

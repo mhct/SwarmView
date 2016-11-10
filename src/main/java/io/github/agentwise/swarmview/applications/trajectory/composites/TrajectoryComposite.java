@@ -1,15 +1,15 @@
-package io.github.agentwise.applications.trajectory.composites;
+package io.github.agentwise.swarmview.applications.trajectory.composites;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import io.github.agentwise.applications.trajectory.BasicTrajectory;
-import io.github.agentwise.applications.trajectory.Trajectory4d;
-import io.github.agentwise.applications.trajectory.TrajectoryUtils;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.BasicTrajectory;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.TrajectoryUtils;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 import java.util.List;
 import java.util.Map;

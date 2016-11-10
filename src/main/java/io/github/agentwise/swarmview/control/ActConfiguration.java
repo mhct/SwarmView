@@ -1,4 +1,4 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.google.auto.value.AutoValue;
 
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 @AutoValue
 public abstract class ActConfiguration {

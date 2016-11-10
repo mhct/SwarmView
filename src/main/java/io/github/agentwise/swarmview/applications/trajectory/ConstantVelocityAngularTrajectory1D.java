@@ -1,8 +1,8 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

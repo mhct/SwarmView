@@ -1,4 +1,4 @@
-package io.github.agentwise.applications.trajectory.geom.point;
+package io.github.agentwise.swarmview.applications.trajectory.geom.point;
 
 import com.google.auto.value.AutoValue;
 

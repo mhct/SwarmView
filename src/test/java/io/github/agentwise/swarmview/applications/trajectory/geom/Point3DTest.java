@@ -1,8 +1,8 @@
-package io.github.agentwise.applications.trajectory.geom;
+package io.github.agentwise.swarmview.applications.trajectory.geom;
 
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
 
 import static com.google.common.truth.Truth.assertThat;
 

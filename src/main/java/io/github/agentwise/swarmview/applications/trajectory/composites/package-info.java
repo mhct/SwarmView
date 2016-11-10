@@ -3,4 +3,4 @@
  *
  * @author Kristof Coninx.
  */
-package io.github.agentwise.applications.trajectory.composites;
+package io.github.agentwise.swarmview.applications.trajectory.composites;

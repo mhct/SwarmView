@@ -1,15 +1,15 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import com.google.common.collect.Lists;
 
-import io.github.agentwise.applications.trajectory.Trajectories;
-import io.github.agentwise.applications.trajectory.Trajectory4d;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectories;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.github.agentwise.applications.trajectory.TestUtils.assertBounds;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.assertBounds;
 
 import java.util.List;
 

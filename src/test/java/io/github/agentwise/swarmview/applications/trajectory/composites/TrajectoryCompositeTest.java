@@ -1,18 +1,18 @@
-package io.github.agentwise.applications.trajectory.composites;
-
-import io.github.agentwise.applications.trajectory.Trajectories;
-import io.github.agentwise.applications.trajectory.Trajectory4d;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+package io.github.agentwise.swarmview.applications.trajectory.composites;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static io.github.agentwise.applications.trajectory.TestUtils.verifyTrajectoryPos4D;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectories;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
+
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.verifyTrajectoryPos4D;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 

@@ -1,4 +1,4 @@
-package io.github.agentwise.main;
+package io.github.agentwise.swarmview.main;
 
 import processing.core.PApplet;
 import processing.core.PImage;

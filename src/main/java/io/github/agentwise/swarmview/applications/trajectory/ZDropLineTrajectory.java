@@ -1,16 +1,16 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import com.google.common.collect.Lists;
 
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static io.github.agentwise.applications.trajectory.TrajectoryUtils.sampleTrajectory;
+import static io.github.agentwise.swarmview.applications.trajectory.TrajectoryUtils.sampleTrajectory;
 
 /**
  * A straight line trajectory in xy plane with sudden drops in the z dimension. Source and

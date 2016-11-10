@@ -1,14 +1,14 @@
-package io.github.agentwise.rats.acts.introduction;
+package io.github.agentwise.swarmview.rats.acts.introduction;
 
-import static io.github.agentwise.control.DroneName.Dumbo;
-import static io.github.agentwise.control.DroneName.Fievel;
-import static io.github.agentwise.control.DroneName.Juliet;
-import static io.github.agentwise.control.DroneName.Nerve;
-import static io.github.agentwise.control.DroneName.Romeo;
+import static io.github.agentwise.swarmview.control.DroneName.Dumbo;
+import static io.github.agentwise.swarmview.control.DroneName.Fievel;
+import static io.github.agentwise.swarmview.control.DroneName.Juliet;
+import static io.github.agentwise.swarmview.control.DroneName.Nerve;
+import static io.github.agentwise.swarmview.control.DroneName.Romeo;
 
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
 
 /**
  * Introduction Act definition

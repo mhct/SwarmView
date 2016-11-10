@@ -1,19 +1,19 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.StraightLineTrajectory4D;
-import io.github.agentwise.applications.trajectory.Trajectories;
-import io.github.agentwise.applications.trajectory.Trajectory4d;
-import io.github.agentwise.applications.trajectory.TrajectoryUtils;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectories;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.TrajectoryUtils;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
-import static io.github.agentwise.applications.trajectory.TestUtils.EPSILON;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityX;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityY;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityZ;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.EPSILON;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityX;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityY;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityZ;
 import static org.junit.Assert.assertEquals;
 
 /**

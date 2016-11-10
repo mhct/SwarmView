@@ -1,21 +1,21 @@
 /**
  * 
  */
-package io.github.agentwise.rats.acts.attack;
+package io.github.agentwise.swarmview.rats.acts.attack;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.DroneName;
-import io.github.agentwise.control.DronePositionConfiguration;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
-import io.github.agentwise.rats.acts.chaos.ChaosAct;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.DroneName;
+import io.github.agentwise.swarmview.control.DronePositionConfiguration;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
+import io.github.agentwise.swarmview.rats.acts.chaos.ChaosAct;
 
 /**
  * @author tom

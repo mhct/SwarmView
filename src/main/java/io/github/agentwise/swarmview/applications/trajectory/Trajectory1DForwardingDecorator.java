@@ -1,4 +1,4 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 /**
  * Forwarding decorator for trajectory1D instances with inner-trajectory1D hooks.

@@ -1,8 +1,8 @@
-package io.github.agentwise.applications.trajectory.geom;
+package io.github.agentwise.swarmview.applications.trajectory.geom;
 
 import com.google.auto.value.AutoValue;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
 
 /**
  * Parametric line segment (l) representing a straight line segment between two points in 3D space.

@@ -1,8 +1,8 @@
-package io.github.agentwise.control.dto;
+package io.github.agentwise.swarmview.control.dto;
 
 import com.google.auto.value.AutoValue;
 
-import io.github.agentwise.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
 
 @AutoValue
 abstract public class Pose {

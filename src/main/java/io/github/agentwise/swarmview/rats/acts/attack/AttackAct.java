@@ -1,23 +1,23 @@
 /**
  * 
  */
-package io.github.agentwise.rats.acts.attack;
+package io.github.agentwise.swarmview.rats.acts.attack;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite.Builder;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.DroneName;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
-import io.github.agentwise.rats.acts.interact.HoverAct;
-import io.github.agentwise.rats.acts.interact.InterAct;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite.Builder;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.DroneName;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
+import io.github.agentwise.swarmview.rats.acts.interact.HoverAct;
+import io.github.agentwise.swarmview.rats.acts.interact.InterAct;
 
 /**
  *  Attack Act definition

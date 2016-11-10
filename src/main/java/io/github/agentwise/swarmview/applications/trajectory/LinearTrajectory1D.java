@@ -1,4 +1,4 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 /**
  * A linear trajectory in one dimension.

@@ -1,18 +1,18 @@
 /**
  * 
  */
-package io.github.agentwise.rats.acts.attack;
+package io.github.agentwise.swarmview.rats.acts.attack;
 
-import io.github.agentwise.applications.trajectory.HoldPositionTrajectory4D;
-import io.github.agentwise.applications.trajectory.LineTrajectory;
-import io.github.agentwise.applications.trajectory.StraightLineTrajectory4D;
-import io.github.agentwise.applications.trajectory.Trajectory4d;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.applications.trajectory.composites.TrajectoryComposite.Builder;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.HoldPositionTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.LineTrajectory;
+import io.github.agentwise.swarmview.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite;
+import io.github.agentwise.swarmview.applications.trajectory.composites.TrajectoryComposite.Builder;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * @author tom

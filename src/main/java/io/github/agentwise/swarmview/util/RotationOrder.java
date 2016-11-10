@@ -1,4 +1,4 @@
-package io.github.agentwise.util;
+package io.github.agentwise.swarmview.util;
 
 import org.ejml.simple.SimpleMatrix;
 

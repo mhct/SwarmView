@@ -1,11 +1,11 @@
-package io.github.agentwise.rats.acts.taming;
+package io.github.agentwise.swarmview.rats.acts.taming;
 
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.dto.Pose;
-import io.github.agentwise.rats.acts.taming.TamingAct;
-import io.github.agentwise.rats.acts.taming.TamingAct.Particle;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.dto.Pose;
+import io.github.agentwise.swarmview.rats.acts.taming.TamingAct;
+import io.github.agentwise.swarmview.rats.acts.taming.TamingAct.Particle;
 
 public class TamingActTest {
 

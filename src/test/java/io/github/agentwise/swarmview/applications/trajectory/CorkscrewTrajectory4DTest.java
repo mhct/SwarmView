@@ -1,27 +1,27 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import com.google.common.collect.Lists;
 
-import io.github.agentwise.applications.trajectory.CorkscrewTrajectory4D;
-import io.github.agentwise.applications.trajectory.Trajectories;
-import io.github.agentwise.applications.trajectory.TrajectoryUtils;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.CorkscrewTrajectory4D;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectories;
+import io.github.agentwise.swarmview.applications.trajectory.TrajectoryUtils;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static io.github.agentwise.applications.trajectory.CorkscrewTrajectory4D.newCache;
-import static io.github.agentwise.applications.trajectory.TestUtils.EPSILON;
-import static io.github.agentwise.applications.trajectory.TestUtils.assertBounds;
-import static io.github.agentwise.applications.trajectory.TestUtils.getAngularVelocity;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityX;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityY;
-import static io.github.agentwise.applications.trajectory.TestUtils.getVelocityZ;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.EPSILON;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.assertBounds;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getAngularVelocity;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityX;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityY;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.getVelocityZ;
+import static io.github.agentwise.swarmview.applications.trajectory.CorkscrewTrajectory4D.newCache;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 

@@ -1,6 +1,6 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
 /**
  * Basic trajectories to be executed and synced at the time set by the user.

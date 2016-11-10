@@ -1,18 +1,18 @@
 /**
  * 
  */
-package io.github.agentwise.rats.acts.interact;
+package io.github.agentwise.swarmview.rats.acts.interact;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import io.github.agentwise.applications.trajectory.Hover;
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.DroneName;
-import io.github.agentwise.control.DronePositionConfiguration;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.Hover;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.DroneName;
+import io.github.agentwise.swarmview.control.DronePositionConfiguration;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * @author tom

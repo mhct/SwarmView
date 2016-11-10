@@ -1,4 +1,4 @@
-package io.github.agentwise.applications.trajectory.composites;
+package io.github.agentwise.swarmview.applications.trajectory.composites;
 
 /**
  * Listener interface for timing events.

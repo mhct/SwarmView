@@ -1,10 +1,10 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import org.ejml.simple.SimpleMatrix;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.util.RotationOrder;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.util.RotationOrder;
 
 /**
  * This utility class contains transformation utility functions for translating and rotating

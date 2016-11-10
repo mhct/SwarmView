@@ -1,4 +1,4 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 /**
  * 2D Trajectory representing a trajectory in 2 planes of motion. Default plane of motion is the

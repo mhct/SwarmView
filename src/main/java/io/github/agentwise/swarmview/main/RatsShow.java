@@ -1,24 +1,24 @@
-package io.github.agentwise.main;
+package io.github.agentwise.swarmview.main;
 
-import static io.github.agentwise.control.DroneName.Dumbo;
-import static io.github.agentwise.control.DroneName.Fievel;
-import static io.github.agentwise.control.DroneName.Juliet;
-import static io.github.agentwise.control.DroneName.Nerve;
-import static io.github.agentwise.control.DroneName.Romeo;
+import static io.github.agentwise.swarmview.control.DroneName.Dumbo;
+import static io.github.agentwise.swarmview.control.DroneName.Fievel;
+import static io.github.agentwise.swarmview.control.DroneName.Juliet;
+import static io.github.agentwise.swarmview.control.DroneName.Nerve;
+import static io.github.agentwise.swarmview.control.DroneName.Romeo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.agentwise.control.Act;
-import io.github.agentwise.control.ActConfiguration;
-import io.github.agentwise.control.Choreography;
-import io.github.agentwise.control.ChoreographyView;
-import io.github.agentwise.control.DronePositionConfiguration;
-import io.github.agentwise.control.dto.Pose;
-import io.github.agentwise.rats.acts.attack.AttackAct;
-import io.github.agentwise.rats.acts.chaos.ChaosAct;
-import io.github.agentwise.rats.acts.introduction.IntroductionAct;
-import io.github.agentwise.rats.acts.taming.TamingAct;
+import io.github.agentwise.swarmview.control.Act;
+import io.github.agentwise.swarmview.control.ActConfiguration;
+import io.github.agentwise.swarmview.control.Choreography;
+import io.github.agentwise.swarmview.control.ChoreographyView;
+import io.github.agentwise.swarmview.control.DronePositionConfiguration;
+import io.github.agentwise.swarmview.control.dto.Pose;
+import io.github.agentwise.swarmview.rats.acts.attack.AttackAct;
+import io.github.agentwise.swarmview.rats.acts.chaos.ChaosAct;
+import io.github.agentwise.swarmview.rats.acts.introduction.IntroductionAct;
+import io.github.agentwise.swarmview.rats.acts.taming.TamingAct;
 
 /**
  * Defines the whole show for rats

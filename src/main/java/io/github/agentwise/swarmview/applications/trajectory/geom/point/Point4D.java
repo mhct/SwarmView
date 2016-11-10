@@ -1,10 +1,10 @@
-package io.github.agentwise.applications.trajectory.geom.point;
+package io.github.agentwise.swarmview.applications.trajectory.geom.point;
 
-import static io.github.agentwise.applications.trajectory.geom.point.Point3D.project;
+import static io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D.project;
 
 import com.google.auto.value.AutoValue;
 
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * Point class for grouping a point in 4d space with angular orientation.

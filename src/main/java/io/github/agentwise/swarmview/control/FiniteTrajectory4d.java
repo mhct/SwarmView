@@ -1,6 +1,6 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)

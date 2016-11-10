@@ -1,10 +1,10 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import com.google.common.collect.Lists;
 
-import io.github.agentwise.applications.trajectory.WiggleTrajectory;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.WiggleTrajectory;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 import org.junit.Before;
 import org.junit.Test;

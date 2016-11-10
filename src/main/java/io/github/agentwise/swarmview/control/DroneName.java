@@ -1,4 +1,4 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
 /**
  * The names of all drones participating in the show

@@ -1,4 +1,4 @@
-package io.github.agentwise.show;
+package io.github.agentwise.swarmview.show;
 
 import static org.junit.Assert.*;
 

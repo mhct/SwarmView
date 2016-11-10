@@ -1,10 +1,10 @@
-package io.github.agentwise.applications.trajectory.checkers;
+package io.github.agentwise.swarmview.applications.trajectory.checkers;
 
 
 import com.google.common.base.MoreObjects;
 
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 import java.util.ArrayList;
 import java.util.Collection;

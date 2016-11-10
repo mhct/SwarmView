@@ -1,9 +1,9 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
 /**
  * A 4D motion primitive for circle motion in 3 dimensions. This circle is defined by a displacement

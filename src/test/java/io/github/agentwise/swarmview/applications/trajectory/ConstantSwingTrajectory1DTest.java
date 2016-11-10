@@ -1,10 +1,10 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.ConstantSwingTrajectory1D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.ConstantSwingTrajectory1D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
 /** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class ConstantSwingTrajectory1DTest extends Periodic1DTest {

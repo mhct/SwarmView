@@ -1,8 +1,8 @@
-package io.github.agentwise.control;
+package io.github.agentwise.swarmview.control;
 
 import com.google.auto.value.AutoValue;
 
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 @AutoValue
 public abstract class DronePositionConfiguration {

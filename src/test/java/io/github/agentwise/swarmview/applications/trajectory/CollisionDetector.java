@@ -1,20 +1,20 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
-import io.github.agentwise.applications.trajectory.BasicTrajectory;
-import io.github.agentwise.applications.trajectory.geom.LineSegment;
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.BasicTrajectory;
+import io.github.agentwise.swarmview.applications.trajectory.geom.LineSegment;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
 
-import static io.github.agentwise.applications.trajectory.TrajectoryUtils.sampleTrajectory;
-import static io.github.agentwise.applications.trajectory.geom.point.Point3D.dot;
-import static io.github.agentwise.applications.trajectory.geom.point.Point3D.minus;
-import static io.github.agentwise.applications.trajectory.geom.point.Point3D.plus;
-import static io.github.agentwise.applications.trajectory.geom.point.Point3D.project;
-import static io.github.agentwise.applications.trajectory.geom.point.Point3D.scale;
+import static io.github.agentwise.swarmview.applications.trajectory.TrajectoryUtils.sampleTrajectory;
+import static io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D.dot;
+import static io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D.minus;
+import static io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D.plus;
+import static io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D.project;
+import static io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D.scale;
 
 import java.util.Collection;
 import java.util.List;
@@ -67,7 +67,7 @@ public class CollisionDetector {
   private final List<FiniteTrajectory4d> trajectories;
   private final double minimumDistance;
   public CollisionDetector(List<FiniteTrajectory4d> trajectories) {
-    this(trajectories, io.github.agentwise.applications.trajectory.CollisionDetector.DEFAULT_MINIMUM_DISTANCE);
+    this(trajectories, io.github.agentwise.swarmview.applications.trajectory.CollisionDetector.DEFAULT_MINIMUM_DISTANCE);
   }
 
   public CollisionDetector(List<FiniteTrajectory4d> trajectories, double minimumDistance) {
@@ -143,10 +143,10 @@ public class CollisionDetector {
   private List<Collision> sampleForCollisions(CollisionTester tester) {
     List<Collision> collisions = Lists.newArrayList();
     double finalTimePoint =
-        io.github.agentwise.applications.trajectory.CollisionDetector.findLastTimePoint(trajectories);
+        io.github.agentwise.swarmview.applications.trajectory.CollisionDetector.findLastTimePoint(trajectories);
     for (double t = 0;
         t < finalTimePoint;
-        t += io.github.agentwise.applications.trajectory.CollisionDetector.DEFAULT_TIME_DELTA) {
+        t += io.github.agentwise.swarmview.applications.trajectory.CollisionDetector.DEFAULT_TIME_DELTA) {
       collisions.addAll(getCollisionsAtTime(t, tester));
     }
     return collisions;

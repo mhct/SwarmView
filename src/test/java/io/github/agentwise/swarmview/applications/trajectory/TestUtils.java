@@ -1,13 +1,13 @@
-package io.github.agentwise.applications.trajectory;
-
-import io.github.agentwise.applications.trajectory.Trajectory1d;
-import io.github.agentwise.applications.trajectory.Trajectory4d;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import java.util.Collections;
 import java.util.List;
+
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory1d;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory4d;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -1,9 +1,9 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.PendulumTrajectory2D;
+import io.github.agentwise.swarmview.applications.trajectory.PendulumTrajectory2D;
 
 /** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class PendulumTrajectory2DTest extends Periodic2DTest {

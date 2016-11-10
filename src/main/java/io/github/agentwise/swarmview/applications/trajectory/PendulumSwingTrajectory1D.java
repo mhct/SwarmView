@@ -1,8 +1,8 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
 
 /**
  * A swing trajectory in 1 dimensions of motion specified in a frequency (How many revolutions per

@@ -1,11 +1,11 @@
-package io.github.agentwise.applications.trajectory;
-
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import static com.google.common.base.Preconditions.checkArgument;
+
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /**
  * Trajectory represent a straight line in space between two given points at a given speed. Once the

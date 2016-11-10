@@ -1,13 +1,13 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
-import static io.github.agentwise.applications.trajectory.TestUtils.testSpeedBounds;
-import static io.github.agentwise.applications.trajectory.TestUtils.verifyPositionFrequencyRadiusRelation;
-import static io.github.agentwise.applications.trajectory.TestUtils.verifyVelocityFrequencyRadiusRelation;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.testSpeedBounds;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.verifyPositionFrequencyRadiusRelation;
+import static io.github.agentwise.swarmview.applications.trajectory.TestUtils.verifyVelocityFrequencyRadiusRelation;
 
 import org.junit.Test;
 
-import io.github.agentwise.applications.trajectory.BasicTrajectory;
-import io.github.agentwise.applications.trajectory.Trajectory1d;
+import io.github.agentwise.swarmview.applications.trajectory.BasicTrajectory;
+import io.github.agentwise.swarmview.applications.trajectory.Trajectory1d;
 
 /** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public abstract class Periodic1DTest {

@@ -1,7 +1,7 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point4D;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 /** @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be) */
 public class HoldPositionTrajectory4D implements Trajectory4d {

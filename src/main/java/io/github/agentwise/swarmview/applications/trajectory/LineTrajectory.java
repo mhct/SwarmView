@@ -1,11 +1,11 @@
-package io.github.agentwise.applications.trajectory;
+package io.github.agentwise.swarmview.applications.trajectory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.agentwise.applications.trajectory.geom.point.Point3D;
-import io.github.agentwise.control.FiniteTrajectory4d;
-import io.github.agentwise.control.dto.Pose;
+import io.github.agentwise.swarmview.applications.trajectory.geom.point.Point3D;
+import io.github.agentwise.swarmview.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.control.dto.Pose;
 
 public class LineTrajectory implements FiniteTrajectory4d {
 	private static final Logger logger = LoggerFactory.getLogger(LineTrajectory.class);
