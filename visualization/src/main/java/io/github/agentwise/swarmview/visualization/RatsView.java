@@ -6,6 +6,7 @@ import io.github.agentwise.swarmview.trajectory.control.ChoreographyView;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+import io.github.agentwise.swarmview.trajectory.rats.RatsShow;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.event.KeyEvent;

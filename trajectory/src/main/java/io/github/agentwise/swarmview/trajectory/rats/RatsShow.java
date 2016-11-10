@@ -1,4 +1,4 @@
-package io.github.agentwise.swarmview.visualization;
+package io.github.agentwise.swarmview.trajectory.rats;
 
 
 import java.util.ArrayList;
