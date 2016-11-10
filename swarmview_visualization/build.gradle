@@ -1,0 +1,10 @@
+apply plugin: 'application'
+mainClassName = 'io.github.agentwise.swarmview.main.RatsView'
+
+dependencies {
+	compile fileTree(dir: '../lib', include: '*.jar')
+    compile project(':swarmview_trajectories')
+    
+    runtime fileTree(dir: '../lib', include: '*.jar')
+}
+

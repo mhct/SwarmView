@@ -1,13 +1,28 @@
+<<<<<<< Updated upstream
 group 'io.github.mariohct'
 version '1.0-SNAPSHOT'
+=======
+>>>>>>> Stashed changes
 
-apply plugin: "java"
-apply plugin: "jacoco"
+allprojects {
+  group 'io.github.agentwise.swarmview'
+  version = '1.1-SNAPSHOT'
+
 apply plugin: "eclipse"
+}
+
+subprojects {
+        apply plugin: "java"
+        apply plugin: "eclipse"
+        
+		sourceCompatibility = 1.8
+		targetCompatibility = 1.8
 
 
-apply plugin: 'application'
-mainClassName = 'main.RatsView'
+
+
+
+
 
 
 eclipse {
@@ -16,53 +31,12 @@ eclipse {
     }
 }
 
-jacoco {
-    toolVersion = "0.7.5.201505241946"
-    reportsDir = file("$buildDir/customJacocoReportDir")
-}
 
 task testReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/allTests")
 }
 
-//create a single Jar with all dependencies
-//task fatJar(type: Jar) {
-//    manifest {
-//        attributes 'Implementation-Title': 'RatsView',
-//                'Main-Class': 'main.RatsView'
-//    }
-//    baseName = project.name + '-all'
-//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-//    with jar
-//}
 
-test {
-
-    jacoco {
-        destinationFile = file("$buildDir/jacoco/test.exec")
-        classDumpFile = file("$buildDir/build/classes/test")
-    }
-}
-
-jacocoTestReport {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports after running tests."
-    reports {
-        xml {
-            enabled true
-            destination "${buildDir}/reports/jacoco/jacoco.xml"
-        }
-        csv.enabled false
-        html {
-            enabled true
-            destination "${buildDir}/jacocoHtml"
-        }
-    }
-//    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -71,47 +45,57 @@ repositories {
         url "https://github.com/agentwise/mvn-repo/raw/master"
     }
 
-	maven {
+    maven {
         url "http://oss.sonatype.org/content/groups/public"
     }
 
     jcenter()
 }
 
-jar {
-	manifest {
-		attributes "Main-Class": "main.RatsView"
-	}
-}
-task jarSources(type:Jar){
-    from sourceSets.main.allSource
-    classifier = 'source'
-}
+//jar {
+//    manifest {
+//        attributes "Main-Class": "main.RatsView"
+//    }
+//}
+//task jarSources(type:Jar){
+//    from sourceSets.main.allSource
+//    classifier = 'source'
+//}
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//        classifier = 'sources'
+//        from sourceSets.main.allSource
+//    }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-}
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//        classifier = 'javadoc'
+//        from javadoc.destinationDir
+//}
 
+<<<<<<< Updated upstream
+=======
+//artifacts {
+//    archives sourcesJar
+//}
+
+>>>>>>> Stashed changes
 dependencies {
-    compile fileTree(dir: 'lib', include: '*.jar')
     compile 'com.google.guava:guava:12.0.1'
     compile 'com.google.auto.value:auto-value:1.2'
     compile 'com.google.code.findbugs:jsr305:[3.0.0,4.0.0)'
     compile 'org.slf4j:slf4j-api:1.7.20'
     compile 'ch.qos.logback:logback-classic:1.1.7'
     compile 'org.ejml:all:0.29'
-	compile 'org.yaml:snakeyaml:1.17'
+    compile 'org.yaml:snakeyaml:1.17'
     testCompile 'pl.pragmatists:JUnitParams:1.0.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.1.0'
     testCompile 'com.google.truth:truth:0.28'
 
-    runtime fileTree(dir: 'lib', include: '*.jar')
+    
 }
+
+}
+
+
 
