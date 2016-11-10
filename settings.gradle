@@ -1,3 +1,5 @@
 include 'visualization'
-include 'trajectory'
+project(":visualization").name = "swarmview-visualization"
 
+include 'trajectory'
+project(":trajectory").name = "swarmview-trajectory"

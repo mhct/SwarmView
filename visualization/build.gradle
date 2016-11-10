@@ -3,7 +3,7 @@ mainClassName = 'io.github.agentwise.swarmview.visualization.RatsView'
 
 dependencies {
     compile fileTree(dir: '../lib', include: '*.jar')
-    compile project(':trajectory')
+    compile project(':swarmview-trajectory')
 
     runtime fileTree(dir: '../lib', include: '*.jar')
 }
