@@ -5,3 +5,4 @@ gradle/
 
 /.apt_generated/
 /bin/
+/src/main/generated/
