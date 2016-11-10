@@ -6,3 +6,6 @@ gradle/
 /.apt_generated/
 /bin/
 /src/main/generated/
+/visualization/src/main/generated/
+/trajectory/src/test/generated_tests/
+/trajectory/src/main/generated/
