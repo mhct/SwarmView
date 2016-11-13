@@ -41,7 +41,7 @@ public class DroneView {
 		double x = pose.x();
 		double y = pose.y();
 		double z = pose.z();
-		Sprite currentSprite = Sprite.create((float)x * 100.0f, (float)y * 100.0f, (float)z * 100.0f, color);
+		Sprite currentSprite = Sprite.create((float)x * 100.0f, -(float)y * 100.0f, (float)z * 100.0f, color);
 		
 		previousSprites[spriteIndex] = currentSprite;
 		if (spriteIndex + 1 == BUFFER_SIZE) {

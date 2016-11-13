@@ -6,7 +6,14 @@ import java.util.List;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 
 /**
- * Defines the choreography (movements) of all drones in a complete dance show
+ * Defines the choreography (movements) of all drones in a complete dance show.
+ * The frame of reference for a trajectory is defined as 
+ * 
+ * ----> x (positive)
+ * |
+ * \/ y (positive)
+ * 
+ * 
  *
  * @author Mario h.c.t.
  */
@@ -36,10 +43,16 @@ public class Choreography implements ChoreographyView {
         this.numberDrones = numberDrones;
     }
 
+    /**
+     * Returns a complete (full) drone trajectory for 
+     * all Acts defined on a choreography.
+     * 
+     * @param DroneName Name of drone of interest 
+     * 
+     * @return FiniteTrajectory4d with the whole drone trajectory
+     */
     @Override
     public FiniteTrajectory4d getFullTrajectory(DroneName name) {
-        //iterate over all acts,
-        //retrieve the trajectory per dronename
 
         double accumulatedTime = 0;
         for (Act act : acts) {

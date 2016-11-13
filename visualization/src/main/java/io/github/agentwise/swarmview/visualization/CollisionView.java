@@ -14,7 +14,7 @@ public class CollisionView {
 	public void displayNext() {
 		canvas.pushMatrix();
 		canvas.noFill();
-		canvas.translate((float)point.getX()*100, (float)point.getY()*100, (float)point.getZ()*100);
+		canvas.translate((float)point.getX()*100, -(float)point.getY()*100, (float)point.getZ()*100);
 		canvas.textSize(100);
 //		canvas.text("X", 0, 0, 0);
 		canvas.box(50);

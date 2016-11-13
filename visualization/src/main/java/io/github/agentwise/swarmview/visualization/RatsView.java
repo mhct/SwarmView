@@ -65,12 +65,6 @@ public class RatsView extends PApplet {
 
     choreo = RatsShow.createChoreography();
     List<FiniteTrajectory4d> trajectories = choreo.getAllTrajectories();
-    //        List<Optional<Violation>> violations = OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraint(trajectories, 0.5);
-    //        if (!violations.isEmpty()) {
-    //        	for (Optional<Violation> violation: violations) {
-    //        		System.out.println("Trajectories have a collision at: " + violation);
-    //        	}
-    //        }
     choreo = RatsShow.createChoreography();
 
     //
