@@ -47,6 +47,9 @@ public class Choreography implements ChoreographyView {
      * Returns a complete (full) drone trajectory for 
      * all Acts defined on a choreography.
      * 
+     * This method return trajectories which are transformed between the Coordinate Frame of 
+     * the RatsView and the Coordinate Frame used in BeSwarm. 
+     * 
      * @param DroneName Name of drone of interest 
      * 
      * @return FiniteTrajectory4d with the whole drone trajectory
@@ -78,7 +81,7 @@ public class Choreography implements ChoreographyView {
                     if (initialTimeAct <= timeInSeconds && timeInSeconds <= finalTimeAct) {
                         Pose tempPose = act.getTrajectory(droneName)
                                 .getDesiredPosition(timeInSeconds - initialTimeAct);
-                        return Pose.create(tempPose.x(), -tempPose.y(), tempPose.z(), tempPose.yaw());
+                        return Pose.create(tempPose.x(), -tempPose.y(), tempPose.z(), tempPose.yaw()); // Pose in BeSwarm coordinate frame
                     }
 
                     initialTimeAct = finalTimeAct;

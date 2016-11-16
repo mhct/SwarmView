@@ -131,9 +131,9 @@ public class TamingAct extends Act {
 			for (int i=0; i<4; i++) {
 				//move square
 				drones.values().forEach(drone -> drone.moveRight(distance, duration));
-				drones.values().forEach(drone -> drone.moveNorth(distance, duration));
+				drones.values().forEach(drone -> drone.moveForward(distance, duration));
 				drones.values().forEach(drone -> drone.moveLeft(distance, duration));
-				drones.values().forEach(drone -> drone.moveSouth(distance, duration));
+				drones.values().forEach(drone -> drone.moveBackward(distance, duration));
 			}
 			
 			Point4D center = Point4D.create(5, 4.5, 1.5, 0);
@@ -158,7 +158,19 @@ public class TamingAct extends Act {
 
 	}
 	
-	// Particle needs to have a drone movement model.. to decide if it can move as asked...
+	/**
+	 * A Particle represents a drone and its possible movements.
+	 * All movement behaviours are created assuming the body frame of the particle.
+	 * Thus, invoking {@link #moveRight(double, double) moveRight} method will move the Particle to its right size.
+	 * 
+	 * X--C--X   C = front facing camera,  X = propeller
+	 *   | |
+	 * X-----X
+	 * 
+	 * TODO: Particle needs to have a drone movement model.. to decide if it can move as asked...
+	 * @author Mario h.c.t.
+	 * 
+	 */
 	static class Particle {
 		private List<FiniteTrajectory4d> movementParts;
 		private Point4D current;
@@ -218,12 +230,12 @@ public class TamingAct extends Act {
 			moveToPoint(destination, duration);
 		}
 
-		public void moveNorth(double distance, double duration) {
+		public void moveForward(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX(), current.getY()+distance, current.getZ(), 0.0);
 			moveToPoint(destination, duration);
 		}
 
-		public void moveSouth(double distance, double duration) {
+		public void moveBackward(double distance, double duration) {
 			Point4D destination = Point4D.create(current.getX(), current.getY()-distance, current.getZ(), 0.0);
 			moveToPoint(destination, duration);
 		}
@@ -257,7 +269,7 @@ public class TamingAct extends Act {
 			return current;
 		}
 		
-		public void addMovement(FiniteTrajectory4d trajectory) {
+		private void addMovement(FiniteTrajectory4d trajectory) {
 			movementParts.add(trajectory);
 			current = Point4D.from(trajectory.getDesiredPosition(trajectory.getTrajectoryDuration()));
 		}
