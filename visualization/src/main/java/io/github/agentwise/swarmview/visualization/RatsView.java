@@ -1,10 +1,15 @@
 package io.github.agentwise.swarmview.visualization;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.checkers.OfflineMinimumDistanceCheckers;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.control.ChoreographyView;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
-import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import io.github.agentwise.swarmview.trajectory.rats.RatsShow;
 import processing.core.PApplet;
@@ -12,12 +17,19 @@ import processing.core.PConstants;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * 3D visualization of drone trajectories.
+ * 
+ * The frame of reference used in the view is defined as below, following the convention used by Processing @see <a href="http://processing.org">http://processing.org</a>
+ * 
+ * --> X  
+ * |           Z points at the same direction as the vector Y x X  (cross product of Y and X) 
+ * \/
+ * Y
+ * 
+ * @author Mario h.c.t.
+ *
+ */
 public class RatsView extends PApplet {
   private static final float MAX_ZOOM = 4.0f;
   private static final float MIN_ZOOM = 0.3f;
@@ -64,13 +76,6 @@ public class RatsView extends PApplet {
     deltaTime = 0;
 
     choreo = RatsShow.createChoreography();
-    List<FiniteTrajectory4d> trajectories = choreo.getAllTrajectories();
-    //        List<Optional<Violation>> violations = OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraint(trajectories, 0.5);
-    //        if (!violations.isEmpty()) {
-    //        	for (Optional<Violation> violation: violations) {
-    //        		System.out.println("Trajectories have a collision at: " + violation);
-    //        	}
-    //        }
     choreo = RatsShow.createChoreography();
 
     //
