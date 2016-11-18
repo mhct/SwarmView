@@ -45,9 +45,9 @@ public class Particle {
 		double dx = current.getX() - center.getX();
 		double dy = current.getY() - center.getY();
 		double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
-		if (Math.abs(dy - 0.0) >= 0.00001) {
+		if (Math.abs(dy - 0.0) >= 0.00001 || Math.abs(dx - 0.0) >= 0.00001) {
 			double theta = Math.acos(dx/(distanceToCenter));
-			if (dy <= 0.0) {
+			if (dy < 0.0) {
 				theta += Math.PI;
 			} 
 			

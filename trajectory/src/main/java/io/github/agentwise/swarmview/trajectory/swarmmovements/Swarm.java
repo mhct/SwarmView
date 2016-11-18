@@ -2,6 +2,7 @@ package io.github.agentwise.swarmview.trajectory.swarmmovements;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
@@ -45,6 +46,10 @@ public class Swarm {
 	 */
 	public void setScript(SwarmScript script) {
 		script.script(drones);
+	}
+
+	public Set<DroneName> getDroneNames() {
+		return drones.keySet();
 	}
 
 }
