@@ -1,4 +1,4 @@
-package io.github.agentwise.swarmview.trajectory.operationaltests;
+package io.github.agentwise.swarmview.trajectory.rats;
 
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Fievel;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Juliet;
@@ -22,7 +22,7 @@ import io.github.agentwise.swarmview.trajectory.operationaltests.BasicCirclesAct
  * @author Mario h.c.t.
  *
  */
-public class OperationalTestsShow {
+public class OTCircleShow {
 	public final static double YAW = -Math.PI/2.0;
 	private static ActConfiguration config;
 
