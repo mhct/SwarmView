@@ -6,7 +6,6 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
-import io.github.agentwise.swarmview.trajectory.rats.OTCircleShow;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmScript;
@@ -50,7 +49,7 @@ public class BasicCirclesAct extends Act {
 		public void script(Map<DroneName, Particle> drones) {
 
 			final double duration = 60.0;
-			Point4D center = Point4D.create(4.0, 3.0, 1.0, OTCircleShow.YAW);
+			Point4D center = Point4D.create(4.0, 3.0, 1.0, OperationalTestsShow.YAW);
 
 			//circling
 			drones.values().forEach(drone -> drone.moveCircle(center, true, duration));

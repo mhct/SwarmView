@@ -22,7 +22,7 @@ import io.github.agentwise.swarmview.trajectory.operationaltests.BasicCirclesAct
  * @author Mario h.c.t.
  *
  */
-public class OTCircleShow {
+public class OperationalTestsShow {
 	public final static double YAW = -Math.PI/2.0;
 	private static ActConfiguration config;
 
