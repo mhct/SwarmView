@@ -14,6 +14,7 @@ import io.github.agentwise.swarmview.trajectory.control.Choreography;
 import io.github.agentwise.swarmview.trajectory.control.ChoreographyView;
 import io.github.agentwise.swarmview.trajectory.control.DronePositionConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+import io.github.agentwise.swarmview.trajectory.operationaltests.BasicCirclesAct;
 
 /**
  * Defines the Circle Operational Test
@@ -21,8 +22,8 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
  * @author Mario h.c.t.
  *
  */
-public class OperationalTestsShow {
-	final static double YAW = -Math.PI/2.0;
+public class OTCircleShow {
+	public final static double YAW = -Math.PI/2.0;
 	private static ActConfiguration config;
 
 	static {
