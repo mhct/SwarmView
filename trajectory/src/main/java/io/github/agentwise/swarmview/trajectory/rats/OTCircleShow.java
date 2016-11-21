@@ -40,7 +40,7 @@ public class OTCircleShow {
 		Act circle = BasicCirclesAct.create(config);
         circle.lockAndBuild();
 
-        final Choreography choreo = Choreography.create(config.numberDrones());
+        final Choreography choreo = Choreography.create(Nerve, Romeo, Juliet, Fievel);
         choreo.addAct(circle);
 		return choreo;
 	}
@@ -49,7 +49,7 @@ public class OTCircleShow {
 		Act circle = BasicCirclesAct.create(config);
 		circle.lockAndBuild();
 		
-		final Choreography choreo = Choreography.create(config.numberDrones());
+		final Choreography choreo = Choreography.create(Nerve, Romeo, Juliet, Fievel);
 		choreo.addAct(circle);
 		return choreo;
 	}
