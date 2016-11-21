@@ -3,6 +3,8 @@ package io.github.agentwise.swarmview.trajectory.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 
 /**
@@ -18,29 +20,28 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
  * @author Mario h.c.t.
  */
 public class Choreography implements ChoreographyView {
-    private int numberDrones;
     private final List<Act> acts = new ArrayList<>();
+	final private List<DroneName> drones;
 
-    private Choreography() {
+    private Choreography(DroneName...drones) {
+        this.drones = Lists.newArrayList(drones);
     }
 
-    private Choreography(int numberDrones) {
-        this.numberDrones = numberDrones;
-    }
-
-    public static Choreography create(int numberDrones) {
-        Choreography choreo = new Choreography(numberDrones);
+    /**
+     * Creates a choreography with a fixed number of drones.
+     * 
+     * @param numberDrones
+     * @return
+     */
+    public static Choreography create(DroneName... drones) {
+        Choreography choreo = new Choreography(drones);
 
         return choreo;
     }
 
     @Override
     public int getNumberDrones() {
-        return numberDrones;
-    }
-
-    public void setNumberDrones(int numberDrones) {
-        this.numberDrones = numberDrones;
+        return drones.size();
     }
 
     /**
@@ -125,7 +126,7 @@ public class Choreography implements ChoreographyView {
     @Override
     public List<FiniteTrajectory4d> getAllTrajectories() {
     	List<FiniteTrajectory4d> trajectories = new ArrayList<FiniteTrajectory4d>();
-    	for (DroneName drone: DroneName.values()) {
+    	for (DroneName drone: drones) {
     		trajectories.add(getFullTrajectory(drone));
     	}
     	

@@ -113,7 +113,13 @@ public class RatsShow {
         //
         // Configures the whole TrajectoryComposite
         //
-        final Choreography choreo = Choreography.create(5);
+        final Choreography choreo = Choreography.create(
+        		DroneName.Nerve, 
+        		DroneName.Romeo, 
+        		DroneName.Juliet, 
+        		DroneName.Fievel, 
+        		DroneName.Dumbo);
+        
         choreo.addAct(introduction);
         choreo.addAct(chaos);
         choreo.addAct(attack);

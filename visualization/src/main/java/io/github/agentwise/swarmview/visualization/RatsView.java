@@ -76,7 +76,6 @@ public class RatsView extends PApplet {
     deltaTime = 0;
 
     choreo = RatsShow.createChoreography();
-    choreo = RatsShow.createChoreography();
 
     //
     //Configures the view
@@ -84,6 +83,7 @@ public class RatsView extends PApplet {
     drones = new DroneView[choreo.getNumberDrones()];
     collisions = new ArrayList<>();
 
+    
     drones[0] =
         new DroneView(
             this,
@@ -153,17 +153,18 @@ public class RatsView extends PApplet {
       drawTimer(timeStep, choreo.getCurrentActName(timeStep / 1000.0f));
     }
     List<Pose> posesCurrentTime = new ArrayList<Pose>();
-    for (int i = 0; i < choreo.getNumberDrones(); i++) {
+    for (int i = 0; i < drones.length; i++) {
       Pose pose = drones[i].displayNext((timeStep) / 1000.0f);
       posesCurrentTime.add(pose);
     }
 
-    // show collisions
+    // show previous collisions
     for (CollisionView coll : collisions) {
       coll.displayNext();
     }
+    
     //
-    // show possible collision
+    // calculates current collisions
     //
     Optional<OfflineMinimumDistanceCheckers.Violation> violation =
         OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraintAtTime(
