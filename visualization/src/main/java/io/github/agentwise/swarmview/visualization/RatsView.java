@@ -1,5 +1,6 @@
 package io.github.agentwise.swarmview.visualization;
 
+import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -31,9 +32,15 @@ import processing.event.MouseEvent;
  *
  */
 public class RatsView extends PApplet {
-  private static final float MAX_ZOOM = 4.0f;
+  private static final int STAGE_HEIGHT = 400; // Height, Depth, Width, given in centimeters
+private static final int STAGE_DEPTH = 600;
+private static final int STAGE_WIDTH = 800;
+private static final float MAX_ZOOM = 4.0f;
   private static final float MIN_ZOOM = 0.3f;
+  private static final Color[] DEFAULT_DRONEVIEW_COLORS = {Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.BLUE};
+  private static final int DEFAULT_TRAIL_LENGTH = 10;
   DroneView[] drones;
+
   int rotzfactor = 0;
   float zoom = 1.0f;
   final int displayDimensionX = 1024;
@@ -61,7 +68,6 @@ public class RatsView extends PApplet {
 
   @Override
   public void settings() {
-    //		fullScreen();
     size(displayDimensionX, displayDimensionY, PConstants.P3D);
   }
 
@@ -74,54 +80,29 @@ public class RatsView extends PApplet {
   private void initializeTrajectories() {
     initialTime = millis(); //TODO add separate method to reset the view parameters
     deltaTime = 0;
+    collisions = new ArrayList<>();
 
     choreo = RatsShow.createChoreography();
 
     //
-    //Configures the view
+    // Associates models, given by a choreography, to a views representing each drone
     //
     drones = new DroneView[choreo.getNumberDrones()];
-    collisions = new ArrayList<>();
-
-    
-    drones[0] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Nerve),
-            color(0, 200, 200),
-            10,
-            DroneName.Nerve.toString()); //cyan
-    drones[1] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Romeo),
-            color(200, 200, 0),
-            10,
-            DroneName.Romeo.toString()); //yellow
-    drones[2] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Juliet),
-            color(200, 0, 200),
-            10,
-            DroneName.Juliet.toString()); //purple
-    drones[3] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Fievel),
-            color(0, 255, 0),
-            10,
-            DroneName.Fievel.toString()); //green
-    drones[4] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Dumbo),
-            color(0, 0, 250),
-            10,
-            DroneName.Dumbo.toString()); //blue
-    /** Safety checks for collision between drones */
+	
+    int i=0;
+	for (DroneName drone: choreo.getDroneNames()) {
+	  drones[i] = 
+          new DroneView(
+        		  	this,
+		            choreo.getFullTrajectory(drone),
+		            DEFAULT_DRONEVIEW_COLORS[i % DEFAULT_DRONEVIEW_COLORS.length].getRGB(),
+		            DEFAULT_TRAIL_LENGTH,
+		            drone.name()
+	            );
+	  i++;
+	}
   }
-
+  
   @Override
   public void draw() {
     background(0);
@@ -139,7 +120,7 @@ public class RatsView extends PApplet {
     pushMatrix();
     strokeWeight(2.0f);
     translate(0, 0, 200);
-    box(800, 800, 400);
+    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
     popMatrix();
 
     drawStage();
