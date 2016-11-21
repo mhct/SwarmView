@@ -103,6 +103,7 @@ private static final float MAX_ZOOM = 4.0f;
 	}
   }
   
+  
   @Override
   public void draw() {
     background(0);
@@ -126,7 +127,7 @@ private static final float MAX_ZOOM = 4.0f;
     drawStage();
 
     pushMatrix();
-    translate(-400, -400, 0);
+    translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
     text("Origin", 0.0f, 0.0f, 0.0f);
 
     int timeStep = getCurrentTimeStep();
