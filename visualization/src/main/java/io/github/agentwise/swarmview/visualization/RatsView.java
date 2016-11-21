@@ -78,12 +78,13 @@ private static final float MAX_ZOOM = 4.0f;
   }
 
   private void initializeTrajectories() {
-    initialTime = millis(); //TODO add separate method to reset the view parameters
+	choreo = RatsShow.createChoreography();
+    
+	// Restart the simulated time
+	initialTime = millis();
     deltaTime = 0;
+
     collisions = new ArrayList<>();
-
-    choreo = RatsShow.createChoreography();
-
     //
     // Associates models, given by a choreography, to a views representing each drone
     //
