@@ -132,4 +132,9 @@ public class Choreography implements ChoreographyView {
     	
     	return trajectories;
     }
+
+	@Override
+	public List<DroneName> getDroneNames() {
+		return new ArrayList<>(drones);
+	}
 }
