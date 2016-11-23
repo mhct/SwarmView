@@ -8,4 +8,5 @@ public interface ChoreographyView {
 	public double getChoreographyDuration();
 	public String getCurrentActName(float timeStep);
     public List<FiniteTrajectory4d> getAllTrajectories();
+	public List<DroneName> getDroneNames();
 }
