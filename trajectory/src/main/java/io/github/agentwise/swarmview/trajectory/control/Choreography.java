@@ -1,9 +1,9 @@
 package io.github.agentwise.swarmview.trajectory.control;
 
+import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 
 /**
  * Defines the choreography (movements) of all drones in a complete dance show
@@ -65,16 +65,19 @@ public class Choreography implements ChoreographyView {
                     if (initialTimeAct <= timeInSeconds && timeInSeconds <= finalTimeAct) {
                         Pose tempPose = act.getTrajectory(droneName)
                                 .getDesiredPosition(timeInSeconds - initialTimeAct);
-                        return Pose.create(tempPose.x(), -tempPose.y(), tempPose.z(), tempPose.yaw());
+                        return Pose
+                                .create(tempPose.x(), tempPose.y(), tempPose.z(), tempPose.yaw());
                     }
 
                     initialTimeAct = finalTimeAct;
                 }
 
                 // if could not find any trajectory, returns null
-                // TODO raise RuntimeException, indicating the show does not last the ammount of timeInSeconds
+                // TODO raise RuntimeException, indicating the show does not last the ammount of
+                // timeInSeconds
                 throw new RuntimeException(String.format(
-                        "This trajectory only lasts for %s seconds, but was invoked with %s seconds",
+                        "This trajectory only lasts for %s seconds, but was invoked with %s "
+                                + "seconds",
                         getTrajectoryDuration(), timeInSeconds));
             }
         }; // end FiniteTrajectory4d implementation
@@ -83,36 +86,36 @@ public class Choreography implements ChoreographyView {
     public void addAct(Act act) {
         acts.add(act);
     }
-    
+
     @Override
     public double getChoreographyDuration() {
-    	double duration = 0.0;
-    	for (Act act: acts) {
-    		duration += act.getDuration();
-    	}
-    	return duration;
+        double duration = 0.0;
+        for (Act act : acts) {
+            duration += act.getDuration();
+        }
+        return duration;
     }
 
     @Override
-	public String getCurrentActName(float timeStep) {
-		float accumulatedTime = 0.0f;
-		for (Act act: acts) {
-			if (timeStep >= accumulatedTime && timeStep < accumulatedTime + act.getDuration()) {
-				return act.getActName();
-			}
-			accumulatedTime += act.getDuration();
-		}
-		
-		return "no act";
-	}
-    
+    public String getCurrentActName(float timeStep) {
+        float accumulatedTime = 0.0f;
+        for (Act act : acts) {
+            if (timeStep >= accumulatedTime && timeStep < accumulatedTime + act.getDuration()) {
+                return act.getActName();
+            }
+            accumulatedTime += act.getDuration();
+        }
+
+        return "no act";
+    }
+
     @Override
     public List<FiniteTrajectory4d> getAllTrajectories() {
-    	List<FiniteTrajectory4d> trajectories = new ArrayList<FiniteTrajectory4d>();
-    	for (DroneName drone: DroneName.values()) {
-    		trajectories.add(getFullTrajectory(drone));
-    	}
-    	
-    	return trajectories;
+        List<FiniteTrajectory4d> trajectories = new ArrayList<FiniteTrajectory4d>();
+        for (DroneName drone : DroneName.values()) {
+            trajectories.add(getFullTrajectory(drone));
+        }
+
+        return trajectories;
     }
 }

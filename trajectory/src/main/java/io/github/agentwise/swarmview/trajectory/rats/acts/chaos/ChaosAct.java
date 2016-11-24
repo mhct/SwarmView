@@ -1,18 +1,17 @@
 package io.github.agentwise.swarmview.trajectory.rats.acts.chaos;
 
 import com.google.common.collect.Lists;
-
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+
+import java.util.List;
 
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Dumbo;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Fievel;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Juliet;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Nerve;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Romeo;
-
-import java.util.List;
 
 public class ChaosAct extends Act {
     protected static final double orientation = -Math.PI / 2d;
@@ -35,16 +34,16 @@ public class ChaosAct extends Act {
                 { 5.0, 4.5, 2.5 }
         };
         double[][] romeoWPCoords = { //start: 1.1, 5.0, 1.5 end: 3.5, 4.0, 1.0  yellow
-                { 0.8, 5.0, 1.2 },
-                { 3.5, 4.0, 4.0 },
-                { 1.1, 4.0, 1.5 },
-                { 2.8, 4, 4 }
+                { 2.5, 5.5, 1.2 },
+                { 3.5, 1.0, 3.8 },
+                { 3.5, 4.0, 1.3 },
+                { 4.0, 5.0, 1.5 }
         };
         double[][] julietWPCoords = { //start: 4.9, 5.0, 1.5 end: 1,1,3   purple
-                { 4.9, 5, 1.2 },
-                { 2, 3, 3.0 },
-                { 0.75, 1.6, 1.8 },
-                { 1.0, 1.2, 2.5 }
+                { 1.0, 5.5, 1.2 },
+                { 2.5, 1.0, 3.8 },
+                { 2.5, 4.0, 1.3 },
+                { 3.0, 5.0, 1.5 }
         };
         double[][] fievelWPCoords = { //start: 5.0, 2.5, 1.0 end: 2, 5, 2   green
                 { 6.0, 2.5, 2.0 },
@@ -56,7 +55,7 @@ public class ChaosAct extends Act {
                 { 1.5, 3.0, 1.0 },
                 { 4.0, 3.5, 3 },
                 { 1.5, 3.0, 3.0 },
-                { 3.8, 2, 0, 2 }
+                { 3.8, 2.0, 2.0 }
         };
 
         List<Pose> nerveWPs = Lists
@@ -80,17 +79,13 @@ public class ChaosAct extends Act {
                         coordToPose(dumboWPCoords[1]), coordToPose(dumboWPCoords[2]),
                         coordToPose(dumboWPCoords[3]), act.finalPosition(Dumbo));
 
-        try {
-            act.addTrajectory(Nerve, AllDrones.createNerveTrajectory(nerveWPs, act.getDuration()));
-            act.addTrajectory(Romeo, AllDrones.createRomeoTrajectory(romeoWPs, act.getDuration()));
-            act.addTrajectory(Juliet,
-                    AllDrones.createJulietTrajectory(julietWPs, act.getDuration()));
-            act.addTrajectory(Fievel,
-                    AllDrones.createFievelTrajectory(fievelWPs, act.getDuration()));
-            act.addTrajectory(Dumbo, AllDrones.createDumboTrajectory(dumboWPs, act.getDuration()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        act.addTrajectory(Nerve, AllDrones.createNerveTrajectory(nerveWPs, act.getDuration()));
+        act.addTrajectory(Romeo, AllDrones.createRomeoTrajectory(romeoWPs, act.getDuration()));
+        act.addTrajectory(Juliet,
+                AllDrones.createJulietTrajectory(julietWPs, act.getDuration()));
+        act.addTrajectory(Fievel,
+                AllDrones.createFievelTrajectory(fievelWPs, act.getDuration()));
+        act.addTrajectory(Dumbo, AllDrones.createDumboTrajectory(dumboWPs, act.getDuration()));
 
         return act;
     }
