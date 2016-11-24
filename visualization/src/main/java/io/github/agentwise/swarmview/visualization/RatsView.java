@@ -42,12 +42,11 @@ public class RatsView extends PApplet {
   private static final float MIN_ZOOM = 0.3f;
   private static final Color[] DEFAULT_DRONEVIEW_COLORS = {Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.BLUE};
   private static final int DEFAULT_TRAIL_LENGTH = 10;
-  DroneView[] drones;
 
-  int rotzfactor = 0;
-  float zoom = 1.0f;
-  final int displayDimensionX = 1024;
-  final int displayDimensionY = 800;
+  private final int displayDimensionX = 1024;
+  private final int displayDimensionY = 800;
+  private int rotzfactor = 0;
+  private float zoom = 1.0f;
   private boolean mouseActive = true;
   private boolean timerActive = true;
   private boolean droneNameActive = true;
@@ -56,15 +55,17 @@ public class RatsView extends PApplet {
   private int lastMouseX;
   private int lastMouseY;
   private float lastZoom;
-  private int initialTime = 0;
   private float rotz;
-  private int lastTimeStep;
 
-  ChoreographyView choreo;
+  private int lastTimeStep;
+  private int initialTime = 0;
   private int deltaTime = 0;
   private int deltaTimeTemp;
-  private List<CollisionView> collisions;
+
+  private ChoreographyView choreo;
   private StageView stage;
+  private DroneView[] drones;
+  private List<CollisionView> collisions;
 
   public static void main(String[] args) {
     PApplet.main(RatsView.class);
@@ -78,11 +79,11 @@ public class RatsView extends PApplet {
   @Override
   public void setup() {
     fill(255);
-    initializeTrajectories();
+    initializeVisualization();
     stage = new StageView(this, STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_DRAWING_INCLINED_PLANE_Z);
   }
 
-  private void initializeTrajectories() {
+  private void initializeVisualization() {
 	choreo = RatsShow.createChoreography();
     
 	// Restart the simulated time
@@ -216,7 +217,7 @@ public class RatsView extends PApplet {
     	      break;
     case 'd': droneNameToggle();
               break;
-    case 'r': initializeTrajectories();
+    case 'r': initializeVisualization();
     		  break;
     }
   }
@@ -294,6 +295,4 @@ public class RatsView extends PApplet {
     text(msg, 400.0f, -450.0f, 0.0f);
     popMatrix();
   }
-
-
 }
