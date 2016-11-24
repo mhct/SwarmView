@@ -1,7 +1,12 @@
 package io.github.agentwise.swarmview.trajectory.applications.trajectory;
 
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.StrictMath.atan;
+import static java.lang.StrictMath.sin;
 
 /**
  * Utility class for static utilities used in defining trajectories.
@@ -20,8 +25,19 @@ public final class TrajectoryUtils {
      * with given frequency.
      */
     public static double pendulumAngleFromTime(double currentTime, double frequency) {
-        return PeriodicTrajectory.HALFPI
-                * StrictMath.cos(PeriodicTrajectory.TWOPI * frequency * currentTime);
+        return pendulumAngleFromTime(currentTime, frequency, PeriodicTrajectory.HALFPI);
+    }
+
+    /**
+     * @param currentTime The time point in the motion.
+     * @param frequency   The frequency of the pendulum movement.
+     * @param initPhase   The initial angle between vertical axis and the cord connecting the
+     *                    pendulum.
+     * @return The angle of the pendulum string with the z-axis for a given time if the pendulum
+     * moves with given frequency and is dropped from angle initPhase.
+     */
+    static double pendulumAngleFromTime(double currentTime, double frequency, double initPhase) {
+        return initPhase * StrictMath.cos(PeriodicTrajectory.TWOPI * frequency * currentTime);
     }
 
     /**
@@ -106,38 +122,39 @@ public final class TrajectoryUtils {
      * @return a point4D instance containing the sample location values.
      */
     public static Point4D sampleTrajectory(FiniteTrajectory4d trajectory, double time) {
-    	return Point4D.create(
-    			trajectory.getDesiredPosition(time).x(), trajectory.getDesiredPosition(time).y(),
-    			trajectory.getDesiredPosition(time).z(), trajectory.getDesiredPosition(time).yaw());
+        return Point4D.create(
+                trajectory.getDesiredPosition(time).x(), trajectory.getDesiredPosition(time).y(),
+                trajectory.getDesiredPosition(time).z(), trajectory.getDesiredPosition(time).yaw());
     }
-    
-    /** 
-     * Creates a wrapper instance of a FiniteTrajectory4d class, to translate it to a Trajectory4d class
+
+    /**
+     * Creates a wrapper instance of a FiniteTrajectory4d class, to translate it to a
+     * Trajectory4d class
      */
     public static Trajectory4d createFrom(FiniteTrajectory4d finiteTrajectory) {
-    	return new Trajectory4d() {
-			private final FiniteTrajectory4d trajectory = finiteTrajectory;
-    		
-			@Override
-			public double getDesiredPositionZ(double timeInSeconds) {
-				return trajectory.getDesiredPosition(timeInSeconds).z();
-			}
-			
-			@Override
-			public double getDesiredPositionY(double timeInSeconds) {
-				return trajectory.getDesiredPosition(timeInSeconds).y();
-			}
-			
-			@Override
-			public double getDesiredPositionX(double timeInSeconds) {
-				return trajectory.getDesiredPosition(timeInSeconds).x();
-			}
-			
-			@Override
-			public double getDesiredAngleZ(double timeInSeconds) {
-				return trajectory.getDesiredPosition(timeInSeconds).yaw();
-			}
-		};
+        return new Trajectory4d() {
+            private final FiniteTrajectory4d trajectory = finiteTrajectory;
+
+            @Override
+            public double getDesiredPositionZ(double timeInSeconds) {
+                return trajectory.getDesiredPosition(timeInSeconds).z();
+            }
+
+            @Override
+            public double getDesiredPositionY(double timeInSeconds) {
+                return trajectory.getDesiredPosition(timeInSeconds).y();
+            }
+
+            @Override
+            public double getDesiredPositionX(double timeInSeconds) {
+                return trajectory.getDesiredPosition(timeInSeconds).x();
+            }
+
+            @Override
+            public double getDesiredAngleZ(double timeInSeconds) {
+                return trajectory.getDesiredPosition(timeInSeconds).yaw();
+            }
+        };
     }
-     
+
 }
