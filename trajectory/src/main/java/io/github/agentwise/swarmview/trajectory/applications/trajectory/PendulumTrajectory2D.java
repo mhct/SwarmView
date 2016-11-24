@@ -1,8 +1,8 @@
 package io.github.agentwise.swarmview.trajectory.applications.trajectory;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * A Pendulum trajectory in 2 dimensions of motion specified in a frequency (How many revolutions
@@ -21,9 +21,9 @@ public final class PendulumTrajectory2D extends PeriodicTrajectory implements Tr
      * @param radius    The length of the virtual pendulum string (or radius).
      * @param frequency The frequency f (amount of revolutions per second). Equals 1/period.
      */
-    private PendulumTrajectory2D(double radius, double frequency, Point4D origin, double phase) {
-        super(HALFPI * 3 + phase, origin, radius, frequency);
-        this.linearMovement = new PendulumSwingTrajectory1D(origin, radius, frequency, phase);
+    private PendulumTrajectory2D(double radius, double frequency, Point4D origin) {
+        super(HALFPI * 3, origin, radius, frequency);
+        this.linearMovement = new PendulumSwingTrajectory1D(origin, radius, frequency, 0);
         checkArgument(
                 Math.abs(radius * frequency) < MAX_ABSOLUTE_VELOCITY / PISQUARED,
                 "Absolute speed should not be larger than "
@@ -31,6 +31,24 @@ public final class PendulumTrajectory2D extends PeriodicTrajectory implements Tr
                         + " which is: "
                         + MAX_ABSOLUTE_VELOCITY);
         this.pendulumOrdinate = new PendulumOrdinate();
+    }
+
+    /**
+     * Constructor
+     *
+     * @param radius    The length of the virtual pendulum string (or radius).
+     * @param frequency The frequency f (amount of revolutions per second). Equals 1/period.
+     */
+    private PendulumTrajectory2D(double radius, double frequency, Point4D origin, double phase) {
+        super(HALFPI * 3, origin, radius, frequency);
+        this.linearMovement = new PendulumSwingTrajectory1D(origin, radius, frequency, phase);
+        checkArgument(
+                Math.abs(radius * frequency) < MAX_ABSOLUTE_VELOCITY / PISQUARED,
+                "Absolute speed should not be larger than "
+                        + "MAX_ABSOLUTE_VELOCITY,"
+                        + " which is: "
+                        + MAX_ABSOLUTE_VELOCITY);
+        this.pendulumOrdinate = new ShortenedPendulumOrdinate(phase);
     }
 
     /**
@@ -113,7 +131,8 @@ public final class PendulumTrajectory2D extends PeriodicTrajectory implements Tr
          * @return The 2d Pendulum motion instance.
          */
         public PendulumTrajectory2D build() {
-            return new PendulumTrajectory2D(radius, frequency, origin, phase);
+            return phase == 0 ? new PendulumTrajectory2D(radius, frequency, origin) :
+                    new PendulumTrajectory2D(radius, frequency, origin, phase);
         }
     }
 
@@ -124,6 +143,23 @@ public final class PendulumTrajectory2D extends PeriodicTrajectory implements Tr
                     + getRadius()
                     * StrictMath.sin(
                     TrajectoryUtils.pendulumAngleFromTime(timeInSeconds, getFrequency())
+                            + getPhaseDisplacement());
+        }
+    }
+
+    private class ShortenedPendulumOrdinate implements Trajectory1d {
+        private final double initPhase;
+
+        private ShortenedPendulumOrdinate(double init) {
+            this.initPhase = init;
+        }
+
+        @Override
+        public double getDesiredPosition(double timeInSeconds) {
+            return getLinearDisplacement().getZ()
+                    + getRadius()
+                    * StrictMath.sin(
+                    TrajectoryUtils.pendulumAngleFromTime(timeInSeconds, getFrequency(), initPhase)
                             + getPhaseDisplacement());
         }
     }

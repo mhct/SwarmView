@@ -1,8 +1,8 @@
 package io.github.agentwise.swarmview.trajectory.applications.trajectory;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * A swing trajectory in 1 dimensions of motion specified in a frequency (How many revolutions per
@@ -28,7 +28,7 @@ class PendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory
     }
 
     PendulumSwingTrajectory1D(Point4D origin, double radius, double frequency, double phase) {
-        super((HALFPI * 3) + phase, origin, radius, frequency);
+        super((HALFPI * 3), origin, radius, frequency);
         checkArgument(
                 Math.abs(radius * frequency)
                         < MAX_ABSOLUTE_VELOCITY / (PISQUARED * MAXRANGE_VELOCITY_PERIODIC_PART),
