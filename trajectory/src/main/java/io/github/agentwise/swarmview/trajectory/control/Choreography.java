@@ -5,41 +5,60 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+
 /**
- * Defines the choreography (movements) of all drones in a complete dance show
+ * Defines the choreography (movements) of all drones in a complete dance show.
+ * The frame of reference for a trajectory is defined as
+ *
+ * ----> x (positive)
+ * |
+ * \/ y (positive)
+ *
+ *
  *
  * @author Mario h.c.t.
  */
 public class Choreography implements ChoreographyView {
-    private int numberDrones;
     private final List<Act> acts = new ArrayList<>();
+	final private List<DroneName> drones;
 
-    private Choreography() {
+    private Choreography(DroneName...drones) {
+        this.drones = Lists.newArrayList(drones);
     }
 
-    private Choreography(int numberDrones) {
-        this.numberDrones = numberDrones;
-    }
-
-    public static Choreography create(int numberDrones) {
-        Choreography choreo = new Choreography(numberDrones);
+    /**
+     * Creates a choreography with a fixed number of drones.
+     *
+     * @param numberDrones
+     * @return
+     */
+    public static Choreography create(DroneName... drones) {
+        Choreography choreo = new Choreography(drones);
 
         return choreo;
     }
 
     @Override
     public int getNumberDrones() {
-        return numberDrones;
+        return drones.size();
     }
 
-    public void setNumberDrones(int numberDrones) {
-        this.numberDrones = numberDrones;
-    }
-
+    /**
+     * Returns a complete (full) drone trajectory for
+     * all Acts defined on a choreography.
+     *
+     * This method return trajectories which are transformed between the Coordinate Frame of
+     * the RatsView and the Coordinate Frame used in BeSwarm.
+     *
+     * @param DroneName Name of drone of interest
+     *
+     * @return FiniteTrajectory4d with the whole drone trajectory
+     */
     @Override
     public FiniteTrajectory4d getFullTrajectory(DroneName name) {
-        //iterate over all acts,
-        //retrieve the trajectory per dronename
 
         double accumulatedTime = 0;
         for (Act act : acts) {
@@ -111,11 +130,16 @@ public class Choreography implements ChoreographyView {
 
     @Override
     public List<FiniteTrajectory4d> getAllTrajectories() {
-        List<FiniteTrajectory4d> trajectories = new ArrayList<FiniteTrajectory4d>();
-        for (DroneName drone : DroneName.values()) {
-            trajectories.add(getFullTrajectory(drone));
-        }
+    	List<FiniteTrajectory4d> trajectories = new ArrayList<FiniteTrajectory4d>();
+    	for (DroneName drone: drones) {
+    		trajectories.add(getFullTrajectory(drone));
+    	}
 
-        return trajectories;
+    	return trajectories;
     }
+
+	@Override
+	public List<DroneName> getDroneNames() {
+		return new ArrayList<>(drones);
+	}
 }

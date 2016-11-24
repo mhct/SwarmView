@@ -1,10 +1,16 @@
 package io.github.agentwise.swarmview.visualization;
 
+import java.awt.Color;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.checkers.OfflineMinimumDistanceCheckers;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.control.ChoreographyView;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
-import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import io.github.agentwise.swarmview.trajectory.rats.RatsShow;
 import processing.core.PApplet;
@@ -12,16 +18,29 @@ import processing.core.PConstants;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * 3D visualization of drone trajectories.
+ * 
+ * The frame of reference used in the view is defined as below, following the convention used by Processing @see <a href="http://processing.org">http://processing.org</a>
+ * 
+ * --> X  
+ * |           Z points at the same direction as the vector Y x X  (cross product of Y and X) 
+ * \/
+ * Y
+ * 
+ * @author Mario h.c.t.
+ *
+ */
 public class RatsView extends PApplet {
-  private static final float MAX_ZOOM = 4.0f;
+  private static final int STAGE_HEIGHT = 400; // Height, Depth, Width, given in centimeters
+private static final int STAGE_DEPTH = 600;
+private static final int STAGE_WIDTH = 800;
+private static final float MAX_ZOOM = 4.0f;
   private static final float MIN_ZOOM = 0.3f;
+  private static final Color[] DEFAULT_DRONEVIEW_COLORS = {Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.BLUE};
+  private static final int DEFAULT_TRAIL_LENGTH = 10;
   DroneView[] drones;
+
   int rotzfactor = 0;
   float zoom = 1.0f;
   final int displayDimensionX = 1024;
@@ -49,7 +68,6 @@ public class RatsView extends PApplet {
 
   @Override
   public void settings() {
-    //		fullScreen();
     size(displayDimensionX, displayDimensionY, PConstants.P3D);
   }
 
@@ -60,63 +78,33 @@ public class RatsView extends PApplet {
   }
 
   private void initializeTrajectories() {
-    initialTime = millis(); //TODO add separate method to reset the view parameters
+	choreo = RatsShow.createChoreography();
+    
+	// Restart the simulated time
+	initialTime = millis();
     deltaTime = 0;
 
-    choreo = RatsShow.createChoreography();
-    List<FiniteTrajectory4d> trajectories = choreo.getAllTrajectories();
-    //        List<Optional<Violation>> violations = OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraint(trajectories, 0.5);
-    //        if (!violations.isEmpty()) {
-    //        	for (Optional<Violation> violation: violations) {
-    //        		System.out.println("Trajectories have a collision at: " + violation);
-    //        	}
-    //        }
-    choreo = RatsShow.createChoreography();
-
+    collisions = new ArrayList<>();
     //
-    //Configures the view
+    // Associates models, given by a choreography, to a views representing each drone
     //
     drones = new DroneView[choreo.getNumberDrones()];
-    collisions = new ArrayList<>();
-
-    drones[0] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Nerve),
-            color(0, 200, 200),
-            10,
-            DroneName.Nerve.toString()); //cyan
-    drones[1] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Romeo),
-            color(200, 200, 0),
-            10,
-            DroneName.Romeo.toString()); //yellow
-    drones[2] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Juliet),
-            color(200, 0, 200),
-            10,
-            DroneName.Juliet.toString()); //purple
-    drones[3] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Fievel),
-            color(0, 255, 0),
-            10,
-            DroneName.Fievel.toString()); //green
-    drones[4] =
-        new DroneView(
-            this,
-            choreo.getFullTrajectory(DroneName.Dumbo),
-            color(0, 0, 250),
-            10,
-            DroneName.Dumbo.toString()); //blue
-    /** Safety checks for collision between drones */
+	
+    int i=0;
+	for (DroneName drone: choreo.getDroneNames()) {
+	  drones[i] = 
+          new DroneView(
+        		  	this,
+		            choreo.getFullTrajectory(drone),
+		            DEFAULT_DRONEVIEW_COLORS[i % DEFAULT_DRONEVIEW_COLORS.length].getRGB(),
+		            DEFAULT_TRAIL_LENGTH,
+		            drone.name()
+	            );
+	  i++;
+	}
   }
-
+  
+  
   @Override
   public void draw() {
     background(0);
@@ -134,13 +122,13 @@ public class RatsView extends PApplet {
     pushMatrix();
     strokeWeight(2.0f);
     translate(0, 0, 200);
-    box(800, 800, 400);
+    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
     popMatrix();
 
     drawStage();
 
     pushMatrix();
-    translate(-400, -400, 0);
+    translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
     text("Origin", 0.0f, 0.0f, 0.0f);
 
     int timeStep = getCurrentTimeStep();
@@ -148,17 +136,18 @@ public class RatsView extends PApplet {
       drawTimer(timeStep, choreo.getCurrentActName(timeStep / 1000.0f));
     }
     List<Pose> posesCurrentTime = new ArrayList<Pose>();
-    for (int i = 0; i < choreo.getNumberDrones(); i++) {
+    for (int i = 0; i < drones.length; i++) {
       Pose pose = drones[i].displayNext((timeStep) / 1000.0f);
       posesCurrentTime.add(pose);
     }
 
-    // show collisions
+    // show previous collisions
     for (CollisionView coll : collisions) {
       coll.displayNext();
     }
+    
     //
-    // show possible collision
+    // calculates current collisions
     //
     Optional<OfflineMinimumDistanceCheckers.Violation> violation =
         OfflineMinimumDistanceCheckers.checkMinimum3dDistanceConstraintAtTime(

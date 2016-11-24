@@ -53,4 +53,8 @@ public abstract class ActConfiguration {
 		return finalPositions;
 	}
 	
+	public int numberDrones() {
+		return dronePositionConfiguration().size();
+	}
+	
 }

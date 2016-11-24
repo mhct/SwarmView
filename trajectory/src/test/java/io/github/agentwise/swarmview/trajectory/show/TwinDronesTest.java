@@ -1,6 +1,4 @@
-package io.github.agentwise.swarmview.show;
-
-import static org.junit.Assert.*;
+package io.github.agentwise.swarmview.trajectory.show;
 
 /**
  * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
