@@ -85,7 +85,7 @@ public class Choreography implements ChoreographyView {
                         Pose tempPose = act.getTrajectory(droneName)
                                 .getDesiredPosition(timeInSeconds - initialTimeAct);
                         return Pose
-                                .create(tempPose.x(), tempPose.y(), tempPose.z(), tempPose.yaw());
+                                .create(tempPose.x(), -tempPose.y(), tempPose.z(), tempPose.yaw());
                     }
 
                     initialTimeAct = finalTimeAct;
