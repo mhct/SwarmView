@@ -32,10 +32,12 @@ import processing.event.MouseEvent;
  *
  */
 public class RatsView extends PApplet {
-  private static final int STAGE_HEIGHT = 400; // Height, Depth, Width, given in centimeters
-private static final int STAGE_DEPTH = 530;
-private static final int STAGE_WIDTH = 700;
-private static final float MAX_ZOOM = 4.0f;
+  private static final int STAGE_HEIGHT = 350; // Height, Depth, Width, given in centimeters
+  private static final int STAGE_DEPTH = 530;
+  private static final int STAGE_WIDTH = 700;
+  private static final int STAGE_DRAWING_INCLINED_PLANE_X = 355;
+  private static final int STAGE_DRAWING_INCLINED_PLANE_Z = 100;
+  private static final float MAX_ZOOM = 4.0f;
   private static final float MIN_ZOOM = 0.3f;
   private static final Color[] DEFAULT_DRONEVIEW_COLORS = {Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.BLUE};
   private static final int DEFAULT_TRAIL_LENGTH = 10;
@@ -126,6 +128,11 @@ private static final float MAX_ZOOM = 4.0f;
     translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
     text("Origin", 0.0f, 0.0f, 0.0f);
 
+    pushMatrix();
+    translate(700, 530, 350);
+    sphere(2);
+    popMatrix();
+    
     int timeStep = getCurrentTimeStep();
     if (isTimerActive()) {
       drawTimer(timeStep, choreo.getCurrentActName(timeStep / 1000.0f));
@@ -328,12 +335,27 @@ private static final float MAX_ZOOM = 4.0f;
 
     popMatrix();
   }
-  
+
   private void drawFlyingZone() {
 	    pushMatrix();
 	    strokeWeight(2.0f);
-	    translate(0, 0, 200);
+	    translate(0, 0, STAGE_HEIGHT/2);
 	    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
 	    popMatrix();
+
+	    pushMatrix();
+	    translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
+	    strokeWeight(3.0f);
+	    beginShape(PConstants.QUAD);
+	    noFill();
+	    vertex(0, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
+	    vertex(STAGE_WIDTH, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
+	    vertex(STAGE_WIDTH, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_HEIGHT);
+	    vertex(0, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_HEIGHT);
+	    endShape();
+	    popMatrix();
+
+	    
+	    
   }
 }
