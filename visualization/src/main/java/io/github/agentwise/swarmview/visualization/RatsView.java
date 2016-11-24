@@ -33,8 +33,8 @@ import processing.event.MouseEvent;
  */
 public class RatsView extends PApplet {
   private static final int STAGE_HEIGHT = 400; // Height, Depth, Width, given in centimeters
-private static final int STAGE_DEPTH = 600;
-private static final int STAGE_WIDTH = 800;
+private static final int STAGE_DEPTH = 530;
+private static final int STAGE_WIDTH = 700;
 private static final float MAX_ZOOM = 4.0f;
   private static final float MIN_ZOOM = 0.3f;
   private static final Color[] DEFAULT_DRONEVIEW_COLORS = {Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.BLUE};
@@ -119,12 +119,7 @@ private static final float MAX_ZOOM = 4.0f;
 
     positionView(lastMouseX, lastMouseY, lastZoom);
 
-    pushMatrix();
-    strokeWeight(2.0f);
-    translate(0, 0, 200);
-    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
-    popMatrix();
-
+    drawFlyingZone();
     drawStage();
 
     pushMatrix();
@@ -332,5 +327,13 @@ private static final float MAX_ZOOM = 4.0f;
     // TODO draw markers for the x,y,z coordinates on the corners
 
     popMatrix();
+  }
+  
+  private void drawFlyingZone() {
+	    pushMatrix();
+	    strokeWeight(2.0f);
+	    translate(0, 0, 200);
+	    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
+	    popMatrix();
   }
 }
