@@ -207,24 +207,17 @@ public class RatsView extends PApplet {
   /** Handles user input via the keyboard */
   @Override
   public void keyPressed(KeyEvent event) {
-    if (event.getKey() == 'z') {
-      mouseToggle();
-    }
-
-    if (event.getKey() == 't') {
-      timerToggle();
-    }
-
-    if (event.getKey() == ' ') {
-      pauseToggle();
-    }
-
-    if (event.getKey() == 'd') {
-      droneNameToggle();
-    }
-
-    if (event.getKey() == 'r') {
-      initializeTrajectories();
+    switch(event.getKey()) {
+    case 'z': mouseToggle();
+    		  break;
+    case 't': timerToggle();
+    		  break;
+    case ' ': pauseToggle();
+    	      break;
+    case 'd': droneNameToggle();
+              break;
+    case 'r': initializeTrajectories();
+    		  break;
     }
   }
 
