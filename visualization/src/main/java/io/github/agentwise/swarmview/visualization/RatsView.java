@@ -307,7 +307,7 @@ public class RatsView extends PApplet {
     popMatrix();
   }
 
-  /** Draws the stage on the screen */
+  /** Draws the stage */
   public void drawStage() {
     pushMatrix();
     scale(700, 700, 700);
@@ -331,21 +331,44 @@ public class RatsView extends PApplet {
     vertex(1, -1, 0);
     endShape();
 
-    // TODO draw markers for the x,y,z coordinates on the corners
-
     popMatrix();
   }
 
   private void drawFlyingZone() {
 	    pushMatrix();
-	    strokeWeight(2.0f);
-	    translate(0, 0, STAGE_HEIGHT/2);
-	    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
-	    popMatrix();
-
-	    pushMatrix();
 	    translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
 	    strokeWeight(3.0f);
+	    
+	    //Back plane
+	    beginShape(PConstants.QUAD);
+	    noFill();
+	    vertex(0, 0, 0);
+	    vertex(STAGE_WIDTH, 0, 0);
+	    vertex(STAGE_WIDTH, 0, STAGE_HEIGHT);
+	    vertex(0, 0, STAGE_HEIGHT);
+	    endShape();
+
+	    //Left plane (looking from audience)
+	    beginShape(PConstants.POLYGON);
+	    noFill();
+	    vertex(0, 0, 0);
+	    vertex(0, STAGE_DEPTH, 0);
+	    vertex(0, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
+	    vertex(0, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_HEIGHT);
+	    vertex(0, 0, STAGE_HEIGHT);
+	    endShape();
+
+	    //Right plane (looking from audience)
+	    beginShape(PConstants.POLYGON);
+	    noFill();
+	    vertex(STAGE_WIDTH, 0, 0);
+	    vertex(STAGE_WIDTH, STAGE_DEPTH, 0);
+	    vertex(STAGE_WIDTH, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
+	    vertex(STAGE_WIDTH, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_HEIGHT);
+	    vertex(STAGE_WIDTH, 0, STAGE_HEIGHT);
+	    endShape();
+
+	    //Inclined front plane
 	    beginShape(PConstants.QUAD);
 	    noFill();
 	    vertex(0, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
@@ -353,8 +376,41 @@ public class RatsView extends PApplet {
 	    vertex(STAGE_WIDTH, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_HEIGHT);
 	    vertex(0, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_HEIGHT);
 	    endShape();
+
+	    // Front plane, below inclined plane
+	    beginShape(PConstants.QUAD);
+	    noFill();
+	    vertex(0, STAGE_DEPTH, 0);
+	    vertex(STAGE_WIDTH, STAGE_DEPTH, 0);
+	    vertex(STAGE_WIDTH, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
+	    vertex(0, STAGE_DEPTH, STAGE_DRAWING_INCLINED_PLANE_Z);
+	    endShape();
 	    popMatrix();
 
+	    //Draws markers on each meter on the ground (along Y axis)
+	    int drawingIntervalInCm = 100;
+	    for (int i=0; i<=STAGE_DEPTH; i=i+drawingIntervalInCm) {
+	    	pushMatrix();
+	    	translate(-STAGE_WIDTH/2, -STAGE_DEPTH/2, 0);
+	    	translate(0, i, 2);
+	    	box(4);
+
+	    	translate(STAGE_WIDTH, 0, 0);
+	    	box(4);
+	    	popMatrix();
+	    }
+
+	    //Draws markers on each meter on the ground (along X axis)
+	    for (int i=0; i<=STAGE_WIDTH; i=i+drawingIntervalInCm) {
+	    	pushMatrix();
+	    	translate(-STAGE_WIDTH/2, -STAGE_DEPTH/2, 0);
+	    	translate(i, 0, 2);
+	    	box(4);
+	    	
+	    	translate(0, STAGE_DEPTH, 0);
+	    	box(4);
+	    	popMatrix();
+	    }
 	    
 	    
   }
