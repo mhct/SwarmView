@@ -6,6 +6,7 @@ package io.github.agentwise.swarmview.trajectory.rats.acts.introduction;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.WiggleTrajectory;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.ZigZagTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
@@ -22,9 +23,9 @@ public class DumboIntroduction {
 	public DumboIntroduction (Pose initialPose, Pose finalPose, double start) {
 		
 		double[][] path = {
-					{ 	4, 4, 1.5,		3, 1 },	// wiggle position, number of wiggles, time to stay at edge
-					{ 	6, 5, 1,		2, 1 },	// wiggle position, number of wiggles, time to stay at edge
-					{ 	2, 5, 2,		2, 1 },	// wiggle position, number of wiggles, time to stay at edge
+					{ 	4, 4, 1.5,		3, 1, 4, 0.5 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
+					{ 	6, 5, 1,		2, 1, 8, 0.6 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
+					{ 	2, 5, 2,		2, 1, 6, 0.8 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
 			};
 		
 		TrajectoryComposite.Builder trajectoryBuilder = TrajectoryComposite.builder();
@@ -38,20 +39,21 @@ public class DumboIntroduction {
 		Point4D finalPosition 	= Point4D.from(finalPose);
 
 		// First hover a bit more
-		Hover initHover = new Hover (currentPosition, 2);
-		trajectoryBuilder.addTrajectory(initHover);
+		// Hover initHover = new Hover (currentPosition, 2);
+		// trajectoryBuilder.addTrajectory(initHover);
 	
 		for(int i = 0 ; i < path.length; i++) {
 			double[] lineInfo = path[i];
 
 			// Go to wiggle position
 			Point4D newWigglePosition = Point4D.create(lineInfo[0], lineInfo[1], lineInfo[2], 0);
-			StraightLineTrajectory4D gotoWigglePosition = StraightLineTrajectory4D.createWithPercentageVelocity(currentPosition, newWigglePosition, 0.7);
+			// StraightLineTrajectory4D gotoWigglePosition = StraightLineTrajectory4D.createWithPercentageVelocity(currentPosition, newWigglePosition, 0.7);
+			ZigZagTrajectory4D gotoWigglePosition = new ZigZagTrajectory4D(currentPosition, newWigglePosition, (int)lineInfo[5], lineInfo[6], 0.7);
 			trajectoryBuilder.addTrajectory(gotoWigglePosition);
 			currentPosition = newWigglePosition;
 			
 			// Now hover before wiggle
-			Hover hoverBeforeWiggle = new Hover (currentPosition, 0.5);
+			Hover hoverBeforeWiggle = new Hover (currentPosition, 0.1);
 			trajectoryBuilder.addTrajectory(hoverBeforeWiggle);
 
 			// Now WIGGLE !!
@@ -62,7 +64,8 @@ public class DumboIntroduction {
 		}
 
 		// Go to final position
-		StraightLineTrajectory4D gotoFinalPosition = StraightLineTrajectory4D.createWithPercentageVelocity(currentPosition, finalPosition, 0.7);
+		// StraightLineTrajectory4D gotoFinalPosition = StraightLineTrajectory4D.createWithPercentageVelocity(currentPosition, finalPosition, 0.7);
+		ZigZagTrajectory4D gotoFinalPosition = new ZigZagTrajectory4D(currentPosition, finalPosition, 4, 0.5, 0.7);
 		trajectoryBuilder.addTrajectory(gotoFinalPosition);
 
 		this.trajectory = trajectoryBuilder.build();

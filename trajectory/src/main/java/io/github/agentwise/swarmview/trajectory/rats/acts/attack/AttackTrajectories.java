@@ -38,7 +38,7 @@ public class AttackTrajectories {
 		this.attackRadius = attackRadius;
 	}
 
-	public FiniteTrajectory4d getTrajectory (int idDrone, int numberOfDrones, int sequenceOfAttack) {
+	public FiniteTrajectory4d getTrajectory (int idDrone, int numberOfDrones, double sequenceOfAttack) {
 
 		// first we create a line trajectory from the current position to the position to start the attack
 
