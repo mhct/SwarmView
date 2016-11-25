@@ -34,10 +34,10 @@ public class SingleAttackAct extends Act {
 		int numberOfDrones = DroneName.values().length;
 
 		droneTrajectories.put(DroneName.Nerve, 	trajectories.getTrajectory (0, numberOfDrones, 0));
-		droneTrajectories.put(DroneName.Romeo, 	trajectories.getTrajectory (1, numberOfDrones, 1));
-		droneTrajectories.put(DroneName.Juliet, trajectories.getTrajectory (3, numberOfDrones, 1));
-		droneTrajectories.put(DroneName.Fievel, trajectories.getTrajectory (2, numberOfDrones, 2));
-		droneTrajectories.put(DroneName.Dumbo, 	trajectories.getTrajectory (4, numberOfDrones, 3));
+		droneTrajectories.put(DroneName.Romeo, 	trajectories.getTrajectory (1, numberOfDrones, 0.31));
+		droneTrajectories.put(DroneName.Juliet, trajectories.getTrajectory (3, numberOfDrones, 0.31));
+		droneTrajectories.put(DroneName.Fievel, trajectories.getTrajectory (2, numberOfDrones, 0.6));
+		droneTrajectories.put(DroneName.Dumbo, 	trajectories.getTrajectory (4, numberOfDrones, 0.8));
 
 		List<DronePositionConfiguration> positions = new ArrayList<>();
 		for (DroneName drone: DroneName.values()) {
