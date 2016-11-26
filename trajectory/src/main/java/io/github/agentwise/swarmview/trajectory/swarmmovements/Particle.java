@@ -46,11 +46,8 @@ public class Particle {
 		double dy = current.getY() - center.getY();
 		double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
 		if (Math.abs(dy - 0.0) >= 0.00001 || Math.abs(dx - 0.0) >= 0.00001) {
-			double theta = Math.acos(dx/(distanceToCenter));
-			if (dy < 0.0) {
-				theta += Math.PI;
-			} 
-			
+			double theta = Math.atan2(dy, dx);
+
 			FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(
 					CircleTrajectory4D.builder()
 					.setLocation(Point3D.project(center))
@@ -61,6 +58,7 @@ public class Particle {
 					.build()).withDuration(duration).build();
 			this.addMovement(circle);
 		} else {
+			System.out.println("HOVER in circle");
 			this.addMovement(new Hover(current, duration));
 		}
 	}
