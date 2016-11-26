@@ -24,8 +24,8 @@ public class DumboIntroduction {
 		
 		double[][] path = {
 					{ 	4, 4, 1.5,		3, 1, 4, 0.5 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
-					{ 	6, 5, 1,		2, 1, 8, 0.6 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
-					{ 	2, 5, 2,		2, 1, 6, 0.8 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
+					{ 	6, 4, 1,		2, 1, 8, 0.6 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
+					{ 	2, 4, 2,		2, 1, 6, 0.8 },	// wiggle position, number of wiggles, time to stay at edge, number of zigzags to get there, distance of zigzags
 			};
 		
 		TrajectoryComposite.Builder trajectoryBuilder = TrajectoryComposite.builder();
