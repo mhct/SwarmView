@@ -7,7 +7,7 @@ import io.github.agentwise.swarmview.trajectory.control.ChoreographyView;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.control.DronePositionConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
-import io.github.agentwise.swarmview.trajectory.operationaltests.BasicCirclesAct;
+import io.github.agentwise.swarmview.trajectory.rats.acts.introduction.IntroductionAct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,23 +38,14 @@ public final class OTIntroAct {
     config = ActConfiguration.create("IntroAct", introPositions);
   }
 
-  public static ChoreographyView createCircleChoreography() {
-    Act circle = BasicCirclesAct.create(config);
-    circle.lockAndBuild();
+  public static ChoreographyView createIntroChoreography() {
+    final Act introAct = IntroductionAct.create(config);
+    introAct.lockAndBuild();
 
     final Choreography choreo =
-        Choreography.create(DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel);
-    choreo.addAct(circle);
-    return choreo;
-  }
-
-  public static ChoreographyView createUpDown() {
-    Act circle = BasicCirclesAct.create(config);
-    circle.lockAndBuild();
-
-    final Choreography choreo =
-        Choreography.create(DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel);
-    choreo.addAct(circle);
+        Choreography.create(
+            DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel, DroneName.Dumbo);
+    choreo.addAct(introAct);
     return choreo;
   }
 }
