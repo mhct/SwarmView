@@ -26,12 +26,12 @@ public class FievelIntroduction {
 	public FievelIntroduction (Pose initialPose, Pose finalPose, double start) {
 		
 		double[][] path = {
-					{ 	4, 4, 2,		 0.4,  0.45,	1, 0 },	// mid point pendulum, frequency, radius, revolutions, direction
-					{ 	4.1, 4, 2,		 0.4,  0.45,	1, Math.PI },	// mid point pendulum, frequency, radius, revolutions, direction
-					{ 	4, 2.5, 2.5,	 0.3,  1,		2, Math.PI*3/4 },
+					{ 	4, 3, 3,		 0.1,  1.5,	1, 0 },	// mid point pendulum, frequency, radius, revolutions, direction
+					{ 	4.1, 3, 3,		 0.1,  1.5,	1, Math.PI },	// mid point pendulum, frequency, radius, revolutions, direction
+					{ 	4, 2.5, 3,	 0.1,  1,		2, Math.PI*3/4 },
 					// { 	4, 2, 3,	 0.18, 1.2,		1, Math.PI },
-					{ 	5, 3, 2,		 0.4,  0.5,		1, Math.PI*1.25 },
-					{ 	5.1, 3, 2,		 0.4,  0.5,		1, 2*Math.PI-Math.PI*1.25 },
+					{ 	5, 2, 3,		 0.1,  1.5,		1, Math.PI*1.25 },
+					{ 	5.1, 2, 3,		 0.1,  1.5,		1, 2*Math.PI-Math.PI*1.25 },
 			};
 		
 		Point4D currentPosition = Point4D.from(initialPose);
