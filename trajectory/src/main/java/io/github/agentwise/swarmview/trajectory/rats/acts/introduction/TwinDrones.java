@@ -75,7 +75,7 @@ public abstract class TwinDrones {
             FiniteTrajectory4d lastLeg = Trajectories
                     .newStraightLineTrajectory(wp2, this.finalPos, exitVelocity);
 
-            double height = 2;
+            double height = 2.5;
             Point3D dest = Point3D.plus(circleCenterPoint, Point3D.create(0, 0, height));
             double vertSpeed = height / (circleTiming / 2);
             double updatedPhase = phaseToConnectStart + (revolutions * Math.PI); // 2PI * revs/2
@@ -95,7 +95,7 @@ public abstract class TwinDrones {
                     .addTrajectory(firstLeg)
                     .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
                     .withDuration(waitAtStation)
-                    .addTrajectory(corkscrewUp).withDuration(circleTiming / 2)
+                    .addTrajectory(corkscrewUp).withDuration(circleTiming / 2 + 2)
                     .addTrajectory(corkscrewDown).withDuration(circleTiming / 2)
                     .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
                     .withDuration(waitAtStation).addTrajectory(lastLeg)
