@@ -18,12 +18,12 @@ public abstract class TwinDrones {
     protected static final double orientation = -Math.PI / 2;
     protected final double operatingHeight = 1.0;
     protected final double endHeight = 1.5;
-    protected final Point3D circleCenterPoint = Point3D.create(4, 4, operatingHeight);
+    protected final Point3D circleCenterPoint = Point3D.create(4, 2.5, operatingHeight);
     protected final double waitAtStation = 1.5;
-    protected final double frequency = 1 / 2.32d; // ~max velocity achieved with f ~= 1/2.12 ~= 0.47
+    protected final double frequency = 0.45 / 2.32d; // ~max velocity achieved with f ~= 1/2.12 ~= 0.47
     protected final double revolutions = 3.5;
     protected final double circleTiming = (1 / frequency) * revolutions;
-    protected final double circleRadius = 1;
+    protected final double circleRadius = 1.5;
     protected final double enterVelocity = 1;
     protected final double exitVelocity = 2;
 
