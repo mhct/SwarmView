@@ -219,7 +219,12 @@ public class RatsView extends PApplet {
               break;
     case 'r': initializeVisualization();
     		  break;
+    case '.': advanceTime(); // RIGHT ARROW
+    		  break;
+    case ',': backwardTime(); // RIGHT ARROW
+    		  break;
     }
+    
   }
 
   /** Activates or deactivates listening to mouse events */
@@ -247,6 +252,21 @@ public class RatsView extends PApplet {
     } else {
       droneNameActive = true;
     }
+  }
+
+  /** Activates/deactivates the display of the drone name */
+  private void advanceTime() {
+	  initialTime = millis();
+      deltaTime += 10000;
+  }
+
+  private void backwardTime() {
+	  initialTime = millis();
+	  if (deltaTime <= 10000) {
+		  deltaTime = 0;
+	  } else {
+		  deltaTime -= 10000;
+	  }
   }
 
   /** Activates/deactivates the simulation */
