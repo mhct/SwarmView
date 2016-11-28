@@ -21,13 +21,13 @@ public class DumboIntroduction {
 
   public DumboIntroduction(Pose initialPose, Pose finalPose, double start) {
 
-    double[][] path = {{4, 2, 2.5, 3, 1, 4, 5.0},
+    double[][] path = {{4, 2, 2.5, 3, 1, 10, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
-        {6, 2, 2.5, 2, 1, 8, 5.0},
+        {6, 2, 2.5, 2, 1, 10, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
-        {2, 2, 3, 2, 1, 6, 3.0},
+        {2, 2, 3, 2, 1, 10, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
     };
@@ -54,7 +54,7 @@ public class DumboIntroduction {
       // StraightLineTrajectory4D gotoWigglePosition = StraightLineTrajectory4D
 			// .createWithPercentageVelocity(currentPosition, newWigglePosition, 0.7);
       ZigZagTrajectory4D gotoWigglePosition = new ZigZagTrajectory4D(currentPosition,
-          newWigglePosition, (int) lineInfo[5], lineInfo[6], 3.0);
+          newWigglePosition, (int) lineInfo[5], lineInfo[6], 5.0);
       trajectoryBuilder.addTrajectory(gotoWigglePosition);
       currentPosition = newWigglePosition;
 
