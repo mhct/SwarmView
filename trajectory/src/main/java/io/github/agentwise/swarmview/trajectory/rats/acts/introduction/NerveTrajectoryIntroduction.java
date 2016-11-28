@@ -21,7 +21,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 
 	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition, double start) throws Exception {
 		double heigh = 3.3;
-		double low = 1.5;
+		double low = 1.0;
 		double left = 3.5;
 		double mid = 4;
 		double right = 4.5;
