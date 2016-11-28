@@ -23,13 +23,14 @@ public class DumboIntroduction {
 
     double[][] path = {{2, 2, 3, 2, 1, 20, 5.0},
 
-        {5, 1, 2, 3, 1, 7, 5.0},
-        {0, 0, 2.8, 3, 1, 14, 5.0},
+        {5, 1, 2, 3, 1, 15, 5.0},
+        {0, 0, 2.8, 3, 1, 24, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
         {1, 4.5, 1, 2, 1, 18, 5.0},
         {6, 3.5, 3.5, 2, 1, 12, 5.0},
-        {4, 2.5, 1.0, 2, 1, 5, 5.0},
+        {5, 2, 3, 2, 1, 12, 5.0},
+        {4, 3.5, 2.0, 2, 1, 5, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
     };
