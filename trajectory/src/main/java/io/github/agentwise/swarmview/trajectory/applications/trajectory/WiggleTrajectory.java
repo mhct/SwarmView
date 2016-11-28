@@ -33,16 +33,16 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
             orientation);
 
     builder
-    	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(centerPoint, endLeft, 0.5));
+    	.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(centerPoint, endLeft, 5.0));
 
     for (int i = 0; i < wiggles; i++) {
       builder
-          	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endLeft, endRight, 0.5));
+          	.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(endLeft, endRight, 5.0));
       builder
-      		.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endRight, endLeft, 0.5));
+      		.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(endRight, endLeft, 5.0));
     }
     builder
-    	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endLeft, centerPoint, 1));
+    	.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(endLeft, centerPoint, 5.0));
 
     target = builder.build();
   }
