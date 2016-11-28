@@ -21,13 +21,14 @@ public class DumboIntroduction {
 
   public DumboIntroduction(Pose initialPose, Pose finalPose, double start) {
 
-    double[][] path = {{4, 2, 2.5, 3, 1, 10, 5.0},
+    double[][] path = {{2, 2, 3, 2, 1, 15, 5.0},
+
+        {5, 1, 2, 3, 1, 7, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
-        {6, 2, 2.5, 2, 1, 10, 5.0},
-        // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
-				// there, distance of zigzags
-        {2, 2, 3, 2, 1, 10, 5.0},
+        {1, 5, 1, 2, 1, 12, 5.0},
+        {6, 2, 3.5, 2, 1, 12, 5.0},
+        {4, 2.5, 1.5, 2, 1, 5, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
     };

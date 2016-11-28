@@ -21,16 +21,16 @@ public final class OTIntroAct {
     final List<DronePositionConfiguration> introPositions = new ArrayList<>();
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Nerve, Pose.create(6.7, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.5, YAW)));
+            DroneName.Nerve, Pose.create(6.7, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.0, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Romeo, Pose.create(5.0, 5.0, 1.0, YAW), Pose.create(1.1, 5.0, 1.0, YAW)));
+            DroneName.Romeo, Pose.create(0.0, 5.0, 1.0, YAW), Pose.create(6.0, 5.0, 1.0, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Juliet, Pose.create(1.0, 4.0, 1.0, YAW), Pose.create(6.7, 5.0, 1.0, YAW)));
+            DroneName.Juliet, Pose.create(0.0, 3.55, 1.0, YAW), Pose.create(6.7, 5.0, 1.0, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Fievel, Pose.create(1.0, 5.1, 1.0, YAW), Pose.create(5.0, 2.5, 1.0, YAW)));
+            DroneName.Fievel, Pose.create(0.0, 2.0, 1.0, YAW), Pose.create(0.0, 3.5, 1.5, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
             DroneName.Dumbo, Pose.create(6.7, 3.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
