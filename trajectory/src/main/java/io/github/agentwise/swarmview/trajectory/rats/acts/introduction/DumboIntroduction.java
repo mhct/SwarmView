@@ -29,7 +29,7 @@ public class DumboIntroduction {
 				// there, distance of zigzags
         {1, 4.5, 1, 2, 1, 18, 5.0},
         {6, 3.5, 2, 2, 1, 12, 5.0},
-        {5, 2, 3.5, 2, 1, 6, 5.0},
+        {5, 2, 3.5, 2, 1, 3, 5.0},
         {4, 2.5, 1.0, 2, 1, 5, 5.0},
         // wiggle position, number of wiggles, time to stay at edge, number of zigzags to get
 				// there, distance of zigzags
