@@ -103,11 +103,12 @@ public class TamingAct extends Act {
 		
 		@Override
 		public void script(Map<DroneName, Particle> drones) {
-			moveUpDown(drones);
-			moveAwayClose(drones);
+//			moveUpDown(drones);
+//			moveAwayClose(drones);
 //			moveBack(drones);
-			moveTwoCircles(drones);
-			drones.values().forEach(drone -> drone.moveCircle(center2, true, 10, 2.3));
+//			moveTwoCircles(drones);
+//			drones.values().forEach(drone -> drone.moveCircle(originCenter, true, 20, 0, 0.00001));
+			moveSpiral(drones);
 		}
 		
 		private void moveBack(Map<DroneName, Particle> drones) {
@@ -120,6 +121,23 @@ public class TamingAct extends Act {
 			drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, 1, YAW), duration);
 		}
 		
+		private void moveSpiral(Map<DroneName, Particle> drones) {
+			double durationUp = 1;
+			double durationCircling = 18;
+			double spiralRate = 0.1;
+			
+			drones.get(Fievel).moveAway(originCenter, -1.0, durationUp);
+			drones.get(Nerve).moveAway(originCenter, -1.0, durationUp);
+			drones.get(Dumbo).moveAway(originCenter, -1.0, durationUp);
+			drones.get(Juliet).moveAway(originCenter, -1.0, durationUp);
+			drones.get(Romeo).moveAway(originCenter, -1.0, durationUp);
+			
+			drones.get(Fievel).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Nerve).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Dumbo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Juliet).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Romeo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+		}
 		private void moveTwoCircles(Map<DroneName, Particle> drones) {
 			double durationUp = 1;
 			double durationCircling = 15;
