@@ -62,12 +62,12 @@ public class FievelIntroduction {
       trajectoryBuilder
           .addTrajectory(
               StraightLineTrajectory4D.createWithCustomVelocity(
-                  startPoint, middlePoint, 2));
+                  startPoint, middlePoint, 1));
 
       trajectoryBuilder
           .addTrajectory(
               StraightLineTrajectory4D.createWithCustomVelocity(
-                  middlePoint, endPoint, 2));
+                  middlePoint, endPoint, 1));
 
       currentPosition = endPoint;
     }
