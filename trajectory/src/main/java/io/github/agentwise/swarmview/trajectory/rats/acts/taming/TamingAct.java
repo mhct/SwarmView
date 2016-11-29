@@ -69,8 +69,10 @@ public class TamingAct extends Act {
 		moveToFinalPositionMovement.put(Fievel, swarm.getFinalPose(Fievel));
 		moveToFinalPositionMovement.put(Dumbo, swarm.getFinalPose(Dumbo));
 		moveToFinalPositionMovement.put(Juliet, swarm.getFinalPose(Juliet));
+
+		List<DroneName> EndMovementOrder = Arrays.asList(Nerve, Romeo, Juliet, Dumbo, Fievel);
 		ActConfiguration goUpActConfiguration = ActConfiguration.createFromInitialFinalPositions(moveToFinalPositionMovement, act.finalPositions());
-		Act goToFinalPosition = InterAct.createWithSequentialMovement(goUpActConfiguration, 1.0);
+		Act goToFinalPosition = InterAct.createWithOrderedSequentialMovement(goUpActConfiguration, 1.0, EndMovementOrder);
 		
 		try {
 			for (DroneName drone: DroneName.values()) {
@@ -123,14 +125,15 @@ public class TamingAct extends Act {
 		
 		private void moveSpiral(Map<DroneName, Particle> drones) {
 			double durationUp = 1;
-			double durationCircling = 18;
-			double spiralRate = 0.1;
+			double durationCircling = 40;
+			double spiralRate = -0.05;
+			double distanceAway = 1.0;
 			
-			drones.get(Fievel).moveAway(originCenter, -1.0, durationUp);
-			drones.get(Nerve).moveAway(originCenter, -1.0, durationUp);
-			drones.get(Dumbo).moveAway(originCenter, -1.0, durationUp);
-			drones.get(Juliet).moveAway(originCenter, -1.0, durationUp);
-			drones.get(Romeo).moveAway(originCenter, -1.0, durationUp);
+			drones.get(Fievel).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Nerve).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Dumbo).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Juliet).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Romeo).moveAway(originCenter, distanceAway, durationUp);
 			
 			drones.get(Fievel).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
 			drones.get(Nerve).moveCircle(originCenter, false, durationCircling, 0, spiralRate);

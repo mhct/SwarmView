@@ -69,7 +69,7 @@ public class Particle {
 			if (waveHeight > 0.0) {
 				this.addMovement(new SineVerticalDecorator(circle, waveHeight));
 			} 
-			if (openingRate > 0.0) {
+			if (openingRate != 0.0) {
 				this.addMovement(new SpiralDecorator(circle, center, openingRate));
 			} else {
 				this.addMovement(circle);
