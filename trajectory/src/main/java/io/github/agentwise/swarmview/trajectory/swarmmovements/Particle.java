@@ -6,6 +6,8 @@ import java.util.List;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.CircleTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.WiggleTrajectory;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.ZigZagTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite.Builder;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
@@ -116,6 +118,16 @@ public class Particle {
 
 	public void moveToPointWithVelocity(Point4D destination, double velocity) {
 		this.addMovement(StraightLineTrajectory4D.createWithCustomVelocity(current, destination, velocity));
+	}
+
+	public void moveZigZagToPoint(Point4D destination, double percentageVelocity) {
+		final int numberOfZigZags = (int) (Point3D.distance(Point3D.project(destination), Point3D.project(current)) / 0.25);
+		final double distanceOfZigZag = 5.0;
+		this.addMovement(new ZigZagTrajectory4D(current, destination, numberOfZigZags, distanceOfZigZag, percentageVelocity));
+	}
+
+	public void wiggle(int numberOfWiggles, double timeToStayAtEdge) {
+		this.addMovement(new WiggleTrajectory(currentPoint(), numberOfWiggles, timeToStayAtEdge));
 	}
 
 	public void rotateToAngle(double destinationAngle, double duration) {
