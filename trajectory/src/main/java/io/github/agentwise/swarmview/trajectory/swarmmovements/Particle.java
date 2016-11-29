@@ -113,6 +113,15 @@ public class Particle {
 	public void moveToPoint(Point4D destination, double duration) {
 		this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
 	}
+
+	public void moveToPointWithVelocity(Point4D destination, double speed) {
+		this.addMovement(StraightLineTrajectory4D.createWithCustomVelocity(current, destination, speed));
+	}
+
+	public void rotateToAngle(double destinationAngle, double duration) {
+		final Point4D desiredPoint = Point4D.create(current.getX(), current.getY(), current.getZ(), destinationAngle);
+		this.addMovement(new Hover(desiredPoint, duration));
+	}
 	
 //	public void changeAngle(double duration) {
 //		this.addMovement(whatever trajectory);
