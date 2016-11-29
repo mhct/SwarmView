@@ -41,7 +41,8 @@ public final class PendulumTrajectory2D extends PeriodicTrajectory implements Tr
      */
     private PendulumTrajectory2D(double radius, double frequency, Point4D origin, double phase) {
         super(HALFPI * 3, origin, radius, frequency);
-        this.linearMovement = new PendulumSwingTrajectory1D(origin, radius, frequency, phase);
+        this.linearMovement = new ShortenedPendulumSwingTrajectory1D(origin, radius, frequency,
+                phase);
         checkArgument(
                 Math.abs(radius * frequency) < MAX_ABSOLUTE_VELOCITY / PISQUARED,
                 "Absolute speed should not be larger than "

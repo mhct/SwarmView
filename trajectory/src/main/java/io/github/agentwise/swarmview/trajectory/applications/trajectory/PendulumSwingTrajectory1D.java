@@ -39,6 +39,11 @@ class PendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory
     }
 
     @Override
+    public double getFrequency() {
+        return super.getFrequency();
+    }
+
+    @Override
     public double getDesiredPosition(double timeInSeconds) {
         return getLinearDisplacement().getX()
                 + getRadius()

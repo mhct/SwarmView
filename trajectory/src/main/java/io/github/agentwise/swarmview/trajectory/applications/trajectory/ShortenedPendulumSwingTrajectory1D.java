@@ -16,6 +16,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 class ShortenedPendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory1d {
     private static final double MAXRANGE_VELOCITY_PERIODIC_PART = 0.649091;
+    private final double phase;
 
     /**
      * Constructor
@@ -27,8 +28,10 @@ class ShortenedPendulumSwingTrajectory1D extends PeriodicTrajectory implements T
         this(Point4D.origin(), radius, frequency, 0);
     }
 
-    ShortenedPendulumSwingTrajectory1D(Point4D origin, double radius, double frequency, double phase) {
+    ShortenedPendulumSwingTrajectory1D(Point4D origin, double radius, double frequency,
+            double phase) {
         super((HALFPI * 3), origin, radius, frequency);
+        this.phase = phase;
         checkArgument(
                 Math.abs(radius * frequency)
                         < MAX_ABSOLUTE_VELOCITY / (PISQUARED * MAXRANGE_VELOCITY_PERIODIC_PART),
@@ -43,7 +46,7 @@ class ShortenedPendulumSwingTrajectory1D extends PeriodicTrajectory implements T
         return getLinearDisplacement().getX()
                 + getRadius()
                 * StrictMath.cos(
-                TrajectoryUtils.pendulumAngleFromTime(timeInSeconds, getFrequency())
+                TrajectoryUtils.pendulumAngleFromTime(timeInSeconds, getFrequency(), phase)
                         + getPhaseDisplacement());
     }
 }
