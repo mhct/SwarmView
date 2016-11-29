@@ -29,6 +29,7 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 public class Particle {
 	private List<FiniteTrajectory4d> movementParts;
 	private Point4D current;
+	private static double YAW = -Math.PI/2;
 	
 	public Particle(Pose initial) {
 		this.current = Point4D.from(initial);
@@ -76,36 +77,36 @@ public class Particle {
 	}
 
 	public void moveDown(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveUp(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() + distance, 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() + distance, YAW);
 		moveToPoint(destination, duration);
 	}
 	
 	public void moveRight(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX()-distance, current.getY(), current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX()-distance, current.getY(), current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveLeft(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX()+distance, current.getY(), current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX()+distance, current.getY(), current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveForward(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY()+distance, current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY()+distance, current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveBackward(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY()-distance, current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY()-distance, current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
-	private void moveToPoint(Point4D destination, double duration) {
+	public void moveToPoint(Point4D destination, double duration) {
 		this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
 	}
 	
