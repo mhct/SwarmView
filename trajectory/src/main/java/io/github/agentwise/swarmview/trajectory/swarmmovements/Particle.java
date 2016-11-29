@@ -61,7 +61,7 @@ public class Particle {
 					CircleTrajectory4D.builder()
 					.setLocation(Point3D.project(center))
 					.setPhase(theta)
-					.fixYawAt(-Math.PI/2)
+					.fixYawAt(YAW)
 					.setRadius(distanceToCenter)
 					.setFrequency(frequency)
 					.build()).withDuration(duration).build();
@@ -123,7 +123,7 @@ public class Particle {
 					center.getX() + (dx * lambda),
 					center.getY() + (dy * lambda),
 					center.getZ() + (dz * lambda),
-					0.0);
+					YAW);
 			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
 		} else {
 			this.addMovement(new Hover(current, duration));
