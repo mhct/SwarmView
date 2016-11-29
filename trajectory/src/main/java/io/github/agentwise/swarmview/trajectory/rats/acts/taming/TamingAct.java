@@ -103,27 +103,31 @@ public class TamingAct extends Act {
 		public void script(Map<DroneName, Particle> drones) {
 
 			final double duration = 1.0;
+			final double distanceHeight = 1.8;
+			final double distanceHeightDumbo = 0.5;
+			final double distanceHeightSecondRow = 1.0;
+			final double distanceHeightThirdRow = 2.0;
+			
 			final double distance = 2.0;
+
+			for (int i=0; i<3; i++) {
+				drones.get(Dumbo).moveUp(distanceHeightDumbo, duration);
+				drones.get(Fievel).moveUp(distanceHeightSecondRow, duration);
+				drones.get(Nerve).moveUp(distanceHeightSecondRow, duration);
+				drones.get(Juliet).moveUp(distanceHeightThirdRow, duration);
+				drones.get(Romeo).moveUp(distanceHeightThirdRow, duration);
+				
+				drones.get(Dumbo).moveUp(-distanceHeightDumbo, duration);
+				drones.get(Fievel).moveUp(-distanceHeightSecondRow, duration);
+				drones.get(Nerve).moveUp(-distanceHeightSecondRow, duration);
+				drones.get(Juliet).moveUp(-distanceHeightThirdRow, duration);
+				drones.get(Romeo).moveUp(-distanceHeightThirdRow, duration);
+			}
+
 			
-//			for (int i=0; i<3; i++) {
-//				drones.values().forEach(drone -> drone.moveUp(distance, duration));
-//				drones.values().forEach(drone -> drone.moveDown(distance, duration));
-//			}
-//			
-//			for (int i=0; i<4; i++) {
-//				//move square
-//				drones.values().forEach(drone -> drone.moveRight(distance, duration));
-//				drones.values().forEach(drone -> drone.moveForward(distance, duration));
-//				drones.values().forEach(drone -> drone.moveLeft(distance, duration));
-//				drones.values().forEach(drone -> drone.moveBackward(distance, duration));
-//			}
-			
-//			Point4D center = Point4D.create(5, 4.5, 1.5, 0);
 			final double distanceAway = 1.0;
 			final double durationAway = 2.0;
 //
-//			//reduce square size
-//			drones.values().forEach(drone -> drone.moveAway(center, -distanceAway, durationAway));
 //			
 			for (int i=0; i<3; i++) {
 				drones.values().forEach(drone -> drone.moveAway(originCenter, -distanceAway, durationAway));
@@ -133,6 +137,11 @@ public class TamingAct extends Act {
 			//circling
 			drones.values().forEach(drone -> drone.moveCircle(originCenter, true, 10));
 			drones.values().forEach(drone -> drone.moveCircle(originCenter, false, 10));
+			drones.get(Dumbo).moveCircle(Point4D.plus(originCenter, Point4D.create(1, 0, 0, 0)), false, 2);
+			drones.get(Fievel).moveCircle(originCenter, false, 4);
+			drones.get(Nerve).moveCircle(originCenter, false, 6);
+			drones.get(Juliet).moveCircle(originCenter, false, 8);
+			drones.get(Romeo).moveCircle(originCenter, false, 10);
 //			drones.values().forEach(drone -> drone.moveCircle(center, false, 10));
 			
 		}
