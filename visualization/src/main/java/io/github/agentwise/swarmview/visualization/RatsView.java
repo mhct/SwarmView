@@ -262,7 +262,7 @@ public class RatsView extends PApplet {
 
   private void backwardTime() {
 	  initialTime = millis();
-	  if (deltaTime <= 10000) {
+	  if (deltaTime <= 5000) {
 		  deltaTime = 0;
 	  } else {
 		  deltaTime -= 5000;
