@@ -14,8 +14,9 @@ import static com.google.common.base.Preconditions.checkArgument;
  *
  * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
-class PendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory1d {
+class ShortenedPendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory1d {
     private static final double MAXRANGE_VELOCITY_PERIODIC_PART = 0.649091;
+    private final double phase;
 
     /**
      * Constructor
@@ -23,12 +24,14 @@ class PendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory
      * @param radius    The length of the virtual pendulum string (or radius).
      * @param frequency The frequency f (amount of revolutions per second). Equals 1/period.
      */
-    PendulumSwingTrajectory1D(double radius, double frequency) {
+    ShortenedPendulumSwingTrajectory1D(double radius, double frequency) {
         this(Point4D.origin(), radius, frequency, 0);
     }
 
-    PendulumSwingTrajectory1D(Point4D origin, double radius, double frequency, double phase) {
+    ShortenedPendulumSwingTrajectory1D(Point4D origin, double radius, double frequency,
+            double phase) {
         super((HALFPI * 3), origin, radius, frequency);
+        this.phase = phase;
         checkArgument(
                 Math.abs(radius * frequency)
                         < MAX_ABSOLUTE_VELOCITY / (PISQUARED * MAXRANGE_VELOCITY_PERIODIC_PART),
@@ -39,16 +42,11 @@ class PendulumSwingTrajectory1D extends PeriodicTrajectory implements Trajectory
     }
 
     @Override
-    public double getFrequency() {
-        return super.getFrequency();
-    }
-
-    @Override
     public double getDesiredPosition(double timeInSeconds) {
         return getLinearDisplacement().getX()
                 + getRadius()
                 * StrictMath.cos(
-                TrajectoryUtils.pendulumAngleFromTime(timeInSeconds, getFrequency())
+                TrajectoryUtils.pendulumAngleFromTime(timeInSeconds, getFrequency(), phase)
                         + getPhaseDisplacement());
     }
 }
