@@ -21,16 +21,16 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 
 	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition, double start) throws Exception {
 		final double yaw = -Math.PI/2;
-		final double heigh1 = 3.3;
-		final double low1 = 1.0;
+		final double heigh1 = 1.8;
+		final double low1 = 0.8;
 		final double left1 = 3.5;
 		final double x1 = 6;
 		final double right1 = 4.5;
-		final double y1 = 3;
+		final double y1 = 4;
 		final double speed1 = 0.5;
 
-		final double heigh2 = 3.3;
-		final double low2 = 1.0;
+		final double heigh2 = 2.8;
+		final double low2 = 1.8;
 		final double left2 = 3.5;
 		final double x2 = 3.5;
 		final double right2 = 4.5;
@@ -38,7 +38,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 		final double speed2 = 0.5;
 
 		final double heigh3 = 3.3;
-		final double low3 = 1.0;
+		final double low3 = 2.0;
 		final double left3 = 3.5;
 		final double x3 = 2;
 		final double right3 = 4.5;
