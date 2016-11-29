@@ -36,8 +36,8 @@ public class ShortSwingTrajectory4D extends SwingTrajectory4D {
         begin.getZ() == end.getZ(),
         "Begin and end point should be equal in height for this to work.");
     double distance = Point3D.distance(Point3D.project(begin), end);
-    checkArgument(
-        distance > 2 * height, "The distance should be longer than the double of the drop height.");
+//    checkArgument(
+//        distance > 2 * height, "The distance should be longer than the double of the drop height.");
     Point4D normVector = Point4D.minus(Point4D.from(end, begin.getAngle()), begin);
     Point4D center = begin.plus(Point4D.from(Point3D.scale(Point3D.project(normVector), 1 / 2d)));
     double radius = distance / 2 * sin(getInitialPhaseFromHeightAndDistance(distance, height));
