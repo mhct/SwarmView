@@ -139,9 +139,17 @@ public class Particle {
 		this.addMovement(new Hover(current, duration));
 	}
 	
-//	public void changeAngle(double duration) {
-//		this.addMovement(whatever trajectory);
-//	}
+	public void moveTriangleToPoint(Point4D destination, double heightOfMiddlePoint, double velocity) {
+		final Point4D middlePoint =
+				Point4D.create(
+						current.getX() + (destination.getX() - current.getX()) / 2,
+						current.getY() + (destination.getY() - current.getY()) / 2,
+						heightOfMiddlePoint,
+						current.getAngle() + (destination.getAngle() - current.getAngle()) / 2);
+
+		moveToPointWithVelocity(middlePoint, velocity);
+		moveToPointWithVelocity(destination, velocity);
+	}
 	
 	public void moveAway(Point4D center, double distance, double duration) {
 		double dx = current.getX() - center.getX();
