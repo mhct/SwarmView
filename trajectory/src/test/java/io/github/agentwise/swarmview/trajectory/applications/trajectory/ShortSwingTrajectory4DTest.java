@@ -3,6 +3,7 @@ package io.github.agentwise.swarmview.trajectory.applications.trajectory;
 import com.google.common.collect.Lists;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
+import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -83,5 +84,18 @@ public class ShortSwingTrajectory4DTest {
     assertEquals(3, origin.getY(), 0);
     assertEquals(4.3, origin.getZ(), 0);
     assertEquals(-3, origin.getAngle(), 0);
+  }
+
+  @Test
+  public void getFirstPosition() throws Exception {
+    Point4D begin = Point4D.create(2, 2, 4, -3);
+    Point3D end = Point3D.create(2, 4, 4);
+    double height = 0.5;
+    final Trajectory4d trajectory = ShortSwingTrajectory4D.create(begin, end, height, 0.1);
+
+    assertEquals(begin.getX(), trajectory.getDesiredPositionX(0), 0.0000001);
+    assertEquals(begin.getY(), trajectory.getDesiredPositionY(0), 0.0000001);
+    assertEquals(begin.getZ(), trajectory.getDesiredPositionZ(0), 0.0000001);
+    assertEquals(begin.getAngle(), trajectory.getDesiredAngleZ(0), 0.0000001);
   }
 }

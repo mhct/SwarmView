@@ -12,7 +12,7 @@ import static java.lang.StrictMath.sin;
  *
  * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
-class ShortSwingTrajectory4D extends SwingTrajectory4D {
+public class ShortSwingTrajectory4D extends SwingTrajectory4D {
 
   ShortSwingTrajectory4D(
       Point4D origin, double phase, double xzPlaneAngle, double radius, double frequency) {

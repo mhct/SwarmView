@@ -20,48 +20,139 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 	private FiniteTrajectory4d trajectory;
 
 	public NerveTrajectoryIntroduction (Pose initialPosition, Pose finalPosition, double start) throws Exception {
-		double heigh = 3.3;
-		double low = 1.5;
-		double left = 3.5;
-		double mid = 4;
-		double right = 4.5;
-		double depth = 3;
-		double speed = 0.5;
-		double yaw = -Math.PI/2;
+		final double yaw = -Math.PI/2;
+		final double heigh1 = 3.3;
+		final double low1 = 1.0;
+		final double left1 = 3.5;
+		final double x1 = 6;
+		final double right1 = 4.5;
+		final double y1 = 5;
+		final double speed1 = 0.5;
+
+		final double heigh2 = 3.3;
+		final double low2 = 1.0;
+		final double left2 = 3.5;
+		final double x2 = 3.5;
+		final double right2 = 4.5;
+		final double y2 = 3.55;
+		final double speed2 = 0.5;
+
+		final double heigh3 = 3.3;
+		final double low3 = 1.0;
+		final double left3 = 3.5;
+		final double x3 = 2;
+		final double right3 = 4.5;
+		final double y3 = 0;
+		final double speed3 = 0.5;
 		double[][] path = {
 				{ 	initialPosition.x(),	initialPosition.y(), 		initialPosition.z(),  	yaw, 1.0 },	// start position, start time is ignored
-				{    mid +  -0.06 , depth +  0.0 ,  heigh  +  0.04 , yaw +  0.07 * 5, speed +  0.12 } ,
-				{    mid +  0.21 , depth +  0.02 ,  low  +  0.07 , yaw +  0.09 * 5, speed +  0.12 } ,
-				{    mid +  -0.08 , depth +  0.02 ,  heigh  +  0.07 , yaw +  -0.17 * 5, speed +  -0.09 } ,
-				{    mid +  0.21 , depth +  0.01 ,  low  +  0.0 , yaw +  -0.08 * 5, speed +  0.18 } ,
-				{    mid +  0.02 , depth +  -0.07 ,  heigh  +  -0.11 , yaw +  0.11 * 5, speed +  0.0 } ,
-				{    mid +  0.14 , depth +  -0.1 ,  low  +  -0.03 , yaw +  -0.02 * 5, speed +  0.02 } ,
-				{    mid +  -0.05 , depth +  -0.12 ,  heigh  +  0.17 , yaw +  0.15 * 5, speed +  -0.16 } ,
-				{    mid +  -0.09 , depth +  -0.07 ,  low  +  0.08 , yaw +  -0.15 * 5, speed +  -0.14 } ,
-				{    mid +  0.22 , depth +  -0.06 ,  heigh  +  -0.06 , yaw +  0.04 * 5, speed +  0.18 } ,
-				{    mid +  0.03 , depth +  0.19 ,  low  +  0.19 , yaw +  -0.04 * 5, speed +  0.19 } ,
-				{    mid +  -0.26 , depth +  0.0 ,  heigh  +  0.01 , yaw +  0.03 * 5, speed +  0.08 } ,
-				{    mid +  -0.09 , depth +  -0.19 ,  low  +  -0.11 , yaw +  -0.17 * 5, speed +  -0.05 } ,
-				{    mid +  0.28 , depth +  0.03 ,  heigh  +  0.15 , yaw +  -0.12 * 5, speed +  0.09 } ,
-				{    mid +  -0.01 , depth +  0.15 ,  low  +  -0.14 , yaw +  0.05 * 5, speed +  0.02 } ,
-				{    mid +  -0.02 , depth +  -0.12 ,  heigh  +  -0.12 , yaw +  -0.06 * 5, speed +  0.01 } ,
-				{    mid +  -0.26 , depth +  -0.11 ,  low  +  -0.06 , yaw +  0.08 * 5, speed +  0.06 } ,
-				{    mid +  0.09 , depth +  -0.12 ,  heigh  +  -0.14 , yaw +  0.0 * 5, speed +  0.09 } ,
-				{    mid +  0.1 , depth +  0.01 ,  low  +  -0.01 , yaw +  0.19 * 5, speed +  -0.04 } ,
-				{    mid +  0.12 , depth +  -0.13 ,  heigh  +  0.15 , yaw +  -0.04 * 5, speed +  0.12 } ,
-				{    mid +  0.03 , depth +  -0.11 ,  low  +  0.18 , yaw +  0.09 * 5, speed +  -0.11 } ,
-				{    mid +  -0.28 , depth +  0.0 ,  heigh  +  0.07 , yaw +  -0.05 * 5, speed +  -0.12 } ,
-				{    mid +  0.29 , depth +  -0.02 ,  low  +  0.06 , yaw +  -0.02 * 5, speed +  0.01 } ,
-				{    mid +  -0.28 , depth +  0.13 ,  heigh  +  0.09 , yaw +  0.15 * 5, speed +  -0.18 } ,
-				{    mid +  -0.19 , depth +  -0.12 ,  low  +  0.04 , yaw +  0.06 * 5, speed +  0.06 } ,
-				{    mid +  0.04 , depth +  -0.2 ,  heigh  +  0.02 , yaw +  -0.02 * 5, speed +  0.04 } ,
-				{    mid +  0.25 , depth +  0.02 ,  low  +  -0.19 , yaw +  -0.04 * 5, speed +  -0.17 } ,
-				{    mid +  -0.28 , depth +  0.11 ,  heigh  +  -0.03 , yaw +  0.08 * 5, speed +  0.1 } ,
-				{    mid +  0.16 , depth +  0.09 ,  low  +  0.08 , yaw +  0.02 * 5, speed +  -0.04 } ,
-				{    mid +  0.17 , depth +  -0.16 ,  heigh  +  -0.05 , yaw +  -0.12 * 5, speed +  0.16 } ,
-				{    mid +  -0.28 , depth +  -0.19 ,  low  +  -0.11 , yaw +  0.06 * 5, speed +  -0.03 } ,
-				{    mid +  -0.03 , depth +  0.11 ,  heigh  +  0.15 , yaw +  0.1 * 5, speed +  0.18 } ,
-				{    mid +  -0.21 , depth +  0.09 ,  low  +  -0.16 , yaw +  -0.19 * 5, speed +  -0.08 } ,
+				{    x1 +  -0.06 , y1 +  0.0 ,  heigh1  +  0.04 , yaw +  0.07 * 5, speed1 +  0.12 } ,
+				{    x1 +  0.21 , y1 +  0.02 ,  low1  +  0.07 , yaw +  0.09 * 5, speed1 +  0.12 } ,
+				{    x1 +  -0.08 , y1 +  0.02 ,  heigh1  +  0.07 , yaw +  -0.17 * 5, speed1 +  -0.09 } ,
+				{    x1 +  0.21 , y1 +  0.01 ,  low1  +  0.0 , yaw +  -0.08 * 5, speed1 +  0.18 } ,
+				{    x1 +  0.02 , y1 +  -0.07 ,  heigh1  +  -0.11 , yaw +  0.11 * 5, speed1 +  0.0 } ,
+				{    x1 +  0.14 , y1 +  -0.1 ,  low1  +  -0.03 , yaw +  -0.02 * 5, speed1 +  0.02 } ,
+				{    x1 +  -0.05 , y1 +  -0.12 ,  heigh1  +  0.17 , yaw +  0.15 * 5, speed1 +  -0.16 } ,
+				{    x1 +  -0.09 , y1 +  -0.07 ,  low1  +  0.08 , yaw +  -0.15 * 5, speed1 +  -0.14 } ,
+				{    x1 +  0.22 , y1 +  -0.06 ,  heigh1  +  -0.06 , yaw +  0.04 * 5, speed1 +  0.18 } ,
+				{    x1 +  0.03 , y1 +  0.19 ,  low1  +  0.19 , yaw +  -0.04 * 5, speed1 +  0.19 } ,
+				{    x1 +  -0.26 , y1 +  0.0 ,  heigh1  +  0.01 , yaw +  0.03 * 5, speed1 +  0.08 } ,
+				{    x1 +  -0.09 , y1 +  -0.19 ,  low1  +  -0.11 , yaw +  -0.17 * 5, speed1 +  -0.05 } ,
+				{    x1 +  0.28 , y1 +  0.03 ,  heigh1  +  0.15 , yaw +  -0.12 * 5, speed1 +  0.09 } ,
+				{    x1 +  -0.01 , y1 +  0.15 ,  low1  +  -0.14 , yaw +  0.05 * 5, speed1 +  0.02 } ,
+				{    x1 +  -0.02 , y1 +  -0.12 ,  heigh1  +  -0.12 , yaw +  -0.06 * 5, speed1 +  0.01 } ,
+				{    x1 +  -0.26 , y1 +  -0.11 ,  low1  +  -0.06 , yaw +  0.08 * 5, speed1 +  0.06 } ,
+				{    x1 +  0.09 , y1 +  -0.12 ,  heigh1  +  -0.14 , yaw +  0.0 * 5, speed1 +  0.09 } ,
+				{    x1 +  0.1 , y1 +  0.01 ,  low1  +  -0.01 , yaw +  0.19 * 5, speed1 +  -0.04 } ,
+				{    x1 +  0.12 , y1 +  -0.13 ,  heigh1  +  0.15 , yaw +  -0.04 * 5, speed1 +  0.12 } ,
+				{    x1 +  0.03 , y1 +  -0.11 ,  low1  +  0.18 , yaw +  0.09 * 5, speed1 +  -0.11 } ,
+				{    x1 +  -0.28 , y1 +  0.0 ,  heigh1  +  0.07 , yaw +  -0.05 * 5, speed1 +  -0.12 } ,
+				{    x1 +  0.29 , y1 +  -0.02 ,  low1  +  0.06 , yaw +  -0.02 * 5, speed1 +  0.01 } ,
+				{    x1 +  -0.28 , y1 +  0.13 ,  heigh1  +  0.09 , yaw +  0.15 * 5, speed1 +  -0.18 } ,
+				{    x1 +  -0.19 , y1 +  -0.12 ,  low1  +  0.04 , yaw +  0.06 * 5, speed1 +  0.06 } ,
+				{    x1 +  0.04 , y1 +  -0.2 ,  heigh1  +  0.02 , yaw +  -0.02 * 5, speed1 +  0.04 } ,
+				{    x1 +  0.25 , y1 +  0.02 ,  low1  +  -0.19 , yaw +  -0.04 * 5, speed1 +  -0.17 } ,
+				{    x1 +  -0.28 , y1 +  0.11 ,  heigh1  +  -0.03 , yaw +  0.08 * 5, speed1 +  0.1 } ,
+				{    x1 +  0.16 , y1 +  0.09 ,  low1  +  0.08 , yaw +  0.02 * 5, speed1 +  -0.04 } ,
+				{    x1 +  0.17 , y1 +  -0.16 ,  heigh1  +  -0.05 , yaw +  -0.12 * 5, speed1 +  0.16 } ,
+				{    x1 +  -0.28 , y1 +  -0.19 ,  low1  +  -0.11 , yaw +  0.06 * 5, speed1 +  -0.03 } ,
+				{    x1 +  -0.03 , y1 +  0.11 ,  heigh1  +  0.15 , yaw +  0.1 * 5, speed1 +  0.18 } ,
+				{    x1 +  -0.21 , y1 +  0.09 ,  low1  +  -0.16 , yaw +  -0.19 * 5, speed1 +  -0.08 } ,
+
+				////////////////// PHASE 2 /////////////
+
+				{    x2 +  -0.06 , y2 +  0.0 ,  heigh2  +  0.04 , yaw +  0.07 * 5, speed2 +  0.12 } ,
+				{    x2 +  0.21 , y2 +  0.02 ,  low2  +  0.07 , yaw +  0.09 * 5, speed2 +  0.12 } ,
+				{    x2 +  -0.08 , y2 +  0.02 ,  heigh2  +  0.07 , yaw +  -0.17 * 5, speed2 +  -0.09 } ,
+				{    x2 +  0.21 , y2 +  0.01 ,  low2  +  0.0 , yaw +  -0.08 * 5, speed2 +  0.18 } ,
+				{    x2 +  0.02 , y2 +  -0.07 ,  heigh2  +  -0.11 , yaw +  0.11 * 5, speed2 +  0.0 } ,
+				{    x2 +  0.14 , y2 +  -0.1 ,  low2  +  -0.03 , yaw +  -0.02 * 5, speed2 +  0.02 } ,
+				{    x2 +  -0.05 , y2 +  -0.12 ,  heigh2  +  0.17 , yaw +  0.15 * 5, speed2 +  -0.16 } ,
+				{    x2 +  -0.09 , y2 +  -0.07 ,  low2  +  0.08 , yaw +  -0.15 * 5, speed2 +  -0.14 } ,
+				{    x2 +  0.22 , y2 +  -0.06 ,  heigh2  +  -0.06 , yaw +  0.04 * 5, speed2 +  0.18 } ,
+				{    x2 +  0.03 , y2 +  0.19 ,  low2  +  0.19 , yaw +  -0.04 * 5, speed2 +  0.19 } ,
+				{    x2 +  -0.26 , y2 +  0.0 ,  heigh2  +  0.01 , yaw +  0.03 * 5, speed2 +  0.08 } ,
+				{    x2 +  -0.09 , y2 +  -0.19 ,  low2  +  -0.11 , yaw +  -0.17 * 5, speed2 +  -0.05 } ,
+				{    x2 +  0.28 , y2 +  0.03 ,  heigh2  +  0.15 , yaw +  -0.12 * 5, speed2 +  0.09 } ,
+				{    x2 +  -0.01 , y2 +  0.15 ,  low2  +  -0.14 , yaw +  0.05 * 5, speed2 +  0.02 } ,
+				{    x2 +  -0.02 , y2 +  -0.12 ,  heigh2  +  -0.12 , yaw +  -0.06 * 5, speed2 +  0.01 } ,
+				{    x2 +  -0.26 , y2 +  -0.11 ,  low2  +  -0.06 , yaw +  0.08 * 5, speed2 +  0.06 } ,
+				{    x2 +  0.09 , y2 +  -0.12 ,  heigh2  +  -0.14 , yaw +  0.0 * 5, speed2 +  0.09 } ,
+				{    x2 +  0.1 , y2 +  0.01 ,  low2  +  -0.01 , yaw +  0.19 * 5, speed2 +  -0.04 } ,
+				{    x2 +  0.12 , y2 +  -0.13 ,  heigh2  +  0.15 , yaw +  -0.04 * 5, speed2 +  0.12 } ,
+				{    x2 +  0.03 , y2 +  -0.11 ,  low2  +  0.18 , yaw +  0.09 * 5, speed2 +  -0.11 } ,
+				{    x2 +  -0.28 , y2 +  0.0 ,  heigh2  +  0.07 , yaw +  -0.05 * 5, speed2 +  -0.12 } ,
+				{    x2 +  0.29 , y2 +  -0.02 ,  low2  +  0.06 , yaw +  -0.02 * 5, speed2 +  0.01 } ,
+				{    x2 +  -0.28 , y2 +  0.13 ,  heigh2  +  0.09 , yaw +  0.15 * 5, speed2 +  -0.18 } ,
+				{    x2 +  -0.19 , y2 +  -0.12 ,  low2  +  0.04 , yaw +  0.06 * 5, speed2 +  0.06 } ,
+				{    x2 +  0.04 , y2 +  -0.2 ,  heigh2  +  0.02 , yaw +  -0.02 * 5, speed2 +  0.04 } ,
+				{    x2 +  0.25 , y2 +  0.02 ,  low2  +  -0.19 , yaw +  -0.04 * 5, speed2 +  -0.17 } ,
+				{    x2 +  -0.28 , y2 +  0.11 ,  heigh2  +  -0.03 , yaw +  0.08 * 5, speed2 +  0.1 } ,
+				{    x2 +  0.16 , y2 +  0.09 ,  low2  +  0.08 , yaw +  0.02 * 5, speed2 +  -0.04 } ,
+				{    x2 +  0.17 , y2 +  -0.16 ,  heigh2  +  -0.05 , yaw +  -0.12 * 5, speed2 +  0.16 } ,
+				{    x2 +  -0.28 , y2 +  -0.19 ,  low2  +  -0.11 , yaw +  0.06 * 5, speed2 +  -0.03 } ,
+				{    x2 +  -0.03 , y2 +  0.11 ,  heigh2  +  0.15 , yaw +  0.1 * 5, speed2 +  0.18 } ,
+				{    x2 +  -0.21 , y2 +  0.09 ,  low2  +  -0.16 , yaw +  -0.19 * 5, speed2 +  -0.08 } ,
+
+
+				/////////////////// PHASE 3 //////////
+
+
+				{    x3 +  -0.06 , y3 +  0.0 ,  heigh3  +  0.04 , yaw +  0.07 * 5, speed3 +  0.12 } ,
+				{    x3 +  0.21 , y3 +  0.02 ,  low3  +  0.07 , yaw +  0.09 * 5, speed3 +  0.12 } ,
+				{    x3 +  -0.08 , y3 +  0.02 ,  heigh3  +  0.07 , yaw +  -0.17 * 5, speed3 +  -0.09 } ,
+				{    x3 +  0.21 , y3 +  0.01 ,  low3  +  0.0 , yaw +  -0.08 * 5, speed3 +  0.18 } ,
+				{    x3 +  0.02 , y3 +  -0.07 ,  heigh3  +  -0.11 , yaw +  0.11 * 5, speed3 +  0.0 } ,
+				{    x3 +  0.14 , y3 +  -0.1 ,  low3  +  -0.03 , yaw +  -0.02 * 5, speed3 +  0.02 } ,
+				{    x3 +  -0.05 , y3 +  -0.12 ,  heigh3  +  0.17 , yaw +  0.15 * 5, speed3 +  -0.16 } ,
+				{    x3 +  -0.09 , y3 +  -0.07 ,  low3  +  0.08 , yaw +  -0.15 * 5, speed3 +  -0.14 } ,
+				{    x3 +  0.22 , y3 +  -0.06 ,  heigh3  +  -0.06 , yaw +  0.04 * 5, speed3 +  0.18 } ,
+				{    x3 +  0.03 , y3 +  0.19 ,  low3  +  0.19 , yaw +  -0.04 * 5, speed3 +  0.19 } ,
+				{    x3 +  -0.26 , y3 +  0.0 ,  heigh3  +  0.01 , yaw +  0.03 * 5, speed3 +  0.08 } ,
+				{    x3 +  -0.09 , y3 +  -0.19 ,  low3  +  -0.11 , yaw +  -0.17 * 5, speed3 +  -0.05 } ,
+				{    x3 +  0.28 , y3 +  0.03 ,  heigh3  +  0.15 , yaw +  -0.12 * 5, speed3 +  0.09 } ,
+				{    x3 +  -0.01 , y3 +  0.15 ,  low3  +  -0.14 , yaw +  0.05 * 5, speed3 +  0.02 } ,
+				{    x3 +  -0.02 , y3 +  -0.12 ,  heigh3  +  -0.12 , yaw +  -0.06 * 5, speed3 +  0.01 } ,
+				{    x3 +  -0.26 , y3 +  -0.11 ,  low3  +  -0.06 , yaw +  0.08 * 5, speed3 +  0.06 } ,
+				{    x3 +  0.09 , y3 +  -0.12 ,  heigh3  +  -0.14 , yaw +  0.0 * 5, speed3 +  0.09 } ,
+				{    x3 +  0.1 , y3 +  0.01 ,  low3  +  -0.01 , yaw +  0.19 * 5, speed3 +  -0.04 } ,
+				{    x3 +  0.12 , y3 +  -0.13 ,  heigh3  +  0.15 , yaw +  -0.04 * 5, speed3 +  0.12 } ,
+				{    x3 +  0.03 , y3 +  -0.11 ,  low3  +  0.18 , yaw +  0.09 * 5, speed3 +  -0.11 } ,
+				{    x3 +  -0.28 , y3 +  0.0 ,  heigh3  +  0.07 , yaw +  -0.05 * 5, speed3 +  -0.12 } ,
+				{    x3 +  0.29 , y3 +  -0.02 ,  low3  +  0.06 , yaw +  -0.02 * 5, speed3 +  0.01 } ,
+				{    x3 +  -0.28 , y3 +  0.13 ,  heigh3  +  0.09 , yaw +  0.15 * 5, speed3 +  -0.18 } ,
+				{    x3 +  -0.19 , y3 +  -0.12 ,  low3  +  0.04 , yaw +  0.06 * 5, speed3 +  0.06 } ,
+				{    x3 +  0.04 , y3 +  -0.2 ,  heigh3  +  0.02 , yaw +  -0.02 * 5, speed3 +  0.04 } ,
+				{    x3 +  0.25 , y3 +  0.02 ,  low3  +  -0.19 , yaw +  -0.04 * 5, speed3 +  -0.17 } ,
+				{    x3 +  -0.28 , y3 +  0.11 ,  heigh3  +  -0.03 , yaw +  0.08 * 5, speed3 +  0.1 } ,
+				{    x3 +  0.16 , y3 +  0.09 ,  low3  +  0.08 , yaw +  0.02 * 5, speed3 +  -0.04 } ,
+				{    x3 +  0.17 , y3 +  -0.16 ,  heigh3  +  -0.05 , yaw +  -0.12 * 5, speed3 +  0.16 } ,
+				{    x3 +  -0.28 , y3 +  -0.19 ,  low3  +  -0.11 , yaw +  0.06 * 5, speed3 +  -0.03 } ,
+				{    x3 +  -0.03 , y3 +  0.11 ,  heigh3  +  0.15 , yaw +  0.1 * 5, speed3 +  0.18 } ,
+				{    x3 +  -0.21 , y3 +  0.09 ,  low3  +  -0.16 , yaw +  -0.19 * 5, speed3 +  -0.08 } ,
+
+
+
 				{ 	finalPosition.x(),	finalPosition.y(), 		finalPosition.z(),  	yaw, 0.5 },
 		};
 
