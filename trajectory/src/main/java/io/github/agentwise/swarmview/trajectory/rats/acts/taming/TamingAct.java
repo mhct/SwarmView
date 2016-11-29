@@ -29,7 +29,7 @@ public class TamingAct extends Act {
 		
 	}
 	
-	private static Point4D center2 = Point4D.create(3.5, 1.6, 1.0, 0);
+	private static Point4D center2 = Point4D.create(3.5, 2.0, 1.0, 0);
 	/**
 	 * Adds all the movements of this act
 	 * @return
@@ -168,10 +168,10 @@ public class TamingAct extends Act {
 		private void moveAwayClose(Map<DroneName, Particle> drones) {
 			final double duration = 2.5;
 			double distanceAwayDumbo = 0.5;
-			double distanceAwayFievel = 2.5;
-			double distanceAwayNerve = 2.5;
-			double distanceAwayJuliet = 2.2;
-			double distanceAwayRomeo = 2.2;
+			double distanceAwayFievel = 2.0;
+			double distanceAwayNerve = 2.0;
+			double distanceAwayJuliet = 1.5;
+			double distanceAwayRomeo = 1.5;
 			
 			for (int i=1; i<5; i++) {
 				double multiplier = 1;
