@@ -90,7 +90,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 				{    x2 - 0.4 +  0.02 , y2 - 0.60 +  -0.07 ,  heigh2  +  -0.11 , yaw +  -0.17 * 5, speed2 +  0.12 } ,
 				{    x2 - 0.4 +  0.02 , y2 - 0.60 +  -0.07 ,  heigh2  +  -0.11 , yaw +  0.17 * 5, speed2 +  0.12 } ,
 				{    x2 - 0.4 +  0.02 , y2 - 0.60 +  -0.07 ,  heigh2  +  -0.11 , yaw +  -0.17 * 5, speed2 +  0.12 } ,
-				
+
 				///////////////////////////
 				// wiggle again
 				{    x2 - 0.5 +  0.14 , y2 - 0.75 +  -0.1 ,  low2  +  -0.03 , yaw +  -0.02 * 5, speed2 +  0.02 } ,

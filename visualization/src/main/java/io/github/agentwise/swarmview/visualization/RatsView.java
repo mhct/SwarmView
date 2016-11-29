@@ -219,7 +219,7 @@ public class RatsView extends PApplet {
               break;
     case 'r': initializeVisualization();
     		  break;
-    case '.': advanceTime(); // RIGHT ARROW
+    case '.': forwardTime(); // RIGHT ARROW
     		  break;
     case ',': backwardTime(); // RIGHT ARROW
     		  break;
@@ -255,17 +255,17 @@ public class RatsView extends PApplet {
   }
 
   /** Activates/deactivates the display of the drone name */
-  private void advanceTime() {
+  private void forwardTime() {
 	  initialTime = millis();
-      deltaTime += 10000;
+      deltaTime += 5000;
   }
 
   private void backwardTime() {
 	  initialTime = millis();
-	  if (deltaTime <= 10000) {
+	  if (deltaTime <= 5000) {
 		  deltaTime = 0;
 	  } else {
-		  deltaTime -= 10000;
+		  deltaTime -= 5000;
 	  }
   }
 
