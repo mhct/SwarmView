@@ -87,6 +87,22 @@ public abstract class Point4D {
     }
 
     /**
+     * Creates a new point along a circle of radius @param radius, at angle @param angle
+     * at the same xy plane as the original point
+     * 
+     * @param center
+     * @param radius
+     * @param angle
+     * @return
+     */
+    public static Point4D pointAtAngle(Point4D center, double radius, double angle) {
+    	double dx = radius * Math.sin(angle);
+    	double dy = radius * Math.cos(angle);
+    	
+    	return Point4D.create(center.getX() + dx, center.getY() + dy, center.getZ(), center.getAngle());
+    }
+    
+    /**
      * Create a new point object
      *
      * @param x     the x coordinate.

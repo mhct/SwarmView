@@ -32,19 +32,21 @@ import processing.event.MouseEvent;
  *
  */
 public class RatsView extends PApplet {
-  private static final int STAGE_HEIGHT = 400; // Height, Depth, Width, given in centimeters
-private static final int STAGE_DEPTH = 600;
-private static final int STAGE_WIDTH = 800;
-private static final float MAX_ZOOM = 4.0f;
+  private static final int STAGE_DEPTH = 530;
+  private static final int STAGE_WIDTH = 700;
+  private static final int STAGE_HEIGHT = 350; // Height, Depth, Width, given in centimeters
+  private static final int STAGE_DRAWING_INCLINED_PLANE_X = 355;
+  private static final int STAGE_DRAWING_INCLINED_PLANE_Z = 100;
+
+  private static final float MAX_ZOOM = 4.0f;
   private static final float MIN_ZOOM = 0.3f;
   private static final Color[] DEFAULT_DRONEVIEW_COLORS = {Color.CYAN, Color.YELLOW, Color.PINK, Color.GREEN, Color.BLUE};
   private static final int DEFAULT_TRAIL_LENGTH = 10;
-  DroneView[] drones;
 
-  int rotzfactor = 0;
-  float zoom = 1.0f;
-  final int displayDimensionX = 1024;
-  final int displayDimensionY = 800;
+  private final int displayDimensionX = 1024;
+  private final int displayDimensionY = 800;
+  private int rotzfactor = 0;
+  private float zoom = 1.0f;
   private boolean mouseActive = true;
   private boolean timerActive = true;
   private boolean droneNameActive = true;
@@ -53,13 +55,16 @@ private static final float MAX_ZOOM = 4.0f;
   private int lastMouseX;
   private int lastMouseY;
   private float lastZoom;
-  private int initialTime = 0;
   private float rotz;
-  private int lastTimeStep;
 
-  ChoreographyView choreo;
+  private int lastTimeStep;
+  private int initialTime = 0;
   private int deltaTime = 0;
   private int deltaTimeTemp;
+
+  private ChoreographyView choreo;
+  private StageView stage;
+  private DroneView[] drones;
   private List<CollisionView> collisions;
 
   public static void main(String[] args) {
@@ -74,10 +79,11 @@ private static final float MAX_ZOOM = 4.0f;
   @Override
   public void setup() {
     fill(255);
-    initializeTrajectories();
+    initializeVisualization();
+    stage = new StageView(this, STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT, STAGE_DRAWING_INCLINED_PLANE_X, STAGE_DRAWING_INCLINED_PLANE_Z);
   }
 
-  private void initializeTrajectories() {
+  private void initializeVisualization() {
 	choreo = RatsShow.createChoreography();
     
 	// Restart the simulated time
@@ -119,18 +125,10 @@ private static final float MAX_ZOOM = 4.0f;
 
     positionView(lastMouseX, lastMouseY, lastZoom);
 
-    pushMatrix();
-    strokeWeight(2.0f);
-    translate(0, 0, 200);
-    box(STAGE_WIDTH, STAGE_DEPTH, STAGE_HEIGHT);
-    popMatrix();
-
-    drawStage();
-
-    pushMatrix();
-    translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
-    text("Origin", 0.0f, 0.0f, 0.0f);
-
+    stage.draw();
+	pushMatrix();
+	translate(-STAGE_WIDTH/2.0f, -STAGE_DEPTH/2.0f, 0.0f);
+	
     int timeStep = getCurrentTimeStep();
     if (isTimerActive()) {
       drawTimer(timeStep, choreo.getCurrentActName(timeStep / 1000.0f));
@@ -210,25 +208,23 @@ private static final float MAX_ZOOM = 4.0f;
   /** Handles user input via the keyboard */
   @Override
   public void keyPressed(KeyEvent event) {
-    if (event.getKey() == 'z') {
-      mouseToggle();
+    switch(event.getKey()) {
+    case 'z': mouseToggle();
+    		  break;
+    case 't': timerToggle();
+    		  break;
+    case ' ': pauseToggle();
+    	      break;
+    case 'd': droneNameToggle();
+              break;
+    case 'r': initializeVisualization();
+    		  break;
+    case '.': forwardTime(); // RIGHT ARROW
+    		  break;
+    case ',': backwardTime(); // RIGHT ARROW
+    		  break;
     }
-
-    if (event.getKey() == 't') {
-      timerToggle();
-    }
-
-    if (event.getKey() == ' ') {
-      pauseToggle();
-    }
-
-    if (event.getKey() == 'd') {
-      droneNameToggle();
-    }
-
-    if (event.getKey() == 'r') {
-      initializeTrajectories();
-    }
+    
   }
 
   /** Activates or deactivates listening to mouse events */
@@ -256,6 +252,21 @@ private static final float MAX_ZOOM = 4.0f;
     } else {
       droneNameActive = true;
     }
+  }
+
+  /** Activates/deactivates the display of the drone name */
+  private void forwardTime() {
+	  initialTime = millis();
+      deltaTime += 5000;
+  }
+
+  private void backwardTime() {
+	  initialTime = millis();
+	  if (deltaTime <= 5000) {
+		  deltaTime = 0;
+	  } else {
+		  deltaTime -= 5000;
+	  }
   }
 
   /** Activates/deactivates the simulation */
@@ -302,35 +313,6 @@ private static final float MAX_ZOOM = 4.0f;
     text(
         String.format("%02d' %02d\" %03d", minutes, seconds, milliseconds), -100.0f, -450.0f, 0.0f);
     text(msg, 400.0f, -450.0f, 0.0f);
-    popMatrix();
-  }
-
-  /** Draws the stage on the screen */
-  public void drawStage() {
-    pushMatrix();
-    scale(700, 700, 700);
-
-    // Room floor
-    noStroke();
-    beginShape(PConstants.QUADS);
-    fill(255, 255, 0, 100);
-    vertex(-1, -1, 0);
-    vertex(1, -1, 0);
-    vertex(1, 1, 0);
-    vertex(-1, 1, 0);
-    endShape();
-
-    // Room back (x,z) plane
-    noStroke();
-    beginShape(PConstants.TRIANGLE);
-    fill(255, 0, 255, 100);
-    vertex(-1, -1, 0);
-    vertex(0, -1, 1);
-    vertex(1, -1, 0);
-    endShape();
-
-    // TODO draw markers for the x,y,z coordinates on the corners
-
     popMatrix();
   }
 }

@@ -12,7 +12,7 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
  * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
  */
 public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajectory4d {
-  private static final double WIGGLE_DISTANCE = 0.5d;
+  private static final double WIGGLE_DISTANCE = 1.0d;
   private static final double TIME_TO_REST_AT_ORIGIN = 0.001d;
   private final FiniteTrajectory4d target;
 
@@ -33,16 +33,16 @@ public class WiggleTrajectory extends BasicTrajectory implements FiniteTrajector
             orientation);
 
     builder
-    	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(centerPoint, endLeft, 1));
+    	.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(centerPoint, endLeft, 15.0));
 
     for (int i = 0; i < wiggles; i++) {
       builder
-          	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endLeft, endRight, 1));
+          	.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(endLeft, endRight, 15.0));
       builder
-      		.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endRight, endLeft, 1));
+      		.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(endRight, endLeft, 15.0));
     }
     builder
-    	.addTrajectory(StraightLineTrajectory4D.createWithPercentageVelocity(endLeft, centerPoint, 1));
+    	.addTrajectory(StraightLineTrajectory4D.createWithCustomVelocity(endLeft, centerPoint, 15.0));
 
     target = builder.build();
   }

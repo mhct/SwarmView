@@ -37,14 +37,18 @@ public class AttackAct extends Act {
 
     double[][] path = {
       {
-        5, 3, 0, 3.5, 1, 2.5, 0.75
+        4, 4, 0, 3.5, 1.7, 2.0, 0.75
       }, // dancer position, height to start attack from, and height to stop, radius to start attack from, and radius to stop
       {
+          4, 4, 0, 3.5, 1.7, 1.9, 0.76
+      }, // dancer position, height to start attack from, and height to stop, radius to start attack from, and radius to stop
+/*      {
         2, 5, 0, 2.5, 1, 1.5, 0.5
       }, // dancer position, height to start attack from, and height to stop, radius to start attack from, and radius to stop
       {
         5, 5, 0, 3.5, 1, 2.5, 0.75
       }, // dancer position, height to start attack from, and height to stop, radius to start attack from, and radius to stop
+*/
     };
 
     Act act = new AttackAct(configuration);
@@ -76,7 +80,7 @@ public class AttackAct extends Act {
       holdBeforeAttack.lockAndBuild();
 
       acts.add(moveToAttackPositions);
-      acts.add(holdBeforeAttack);
+      // acts.add(holdBeforeAttack);
       acts.add(singleAttack);
     }
     Act moveToFinalPositions = InterAct.create(currentPositions, act.finalPositions());

@@ -29,13 +29,19 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 public class Particle {
 	private List<FiniteTrajectory4d> movementParts;
 	private Point4D current;
+	private static double YAW = -Math.PI/2;
 	
 	public Particle(Pose initial) {
 		this.current = Point4D.from(initial);
 		movementParts = new ArrayList<>();
 	}
 
+	
 	public void moveCircle(Point4D center, boolean clockwise, double duration) {
+		moveCircle(center, clockwise, duration, 0);
+	}
+	
+	public void moveCircle(Point4D center, boolean clockwise, double duration, double waveHeight) {
 		double frequency;
 		if (clockwise) {
 			frequency = 0.1;
@@ -44,58 +50,63 @@ public class Particle {
 		}
 		double dx = current.getX() - center.getX();
 		double dy = current.getY() - center.getY();
+//		double dz = current.getZ() - center.getZ();
+		
 		double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
 		if (Math.abs(dy - 0.0) >= 0.00001 || Math.abs(dx - 0.0) >= 0.00001) {
-			double theta = Math.acos(dx/(distanceToCenter));
-			if (dy < 0.0) {
-				theta += Math.PI;
-			} 
+			double theta = Math.atan2(dy, dx);
+//			double gamma = Math.atan2(dz, distanceToCenter);
 			
 			FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(
 					CircleTrajectory4D.builder()
 					.setLocation(Point3D.project(center))
 					.setPhase(theta)
-					.fixYawAt(-Math.PI/2)
+					.fixYawAt(YAW)
 					.setRadius(distanceToCenter)
 					.setFrequency(frequency)
 					.build()).withDuration(duration).build();
-			this.addMovement(circle);
+			if (waveHeight > 0) {
+				this.addMovement(new SineVerticalDecorator(circle, waveHeight));
+			} else {
+				this.addMovement(circle);
+			}
 		} else {
+			System.out.println("HOVER in circle");
 			this.addMovement(new Hover(current, duration));
 		}
 	}
 
 	public void moveDown(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveUp(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() + distance, 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() + distance, YAW);
 		moveToPoint(destination, duration);
 	}
 	
 	public void moveRight(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX()-distance, current.getY(), current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX()-distance, current.getY(), current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveLeft(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX()+distance, current.getY(), current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX()+distance, current.getY(), current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveForward(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY()+distance, current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY()+distance, current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
 	public void moveBackward(double distance, double duration) {
-		Point4D destination = Point4D.create(current.getX(), current.getY()-distance, current.getZ(), 0.0);
+		Point4D destination = Point4D.create(current.getX(), current.getY()-distance, current.getZ(), YAW);
 		moveToPoint(destination, duration);
 	}
 
-	private void moveToPoint(Point4D destination, double duration) {
+	public void moveToPoint(Point4D destination, double duration) {
 		this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
 	}
 	
@@ -112,7 +123,7 @@ public class Particle {
 					center.getX() + (dx * lambda),
 					center.getY() + (dy * lambda),
 					center.getZ() + (dz * lambda),
-					0.0);
+					YAW);
 			this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
 		} else {
 			this.addMovement(new Hover(current, duration));
@@ -139,4 +150,30 @@ public class Particle {
 		return builder.build();
 	}
 
+	static class SineVerticalDecorator implements FiniteTrajectory4d {
+
+		private FiniteTrajectory4d component;
+		private double halfAmplitude;
+
+		@Override
+		public double getTrajectoryDuration() {
+			return component.getTrajectoryDuration();
+		}
+
+		@Override
+		public Pose getDesiredPosition(double timeInSeconds) {
+			Pose tempPose = component.getDesiredPosition(timeInSeconds);
+			double z;
+			z = tempPose.z() + (halfAmplitude + halfAmplitude * Math.sin(timeInSeconds - Math.PI/2));
+			Pose pose = Pose.create(tempPose.x(), tempPose.y(), z, tempPose.yaw());
+			
+			return pose;
+		}
+		
+		public SineVerticalDecorator(FiniteTrajectory4d component, double amplitude) {
+			this.component = component;
+			this.halfAmplitude = amplitude/2;
+		}
+		
+	}
 }

@@ -252,8 +252,13 @@ public abstract class AllDrones {
                             .addTrajectory(Trajectories.newHoldPositionTrajectory(getEndPoint()))
                             .withDuration(waitAtStation)
                             .build();
-            FiniteTrajectory4d intro = new NerveTrajectoryIntroduction(getStartPoint().toPose(),
-                    getWayPoint1().toPose(), 0);
+            try {
+				FiniteTrajectory4d intro = new NerveTrajectoryIntroduction(getStartPoint().toPose(),
+				        getWayPoint1().toPose(), 0);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
             return compose(
                     Lists.newArrayList(

@@ -1,90 +1,96 @@
-/**
- * 
- */
+/** */
 package io.github.agentwise.swarmview.trajectory.rats.acts.introduction;
 
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.Trajectories;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.Trajectory4d;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite
-		.Builder;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite.Builder;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 
-/**
- * @author tom
- *
- */
+/** @author tom */
 public class FievelIntroduction {
-	
-	private FiniteTrajectory4d trajectory;
-	
-	public FievelIntroduction (Pose initialPose, Pose finalPose, double start) {
-		
-		double[][] path = {
-					{ 	4, 4, 2,		 0.4,  0.45,	1, 0 },	// mid point pendulum, frequency, radius, revolutions, direction
-					{ 	4.1, 4, 2,		 0.4,  0.45,	1, Math.PI },	// mid point pendulum, frequency, radius, revolutions, direction
-					{ 	4, 3.5, 2.5,	 0.3,  1,		2, Math.PI*3/4 },
-					// { 	4, 2, 3,	 0.18, 1.2,		1, Math.PI },
-					{ 	5, 5, 2,		 0.4,  0.5,		1, Math.PI*1.25 },
-					{ 	5.1, 5, 2,		 0.4,  0.5,		1, 2*Math.PI-Math.PI*1.25 },
-			};
-		
-		Point4D currentPosition = Point4D.from(initialPose);
-		Point4D finalPosition 	= Point4D.from(finalPose);
 
-		Builder trajectoryBuilder = TrajectoryComposite.builder();
-		
-		if (start > 0) {
-			Hover hoverBeforeBegin = new Hover (initialPose, start);
-			trajectoryBuilder.addTrajectory(hoverBeforeBegin);
-		}
+  private FiniteTrajectory4d trajectory;
 
-		for(int i = 0 ; i < path.length; i++) {
-			double[] lineInfo = path[i];
+  private static final double YAW = -StrictMath.PI / 2;
 
-			Point3D circleCenterPoint = Point3D.create( lineInfo[0], lineInfo[1], lineInfo[2]);
-			double frequency = lineInfo[3];
-			double radius = lineInfo[4];
-			double revolutions = lineInfo[5];
-		    double duration = (1 / frequency) * revolutions;
-		    double direction = lineInfo[6];
+  public FievelIntroduction(Pose initialPose, Pose finalPose, double start) {
 
-			Trajectory4d circleTraj = Trajectories.swingTrajectoryBuilder().setRadius(radius)
-                    .setFrequency(frequency).setOrigin(Point4D.from(circleCenterPoint, 0))
-                    .setXzPlaneAngle(direction).build();
-			Point4D startCircleTraj = Point4D.create (	circleTraj.getDesiredPositionX(0),
-														circleTraj.getDesiredPositionY(0),
-														circleTraj.getDesiredPositionZ(0),
-														circleTraj.getDesiredAngleZ(0));
-			StraightLineTrajectory4D line = StraightLineTrajectory4D.createWithCustomVelocity(currentPosition, startCircleTraj, 1);
+    final double altitude = 3;
 
-			trajectoryBuilder.addTrajectory(line);
-			trajectoryBuilder.addTrajectory(circleTraj).withDuration(duration);
-			currentPosition = startCircleTraj;
-		}
+    double[][] path = {
+      {0, 2, 6, 1, 2, 0.05}, // x1 y1 x2 y2 height frequency
+      {6, 1, 2, 1, 2, 0.04},
+      {2, 1, 6, 3, 2, 0.04},
+      {6, 3, 1, 3, 2, 0.04},
+      {1, 3, 4.5, 1.8, 2, 0.05},
+      {4.5, 1.8, 0.5, 0.5, 2, 0.05},
+      {0.5, 0.5, 6, 0, 2, 0.04},
+      {6, 0, 0, 3.55, 2, 0.03},
+    };
 
-		// Go to final position
-		StraightLineTrajectory4D gotoFinalPosition = StraightLineTrajectory4D.createWithPercentageVelocity(currentPosition, finalPosition, 0.8);
-		trajectoryBuilder.addTrajectory(gotoFinalPosition);
+    Point4D currentPosition = Point4D.from(initialPose);
+    Point4D finalPosition = Point4D.from(finalPose);
 
-		this.trajectory = trajectoryBuilder.build();
+    Builder trajectoryBuilder = TrajectoryComposite.builder();
 
-	}
-	
-    public FiniteTrajectory4d getTrajectory() {
-    	return this.trajectory;
+    if (start > 0) {
+      Hover hoverBeforeBegin = new Hover(initialPose, start);
+      trajectoryBuilder.addTrajectory(hoverBeforeBegin);
     }
 
-	public static FiniteTrajectory4d createTrajectory(Pose initialPosition, Pose finalPosition, double start) {
-		
-		FievelIntroduction dumbo = new FievelIntroduction(initialPosition, finalPosition, start);
-		return dumbo.getTrajectory();
-		
-	}
+    for (int i = 0; i < path.length; i++) {
+      double[] lineInfo = path[i];
+      final Point4D startPoint = Point4D.create(lineInfo[0], lineInfo[1], altitude, YAW);
+      final Point4D endPoint = Point4D.create(lineInfo[2], lineInfo[3], altitude, YAW);
 
+      final Point4D middlePoint =
+          Point4D.create(
+              startPoint.getX() + (endPoint.getX() - startPoint.getX()) / 2,
+              startPoint.getY() + (endPoint.getY() - startPoint.getY()) / 2,
+              1,
+              YAW);
+
+//      if (!startPoint.equals(startPoint)) {
+//        trajectoryBuilder.addTrajectory(
+//            StraightLineTrajectory4D.createWithCustomVelocity(startPoint, startPoint, 2));
+//      }
+
+      trajectoryBuilder
+          .addTrajectory(
+              StraightLineTrajectory4D.createWithCustomVelocity(
+                  startPoint, middlePoint, 2));
+
+      trajectoryBuilder
+          .addTrajectory(
+              StraightLineTrajectory4D.createWithCustomVelocity(
+                  middlePoint, endPoint, 2));
+
+      currentPosition = endPoint;
+    }
+
+    // Go to final position
+    if (!currentPosition.equals(finalPosition)) {
+      StraightLineTrajectory4D gotoFinalPosition =
+          StraightLineTrajectory4D.createWithPercentageVelocity(
+              currentPosition, finalPosition, 0.8);
+      trajectoryBuilder.addTrajectory(gotoFinalPosition);
+    }
+
+    this.trajectory = trajectoryBuilder.build();
+  }
+
+  public FiniteTrajectory4d getTrajectory() {
+    return this.trajectory;
+  }
+
+  public static FiniteTrajectory4d createTrajectory(
+      Pose initialPosition, Pose finalPosition, double start) {
+
+    FievelIntroduction dumbo = new FievelIntroduction(initialPosition, finalPosition, start);
+    return dumbo.getTrajectory();
+  }
 }

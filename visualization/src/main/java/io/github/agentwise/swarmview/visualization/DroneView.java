@@ -20,20 +20,17 @@ public class DroneView {
 		Preconditions.checkNotNull(color);
 		Preconditions.checkArgument(trailSize >= 0 && trailSize <= 300);
 		
+		this.name = name;
 		this.canvas = canvas;
+
 		this.trajectory = trajectory;
 		this.color = color;
 		this.BUFFER_SIZE = trailSize;
-		this.name = name;
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
 	DroneView(RatsView canvas, FiniteTrajectory4d trajectory) {
-		this.canvas = canvas;
-		this.trajectory = trajectory;
-		this.color = 255;
-		this.BUFFER_SIZE = 50;
-		this.previousSprites = new Sprite[BUFFER_SIZE];
+		this(canvas, trajectory, 255, 50, "");
 	}
 	
 	Pose displayNext(float timeStep) {

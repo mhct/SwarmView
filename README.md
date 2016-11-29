@@ -16,6 +16,8 @@ The view has key-bindings defined as:
 - **z** activates/deactivates the mouse
 - **t** displays/hides the simulation time
 - **d** displays/hides the drone names
+- **,** backwards the simulation time by 5 seconds
+- **.** forwards the simulation time by 5 seconds
 - **SPACE key** pauses the simulation view. Note that the simulation time continues advancing in the background. Imagine this option as a snapshot in time.
 - **r** restarts the simulation
 
