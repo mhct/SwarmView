@@ -35,7 +35,12 @@ public class Particle {
 		movementParts = new ArrayList<>();
 	}
 
+	
 	public void moveCircle(Point4D center, boolean clockwise, double duration) {
+		moveCircle(center, clockwise, duration, 0);
+	}
+	
+	public void moveCircle(Point4D center, boolean clockwise, double duration, double waveHeight) {
 		double frequency;
 		if (clockwise) {
 			frequency = 0.1;
@@ -44,10 +49,13 @@ public class Particle {
 		}
 		double dx = current.getX() - center.getX();
 		double dy = current.getY() - center.getY();
+//		double dz = current.getZ() - center.getZ();
+		
 		double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
 		if (Math.abs(dy - 0.0) >= 0.00001 || Math.abs(dx - 0.0) >= 0.00001) {
 			double theta = Math.atan2(dy, dx);
-
+//			double gamma = Math.atan2(dz, distanceToCenter);
+			
 			FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(
 					CircleTrajectory4D.builder()
 					.setLocation(Point3D.project(center))
@@ -56,7 +64,11 @@ public class Particle {
 					.setRadius(distanceToCenter)
 					.setFrequency(frequency)
 					.build()).withDuration(duration).build();
-			this.addMovement(circle);
+			if (waveHeight > 0) {
+				this.addMovement(new SineVerticalDecorator(circle, waveHeight));
+			} else {
+				this.addMovement(circle);
+			}
 		} else {
 			System.out.println("HOVER in circle");
 			this.addMovement(new Hover(current, duration));
@@ -137,4 +149,30 @@ public class Particle {
 		return builder.build();
 	}
 
+	static class SineVerticalDecorator implements FiniteTrajectory4d {
+
+		private FiniteTrajectory4d component;
+		private double halfAmplitude;
+
+		@Override
+		public double getTrajectoryDuration() {
+			return component.getTrajectoryDuration();
+		}
+
+		@Override
+		public Pose getDesiredPosition(double timeInSeconds) {
+			Pose tempPose = component.getDesiredPosition(timeInSeconds);
+			double z;
+			z = tempPose.z() + (halfAmplitude + halfAmplitude * Math.sin(timeInSeconds - Math.PI/2));
+			Pose pose = Pose.create(tempPose.x(), tempPose.y(), z, tempPose.yaw());
+			
+			return pose;
+		}
+		
+		public SineVerticalDecorator(FiniteTrajectory4d component, double amplitude) {
+			this.component = component;
+			this.halfAmplitude = amplitude/2;
+		}
+		
+	}
 }
