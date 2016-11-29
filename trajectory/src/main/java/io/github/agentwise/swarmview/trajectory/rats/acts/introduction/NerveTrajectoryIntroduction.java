@@ -26,7 +26,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
 		final double left1 = 3.5;
 		final double x1 = 6;
 		final double right1 = 4.5;
-		final double y1 = 5;
+		final double y1 = 3;
 		final double speed1 = 0.5;
 
 		final double heigh2 = 3.3;
