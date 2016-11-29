@@ -13,7 +13,7 @@ import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 /**
  * Introduction Act definition
  * TODO add configuration (drones, initial pose, final pose) to the act
- * 
+ *
  * @author Mario h.c.t.
  *
  */
@@ -24,17 +24,17 @@ public class IntroductionAct extends Act {
 	private IntroductionAct(ActConfiguration configuration) {
 		super(configuration);
 	}
-	
+
 	/**
 	 * Adds all the movements of this act
 	 * @return
 	 */
 	public static Act create(ActConfiguration configuration) {
 		Act act = new IntroductionAct(configuration);
-		
+
 		try {
 			//TODO Parsing the trajectories configuration will be added here
-			
+
 			double startTime = 4;
 
 			NerveTrajectoryIntroduction nerve = new NerveTrajectoryIntroduction(act.initialPosition(Nerve), act.finalPosition(Nerve), startTime);
@@ -59,11 +59,11 @@ public class IntroductionAct extends Act {
 			startTime = dumbo.getTrajectoryDuration() + TIME_BETWEEN_INTROS;
 
 
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return act;
 	}
 

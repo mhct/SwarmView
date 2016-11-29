@@ -21,30 +21,28 @@ import java.util.List;
  * @author Mario h.c.t.
  */
 public class RatsShow {
+  private static final double YAW =-StrictMath.PI/2;
 
     public static ChoreographyView createChoreography() {
         //
         //Specification of initial drone positions for Introduction
         //
         List<DronePositionConfiguration> introPositions = new ArrayList<>();
-        introPositions.add(DronePositionConfiguration
-        		.create(
-        				DroneName.Nerve, Pose.create(6.7, 5.0, 1.0, 0.0),
-        				Pose.create(2.0, 0.0, 3.5, 0.0)));
-        introPositions.add(DronePositionConfiguration
-        		.create(
-        				DroneName.Romeo, Pose.create(5.0, 5.0, 1.0, 0.0),
-        				Pose.create(1.1, 5.0, 1.0, 0.0)));
-        introPositions.add(DronePositionConfiguration
-        		.create(DroneName.Juliet, Pose.create(1.0, 4.0, 1.0, 0.0),
-        				Pose.create(6.7, 5.0, 1.0, 0.0)));
-        introPositions.add(DronePositionConfiguration
-        		.create(DroneName.Fievel, Pose.create(1.0, 5.1, 1.0, 0.0),
-        				Pose.create(5.0, 0.0, 1.0, 0.0)));
-        introPositions.add(DronePositionConfiguration
-        		.create(
-        				DroneName.Dumbo, Pose.create(6.7, 3.0, 1.0, 0.0),
-        				Pose.create(4.0, 3.5, 2.5, 0.0)));
+      introPositions.add(
+          DronePositionConfiguration.create(
+              DroneName.Nerve, Pose.create(6.7, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.0, YAW)));
+      introPositions.add(
+          DronePositionConfiguration.create(
+              DroneName.Romeo, Pose.create(0.0, 5.0, 1.0, YAW), Pose.create(6.0, 5.0, 1.0, YAW)));
+      introPositions.add(
+          DronePositionConfiguration.create(
+              DroneName.Juliet, Pose.create(0.0, 3.55, 1.0, YAW), Pose.create(6.7, 5.0, 1.0, YAW)));
+      introPositions.add(
+          DronePositionConfiguration.create(
+              DroneName.Fievel, Pose.create(0.0, 2.0, 1.0, YAW), Pose.create(0.0, 3.5, 1.5, YAW)));
+      introPositions.add(
+          DronePositionConfiguration.create(
+              DroneName.Dumbo, Pose.create(6.7, 3.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
         ActConfiguration introConfiguration = ActConfiguration
                 .create("Introduction", introPositions);
 

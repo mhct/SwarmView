@@ -72,10 +72,10 @@ public class StraightLineTrajectory4D extends BasicTrajectory implements FiniteT
         checkArgument(
                 velocityCutoffTimePercentage <= 1 && velocityCutoffTimePercentage > 0,
                 "Velocity cutoff percentage should represent a percantage between 0 and 1.");
-        checkArgument(
-                velocity <= MAX_ABSOLUTE_VELOCITY,
-                "The provided enterVelocity should be smaller than BasicTrajectory"
-                        + ".MAX_ABSOLUTE_VELOCITY");
+//        checkArgument(
+//                velocity <= MAX_ABSOLUTE_VELOCITY,
+//                "The provided enterVelocity should be smaller than BasicTrajectory"
+//                        + ".MAX_ABSOLUTE_VELOCITY");
         Point4D diff = Point4D.minus(targetpoint, srcpoint);
         this.totalDistance = Point3D.project(diff).norm();
         double speed = velocity;
