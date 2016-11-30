@@ -6,6 +6,7 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class AttackAct extends Act {
     final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1, YAW);
 
     final Swarm swarm = Swarm.create(configuration.initialPositionConfiguration());
-    swarm.setScript(drones -> {
+    swarm.setSwarmMovementsScript(drones -> {
       drones.forEach((drone, particle) -> particle.moveToPointWithVelocity(initialAttackPosition.get(drone), 2));
 
       for (int i = 0; i < 10; i++) {
@@ -46,6 +47,8 @@ public class AttackAct extends Act {
       drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyWithInRange(initialAttackPosition.get(drone), 1, 1.5 ));
 
       }
+
+      drones.forEach((drone, particle) -> particle.moveToPointWithVelocity(Point4D.from(configuration.finalPositionConfiguration().get(drone)), 2));
   });
    return Act.createWithSwarm(configuration, swarm);
   }
