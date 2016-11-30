@@ -1,5 +1,11 @@
 package io.github.agentwise.swarmview.trajectory.swarmmovements;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.CircleTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
@@ -11,12 +17,8 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.SineVerticalDecorator;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.SpiralDecorator;
 
 /**
  * A Particle represents a drone and its possible movements. All movement behaviours are created
@@ -42,11 +44,15 @@ public class Particle {
 
 	
 	public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration) {
-		moveHorizontalCircle(center, clockwise, duration, 0, 0);
+		moveHorizontalCircle(center, clockwise, duration, 0, 0, false);
+	}
+
+	public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
+		moveHorizontalCircle(center, clockwise, duration, waveHeight, openingRate, false);
 	}
 
 	
-	public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
+	private void moveHorizontalCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate, boolean corkscrew) {
 		double frequency;
 		if (clockwise) {
 			frequency = 0.1;
@@ -229,75 +235,7 @@ public class Particle {
 		return builder.build();
 	}
 
-	static class SineVerticalDecorator implements FiniteTrajectory4d {
-
-		private FiniteTrajectory4d component;
-		private double halfAmplitude;
-
-		@Override
-		public double getTrajectoryDuration() {
-			return component.getTrajectoryDuration();
-		}
-
-		@Override
-		public Pose getDesiredPosition(double timeInSeconds) {
-			Pose tempPose = component.getDesiredPosition(timeInSeconds);
-			double z;
-			z = tempPose.z() + (halfAmplitude + halfAmplitude * Math.sin(timeInSeconds - Math.PI/2));
-			Pose pose = Pose.create(tempPose.x(), tempPose.y(), z, tempPose.yaw());
-			
-			return pose;
-		}
-		
-		public SineVerticalDecorator(FiniteTrajectory4d component, double amplitude) {
-			this.component = component;
-			this.halfAmplitude = amplitude/2;
-		}
-		
-	}
-
-	static class SpiralDecorator implements FiniteTrajectory4d {
-		
-		private FiniteTrajectory4d component;
-		private double openingRate;
-		private Point4D center;
-				
-		@Override
-		public double getTrajectoryDuration() {
-			return component.getTrajectoryDuration();
-		}
-		
-		@Override
-		public Pose getDesiredPosition(double timeInSeconds) {
-			Pose tempPose = component.getDesiredPosition(timeInSeconds);
-			final double distance = openingRate * timeInSeconds;
-			
-			double dx = tempPose.x() - center.getX();
-			double dy = tempPose.y() - center.getY();
-			double dz = tempPose.z() - center.getZ();
-			double modulus = Math.sqrt(dx*dx + dy*dy + dz*dz);
-			
-			double lambda = 0.0;
-			if (Math.abs(modulus - 0.0) >= 0.00001) {
-				lambda = (modulus + distance) / modulus;
-				Point4D destination = Point4D.create(
-						center.getX() + (dx * lambda),
-						center.getY() + (dy * lambda),
-						center.getZ() + (dz * lambda),
-						YAW);
-				return destination.toPose();
-			} else {
-				return tempPose;
-			}
-		}
-		
-		public SpiralDecorator(FiniteTrajectory4d component, Point4D center, double openingRate) {
-			this.component = component;
-			this.center = center;
-			this.openingRate = openingRate;
-		}
-		
-	}
+	
 }
 
   
