@@ -6,6 +6,8 @@ import java.util.List;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.CircleTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.WiggleTrajectory;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.ZigZagTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite.Builder;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
@@ -113,10 +115,41 @@ public class Particle {
 	public void moveToPoint(Point4D destination, double duration) {
 		this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
 	}
+
+	public void moveToPointWithVelocity(Point4D destination, double velocity) {
+		this.addMovement(StraightLineTrajectory4D.createWithCustomVelocity(current, destination, velocity));
+	}
+
+	public void moveZigZagToPoint(Point4D destination, double percentageVelocity) {
+		final int numberOfZigZags = (int) (Point3D.distance(Point3D.project(destination), Point3D.project(current)) / 0.25);
+		final double distanceOfZigZag = 5.0;
+		this.addMovement(new ZigZagTrajectory4D(current, destination, numberOfZigZags, distanceOfZigZag, percentageVelocity));
+	}
+
+	public void wiggle(int numberOfWiggles, double timeToStayAtEdge) {
+		this.addMovement(new WiggleTrajectory(currentPoint(), numberOfWiggles, timeToStayAtEdge));
+	}
+
+	public void rotateToAngle(double destinationAngle, double duration) {
+		final Point4D desiredPoint = Point4D.create(current.getX(), current.getY(), current.getZ(), destinationAngle);
+		this.addMovement(new Hover(desiredPoint, duration));
+	}
+
+	public void hover(double duration) {
+		this.addMovement(new Hover(current, duration));
+	}
 	
-//	public void changeAngle(double duration) {
-//		this.addMovement(whatever trajectory);
-//	}
+	public void moveTriangleToPoint(Point4D destination, double heightOfMiddlePoint, double velocity) {
+		final Point4D middlePoint =
+				Point4D.create(
+						current.getX() + (destination.getX() - current.getX()) / 2,
+						current.getY() + (destination.getY() - current.getY()) / 2,
+						heightOfMiddlePoint,
+						current.getAngle() + (destination.getAngle() - current.getAngle()) / 2);
+
+		moveToPointWithVelocity(middlePoint, velocity);
+		moveToPointWithVelocity(destination, velocity);
+	}
 	
 	public void moveAway(Point4D center, double distance, double duration) {
 		double dx = current.getX() - center.getX();
