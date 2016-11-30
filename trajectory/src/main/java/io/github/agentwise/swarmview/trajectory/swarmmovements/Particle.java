@@ -195,7 +195,16 @@ public class Particle {
     final Point3D stoppingPoint =
         Point3D.minus(
             Point3D.project(destination), Point3D.scale(normVector, stoppingDistanceToDestination));
-    moveToPointWithVelocity(Point4D.from(stoppingPoint, destination.getAngle()), Point3D.distance(Point3D.project(current), stoppingPoint) / duration);
+    moveToPoint(Point4D.from(stoppingPoint, destination.getAngle()), duration);
+  }
+
+  public void moveTowardPointAndStopRandomlyWithInRange(Point4D destination, double range,
+      double duration) {
+    final double rangeX = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
+    final double rangeY = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
+    final double rangeZ = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
+    final Point4D stoppingPosition = Point4D.create(destination.getX() + rangeX, destination.getY() + rangeY, destination.getZ() + rangeZ, destination.getAngle());
+    moveToPoint(stoppingPosition, duration);
   }
 
   public void moveAway(Point4D center, double distance, double duration) {

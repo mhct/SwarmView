@@ -2,22 +2,11 @@
 package io.github.agentwise.swarmview.trajectory.rats.acts.attack;
 
 import com.google.common.collect.Maps;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
-import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
-import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
-import io.github.agentwise.swarmview.trajectory.rats.acts.interact.HoverAct;
-import io.github.agentwise.swarmview.trajectory.rats.acts.interact.InterAct;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovmentsScript;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,8 +42,8 @@ public class AttackAct extends Act {
       drones.forEach((drone, particle) -> particle.moveToPointWithVelocity(initialAttackPosition.get(drone), 2));
 
       for (int i = 0; i < 10; i++) {
-      drones.values().forEach(particle -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(dancerPosition, 0.5, 1.0, 1.5));
-      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(initialAttackPosition.get(drone), 0, 0.5, 3));
+      drones.values().forEach(particle -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(dancerPosition, 1.0, 1.5, 1.0));
+      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyWithInRange(initialAttackPosition.get(drone), 1, 1.5 ));
 
       }
   });
