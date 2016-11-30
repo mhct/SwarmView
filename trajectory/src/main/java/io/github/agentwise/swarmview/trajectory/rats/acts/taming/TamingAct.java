@@ -109,7 +109,7 @@ public class TamingAct extends Act {
 //			moveAwayClose(drones);
 //			moveBack(drones);
 //			moveTwoCircles(drones);
-//			drones.values().forEach(drone -> drone.moveCircle(originCenter, true, 20, 0, 0.00001));
+//			drones.values().forEach(drone -> drone.moveHorizontalCircle(originCenter, true, 20, 0, 0.00001));
 			moveSpiral(drones);
 		}
 		
@@ -135,11 +135,11 @@ public class TamingAct extends Act {
 			drones.get(Juliet).moveAway(originCenter, distanceAway, durationUp);
 			drones.get(Romeo).moveAway(originCenter, distanceAway, durationUp);
 			
-			drones.get(Fievel).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Nerve).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Dumbo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Juliet).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Romeo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Fievel).moveHorizontalCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Nerve).moveHorizontalCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Dumbo).moveHorizontalCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Juliet).moveHorizontalCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Romeo).moveHorizontalCircle(originCenter, false, durationCircling, 0, spiralRate);
 		}
 		private void moveTwoCircles(Map<DroneName, Particle> drones) {
 			double durationUp = 1;
@@ -151,11 +151,11 @@ public class TamingAct extends Act {
 			drones.get(Juliet).moveAway(originCenter, -1.0, durationUp);
 			drones.get(Romeo).moveAway(originCenter, -1.0, durationUp);
 			
-			drones.get(Fievel).moveCircle(Point4D.create(originCenter.getX(), originCenter.getY(), originCenter.getZ() + 1.5, originCenter.getAngle()), true, durationCircling);
-			drones.get(Nerve).moveCircle(Point4D.create(originCenter.getX(), originCenter.getY(), originCenter.getZ() + 1.5, originCenter.getAngle()), true, durationCircling);
-			drones.get(Dumbo).moveCircle(originCenter, false, durationCircling);
-			drones.get(Juliet).moveCircle(originCenter, false, durationCircling);
-			drones.get(Romeo).moveCircle(originCenter, false, durationCircling);
+			drones.get(Fievel).moveHorizontalCircle(Point4D.create(originCenter.getX(), originCenter.getY(), originCenter.getZ() + 1.5, originCenter.getAngle()), true, durationCircling);
+			drones.get(Nerve).moveHorizontalCircle(Point4D.create(originCenter.getX(), originCenter.getY(), originCenter.getZ() + 1.5, originCenter.getAngle()), true, durationCircling);
+			drones.get(Dumbo).moveHorizontalCircle(originCenter, false, durationCircling);
+			drones.get(Juliet).moveHorizontalCircle(originCenter, false, durationCircling);
+			drones.get(Romeo).moveHorizontalCircle(originCenter, false, durationCircling);
 			
 			drones.get(Dumbo).moveAway(originCenter, 1.0, durationUp);
 			drones.get(Juliet).moveAway(originCenter, 1.0, durationUp);

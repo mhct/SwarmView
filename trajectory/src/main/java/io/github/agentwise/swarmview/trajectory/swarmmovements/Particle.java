@@ -40,11 +40,11 @@ public class Particle {
     movementParts = new ArrayList<>();
   }
 
-  public void moveCircle(Point4D center, boolean clockwise, double duration) {
-    moveCircle(center, clockwise, duration, 0, 0);
+  public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration) {
+    moveHorizontalCircle(center, clockwise, duration, 0, 0);
   }
 
-  public void moveCircle(
+  public void moveHorizontalCircle(
       Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
     double frequency;
     if (clockwise) {
