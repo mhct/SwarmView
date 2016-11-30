@@ -44,7 +44,7 @@ public class Swarm {
 	 * 
 	 * @param script
 	 */
-	public void setScript(SwarmMovmentsScript script) {
+	public void setSwarmMovementsScript(SwarmMovementsScript script) {
 		script.setSwarmMovementsScript(drones);
 	}
 

@@ -20,7 +20,7 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import io.github.agentwise.swarmview.trajectory.rats.acts.interact.InterAct;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovmentsScript;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovementsScript;
 
 public class TamingAct extends Act {
 
@@ -58,7 +58,7 @@ public class TamingAct extends Act {
 		// Perform the joint movements
 		//
 		Swarm swarm = Swarm.create(beginActConfiguration.finalPositionConfiguration());
-		swarm.setScript(new TamingSwarmScript(center1));
+		swarm.setSwarmMovementsScript(new TamingSwarmScript(center1));
 
 		//
 		// Move to final positions
@@ -94,7 +94,7 @@ public class TamingAct extends Act {
 	 * @author Mario h.c.t.
 	 *
 	 */
-	private static class TamingSwarmScript implements SwarmMovmentsScript {
+	private static class TamingSwarmScript implements SwarmMovementsScript {
 
 		private Point4D originCenter;
 		private static double YAW = -Math.PI/2;
