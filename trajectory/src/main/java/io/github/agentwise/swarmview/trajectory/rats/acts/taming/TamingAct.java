@@ -6,18 +6,14 @@ import static io.github.agentwise.swarmview.trajectory.control.DroneName.Juliet;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Nerve;
 import static io.github.agentwise.swarmview.trajectory.control.DroneName.Romeo;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
-import io.github.agentwise.swarmview.trajectory.rats.acts.interact.InterAct;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovementsScript;
@@ -30,6 +26,7 @@ public class TamingAct extends Act {
 	}
 	
 	private static Point4D center2 = Point4D.create(3.5, 2.0, 1.0, 0);
+	
 	/**
 	 * Adds all the movements of this act
 	 * @return
@@ -37,53 +34,14 @@ public class TamingAct extends Act {
 	public static Act create(ActConfiguration configuration) {
 		Act act = new TamingAct(configuration);
 		
-		Point4D center1 = Point4D.create(3.5, 2.6, 1.0, 0);
-		double radius = 1.8;
-		//
-		// Go to initial positions
-		//
-		Map<DroneName, Pose> beginMovement = new LinkedHashMap<DroneName, Pose>(5);
-		beginMovement.put(Nerve, Point4D.pointAtAngle(center1, radius, 2*Math.PI/5).toPose());
-		beginMovement.put(Romeo, Point4D.pointAtAngle(center1, radius, 4*Math.PI/5).toPose());
-		beginMovement.put(Juliet, Point4D.pointAtAngle(center1, radius, 6*Math.PI/5).toPose());
-		beginMovement.put(Dumbo, Point4D.pointAtAngle(center1, radius, 0).toPose());
-		beginMovement.put(Fievel, Point4D.pointAtAngle(center1, radius, 8*Math.PI/5).toPose());
-		
-		List<DroneName> beginMovementOrder = Arrays.asList(Nerve, Romeo, Juliet, Fievel, Dumbo);
-		ActConfiguration beginActConfiguration = ActConfiguration.createFromInitialFinalPositions(act.initialPositions(), beginMovement);
-		Act goToPosition = InterAct.createWithOrderedSequentialMovement(beginActConfiguration, 1.0, beginMovementOrder);
-		goToPosition.lockAndBuild();
-		
 		//
 		// Perform the joint movements
 		//
-		Swarm swarm = Swarm.create(beginActConfiguration.finalPositionConfiguration());
-		swarm.setSwarmMovementsScript(new TamingSwarmScript(center1));
+		Point4D center1 = Point4D.create(3.5, 2.6, 1.0, 0);
 
-		//
-		// Move to final positions
-		//
-		Map<DroneName, Pose> moveToFinalPositionMovement = new LinkedHashMap<DroneName, Pose>(5);
-		moveToFinalPositionMovement.put(Nerve, swarm.getFinalPose(Nerve));
-		moveToFinalPositionMovement.put(Romeo, swarm.getFinalPose(Romeo));
-		moveToFinalPositionMovement.put(Fievel, swarm.getFinalPose(Fievel));
-		moveToFinalPositionMovement.put(Dumbo, swarm.getFinalPose(Dumbo));
-		moveToFinalPositionMovement.put(Juliet, swarm.getFinalPose(Juliet));
-
-		List<DroneName> EndMovementOrder = Arrays.asList(Nerve, Romeo, Juliet, Dumbo, Fievel);
-		ActConfiguration goUpActConfiguration = ActConfiguration.createFromInitialFinalPositions(moveToFinalPositionMovement, act.finalPositions());
-		Act goToFinalPosition = InterAct.createWithOrderedSequentialMovement(goUpActConfiguration, 1.0, EndMovementOrder);
-		
-		try {
-			for (DroneName drone: DroneName.values()) {
-				act.addTrajectory(drone, TrajectoryComposite.builder()
-						.addTrajectory(goToPosition.getTrajectory(drone))
-						.addTrajectory(swarm.get(drone))
-						.addTrajectory(goToFinalPosition.getTrajectory(drone)).build());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Swarm swarm = Swarm.create(configuration.initialPositionConfiguration());
+		swarm.setSwarmMovementsScript(new TamingSwarmScript(center1, act.finalPositions()));
+		swarm.getDroneNames().forEach(drone -> act.addTrajectory(drone, swarm.get(drone)));
 		
 		return act;
 	}
@@ -96,21 +54,40 @@ public class TamingAct extends Act {
 	 */
 	private static class TamingSwarmScript implements SwarmMovementsScript {
 
-		private Point4D originCenter;
+		private Point4D center1;
+		private Map<DroneName, Pose> finalPositions;
 		private static double YAW = -Math.PI/2;
 		
-		public TamingSwarmScript(Point4D center) {
-			this.originCenter = center;
+		public TamingSwarmScript(Point4D center, Map<DroneName, Pose> finalPositions) {
+			this.center1 = center;
+			this.finalPositions = finalPositions;
 		}
 		
 		@Override
 		public void setSwarmMovementsScript(Map<DroneName, Particle> drones) {
+			double radius = 1.8;
+			Map<DroneName, Point4D> beginMovement = new LinkedHashMap<DroneName, Point4D>(5);
+			
+			beginMovement.put(Nerve, Point4D.pointAtAngle(center1, radius, 2*Math.PI/5));
+			beginMovement.put(Romeo, Point4D.pointAtAngle(center1, radius, 4*Math.PI/5));
+			beginMovement.put(Juliet, Point4D.pointAtAngle(center1, radius, 6*Math.PI/5));
+			beginMovement.put(Dumbo, Point4D.pointAtAngle(center1, radius, 0));
+			beginMovement.put(Fievel, Point4D.pointAtAngle(center1, radius, 8*Math.PI/5));
+			
+			final double duration = 1; 
+			drones.forEach((drone, particle) -> particle.moveToPoint(beginMovement.get(drone), duration));
+			
 //			moveUpDown(drones);
 //			moveAwayClose(drones);
 //			moveBack(drones);
 //			moveTwoCircles(drones);
 //			drones.values().forEach(drone -> drone.moveCircle(originCenter, true, 20, 0, 0.00001));
-			moveSpiral(drones);
+//			moveSpiral(drones);
+			
+			
+			drones.get(Dumbo).moveBackward(1, 1);
+			drones.get(Dumbo).moveCircle(Point4D.pointAtAngle(center1, radius, 0), true, 10, 3, 0);
+			drones.forEach((drone, particle) -> particle.moveToPoint(Point4D.from(finalPositions.get(drone)), duration));
 		}
 		
 		private void moveBack(Map<DroneName, Particle> drones) {
@@ -129,17 +106,17 @@ public class TamingAct extends Act {
 			double spiralRate = -0.05;
 			double distanceAway = 1.0;
 			
-			drones.get(Fievel).moveAway(originCenter, distanceAway, durationUp);
-			drones.get(Nerve).moveAway(originCenter, distanceAway, durationUp);
-			drones.get(Dumbo).moveAway(originCenter, distanceAway, durationUp);
-			drones.get(Juliet).moveAway(originCenter, distanceAway, durationUp);
-			drones.get(Romeo).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Fievel).moveAway(center1, distanceAway, durationUp);
+			drones.get(Nerve).moveAway(center1, distanceAway, durationUp);
+			drones.get(Dumbo).moveAway(center1, distanceAway, durationUp);
+			drones.get(Juliet).moveAway(center1, distanceAway, durationUp);
+			drones.get(Romeo).moveAway(center1, distanceAway, durationUp);
 			
-			drones.get(Fievel).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Nerve).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Dumbo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Juliet).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
-			drones.get(Romeo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Fievel).moveCircle(center1, false, durationCircling, 0, spiralRate);
+			drones.get(Nerve).moveCircle(center1, false, durationCircling, 0, spiralRate);
+			drones.get(Dumbo).moveCircle(center1, false, durationCircling, 0, spiralRate);
+			drones.get(Juliet).moveCircle(center1, false, durationCircling, 0, spiralRate);
+			drones.get(Romeo).moveCircle(center1, false, durationCircling, 0, spiralRate);
 		}
 		private void moveTwoCircles(Map<DroneName, Particle> drones) {
 			double durationUp = 1;
@@ -147,19 +124,19 @@ public class TamingAct extends Act {
 			
 			drones.get(Fievel).moveUp(1.5, durationUp);
 			drones.get(Nerve).moveUp(1.5, durationUp);
-			drones.get(Dumbo).moveAway(originCenter, -1.0, durationUp);
-			drones.get(Juliet).moveAway(originCenter, -1.0, durationUp);
-			drones.get(Romeo).moveAway(originCenter, -1.0, durationUp);
+			drones.get(Dumbo).moveAway(center1, -1.0, durationUp);
+			drones.get(Juliet).moveAway(center1, -1.0, durationUp);
+			drones.get(Romeo).moveAway(center1, -1.0, durationUp);
 			
-			drones.get(Fievel).moveCircle(Point4D.create(originCenter.getX(), originCenter.getY(), originCenter.getZ() + 1.5, originCenter.getAngle()), true, durationCircling);
-			drones.get(Nerve).moveCircle(Point4D.create(originCenter.getX(), originCenter.getY(), originCenter.getZ() + 1.5, originCenter.getAngle()), true, durationCircling);
-			drones.get(Dumbo).moveCircle(originCenter, false, durationCircling);
-			drones.get(Juliet).moveCircle(originCenter, false, durationCircling);
-			drones.get(Romeo).moveCircle(originCenter, false, durationCircling);
+			drones.get(Fievel).moveCircle(Point4D.create(center1.getX(), center1.getY(), center1.getZ() + 1.5, center1.getAngle()), true, durationCircling);
+			drones.get(Nerve).moveCircle(Point4D.create(center1.getX(), center1.getY(), center1.getZ() + 1.5, center1.getAngle()), true, durationCircling);
+			drones.get(Dumbo).moveCircle(center1, false, durationCircling);
+			drones.get(Juliet).moveCircle(center1, false, durationCircling);
+			drones.get(Romeo).moveCircle(center1, false, durationCircling);
 			
-			drones.get(Dumbo).moveAway(originCenter, 1.0, durationUp);
-			drones.get(Juliet).moveAway(originCenter, 1.0, durationUp);
-			drones.get(Romeo).moveAway(originCenter, 1.0, durationUp);
+			drones.get(Dumbo).moveAway(center1, 1.0, durationUp);
+			drones.get(Juliet).moveAway(center1, 1.0, durationUp);
+			drones.get(Romeo).moveAway(center1, 1.0, durationUp);
 			drones.get(Fievel).moveDown(1.5, durationUp);
 			drones.get(Nerve).moveDown(1.5, durationUp);
 		}
@@ -201,11 +178,11 @@ public class TamingAct extends Act {
 				} else {
 					multiplier = -1;
 				}
-				drones.get(Dumbo).moveAway(originCenter, multiplier * distanceAwayDumbo, duration);
-				drones.get(Fievel).moveAway(originCenter, multiplier * distanceAwayFievel, duration);
-				drones.get(Nerve).moveAway(originCenter, multiplier * distanceAwayNerve, duration);
-				drones.get(Juliet).moveAway(originCenter, multiplier * distanceAwayJuliet, duration);
-				drones.get(Romeo).moveAway(originCenter, multiplier * distanceAwayRomeo, duration);
+				drones.get(Dumbo).moveAway(center1, multiplier * distanceAwayDumbo, duration);
+				drones.get(Fievel).moveAway(center1, multiplier * distanceAwayFievel, duration);
+				drones.get(Nerve).moveAway(center1, multiplier * distanceAwayNerve, duration);
+				drones.get(Juliet).moveAway(center1, multiplier * distanceAwayJuliet, duration);
+				drones.get(Romeo).moveAway(center1, multiplier * distanceAwayRomeo, duration);
 			}
 		}
 	}
