@@ -44,8 +44,8 @@ public class Swarm {
 	 * 
 	 * @param script
 	 */
-	public void setScript(SwarmScript script) {
-		script.script(drones);
+	public void setScript(SwarmMovmentsScript script) {
+		script.setSwarmMovementsScript(drones);
 	}
 
 	public Set<DroneName> getDroneNames() {

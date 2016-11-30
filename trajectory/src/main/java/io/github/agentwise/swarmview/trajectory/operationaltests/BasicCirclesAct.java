@@ -9,7 +9,7 @@ import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.rats.OTCircleShow;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmScript;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovmentsScript;
 
 public class BasicCirclesAct extends Act {
 
@@ -44,10 +44,10 @@ public class BasicCirclesAct extends Act {
 	 * @author Mario h.c.t.
 	 *
 	 */
-	private static class BasicCircleSwarmScript implements SwarmScript {
+	private static class BasicCircleSwarmScript implements SwarmMovmentsScript {
 
 		@Override
-		public void script(Map<DroneName, Particle> drones) {
+		public void setSwarmMovementsScript(Map<DroneName, Particle> drones) {
 
 			final double duration = 60.0;
 			Point4D center = Point4D.create(4.0, 3.0, 1.0, OTCircleShow.YAW);

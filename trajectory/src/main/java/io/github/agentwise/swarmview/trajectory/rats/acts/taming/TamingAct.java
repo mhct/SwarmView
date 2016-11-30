@@ -20,7 +20,7 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import io.github.agentwise.swarmview.trajectory.rats.acts.interact.InterAct;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmScript;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovmentsScript;
 
 public class TamingAct extends Act {
 
@@ -94,7 +94,7 @@ public class TamingAct extends Act {
 	 * @author Mario h.c.t.
 	 *
 	 */
-	private static class TamingSwarmScript implements SwarmScript {
+	private static class TamingSwarmScript implements SwarmMovmentsScript {
 
 		private Point4D originCenter;
 		private static double YAW = -Math.PI/2;
@@ -104,7 +104,7 @@ public class TamingAct extends Act {
 		}
 		
 		@Override
-		public void script(Map<DroneName, Particle> drones) {
+		public void setSwarmMovementsScript(Map<DroneName, Particle> drones) {
 //			moveUpDown(drones);
 //			moveAwayClose(drones);
 //			moveBack(drones);

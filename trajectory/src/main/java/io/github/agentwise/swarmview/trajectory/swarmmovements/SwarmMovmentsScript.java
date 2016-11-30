@@ -11,12 +11,12 @@ import io.github.agentwise.swarmview.trajectory.control.DroneName;
  * @author Mario h.c.t.
  *
  */
-public interface SwarmScript {
+public interface SwarmMovmentsScript {
 	/**
 	 * Defines the movements each drone in the swarm will do
 	 * 
 	 * @param drones the drones in the swarm
 	 * 
 	 */
-	public void script(Map<DroneName, Particle> drones);
+	public void setSwarmMovementsScript(Map<DroneName, Particle> drones);
 }
