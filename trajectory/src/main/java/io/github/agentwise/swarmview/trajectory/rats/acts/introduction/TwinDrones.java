@@ -16,7 +16,7 @@ public final class TwinDrones {
     final FiniteTrajectory4d commonTrajectory =
         getCommonTrajectory(initialPose, finalPose, startTime);
     return VerticalCircleDecorator.create(
-        commonTrajectory, 0.5, 0, 0.5, Point4D.create(0, -0.5, 0, 0), startTime);
+        commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, -0.5, 0, 0), startTime);
   }
 
   public static FiniteTrajectory4d createJulietTrajectory(
@@ -24,7 +24,7 @@ public final class TwinDrones {
     final FiniteTrajectory4d commonTrajectory =
         getCommonTrajectory(initialPose, finalPose, startTime);
     return VerticalCircleDecorator.create(
-        commonTrajectory, 0.5, StrictMath.PI, 0.5, Point4D.create(0, 0, 0, 0), startTime);
+        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, 0, 0, 0), startTime);
   }
 
   private static FiniteTrajectory4d getCommonTrajectory(
