@@ -1,5 +1,6 @@
 package io.github.agentwise.swarmview.trajectory.swarmmovements.decorators;
 
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 
