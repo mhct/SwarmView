@@ -3,6 +3,7 @@ package io.github.agentwise.swarmview.trajectory.control;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.HoldPositionTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -37,6 +38,12 @@ public class Act {
       dronePositions.put(droneConf.name(), droneConf);
     }
     setInitialAndFinalPositions();
+  }
+
+  public static Act createWithSwarm(ActConfiguration configuration, Swarm swarm) {
+    final Act act = new Act(configuration);
+    swarm.getDroneNames().forEach(drone -> act.addTrajectory(drone, swarm.get(drone)));
+    return act;
   }
 
   /**

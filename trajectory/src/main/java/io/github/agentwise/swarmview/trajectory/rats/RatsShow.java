@@ -139,6 +139,7 @@ public class RatsShow {
 //        choreo.addAct(chaos);
 //        choreo.addAct(attack);
         choreo.addAct(taming);
+
         return choreo;
     }
 }

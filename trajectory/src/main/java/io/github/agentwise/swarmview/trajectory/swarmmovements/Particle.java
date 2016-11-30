@@ -1,8 +1,5 @@
 package io.github.agentwise.swarmview.trajectory.swarmmovements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.CircleTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
@@ -15,36 +12,41 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
- * A Particle represents a drone and its possible movements.
- * All movement behaviours are created assuming the body frame of the particle.
- * Thus, invoking {@link #moveRight(double, double) moveRight} method will move the Particle to its right size.
- * 
- * X--C--X   C = front facing camera,  X = propeller
- *   | |
- * X-----X
- * 
- * TODO: Particle needs to have a drone movement model.. to decide if it can move as asked...
+ * A Particle represents a drone and its possible movements. All movement behaviours are created
+ * assuming the body frame of the particle. Thus, invoking {@link #moveRight(double, double)
+ * moveRight} method will move the Particle to its right size.
+ *
+ * <p>X--C--X C = front facing camera, X = propeller | | X-----X
+ *
+ * <p>TODO: Particle needs to have a drone movement model.. to decide if it can move as asked...
+ *
  * @author Mario h.c.t.
- * 
  */
 public class Particle {
 	private List<FiniteTrajectory4d> movementParts;
 	private Point4D current;
-	private static double YAW = -Math.PI/2;
-	
+	private static double YAW = -Math.PI / 2;
+	private static final Random RANDOM_GENERATOR = new Random(123);
+	  
 	public Particle(Pose initial) {
 		this.current = Point4D.from(initial);
 		movementParts = new ArrayList<>();
 	}
 
 	
-	public void moveCircle(Point4D center, boolean clockwise, double duration) {
-		moveCircle(center, clockwise, duration, 0, 0);
+	public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration) {
+		moveHorizontalCircle(center, clockwise, duration, 0, 0);
 	}
 
 	
-	public void moveCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
+	public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
 		double frequency;
 		if (clockwise) {
 			frequency = 0.1;
@@ -149,7 +151,44 @@ public class Particle {
 		moveToPointWithVelocity(middlePoint, velocity);
 		moveToPointWithVelocity(destination, velocity);
 	}
+	public void moveTowardPointAndStopRandomlyBeforeReachingPoint(
+		      Point4D destination,
+		      double stoppingDistanceToDestinationLowerBound,
+		      double stoppingDistanceToDestinationUpperBound,
+		      double duration) {
+		checkArgument(
+		        stoppingDistanceToDestinationLowerBound >= 0,
+		        "stopping distance must be greater than zero to ensure that the drone never more further than the destination");
+		checkArgument(
+				stoppingDistanceToDestinationUpperBound >= 0,
+				"stopping distance must be greater than zero to ensure that the drone never more further than the destination");
+		checkArgument(
+				stoppingDistanceToDestinationUpperBound >= stoppingDistanceToDestinationLowerBound);
 	
+		final double stoppingDistanceToDestination =
+			stoppingDistanceToDestinationLowerBound
+	        + (stoppingDistanceToDestinationUpperBound - stoppingDistanceToDestinationLowerBound)
+	            * RANDOM_GENERATOR.nextDouble();
+	
+		final Point3D lineVector =
+			Point3D.minus(Point3D.project(destination), Point3D.project(current));
+		final double normValueOfLineVector = lineVector.norm();
+		final Point3D normVector = Point3D.scale(lineVector, 1 / normValueOfLineVector);
+		final Point3D stoppingPoint =
+			Point3D.minus(
+	        Point3D.project(destination), Point3D.scale(normVector, stoppingDistanceToDestination));
+		moveToPoint(Point4D.from(stoppingPoint, destination.getAngle()), duration);
+	 }
+
+	public void moveTowardPointAndStopRandomlyWithInRange(Point4D destination, double range,
+			double duration) {
+		final double rangeX = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
+		final double rangeY = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
+		final double rangeZ = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
+		final Point4D stoppingPosition = Point4D.create(destination.getX() + rangeX, destination.getY() + rangeY, destination.getZ() + rangeZ, destination.getAngle());
+		moveToPoint(stoppingPosition, duration);
+	}
+		  
 	public void moveAway(Point4D center, double distance, double duration) {
 		double dx = current.getX() - center.getX();
 		double dy = current.getY() - center.getY();
@@ -260,3 +299,5 @@ public class Particle {
 		
 	}
 }
+
+  
