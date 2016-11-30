@@ -9,6 +9,7 @@ import java.util.Random;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.CircleTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.Trajectory4d;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.WiggleTrajectory;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.ZigZagTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
@@ -17,6 +18,7 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.VerticalMovementDecorator;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.SineVerticalDecorator;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.SpiralDecorator;
 
@@ -36,13 +38,13 @@ public class Particle {
 	private Point4D current;
 	private static double YAW = -Math.PI / 2;
 	private static final Random RANDOM_GENERATOR = new Random(123);
-	  
+
 	public Particle(Pose initial) {
 		this.current = Point4D.from(initial);
 		movementParts = new ArrayList<>();
 	}
 
-	
+
 	public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration) {
 		moveHorizontalCircle(center, clockwise, duration, 0, 0, false);
 	}
@@ -51,7 +53,7 @@ public class Particle {
 		moveHorizontalCircle(center, clockwise, duration, waveHeight, openingRate, false);
 	}
 
-	
+
 	private void moveHorizontalCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate, boolean corkscrew) {
 		double frequency;
 		if (clockwise) {
@@ -62,12 +64,12 @@ public class Particle {
 		double dx = current.getX() - center.getX();
 		double dy = current.getY() - center.getY();
 //		double dz = current.getZ() - center.getZ();
-		
+
 		double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
 		if (Math.abs(dy - 0.0) >= 0.00001 || Math.abs(dx - 0.0) >= 0.00001) {
 			double theta = Math.atan2(dy, dx);
 //			double gamma = Math.atan2(dz, distanceToCenter);
-			
+
 			FiniteTrajectory4d circle = TrajectoryComposite.builder().addTrajectory(
 					CircleTrajectory4D.builder()
 					.setLocation(Point3D.project(center))
@@ -88,7 +90,34 @@ public class Particle {
 			this.addMovement(new Hover(current, duration));
 		}
 	}
-	
+
+	public void moveVerticalCorkscrew(Point4D center, double circleFrequency, double height, double duration) {
+		final FiniteTrajectory4d horizontalCircle = TrajectoryComposite.builder()
+				.addTrajectory(createHorizontalCircleTrajectory(current, center, circleFrequency))
+				.withDuration(duration).build();
+		this.addMovement(VerticalMovementDecorator.create(horizontalCircle, (height - current.getZ()) / duration));
+	}
+
+	private static Trajectory4d createHorizontalCircleTrajectory(Point4D currentPoint, Point4D center, double frequency) {
+		double dx = currentPoint.getX() - center.getX();
+		double dy = currentPoint.getY() - center.getY();
+		double distanceToCenter = Math.sqrt(dx*dx+dy*dy);
+		if (Math.abs(dy - 0.0) >= 0.00001 || Math.abs(dx - 0.0) >= 0.00001) {
+			double theta = Math.atan2(dy, dx);
+//			double gamma = Math.atan2(dz, distanceToCenter);
+
+			return CircleTrajectory4D.builder()
+							.setLocation(Point3D.project(center))
+							.setPhase(theta)
+							.fixYawAt(YAW)
+							.setRadius(distanceToCenter)
+							.setFrequency(frequency)
+							.build();
+		} else {
+			throw new RuntimeException("Infeasible circle.");
+		}
+	}
+
 	public void moveDown(double distance, double duration) {
 		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, YAW);
 		moveToPoint(destination, duration);
@@ -98,7 +127,7 @@ public class Particle {
 		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() + distance, YAW);
 		moveToPoint(destination, duration);
 	}
-	
+
 	public void moveRight(double distance, double duration) {
 		Point4D destination = Point4D.create(current.getX()-distance, current.getY(), current.getZ(), YAW);
 		moveToPoint(destination, duration);
@@ -145,7 +174,7 @@ public class Particle {
 	public void hover(double duration) {
 		this.addMovement(new Hover(current, duration));
 	}
-	
+
 	public void moveTriangleToPoint(Point4D destination, double heightOfMiddlePoint, double velocity) {
 		final Point4D middlePoint =
 				Point4D.create(
@@ -170,12 +199,12 @@ public class Particle {
 				"stopping distance must be greater than zero to ensure that the drone never more further than the destination");
 		checkArgument(
 				stoppingDistanceToDestinationUpperBound >= stoppingDistanceToDestinationLowerBound);
-	
+
 		final double stoppingDistanceToDestination =
 			stoppingDistanceToDestinationLowerBound
 	        + (stoppingDistanceToDestinationUpperBound - stoppingDistanceToDestinationLowerBound)
 	            * RANDOM_GENERATOR.nextDouble();
-	
+
 		final Point3D lineVector =
 			Point3D.minus(Point3D.project(destination), Point3D.project(current));
 		final double normValueOfLineVector = lineVector.norm();
@@ -194,13 +223,13 @@ public class Particle {
 		final Point4D stoppingPosition = Point4D.create(destination.getX() + rangeX, destination.getY() + rangeY, destination.getZ() + rangeZ, destination.getAngle());
 		moveToPoint(stoppingPosition, duration);
 	}
-		  
+
 	public void moveAway(Point4D center, double distance, double duration) {
 		double dx = current.getX() - center.getX();
 		double dy = current.getY() - center.getY();
 		double dz = current.getZ() - center.getZ();
 		double modulus = Math.sqrt(dx*dx + dy*dy + dz*dz);
-		
+
 		double lambda = 0.0;
 		if (Math.abs(modulus - 0.0) >= 0.00001) {
 			lambda = (modulus + distance) / modulus;
@@ -213,29 +242,29 @@ public class Particle {
 		} else {
 			this.addMovement(new Hover(current, duration));
 		}
-		
+
 	}
 
 	public Point4D currentPoint() {
 		return current;
 	}
-	
+
 	private void addMovement(FiniteTrajectory4d trajectory) {
 		movementParts.add(trajectory);
 		current = Point4D.from(trajectory.getDesiredPosition(trajectory.getTrajectoryDuration()));
 	}
-	
+
 	//compose the trajectories
 	public FiniteTrajectory4d getTrajectory() {
 		Builder builder = TrajectoryComposite.builder();
 		for (FiniteTrajectory4d part: movementParts) {
 			builder.addTrajectory(part);
 		}
-		
+
 		return builder.build();
 	}
 
-	
+
 }
 
   
