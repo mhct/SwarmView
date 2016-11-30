@@ -70,8 +70,7 @@ public class Particle {
 					.build()).withDuration(duration).build();
 			if (waveHeight > 0.0) {
 				this.addMovement(new SineVerticalDecorator(circle, waveHeight));
-			} 
-			if (openingRate != 0.0) {
+			} else if (openingRate != 0.0) {
 				this.addMovement(new SpiralDecorator(circle, center, openingRate));
 			} else {
 				this.addMovement(circle);
@@ -81,7 +80,7 @@ public class Particle {
 			this.addMovement(new Hover(current, duration));
 		}
 	}
-
+	
 	public void moveDown(double distance, double duration) {
 		Point4D destination = Point4D.create(current.getX(), current.getY(), current.getZ() - distance, YAW);
 		moveToPoint(destination, duration);
