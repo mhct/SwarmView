@@ -107,7 +107,7 @@ public class Particle {
 //			double gamma = Math.atan2(dz, distanceToCenter);
 
 			return CircleTrajectory4D.builder()
-							.setLocation(Point3D.project(center))
+							.setLocation(Point3D.create(center.getX(), center.getY(), currentPoint.getZ()))
 							.setPhase(theta)
 							.fixYawAt(YAW)
 							.setRadius(distanceToCenter)
