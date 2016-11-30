@@ -38,7 +38,9 @@ public class DroneView {
 		double x = pose.x();
 		double y = pose.y();
 		double z = pose.z();
-		Sprite currentSprite = Sprite.create((float)x * 100.0f, -(float)y * 100.0f, (float)z * 100.0f, color);
+		double yaw = pose.yaw();
+		
+		Sprite currentSprite = Sprite.create((float)x * 100.0f, -(float)y * 100.0f, (float)z * 100.0f, (float) yaw, color);
 		
 		previousSprites[spriteIndex] = currentSprite;
 		if (spriteIndex + 1 == BUFFER_SIZE) {
@@ -77,21 +79,27 @@ public class DroneView {
 	}
 	
 	static class Sprite {
-		private float x, y, z;
+		private float x, y, z, yaw;
 		private int color;
 		
-		private Sprite(float x, float y, float z, int color) {
+		private Sprite(float x, float y, float z, float yaw, int color) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
+			this.yaw = yaw;
 			this.color = color;
 		}
 		
 		public void draw(PApplet canvas, float alfa, String spriteMsg) {
+			float xYaw = (float) Math.cos(yaw);
+			float yYaw = -1 * (float) Math.sin(yaw);
+			
 			canvas.pushMatrix();
 			canvas.noFill();
 			canvas.stroke(color, alfa);
 			canvas.translate(x, y, z);
+			canvas.line(0, 0, 0,  100*xYaw, 100*yYaw, 0);
+			
 			canvas.rotateX(-PApplet.PI/2);
 			if (!"".equals(spriteMsg)) {
 				canvas.textSize(26);
@@ -107,8 +115,8 @@ public class DroneView {
 			draw(canvas, alfa, "");
 		}
 		
-		public static Sprite create(float x, float y, float z, int color) {
-			return new Sprite(x, y, z, color);
+		public static Sprite create(float x, float y, float z, float yaw, int color) {
+			return new Sprite(x, y, z, yaw, color);
 		}
 	}
 }

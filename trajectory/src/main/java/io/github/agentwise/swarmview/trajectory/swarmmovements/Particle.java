@@ -6,6 +6,8 @@ import java.util.List;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.CircleTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.Hover;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.StraightLineTrajectory4D;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.WiggleTrajectory;
+import io.github.agentwise.swarmview.trajectory.applications.trajectory.ZigZagTrajectory4D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite.Builder;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
@@ -38,10 +40,11 @@ public class Particle {
 
 	
 	public void moveCircle(Point4D center, boolean clockwise, double duration) {
-		moveCircle(center, clockwise, duration, 0);
+		moveCircle(center, clockwise, duration, 0, 0);
 	}
+
 	
-	public void moveCircle(Point4D center, boolean clockwise, double duration, double waveHeight) {
+	public void moveCircle(Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
 		double frequency;
 		if (clockwise) {
 			frequency = 0.1;
@@ -65,8 +68,11 @@ public class Particle {
 					.setRadius(distanceToCenter)
 					.setFrequency(frequency)
 					.build()).withDuration(duration).build();
-			if (waveHeight > 0) {
+			if (waveHeight > 0.0) {
 				this.addMovement(new SineVerticalDecorator(circle, waveHeight));
+			} 
+			if (openingRate != 0.0) {
+				this.addMovement(new SpiralDecorator(circle, center, openingRate));
 			} else {
 				this.addMovement(circle);
 			}
@@ -108,6 +114,41 @@ public class Particle {
 
 	public void moveToPoint(Point4D destination, double duration) {
 		this.addMovement(StraightLineTrajectory4D.createWithCustomTravelDuration(current, destination, duration));
+	}
+
+	public void moveToPointWithVelocity(Point4D destination, double velocity) {
+		this.addMovement(StraightLineTrajectory4D.createWithCustomVelocity(current, destination, velocity));
+	}
+
+	public void moveZigZagToPoint(Point4D destination, double percentageVelocity) {
+		final int numberOfZigZags = (int) (Point3D.distance(Point3D.project(destination), Point3D.project(current)) / 0.25);
+		final double distanceOfZigZag = 5.0;
+		this.addMovement(new ZigZagTrajectory4D(current, destination, numberOfZigZags, distanceOfZigZag, percentageVelocity));
+	}
+
+	public void wiggle(int numberOfWiggles, double timeToStayAtEdge) {
+		this.addMovement(new WiggleTrajectory(currentPoint(), numberOfWiggles, timeToStayAtEdge));
+	}
+
+	public void rotateToAngle(double destinationAngle, double duration) {
+		final Point4D desiredPoint = Point4D.create(current.getX(), current.getY(), current.getZ(), destinationAngle);
+		this.addMovement(new Hover(desiredPoint, duration));
+	}
+
+	public void hover(double duration) {
+		this.addMovement(new Hover(current, duration));
+	}
+	
+	public void moveTriangleToPoint(Point4D destination, double heightOfMiddlePoint, double velocity) {
+		final Point4D middlePoint =
+				Point4D.create(
+						current.getX() + (destination.getX() - current.getX()) / 2,
+						current.getY() + (destination.getY() - current.getY()) / 2,
+						heightOfMiddlePoint,
+						current.getAngle() + (destination.getAngle() - current.getAngle()) / 2);
+
+		moveToPointWithVelocity(middlePoint, velocity);
+		moveToPointWithVelocity(destination, velocity);
 	}
 	
 	public void moveAway(Point4D center, double distance, double duration) {
@@ -173,6 +214,49 @@ public class Particle {
 		public SineVerticalDecorator(FiniteTrajectory4d component, double amplitude) {
 			this.component = component;
 			this.halfAmplitude = amplitude/2;
+		}
+		
+	}
+
+	static class SpiralDecorator implements FiniteTrajectory4d {
+		
+		private FiniteTrajectory4d component;
+		private double openingRate;
+		private Point4D center;
+				
+		@Override
+		public double getTrajectoryDuration() {
+			return component.getTrajectoryDuration();
+		}
+		
+		@Override
+		public Pose getDesiredPosition(double timeInSeconds) {
+			Pose tempPose = component.getDesiredPosition(timeInSeconds);
+			final double distance = openingRate * timeInSeconds;
+			
+			double dx = tempPose.x() - center.getX();
+			double dy = tempPose.y() - center.getY();
+			double dz = tempPose.z() - center.getZ();
+			double modulus = Math.sqrt(dx*dx + dy*dy + dz*dz);
+			
+			double lambda = 0.0;
+			if (Math.abs(modulus - 0.0) >= 0.00001) {
+				lambda = (modulus + distance) / modulus;
+				Point4D destination = Point4D.create(
+						center.getX() + (dx * lambda),
+						center.getY() + (dy * lambda),
+						center.getZ() + (dz * lambda),
+						YAW);
+				return destination.toPose();
+			} else {
+				return tempPose;
+			}
+		}
+		
+		public SpiralDecorator(FiniteTrajectory4d component, Point4D center, double openingRate) {
+			this.component = component;
+			this.center = center;
+			this.openingRate = openingRate;
 		}
 		
 	}

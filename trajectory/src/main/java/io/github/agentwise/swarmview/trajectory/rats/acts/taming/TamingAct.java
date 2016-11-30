@@ -20,7 +20,7 @@ import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import io.github.agentwise.swarmview.trajectory.rats.acts.interact.InterAct;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmScript;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.SwarmMovementsScript;
 
 public class TamingAct extends Act {
 
@@ -58,7 +58,7 @@ public class TamingAct extends Act {
 		// Perform the joint movements
 		//
 		Swarm swarm = Swarm.create(beginActConfiguration.finalPositionConfiguration());
-		swarm.setScript(new TamingSwarmScript(center1));
+		swarm.setSwarmMovementsScript(new TamingSwarmScript(center1));
 
 		//
 		// Move to final positions
@@ -69,8 +69,10 @@ public class TamingAct extends Act {
 		moveToFinalPositionMovement.put(Fievel, swarm.getFinalPose(Fievel));
 		moveToFinalPositionMovement.put(Dumbo, swarm.getFinalPose(Dumbo));
 		moveToFinalPositionMovement.put(Juliet, swarm.getFinalPose(Juliet));
+
+		List<DroneName> EndMovementOrder = Arrays.asList(Nerve, Romeo, Juliet, Dumbo, Fievel);
 		ActConfiguration goUpActConfiguration = ActConfiguration.createFromInitialFinalPositions(moveToFinalPositionMovement, act.finalPositions());
-		Act goToFinalPosition = InterAct.createWithSequentialMovement(goUpActConfiguration, 1.0);
+		Act goToFinalPosition = InterAct.createWithOrderedSequentialMovement(goUpActConfiguration, 1.0, EndMovementOrder);
 		
 		try {
 			for (DroneName drone: DroneName.values()) {
@@ -92,7 +94,7 @@ public class TamingAct extends Act {
 	 * @author Mario h.c.t.
 	 *
 	 */
-	private static class TamingSwarmScript implements SwarmScript {
+	private static class TamingSwarmScript implements SwarmMovementsScript {
 
 		private Point4D originCenter;
 		private static double YAW = -Math.PI/2;
@@ -102,12 +104,13 @@ public class TamingAct extends Act {
 		}
 		
 		@Override
-		public void script(Map<DroneName, Particle> drones) {
-			moveUpDown(drones);
-			moveAwayClose(drones);
+		public void setSwarmMovementsScript(Map<DroneName, Particle> drones) {
+//			moveUpDown(drones);
+//			moveAwayClose(drones);
 //			moveBack(drones);
-			moveTwoCircles(drones);
-			drones.values().forEach(drone -> drone.moveCircle(center2, true, 10, 2.3));
+//			moveTwoCircles(drones);
+//			drones.values().forEach(drone -> drone.moveCircle(originCenter, true, 20, 0, 0.00001));
+			moveSpiral(drones);
 		}
 		
 		private void moveBack(Map<DroneName, Particle> drones) {
@@ -120,6 +123,24 @@ public class TamingAct extends Act {
 			drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, 1, YAW), duration);
 		}
 		
+		private void moveSpiral(Map<DroneName, Particle> drones) {
+			double durationUp = 1;
+			double durationCircling = 40;
+			double spiralRate = -0.05;
+			double distanceAway = 1.0;
+			
+			drones.get(Fievel).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Nerve).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Dumbo).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Juliet).moveAway(originCenter, distanceAway, durationUp);
+			drones.get(Romeo).moveAway(originCenter, distanceAway, durationUp);
+			
+			drones.get(Fievel).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Nerve).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Dumbo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Juliet).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+			drones.get(Romeo).moveCircle(originCenter, false, durationCircling, 0, spiralRate);
+		}
 		private void moveTwoCircles(Map<DroneName, Particle> drones) {
 			double durationUp = 1;
 			double durationCircling = 15;
