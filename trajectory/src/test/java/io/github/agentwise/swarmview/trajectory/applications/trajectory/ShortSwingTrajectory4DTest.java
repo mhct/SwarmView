@@ -10,8 +10,11 @@ import java.util.List;
 
 import static io.github.agentwise.swarmview.trajectory.applications.trajectory.TestUtils
         .assertBounds;
+import static java.lang.StrictMath.atan;
+import static java.lang.StrictMath.cos;
 import static java.lang.StrictMath.max;
 import static java.lang.StrictMath.min;
+import static java.lang.StrictMath.sqrt;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -23,7 +26,7 @@ public class ShortSwingTrajectory4DTest {
     private Point4D begin = Point4D.create(2, -2, 4, -3);
     private Point3D end = Point3D.create(2.5, -4, 4);
     private double height = 0.5;
-    private double frequency = 1 / 3d;
+    private double frequency = 1 / 30d;
 
     @Before
     public void setUp() {
@@ -76,15 +79,18 @@ public class ShortSwingTrajectory4DTest {
 
     @Test
     public void getSimpleSwingOriginFromPointsAndHeight() throws Exception {
-        Point4D begin = Point4D.create(2, 2, 4, -3);
-        Point3D end = Point3D.create(2, 4, 4);
+        double opHeight = 4;
+        Point4D begin = Point4D.create(2, 2, opHeight, -3);
+        Point3D end = Point3D.create(2, 4, opHeight);
         double height = 0.5;
-        double expectedR = 1.25d;
+        double expectedR = (sqrt(5) / 4d) / cos((Math.PI / 2) - atan(0.5d));
+        double phase = ShortSwingTrajectory4D.getInitialPhaseFromHeightAndDistance(2, height);
         Point4D origin =
-                ShortSwingTrajectory4D.getSimpleSwingOriginFromPointsAndHeight(begin, end, height);
+                ShortSwingTrajectory4D.getSimpleSwingOriginFromPointsAndHeight(begin, end, height,
+                        phase);
         assertEquals(2, origin.getX(), 0);
         assertEquals(3, origin.getY(), 0);
-        assertEquals(4.3, origin.getZ(), 0);
+        assertEquals(opHeight - height + expectedR, origin.getZ(), 0);
         assertEquals(-3, origin.getAngle(), 0);
     }
 
@@ -102,11 +108,37 @@ public class ShortSwingTrajectory4DTest {
     }
 
     @Test
+    public void getFirstPosition4() throws Exception {
+        Point4D begin = Point4D.create(2, 4, 4, -3);
+        Point3D end = Point3D.create(2, 2, 4);
+        double height = 0.5;
+        final Trajectory4d trajectory = ShortSwingTrajectory4D.create(begin, end, height, 0.1);
+
+        assertEquals(begin.getX(), trajectory.getDesiredPositionX(0), 0.0000001);
+        assertEquals(begin.getY(), trajectory.getDesiredPositionY(0), 0.0000001);
+        assertEquals(begin.getZ(), trajectory.getDesiredPositionZ(0), 0.0000001);
+        assertEquals(begin.getAngle(), trajectory.getDesiredAngleZ(0), 0.0000001);
+    }
+
+    @Test
     public void getFirstPosition2() throws Exception {
         Point4D begin = Point4D.create(0, 0, 0, 0);
         Point3D end = Point3D.create(4, 0, 0);
-        double height = 1.0;
-        final Trajectory4d trajectory = ShortSwingTrajectory4D.create(begin, end, height, 0.1);
+        double height = 2.0;
+        final Trajectory4d trajectory = ShortSwingTrajectory4D.create(begin, end, height, 0.01);
+
+        assertEquals(begin.getX(), trajectory.getDesiredPositionX(0), 0.0000001);
+        assertEquals(begin.getY(), trajectory.getDesiredPositionY(0), 0.0000001);
+        assertEquals(begin.getZ(), trajectory.getDesiredPositionZ(0), 0.0000001);
+        assertEquals(begin.getAngle(), trajectory.getDesiredAngleZ(0), 0.0000001);
+    }
+
+    @Test
+    public void getFirstPosition3() throws Exception {
+        Point4D begin = Point4D.create(4, 0, 0, 0);
+        Point3D end = Point3D.create(0, 0, 0);
+        double height = 2.0;
+        final Trajectory4d trajectory = ShortSwingTrajectory4D.create(begin, end, height, 0.01);
 
         assertEquals(begin.getX(), trajectory.getDesiredPositionX(0), 0.0000001);
         assertEquals(begin.getY(), trajectory.getDesiredPositionY(0), 0.0000001);

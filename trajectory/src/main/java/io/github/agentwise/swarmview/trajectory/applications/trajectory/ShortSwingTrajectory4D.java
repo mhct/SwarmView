@@ -5,7 +5,7 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.StrictMath.atan;
-import static java.lang.StrictMath.sin;
+import static java.lang.StrictMath.cos;
 
 /**
  * Swing trajectory in 3D space as a 4D trajectory.
@@ -21,48 +21,45 @@ public class ShortSwingTrajectory4D extends SwingTrajectory4D {
 
     public static ShortSwingTrajectory4D create(
             Point4D begin, Point3D end, double height, double frequency) {
-        Point4D origin = getSimpleSwingOriginFromPointsAndHeight(begin, end, height);
         double distance = Point3D.distance(Point3D.project(begin), end);
-        double radius = calculateRadiusFrom(distance, height);
 
         double phase = getInitialPhaseFromHeightAndDistance(distance, height);
-        Point4D normVector = Point4D.minus(Point4D.from(end, begin.getAngle()), begin);
+        double phi = phase / 2d;
+
+        Point4D normVector = getVectorNorm(begin, end);
+        Point4D origin = getSimpleSwingOriginFromPointsAndHeight(begin, end, height, phase);
+        double radius = origin.getZ() - begin.getZ() + height;
+
         double xzPlaneAngle = StrictMath.atan2(normVector.getY(), normVector.getX());
         return new ShortSwingTrajectory4D(origin, phase, xzPlaneAngle, radius, frequency);
     }
 
     public static Point4D getSimpleSwingOriginFromPointsAndHeight(
-            Point4D begin, Point3D end, double height) {
+            Point4D begin, Point3D end, double height, double phase) {
         checkArgument(
                 begin.getZ() == end.getZ(),
                 "Begin and end point should be equal in height for this to work.");
-        double distance = Point3D.distance(Point3D.project(begin), end);
-        //        checkArgument(
-        //                distance >= 2 * height,
-        //                "The distance should be longer than the double of the drop height.");
-        Point4D normVector = Point4D.minus(Point4D.from(end, begin.getAngle()), begin);
+        Point4D normVector = getVectorNorm(begin, end);
         Point4D center = begin
                 .plus(Point4D.from(Point3D.scale(Point3D.project(normVector), 1 / 2d)));
-        double radius = distance / 2 * sin(getInitialPhaseFromHeightAndDistance(distance, height));
+        double hypo_mid =
+                Point4D.distance(begin, center.minus(Point4D.create(0, 0, height, 0))) / 2;
+        double radius = getRadius(phase, hypo_mid);
         return center.plus(Point4D.create(0, 0, radius - height, 0));
     }
 
-    /**
-     * Used in short swing trajectory.
-     *
-     * @param distance
-     * @param height
-     * @return
-     */
-    public static double calculateRadiusFrom(double distance, double height) {
-        return distance / 2 * sin(getInitialPhaseFromHeightAndDistance(distance, height));
+    private static double getRadius(double phase, double hypo_mid) {
+        double alpha = (Math.PI / 2d) - (phase / 2d);
+        return hypo_mid / cos(alpha);
+    }
+
+    private static Point4D getVectorNorm(Point4D begin, Point3D end) {
+        return Point4D.minus(Point4D.from(end, begin.getAngle()), begin);
     }
 
     public static double getInitialPhaseFromHeightAndDistance(double distance, double height) {
         checkArgument(distance > 0 && height > 0, "Distance and Height should be positive");
-
-        return 2 * atan(2 * height / distance);
-
+        return 2 * atan(height / (distance / 2));
     }
 
     static ShortSwingBuilder ShortSwingBuilder() {
