@@ -173,12 +173,12 @@ public class Particle {
       Point4D destination,
       double stoppingDistanceToDestinationLowerBound,
       double stoppingDistanceToDestinationUpperBound,
-      double velocity) {
+      double duration) {
     checkArgument(
-        stoppingDistanceToDestinationLowerBound > 0,
+        stoppingDistanceToDestinationLowerBound >= 0,
         "stopping distance must be greater than zero to ensure that the drone never more further than the destination");
     checkArgument(
-        stoppingDistanceToDestinationUpperBound > 0,
+        stoppingDistanceToDestinationUpperBound >= 0,
         "stopping distance must be greater than zero to ensure that the drone never more further than the destination");
     checkArgument(
         stoppingDistanceToDestinationUpperBound >= stoppingDistanceToDestinationLowerBound);
@@ -195,7 +195,7 @@ public class Particle {
     final Point3D stoppingPoint =
         Point3D.minus(
             Point3D.project(destination), Point3D.scale(normVector, stoppingDistanceToDestination));
-    moveToPointWithVelocity(Point4D.from(stoppingPoint, destination.getAngle()), velocity);
+    moveToPointWithVelocity(Point4D.from(stoppingPoint, destination.getAngle()), Point3D.distance(Point3D.project(current), stoppingPoint) / duration);
   }
 
   public void moveAway(Point4D center, double distance, double duration) {
