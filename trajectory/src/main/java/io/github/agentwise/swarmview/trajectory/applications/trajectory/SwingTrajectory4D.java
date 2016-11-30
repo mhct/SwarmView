@@ -22,15 +22,19 @@ class SwingTrajectory4D extends PeriodicTrajectory implements Trajectory4d {
             Point4D origin, double phase, double xzPlaneAngle, double radius, double frequency,
             boolean simpleSwing) {
         super(phase, origin, radius, frequency);
-        xFactor = StrictMath.cos(xzPlaneAngle);
-        yFactor = StrictMath.sin(xzPlaneAngle);
+        double tempXfact = StrictMath.cos(xzPlaneAngle);
+        double tempYfact = StrictMath.sin(xzPlaneAngle);
         PendulumTrajectory2D.Builder builder = PendulumTrajectory2D.builder()
                 .setRadius(radius)
                 .setFrequency(frequency)
                 .setOrigin(origin);
         if (simpleSwing) {
             builder.setPhase(phase);
+            tempYfact = -tempYfact;
+            tempXfact = -tempXfact;
         }
+        yFactor = tempYfact;
+        xFactor = tempXfact;
         this.swing = builder.build();
 
         //keep constant yaw: use ConstantVelocityAngularTrajectory1D(0, 0)
