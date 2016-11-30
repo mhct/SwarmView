@@ -11,7 +11,7 @@ import io.github.agentwise.swarmview.trajectory.control.DroneName;
  * @author Mario h.c.t.
  *
  */
-public interface SwarmMovmentsScript {
+public interface SwarmMovementsScript {
 	/**
 	 * Defines the movements each drone in the swarm will do
 	 * 
