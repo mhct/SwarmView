@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class AttackAct extends Act {
 
-  private static final double WAIT_BEFORE_SINGLE_ATTACK = 1;
   private static final double YAW = -StrictMath.PI / 2;
 
   private AttackAct(ActConfiguration configuration) {
@@ -36,15 +35,15 @@ public class AttackAct extends Act {
     initialAttackPosition.put(DroneName.Nerve, Point4D.create(6, 1.5, 3.5, YAW));
     initialAttackPosition.put(DroneName.Fievel, Point4D.create(4, 3, 3.5, YAW));
     initialAttackPosition.put(DroneName.Dumbo, Point4D.create(1, 3, 3.5, YAW));
-    final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1, YAW);
+    final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1.7, YAW);
 
     final Swarm swarm = Swarm.create(configuration.initialPositionConfiguration());
     swarm.setSwarmMovementsScript(drones -> {
       drones.forEach((drone, particle) -> particle.moveToPointWithVelocity(initialAttackPosition.get(drone), 2));
 
       for (int i = 0; i < 10; i++) {
-      drones.values().forEach(particle -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(dancerPosition, 1.0, 1.5, 1.0));
-      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyWithInRange(initialAttackPosition.get(drone), 1, 1.5 ));
+      drones.values().forEach(particle -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(dancerPosition, 0.5, 1.0, 1.0, 1.5));
+      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(initialAttackPosition.get(drone), 0, 0.5, 1.0, 1.5));
 
       }
 
