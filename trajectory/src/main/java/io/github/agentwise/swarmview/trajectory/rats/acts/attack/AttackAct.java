@@ -43,7 +43,7 @@ public class AttackAct extends Act {
 
       for (int i = 0; i < 10; i++) {
       drones.values().forEach(particle -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(dancerPosition, 0.5, 1.0, 1.0, 1.5));
-      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(initialAttackPosition.get(drone), 0, 0.5, 1.0, 1.5));
+      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyWithInRange(initialAttackPosition.get(drone), 0.5, 1.5));
 
       }
 
