@@ -47,9 +47,9 @@ public class IntroductionAct extends Act {
 
 			startTime = fievel.getTrajectoryDuration() + TIME_BETWEEN_INTROS;
 
-			FiniteTrajectory4d romeo = TwinDrones.Romeo.createRomeoTrajectory(act.initialPosition(Romeo), act.finalPosition(Romeo), startTime);
+			FiniteTrajectory4d romeo = TwinDrones.createRomeoTrajectory(act.initialPosition(Romeo), act.finalPosition(Romeo), startTime);
 			act.addTrajectory(Romeo, romeo);
-			FiniteTrajectory4d juliet = TwinDrones.Juliet.createJulietTrajectory(act.initialPosition(Juliet), act.finalPosition(Juliet), startTime);
+			FiniteTrajectory4d juliet = TwinDrones.createJulietTrajectory(act.initialPosition(Juliet), act.finalPosition(Juliet), startTime);
 			act.addTrajectory(Juliet, juliet);
 
 			startTime = Math.max(romeo.getTrajectoryDuration(), juliet.getTrajectoryDuration()) + TIME_BETWEEN_INTROS;

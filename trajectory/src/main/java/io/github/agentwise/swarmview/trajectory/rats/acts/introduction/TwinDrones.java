@@ -1,159 +1,51 @@
 package io.github.agentwise.swarmview.trajectory.rats.acts.introduction;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.Trajectories;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.composites.TrajectoryComposite;
-import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.VerticalCircleDecorator;
 
-import org.slf4j.LoggerFactory;
+public final class TwinDrones {
+  private static final double YAW = -StrictMath.PI / 2;
 
-/**
- * @author Kristof Coninx (kristof.coninx AT cs.kuleuven.be)
- */
-public abstract class TwinDrones {
-    protected static final double orientation = -Math.PI / 2;
-    protected final double operatingHeight = 1.0;
-    protected final double endHeight = 1.5;
-    protected final Point3D circleCenterPoint = Point3D.create(4, 2.5, operatingHeight);
-    protected final double waitAtStation = 1.5;
-    protected final double frequency = 0.45 / 2.32d; // ~max velocity achieved with f ~= 1/2.12 ~= 0.47
-    protected final double revolutions = 3.5;
-    protected final double circleTiming = (1 / frequency) * revolutions;
-    protected final double circleRadius = 1.5;
-    protected final double enterVelocity = 1;
-    protected final double exitVelocity = 2;
+  private TwinDrones() {}
 
-    protected Point4D initPos;
-    protected Point4D finalPos;
+  public static FiniteTrajectory4d createRomeoTrajectory(
+      Pose initialPose, Pose finalPose, double startTime) {
+    final FiniteTrajectory4d commonTrajectory =
+        getCommonTrajectory(initialPose, finalPose, startTime);
+    return VerticalCircleDecorator.create(
+        commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, -0.5, 0, 0), startTime);
+  }
 
-    protected double startIntroAt;
+  public static FiniteTrajectory4d createJulietTrajectory(
+      Pose initialPose, Pose finalPose, double startTime) {
+    final FiniteTrajectory4d commonTrajectory =
+        getCommonTrajectory(initialPose, finalPose, startTime);
+    return VerticalCircleDecorator.create(
+        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, 0, 0, 0), startTime);
+  }
 
-    // TODO: These two trajectories rely on the fact that the 'first leg' have the same duration
-    //Kristof: yes they do... for symmetry it wouldn't look right if they didn't.
+  private static FiniteTrajectory4d getCommonTrajectory(
+      Pose initialPose, Pose finalPose, double startTime) {
+    final Particle drone = new Particle(initialPose);
 
-    TwinDrones(Pose initPos, Pose finalPos, double startTime) {
-        //TODO remove this when logback config file is available.
-        Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        root.setLevel(Level.INFO);
-
-        startIntroAt = Math.max(0.1, startTime);
-        this.initPos = Point4D.from(initPos);
-        this.finalPos = Point4D.from(finalPos);
-        System.out.println("TwinDrone will strat at " + startIntroAt);
+    if (startTime > 0) {
+      drone.hover(startTime);
     }
 
-    protected abstract FiniteTrajectory4d getTrajectory();
+    drone.moveToPointWithVelocity(Point4D.create(4, 2, 2, YAW), 2);
+    drone.moveVerticalCorkscrew(Point4D.create(4.5, 1.5, 2, YAW), 0.1, 3, 10);
+    drone.moveVerticalCorkscrew(Point4D.create(4.5, 1.5, 2, YAW), 0.1, 1.5, 10);
+    drone.moveToPointWithVelocity(Point4D.create(2, 2, 2, YAW), 2);
+    drone.moveVerticalCorkscrew(Point4D.create(2.5, 2.5, 2, YAW), 0.1, 3, 10);
+    drone.moveVerticalCorkscrew(Point4D.create(2.5, 2.5, 2, YAW), 0.1, 1.5, 10);
+    drone.moveToPointWithVelocity(Point4D.create(5.5, 4, 2, YAW), 2);
+    drone.moveVerticalCorkscrew(Point4D.create(6, 4.5, 2, YAW), 0.1, 3, 10);
+    drone.moveVerticalCorkscrew(Point4D.create(6, 4.5, 2, YAW), 0.1, 1.5, 10);
+    drone.moveToPointWithVelocity(Point4D.from(finalPose), 2);
 
-    public static FiniteTrajectory4d createRomeoTrajectory(Pose initPos, Pose finalPos,
-            double startTime) {
-        return new Romeo(initPos, finalPos, startTime).getTrajectory();
-    }
-
-    public static FiniteTrajectory4d createJulietTrajectory(Pose initPos, Pose finalPos,
-            double startTime) {
-        return new Juliet(initPos, finalPos, startTime).getTrajectory();
-    }
-
-    public static class Romeo extends TwinDrones {
-
-        Romeo(Pose initPos, Pose finalPos, double startTime) {
-            super(initPos, finalPos, startTime);
-        }
-
-        private final Point4D wp1 = Point4D.create(5, 4, operatingHeight, orientation);
-        private final Point4D wp2 = Point4D.create(3, 4, operatingHeight, orientation);
-        private final double phaseToConnectStart = Math.PI;
-
-        @Override
-        protected FiniteTrajectory4d getTrajectory() {
-            FiniteTrajectory4d firstLeg = Trajectories
-                    .newStraightLineTrajectory(this.initPos, wp1, enterVelocity);
-            FiniteTrajectory4d lastLeg = Trajectories
-                    .newStraightLineTrajectory(wp2, this.finalPos, exitVelocity);
-
-            double height = 2.5;
-            Point3D dest = Point3D.plus(circleCenterPoint, Point3D.create(0, 0, height));
-            double vertSpeed = height / (circleTiming / 2);
-            double updatedPhase = phaseToConnectStart + (revolutions * Math.PI); // 2PI * revs/2
-
-            FiniteTrajectory4d corkscrewUp = Trajectories.corkscrewTrajectoryBuilder()
-                    .setOrigin(Point4D.from(circleCenterPoint, orientation)).setDestination(dest)
-                    .setSpeed(vertSpeed).setFrequency(-frequency)
-                    .setPhase(phaseToConnectStart).setRadius(circleRadius).build();
-            FiniteTrajectory4d corkscrewDown = Trajectories.corkscrewTrajectoryBuilder()
-                    .setOrigin(Point4D.from(dest, orientation)).setDestination(circleCenterPoint)
-                    .setSpeed(vertSpeed).setFrequency(frequency)
-                    .setPhase(updatedPhase).setRadius(circleRadius).build();
-
-            TrajectoryComposite choreo = TrajectoryComposite.builder()
-                    .addTrajectory(Trajectories.newHoldPositionTrajectory(this.initPos))
-                    .withDuration(startIntroAt)
-                    .addTrajectory(firstLeg)
-                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
-                    .withDuration(waitAtStation)
-                    .addTrajectory(corkscrewUp).withDuration(circleTiming / 2 + 2)
-                    .addTrajectory(corkscrewDown).withDuration(circleTiming / 2)
-                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .withDuration(waitAtStation).addTrajectory(lastLeg)
-                    .build();
-
-            LoggerFactory.getLogger(TwinDrones.class)
-                    .info("Trajecory for Romeo takes " + choreo.getTrajectoryDuration()
-                            + " seconds to perform fully.");
-            return choreo;
-        }
-    }
-
-    public static class Juliet extends TwinDrones {
-
-        Juliet(Pose initPos, Pose finalPos, double startTime) {
-            super(initPos, finalPos, startTime);
-        }
-
-        private final Point4D wp1 = Point4D.create(3, 4, operatingHeight, orientation);
-        private final Point4D wp2 = Point4D.create(5, 4, operatingHeight, orientation);
-        private final double phaseToConnectStart = 0;
-
-        @Override
-        protected FiniteTrajectory4d getTrajectory() {
-            FiniteTrajectory4d firstLeg = Trajectories
-                    .newStraightLineTrajectory(this.initPos, wp1, enterVelocity);
-            FiniteTrajectory4d lastLeg = Trajectories
-                    .newStraightLineTrajectory(wp2, this.finalPos, exitVelocity);
-
-            double height = 2;
-            Point3D dest = Point3D.plus(circleCenterPoint, Point3D.create(0, 0, height));
-            double vertSpeed = height / (circleTiming / 2);
-            double updatedPhase = phaseToConnectStart + (revolutions * Math.PI); // 2PI * revs/2
-
-            FiniteTrajectory4d corkscrewUp = Trajectories.corkscrewTrajectoryBuilder()
-                    .setOrigin(Point4D.from(circleCenterPoint, orientation)).setDestination(dest)
-                    .setSpeed(vertSpeed).setFrequency(-frequency)
-                    .setPhase(phaseToConnectStart).setRadius(circleRadius).build();
-            FiniteTrajectory4d corkscrewDown = Trajectories.corkscrewTrajectoryBuilder()
-                    .setOrigin(Point4D.from(dest, orientation)).setDestination(circleCenterPoint)
-                    .setSpeed(vertSpeed).setFrequency(frequency)
-                    .setPhase(updatedPhase).setRadius(circleRadius).build();
-
-            TrajectoryComposite choreo = TrajectoryComposite.builder()
-                    .addTrajectory(Trajectories.newHoldPositionTrajectory(this.initPos))
-                    .withDuration(startIntroAt).addTrajectory(firstLeg)
-                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp1))
-                    .withDuration(waitAtStation)
-                    .addTrajectory(corkscrewUp).withDuration(circleTiming / 2)
-                    .addTrajectory(corkscrewDown).withDuration(circleTiming / 2)
-                    .addTrajectory(Trajectories.newHoldPositionTrajectory(wp2))
-                    .withDuration(waitAtStation).addTrajectory(lastLeg)
-                    .build();
-
-            LoggerFactory.getLogger(TwinDrones.class)
-                    .info("Trajecory for Juliet takes " + choreo.getTrajectoryDuration()
-                            + " seconds to perform fully.");
-            return choreo;
-        }
-    }
+    return drone.getTrajectory();
+  }
 }
