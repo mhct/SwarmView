@@ -178,6 +178,57 @@ public class Particle {
         StraightLineTrajectory4D.createWithCustomVelocity(current, destination, velocity));
   }
 
+  public void moveNervouslyToPoint(
+      Point4D destination,
+      double deviationInX,
+      double deviationInY,
+      double deviationInYaw,
+      double zLowerBound,
+      double zUpperBound,
+      double deviationInZ,
+      double speed,
+      double speedDeviation,
+      int numberOfLines) {
+    final double moveStepInX = (destination.getX() - current.getX()) / numberOfLines;
+    final double moveStepInY = (destination.getY() - current.getY()) / numberOfLines;
+
+    double nextX = current.getX();
+    double nextY = current.getY();
+    for (int i = 0; i < numberOfLines / 2; i++) {
+      nextX += moveStepInX;
+      nextY += moveStepInY;
+      final Point4D upperEnd =
+          Point4D.create(nextX, nextY, zUpperBound, destination.getAngle())
+              .plus(
+                  Point4D.create(
+                      generateRandomNumber(-deviationInX, deviationInX),
+                      generateRandomNumber(-deviationInY, deviationInY),
+                      generateRandomNumber(-deviationInZ, 0),
+                      generateRandomNumber(-deviationInYaw, deviationInYaw)));
+      moveToPointWithVelocity(
+          upperEnd, speed + generateRandomNumber(-speedDeviation, speedDeviation));
+
+      nextX += moveStepInX;
+      nextY += moveStepInY;
+      final Point4D lowerEnd =
+          Point4D.create(nextX, nextY, zLowerBound, destination.getAngle())
+              .plus(
+                  Point4D.create(
+                      generateRandomNumber(-deviationInX, deviationInX),
+                      generateRandomNumber(-deviationInY, deviationInY),
+                      generateRandomNumber(0, deviationInZ),
+                      generateRandomNumber(-deviationInYaw, deviationInYaw)));
+      moveToPointWithVelocity(
+          lowerEnd, speed + generateRandomNumber(-speedDeviation, speedDeviation));
+    }
+
+    moveToPointWithVelocity(destination, speed);
+  }
+
+  private static double generateRandomNumber(double lowerBound, double upperBound) {
+    return lowerBound + (upperBound - lowerBound) * RANDOM_GENERATOR.nextDouble();
+  }
+
   public void moveZigZagToPoint(Point4D destination, double percentageVelocity) {
     final int numberOfZigZags =
         (int) (Point3D.distance(Point3D.project(destination), Point3D.project(current)) / 0.25);
@@ -223,10 +274,12 @@ public class Particle {
     checkArgument(
         stoppingDistanceToDestinationLowerBound >= 0,
         "stopping distance must be greater than zero to ensure that the drone never more further "
+            + ""
             + "than the destination");
     checkArgument(
         stoppingDistanceToDestinationUpperBound >= 0,
         "stopping distance must be greater than zero to ensure that the drone never more further "
+            + ""
             + "than the destination");
     checkArgument(
         stoppingDistanceToDestinationUpperBound >= stoppingDistanceToDestinationLowerBound);
