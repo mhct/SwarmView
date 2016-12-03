@@ -45,7 +45,7 @@ public class ChaosAct extends Act {
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(0, 3.5, 3, YAW), 1.0, 1.0);
 
           drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(0, 4, 2, YAW), 7.0);
-          drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(6, 4, 2, YAW), 7.0);
+          drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(5, 4, 2, YAW), 7.0);
           drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(1, 0, 3, YAW), 7.0);
 
           // TODO remove
