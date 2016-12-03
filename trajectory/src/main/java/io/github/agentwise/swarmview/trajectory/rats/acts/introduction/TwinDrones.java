@@ -16,7 +16,7 @@ public final class TwinDrones {
     final FiniteTrajectory4d commonTrajectory =
         getCommonTrajectory(initialPose, finalPose, startTime);
     return VerticalCircleDecorator.create(
-        commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, -0.5, 0, 0), startTime);
+        commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0), startTime);
   }
 
   public static FiniteTrajectory4d createJulietTrajectory(
@@ -24,7 +24,7 @@ public final class TwinDrones {
     final FiniteTrajectory4d commonTrajectory =
         getCommonTrajectory(initialPose, finalPose, startTime);
     return VerticalCircleDecorator.create(
-        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, 0, 0, 0), startTime);
+        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -0.5, 0, 0), startTime);
   }
 
   private static FiniteTrajectory4d getCommonTrajectory(
@@ -41,9 +41,9 @@ public final class TwinDrones {
     drone.moveToPointWithVelocity(Point4D.create(2, 2, 2, YAW), 2);
     drone.moveVerticalCorkscrew(Point4D.create(2.5, 2.5, 2, YAW), 0.1, 3, 10);
     drone.moveVerticalCorkscrew(Point4D.create(2.5, 2.5, 2, YAW), 0.1, 1.5, 10);
-    drone.moveToPointWithVelocity(Point4D.create(5.5, 4, 2, YAW), 2);
-    drone.moveVerticalCorkscrew(Point4D.create(6, 4.5, 2, YAW), 0.1, 3, 10);
-    drone.moveVerticalCorkscrew(Point4D.create(6, 4.5, 2, YAW), 0.1, 1.5, 10);
+    drone.moveToPointWithVelocity(Point4D.create(5.5, 3.3, 2, YAW), 2);
+    drone.moveVerticalCorkscrew(Point4D.create(6, 3.8, 2, YAW), 0.1, 1.5, 10);
+//    drone.moveVerticalCorkscrew(Point4D.create(6, 3.8, 2, YAW), 0.1, 1.5, 10);
     drone.moveToPointWithVelocity(Point4D.from(finalPose), 2);
 
     return drone.getTrajectory();
