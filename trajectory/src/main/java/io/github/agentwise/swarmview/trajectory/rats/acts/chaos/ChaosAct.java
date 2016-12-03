@@ -4,7 +4,11 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
+import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
+import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
+import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.VerticalCircleDecorator;
 
 public class ChaosAct extends Act {
   protected static final double YAW = -Math.PI / 2;
@@ -25,14 +29,54 @@ public class ChaosAct extends Act {
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(0, 0, 3.2, YAW), 0.3, 0.19, 1.0, 1.0, 3.5, 0.19, 1.5, 0.19, 10);
+                  Point4D.create(0, 0, 3.2, YAW), 0.3, 0.19, 1.0, 2.0, 3.5, 0.19, 1.5, 0.19, 5);
+          drones
+              .get(DroneName.Nerve)
+              .moveNervouslyToPoint(
+                  Point4D.create(6, 0, 3.2, YAW), 0.3, 0.19, 1.0, 2.0, 3.5, 0.19, 1.5, 0.19, 10);
 
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(6, 0, 3, YAW), 1.0, 1.5);
+          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(6, 3, 3, YAW), 1.0, 1.5);
 
           drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(0, 4, 2, YAW), 5.0);
+          drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(6, 4, 2, YAW), 5.0);
 
+          // TODO remove
           drones.values().forEach(drone -> drone.hover(1000));
         });
-    return Act.createWithSwarm(configuration, swarm);
+    final Act act = new Act(configuration);
+    act.addTrajectory(DroneName.Nerve, swarm.get(DroneName.Nerve));
+    act.addTrajectory(DroneName.Fievel, swarm.get(DroneName.Fievel));
+    act.addTrajectory(DroneName.Dumbo, swarm.get(DroneName.Dumbo));
+    act.addTrajectory(
+        DroneName.Romeo,
+        getRomeoTrajectory(configuration.initialPositionConfiguration().get(DroneName.Romeo)));
+    act.addTrajectory(
+        DroneName.Juliet,
+        getJulietTrajectory(configuration.initialPositionConfiguration().get(DroneName.Juliet)));
+    act.lockAndBuild();
+    return act;
+  }
+
+  private static FiniteTrajectory4d getCommonTrajectoryForRomeoAndJuliet(Pose initialPose) {
+    final Particle drone = new Particle(initialPose);
+    drone.moveToPoint(Point4D.create(3.5, 2.5, 2, YAW), 5);
+    drone.moveToPoint(Point4D.create(1.0, 1.0, 2, YAW), 5);
+
+    // TODO remove
+    drone.hover(1000);
+    return drone.getTrajectory();
+  }
+
+  private static FiniteTrajectory4d getRomeoTrajectory(Pose initialPose) {
+    final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
+    return VerticalCircleDecorator.create(
+        commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0), 0);
+  }
+
+  private static FiniteTrajectory4d getJulietTrajectory(Pose initialPose) {
+    final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
+    return VerticalCircleDecorator.create(
+        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -0.5, 0, 0), 0);
   }
 }
