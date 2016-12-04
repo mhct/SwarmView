@@ -136,9 +136,9 @@ public class RatsShow {
         		DroneName.Dumbo);
 
         choreo.addAct(introduction);
-        choreo.addAct(chaos);
-        choreo.addAct(attack);
-        choreo.addAct(taming);
+//        choreo.addAct(chaos);
+//        choreo.addAct(attack);
+//        choreo.addAct(taming);
 
         return choreo;
     }
