@@ -7,7 +7,6 @@ import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.poi
 import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
-import io.github.agentwise.swarmview.trajectory.swarmmovements.Particle;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.HorizontalCircleDecorator;
 
@@ -32,7 +31,7 @@ public class AttackAct extends Act {
    * @return
    */
   public static Act create(ActConfiguration configuration) {
-     final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
+    final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
     initialAttackPosition.put(DroneName.Juliet, Point4D.create(1, 0, 3.5, YAW));
     initialAttackPosition.put(DroneName.Romeo, Point4D.create(4, 0, 3.5, YAW));
     initialAttackPosition.put(DroneName.Nerve, Point4D.create(6, 1.5, 3.5, YAW));
@@ -40,26 +39,57 @@ public class AttackAct extends Act {
     initialAttackPosition.put(DroneName.Dumbo, Point4D.create(1, 3, 3.5, YAW));
     final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1.7, YAW);
 
-    final Map<DroneName, Double> durationToReachInitialAttackPosition = Maps.newHashMap();
+    final Swarm swarmInitialMove = Swarm.create(configuration.initialPositionConfiguration());
+    swarmInitialMove.setSwarmMovementsScript(
+        drones ->
+            drones.forEach(
+                (drone, particle) ->
+                    particle.moveToPointWithVelocity(initialAttackPosition.get(drone), 2)));
 
-    final Swarm swarm = Swarm.create(configuration.initialPositionConfiguration());
-    swarm.setSwarmMovementsScript(drones -> {
-      drones.forEach((drone, particle) -> particle.moveToPointWithVelocity(initialAttackPosition.get(drone), 2));
-      drones.forEach((drone, particle) -> durationToReachInitialAttackPosition.put(drone, particle.getTrajectory().getTrajectoryDuration()));
+    final Swarm swarmRawAttackMove = Swarm.create(swarmInitialMove.getFinalPoses());
+    swarmRawAttackMove.setSwarmMovementsScript(
+        drones -> {
+          for (int i = 0; i < 10; i++) {
+            drones
+                .values()
+                .forEach(
+                    particle ->
+                        particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(
+                            dancerPosition, 0.5, 1.0, 1.0, 1.5));
+            drones.forEach(
+                (drone, particle) ->
+                    particle.moveTowardPointAndStopRandomlyWithInRange(
+                        initialAttackPosition.get(drone), 0.5, 1.5));
+          }
+        });
 
-      for (int i = 0; i < 10; i++) {
-      drones.values().forEach(particle -> particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(dancerPosition, 0.5, 1.0, 1.0, 1.5));
-      drones.forEach((drone, particle) -> particle.moveTowardPointAndStopRandomlyWithInRange(initialAttackPosition.get(drone), 0.5, 1.5));
+    final Swarm swarmCircleAttackMove = Swarm.create(swarmInitialMove.getFinalPoses());
+    swarmCircleAttackMove.setSwarmMovementsScript(
+        drones ->
+            drones.forEach(
+                (drone, particle) ->
+                    particle.addMovement(
+                        HorizontalCircleDecorator.create(
+                            swarmRawAttackMove.get(drone), Point3D.project(dancerPosition), 0.1))));
 
-      }
+    final Swarm swarmMoveToFinalPosition = Swarm.create(swarmCircleAttackMove.getFinalPoses());
+    swarmMoveToFinalPosition.setSwarmMovementsScript(
+        drones ->
+            drones.forEach(
+                (drone, particle) ->
+                    particle.moveToPointWithVelocity(
+                        Point4D.from(configuration.finalPositionConfiguration().get(drone)), 2)));
 
-      drones.forEach((drone, particle) -> particle.moveToPointWithVelocity(Point4D.from(configuration.finalPositionConfiguration().get(drone)), 2));
-  });
+    final Swarm swarmEntireMove = Swarm.create(configuration.initialPositionConfiguration());
+    swarmEntireMove.setSwarmMovementsScript(
+        drones ->
+            drones.forEach(
+                (drone, particle) -> {
+                  particle.addMovement(swarmInitialMove.get(drone));
+                  particle.addMovement(swarmCircleAttackMove.get(drone));
+                  particle.addMovement(swarmMoveToFinalPosition.get(drone));
+                }));
 
-
-   final Act act = new Act(configuration);
-   swarm.getDroneNames().forEach(drone -> act.addTrajectory(drone, HorizontalCircleDecorator.create(swarm.get(drone), Point3D.project(dancerPosition), 0.1, durationToReachInitialAttackPosition.get(drone))));
-  act.lockAndBuild();
-  return act;
+    return Act.createWithSwarm(configuration, swarmEntireMove);
   }
 }
