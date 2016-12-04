@@ -342,7 +342,7 @@ public class Particle {
     return current;
   }
 
-  private void addMovement(FiniteTrajectory4d trajectory) {
+  public void addMovement(FiniteTrajectory4d trajectory) {
     movementParts.add(trajectory);
     current = Point4D.from(trajectory.getDesiredPosition(trajectory.getTrajectoryDuration()));
   }
