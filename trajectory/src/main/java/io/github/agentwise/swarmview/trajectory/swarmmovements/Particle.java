@@ -166,6 +166,29 @@ public class Particle {
     moveToPoint(destination, duration);
   }
   
+  public void moveForwardGoingHighInBetween(double distance, double startAscendingDistance, double heightDistance, double duration) {
+	  Point4D firstSegment =
+			  Point4D.create(current.getX(), current.getY() + startAscendingDistance, current.getZ(), YAW);
+	  Point4D secondSegment =
+			  Point4D.create(current.getX(), (current.getY() + (distance - 2*startAscendingDistance)), current.getZ() + heightDistance, YAW);
+	  Point4D thirdSegment =
+			  Point4D.create(current.getX(), (current.getY() + (distance - startAscendingDistance)), current.getZ(), YAW);
+	  Point4D fourthSegment =
+			  Point4D.create(current.getX(), (current.getY() + distance), current.getZ(), YAW);
+	  
+	  moveToPoint(firstSegment, duration/4);
+	  System.out.println(firstSegment);
+	  
+	  moveToPoint(secondSegment, duration/4);
+	  System.out.println(secondSegment);
+
+	  moveToPoint(thirdSegment, duration/4);
+	  System.out.println(thirdSegment);
+
+	  moveToPoint(fourthSegment, duration/4);
+	  System.out.println(fourthSegment);
+  }
+  
   public void moveBackward(double distance, double duration) {
     Point4D destination =
         Point4D.create(current.getX(), current.getY() - distance, current.getZ(), YAW);
