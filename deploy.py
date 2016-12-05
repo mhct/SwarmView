@@ -9,4 +9,4 @@ def execute_cmd(cmd):
 if __name__ == '__main__':
     execute_cmd('gradle clean')
     execute_cmd('gradle build -x test')
-    execute_cmd('scp -oProxyCommand="ssh -W %h:%p charmer" trajectory/build/libs/swarmview-trajectory-1.1.45.jar virt-controller@virtual-charmer1:/home/virt-controller')
+    execute_cmd('scp trajectory/build/libs/swarmview-trajectory-1.1.45.jar virt-controller@virtual-charmer1:/home/virt-controller')
