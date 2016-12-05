@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Maps;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
@@ -33,6 +34,12 @@ public class Swarm {
 	
 	public Pose getFinalPose(DroneName drone) {
 		return get(drone).getDesiredPosition(get(drone).getTrajectoryDuration()); //bad bad bad
+	}
+
+	public Map<DroneName, Pose> getFinalPoses() {
+		final Map<DroneName, Pose> finalPoses = Maps.newHashMap();
+		getDroneNames().forEach(droneName -> finalPoses.put(droneName, getFinalPose(droneName)));
+		return finalPoses;
 	}
 
 	public FiniteTrajectory4d get(DroneName drone) {

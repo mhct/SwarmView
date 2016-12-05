@@ -14,23 +14,6 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
   public NerveTrajectoryIntroduction(Pose initialPosition, Pose finalPosition, double start)
       throws Exception {
     final double yaw = -Math.PI / 2;
-    final double heigh1 = 1.8;
-    final double low1 = 0.8;
-    final double x1 = 6;
-    final double y1 = 3;
-    final double speed1 = 1.5;
-
-    final double heigh2 = 3.2;
-    final double low2 = 1.5;
-    final double x2 = 3.5;
-    final double y2 = 3.55;
-    final double speed2 = 1.5;
-
-    final double heigh3 = 3.5;
-    final double low3 = 1.0;
-    final double x3 = 2;
-    final double y3 = 0;
-    final double speed3 = 1.5;
 
     nerve = new Particle(initialPosition);
     if (start > 0) {
@@ -39,7 +22,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
     // PHASE 1
     nerve.moveToPointWithVelocity(Point4D.create(6, 3, 1.0, yaw), 1.5);
     nerve.moveNervouslyToPoint(
-        Point4D.create(3.5, 3.55, 3.2, yaw), 0.3, 0.19, 1.0, 0.8, 1.8, 0.19, 1.5, 0.19, 20);
+        Point4D.create(3.5, 3.55, 1.8, yaw), 0.3, 0.19, 1.0, 0.8, 1.8, 0.19, 1.5, 0.19, 20);
     // PHASE 2
     nerve.rotateToAngle(yaw + 0.17 * 5, 3);
     nerve.rotateToAngle(yaw + -0.17 * 5, 3);
