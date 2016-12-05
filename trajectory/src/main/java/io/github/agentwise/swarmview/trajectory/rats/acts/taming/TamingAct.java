@@ -116,7 +116,7 @@ public class TamingAct extends Act {
 			
 			drones.forEach((drone, particle) -> {
 				if (drone == Dumbo) {
-					particle.moveForward(distance - 2.6, durationForward/2);//
+					particle.moveForwardGoingHighInBetween(distance, 1.25, 1.5, durationForward);
 				} else {
 					particle.moveForward(distance, durationForward);
 				}
