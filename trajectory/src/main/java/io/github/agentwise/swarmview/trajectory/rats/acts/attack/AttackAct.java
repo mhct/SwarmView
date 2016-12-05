@@ -39,14 +39,14 @@ public class AttackAct extends Act {
     initialAttackPosition.put(DroneName.Dumbo, Point4D.create(1, 3, 3.5, YAW));
     final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1.7, YAW);
 
-    final Swarm swarmInitialMove = Swarm.create(configuration.initialPositionConfiguration());
-    swarmInitialMove.setSwarmMovementsScript(
+    final Swarm swarmMoveToAttackPosition = Swarm.create(configuration.initialPositionConfiguration());
+    swarmMoveToAttackPosition.setSwarmMovementsScript(
         drones ->
             drones.forEach(
                 (drone, particle) ->
                     particle.moveToPointWithVelocity(initialAttackPosition.get(drone), 2)));
 
-    final Swarm swarmRawAttackMove = Swarm.create(swarmInitialMove.getFinalPoses());
+    final Swarm swarmRawAttackMove = Swarm.create(swarmMoveToAttackPosition.getFinalPoses());
     swarmRawAttackMove.setSwarmMovementsScript(
         drones -> {
           for (int i = 0; i < 10; i++) {
@@ -63,7 +63,7 @@ public class AttackAct extends Act {
           }
         });
 
-    final Swarm swarmCircleAttackMove = Swarm.create(swarmInitialMove.getFinalPoses());
+    final Swarm swarmCircleAttackMove = Swarm.create(swarmMoveToAttackPosition.getFinalPoses());
     swarmCircleAttackMove.setSwarmMovementsScript(
         drones ->
             drones.forEach(
@@ -85,7 +85,7 @@ public class AttackAct extends Act {
         drones ->
             drones.forEach(
                 (drone, particle) -> {
-                  particle.addMovement(swarmInitialMove.get(drone));
+                  particle.addMovement(swarmMoveToAttackPosition.get(drone));
                   particle.addMovement(swarmCircleAttackMove.get(drone));
                   particle.addMovement(swarmMoveToFinalPosition.get(drone));
                 }));
