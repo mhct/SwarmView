@@ -55,19 +55,19 @@ public class RatsShow {
         List<DronePositionConfiguration> chaosPositions = new ArrayList<>();
         chaosPositions.add(DronePositionConfiguration
                 .create(DroneName.Nerve, introduction.finalPosition(DroneName.Nerve),
-                        Pose.create(5.7, 4.0, 2.0, 0.0)));
+                        Pose.create(5.7, 4.0, 2.0, YAW)));
         chaosPositions.add(DronePositionConfiguration
                 .create(DroneName.Romeo, introduction.finalPosition(DroneName.Romeo),
-                        Pose.create(3.5, 2.0, 1.0, 0.0)));
+                        Pose.create(3.5, 2.0, 1.0, YAW)));
         chaosPositions.add(DronePositionConfiguration
                 .create(DroneName.Juliet, introduction.finalPosition(DroneName.Juliet),
-                        Pose.create(1.0, 0.0, 2.5, 0.0)));
+                        Pose.create(1.0, 0.0, 2.5, YAW)));
         chaosPositions.add(DronePositionConfiguration
                 .create(DroneName.Fievel, introduction.finalPosition(DroneName.Fievel),
-                        Pose.create(2.0, 4.0, 2.0, 0.0)));
+                        Pose.create(2.0, 4.0, 2.0, YAW)));
         chaosPositions.add(DronePositionConfiguration
                 .create(DroneName.Dumbo, introduction.finalPosition(DroneName.Dumbo),
-                        Pose.create(1.5, 3.0, 1.0, 0.0)));
+                        Pose.create(1.5, 3.0, 1.0, YAW)));
         ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions);
         Act chaos = ChaosAct.create(chaosConfiguration);
         chaos.lockAndBuild();
