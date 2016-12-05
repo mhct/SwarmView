@@ -1,7 +1,10 @@
 /** */
 package io.github.agentwise.swarmview.trajectory.rats.acts.attack;
 
+import java.util.Map;
+
 import com.google.common.collect.Maps;
+
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.Act;
@@ -9,8 +12,6 @@ import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.HorizontalCircleDecorator;
-
-import java.util.Map;
 
 /**
  * Attack Act definition

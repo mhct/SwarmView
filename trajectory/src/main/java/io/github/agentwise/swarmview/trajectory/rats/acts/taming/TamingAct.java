@@ -41,8 +41,7 @@ public class TamingAct extends Act {
 
 		Swarm swarm = Swarm.create(configuration.initialPositionConfiguration());
 		swarm.setSwarmMovementsScript(new TamingSwarmScript(center1, act.finalPositions()));
-		swarm.getDroneNames().forEach(drone -> act.addTrajectory(drone, swarm.get(drone)));
-		
+		swarm.addDroneMovementsToAct(act);
 		return act;
 	}
 	

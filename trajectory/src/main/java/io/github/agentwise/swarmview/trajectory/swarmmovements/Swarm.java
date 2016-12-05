@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
+
+import io.github.agentwise.swarmview.trajectory.control.Act;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
@@ -57,6 +59,15 @@ public class Swarm {
 
 	public Set<DroneName> getDroneNames() {
 		return drones.keySet();
+	}
+
+	/**
+	 * Adds all drone movements to the act
+	 * 
+	 * @param act
+	 */
+	public void addDroneMovementsToAct(Act act) {
+		getDroneNames().forEach(drone -> act.addTrajectory(drone, get(drone)));
 	}
 
 }
