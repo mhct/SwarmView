@@ -165,7 +165,7 @@ public class Particle {
         Point4D.create(current.getX(), current.getY() + distance, current.getZ(), YAW);
     moveToPoint(destination, duration);
   }
-
+  
   public void moveBackward(double distance, double duration) {
     Point4D destination =
         Point4D.create(current.getX(), current.getY() - distance, current.getZ(), YAW);

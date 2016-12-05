@@ -68,6 +68,7 @@ public class TamingAct extends Act {
 			final double durationInwards = 3; 
 			final double outerCircleRadius = 1.8;
 			final double innerCircleRadius = 0.8;
+			final double durationSpiralingOut = 20;
 			final double spiralRate = 0.05;
 			final double durationSmallCircling = 10;
 			final double distanceUp = 1.3;
@@ -78,7 +79,7 @@ public class TamingAct extends Act {
 			moveAwayClose(drones);
 			moveToCirclePosition(drones, center1, innerCircleRadius, durationInwards);
 			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, durationSmallCircling)); //small circle around Jeana
-			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, duration, 0, spiralRate)); //ouwards spiral
+			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, durationSpiralingOut, 0, spiralRate)); //ouwards spiral
 			drones.values().forEach(particle -> particle.moveUp(distanceUp, duration));
 			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, durationLargeCircling)); //big circle high in the air
 
@@ -101,13 +102,26 @@ public class TamingAct extends Act {
 		}
 		
 		private void moveBack(Map<DroneName, Particle> drones) {
-			double duration = 2;
+			final double duration = 2;
+			final double height = 1.5;
+			final double distance = 4.5;
+			final double durationForward = 3;
 			
-			drones.get(Dumbo).moveToPoint(Point4D.create(3.5, 0, 1, YAW), duration);
-			drones.get(Fievel).moveToPoint(Point4D.create(1.5, 0, 1, YAW), duration);
-			drones.get(Romeo).moveToPoint(Point4D.create(4.5, 0, 1, YAW), duration);
-			drones.get(Juliet).moveToPoint(Point4D.create(2.5, 0, 1, YAW), duration);
-			drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, 1, YAW), duration);
+			
+			drones.get(Dumbo).moveToPoint(Point4D.create(3.5, 0, height, YAW), duration);
+			drones.get(Fievel).moveToPoint(Point4D.create(1.5, 0, height, YAW), duration);
+			drones.get(Romeo).moveToPoint(Point4D.create(4.5, 0, height, YAW), duration);
+			drones.get(Juliet).moveToPoint(Point4D.create(2.5, 0, height, YAW), duration);
+			drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, height, YAW), duration);
+			
+			drones.forEach((drone, particle) -> {
+				if (drone == Dumbo) {
+					particle.moveForward(distance - 2.6, durationForward/2);//
+				} else {
+					particle.moveForward(distance, durationForward);
+				}
+			});
+			
 		}
 		
 		
