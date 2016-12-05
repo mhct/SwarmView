@@ -66,6 +66,10 @@ public class Particle {
     } else {
       frequency = -0.1;
     }
+    
+    // calculates circle center, using the same heigh as the current heigh of the particle
+    Point3D tempCenter = Point3D.create(center.getX(), center.getY(), current.getZ());
+    
     double dx = current.getX() - center.getX();
     double dy = current.getY() - center.getY();
     //		double dz = current.getZ() - center.getZ();
@@ -79,7 +83,7 @@ public class Particle {
           TrajectoryComposite.builder()
               .addTrajectory(
                   CircleTrajectory4D.builder()
-                      .setLocation(Point3D.project(center))
+                      .setLocation(tempCenter)
                       .setPhase(theta)
                       .fixYawAt(YAW)
                       .setRadius(distanceToCenter)
