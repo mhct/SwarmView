@@ -38,7 +38,7 @@ public final class OTAttackAct {
     config = ActConfiguration.create("IntroAct", attackPositions);
   }
 
-  public static ChoreographyView createChaosChoreography() {
+  public static ChoreographyView createAttackChoreography() {
     final Act attackAct = AttackAct.create(config);
     attackAct.lockAndBuild();
 
