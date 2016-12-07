@@ -33,11 +33,11 @@ public class AttackAct extends Act {
    */
   public static Act create(ActConfiguration configuration) {
     final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
-    initialAttackPosition.put(DroneName.Juliet, Point4D.create(1, 0, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Romeo, Point4D.create(4, 0, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Nerve, Point4D.create(6, 1.5, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Fievel, Point4D.create(4, 3, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(1, 3, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Juliet, Point4D.create(2, 1.5, 3.0, YAW));
+    initialAttackPosition.put(DroneName.Romeo, Point4D.create(3.5, 0, 3.0, YAW));
+    initialAttackPosition.put(DroneName.Nerve, Point4D.create(5, 1.5, 3.0, YAW));
+    initialAttackPosition.put(DroneName.Fievel, Point4D.create(3.5, 3, 3.0, YAW));
+    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(2.45, 2.55, 3.0, YAW));
     final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1.7, YAW);
 
     final Swarm swarmMoveToAttackPosition = Swarm.create(configuration.initialPositionConfiguration());
@@ -56,7 +56,7 @@ public class AttackAct extends Act {
                 .forEach(
                     particle ->
                         particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(
-                            dancerPosition, 0.5, 1.0, 1.0, 1.5));
+                            dancerPosition, 0.5, 1.0, 1.5, 2.0));
             drones.forEach(
                 (drone, particle) ->
                     particle.moveTowardPointAndStopRandomlyWithInRange(
@@ -71,7 +71,7 @@ public class AttackAct extends Act {
                 (drone, particle) ->
                     particle.addMovement(
                         HorizontalCircleDecorator.create(
-                            swarmRawAttackMove.get(drone), Point3D.project(dancerPosition), 0.1))));
+                            swarmRawAttackMove.get(drone), Point3D.project(dancerPosition), 0.05))));
 
     final Swarm swarmMoveToFinalPosition = Swarm.create(swarmCircleAttackMove.getFinalPoses());
     swarmMoveToFinalPosition.setSwarmMovementsScript(
