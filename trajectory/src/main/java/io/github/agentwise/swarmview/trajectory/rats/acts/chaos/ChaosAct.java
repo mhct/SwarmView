@@ -58,7 +58,7 @@ public class ChaosAct extends Act {
 
           drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(0, 4, 2, YAW), 7.0);
           drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(5, 4, 2, YAW), 7.0);
-          drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(1, 3, 3, YAW), 7.0);
+          drones.get(DroneName.Dumbo).moveZigZagToPoint(Point4D.create(3, 3, 3, YAW), 7.0);
           drones
               .get(DroneName.Dumbo)
               .moveToPointWithVelocity(
