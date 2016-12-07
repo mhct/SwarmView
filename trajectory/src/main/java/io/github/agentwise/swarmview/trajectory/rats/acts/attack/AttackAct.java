@@ -32,11 +32,11 @@ public class AttackAct extends Act {
    */
   public static Act create(ActConfiguration configuration) {
     final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
-    initialAttackPosition.put(DroneName.Juliet, Point4D.create(2, 1.5, 3.0, YAW));
-    initialAttackPosition.put(DroneName.Romeo, Point4D.create(3.5, 0, 3.0, YAW));
-    initialAttackPosition.put(DroneName.Nerve, Point4D.create(5, 1.5, 3.0, YAW));
-    initialAttackPosition.put(DroneName.Fievel, Point4D.create(3.5, 3, 3.0, YAW));
-    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(2.45, 2.55, 3.0, YAW));
+    initialAttackPosition.put(DroneName.Juliet, Point4D.create(2, 1.5, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Romeo, Point4D.create(3.5, 0, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Nerve, Point4D.create(5, 1.5, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Fievel, Point4D.create(3.5, 3, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(4.55, 2.55, 3.5, YAW));
     final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1.7, YAW);
 
     final Swarm swarmMoveToAttackPosition =
@@ -62,7 +62,7 @@ public class AttackAct extends Act {
             drones.forEach(
                 (drone, particle) ->
                     particle.moveTowardPointAndStopRandomlyWithInRange(
-                        initialAttackPosition.get(drone), 0.5, 1.5));
+                        initialAttackPosition.get(drone), 0.25, 1.5));
           }
         });
 
