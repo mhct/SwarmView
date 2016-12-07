@@ -85,6 +85,6 @@ public class ChaosAct extends Act {
   private static FiniteTrajectory4d getJulietTrajectory(Pose initialPose) {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
     return VerticalCircleDecorator.create(
-        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -0.5, 0, 0), 0);
+        commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -1.0, 0, 0), 0);
   }
 }
