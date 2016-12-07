@@ -50,7 +50,7 @@ public class AttackAct extends Act {
     final Swarm swarmRawAttackMove = Swarm.create(swarmMoveToAttackPosition.getFinalPoses());
     swarmRawAttackMove.setSwarmMovementsScript(
         drones -> {
-          for (int i = 0; i < 10; i++) {
+          for (int i = 0; i < 12; i++) {
             drones.forEach(
                 (drone, particle) ->
                     particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(
