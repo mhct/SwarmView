@@ -68,7 +68,7 @@ public class TamingAct extends Act {
 			
 			final double duration = 1; 
 			final double durationInwards = 3; 
-			final double outerCircleRadius = 1.8;
+			final double outerCircleRadius = 1.6;
 			final double innerCircleRadius = 0.8;
 			final double durationSpiralingOut = 20;
 			final double spiralRate = 0.05;

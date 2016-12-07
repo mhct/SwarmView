@@ -105,18 +105,18 @@ public class RatsShow {
         //
         List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
         tamingPositions.add(DronePositionConfiguration
-                .create(DroneName.Nerve, attack.finalPosition(DroneName.Nerve),
+                .create(DroneName.Nerve, Pose.create(5, 3, 1, 0),
                         Pose.create(1.36, 1.0, 3.5, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(DroneName.Romeo, attack.finalPosition(DroneName.Romeo),
                         Pose.create(2.42, 2.0, 2.9, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(
-                        DroneName.Fievel, attack.finalPosition(DroneName.Juliet),
+                        DroneName.Fievel, Pose.create(1, 3, 1, 0.0),
                         Pose.create(3.48, 3.0, 2.3, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(
-                        DroneName.Juliet, attack.finalPosition(DroneName.Fievel),
+                        DroneName.Juliet, Pose.create(2, 0, 1, 0.0),
                         Pose.create(4.54, 4.0, 1.7, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(DroneName.Dumbo, attack.finalPosition(DroneName.Dumbo),
