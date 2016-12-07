@@ -79,7 +79,7 @@ public class RatsShow {
         attackPositions.add(DronePositionConfiguration
                 .create(
                         DroneName.Nerve, chaos.finalPosition(DroneName.Nerve),
-                        Pose.create(4.5, 1.0, 2.0, 0.0)));
+                        Pose.create(5, 3, 1, YAW)));
         attackPositions.add(DronePositionConfiguration
                 .create(
                         DroneName.Romeo, chaos.finalPosition(DroneName.Romeo),
@@ -87,11 +87,11 @@ public class RatsShow {
         attackPositions.add(DronePositionConfiguration
                 .create(
                         DroneName.Juliet, chaos.finalPosition(DroneName.Juliet),
-                        Pose.create(2.0, 3.55, 2.0, 0.0)));
+                        Pose.create(2, 0, 2, 0.0)));
         attackPositions.add(DronePositionConfiguration
                 .create(
                         DroneName.Fievel, chaos.finalPosition(DroneName.Fievel),
-                        Pose.create(5.0, 4, 2.5, 0.0)));
+                        Pose.create(1, 3, 1.5, 0.0)));
         attackPositions.add(DronePositionConfiguration
                 .create(
                         DroneName.Dumbo, chaos.finalPosition(DroneName.Dumbo),
@@ -105,18 +105,18 @@ public class RatsShow {
         //
         List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
         tamingPositions.add(DronePositionConfiguration
-                .create(DroneName.Nerve, Pose.create(5, 3, 1, 0),
+                .create(DroneName.Nerve, attack.finalPosition(DroneName.Nerve),
                         Pose.create(1.36, 1.0, 3.5, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(DroneName.Romeo, attack.finalPosition(DroneName.Romeo),
                         Pose.create(2.42, 2.0, 2.9, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(
-                        DroneName.Fievel, Pose.create(1, 3, 1, 0.0),
+                        DroneName.Fievel, attack.finalPosition(DroneName.Fievel),
                         Pose.create(3.48, 3.0, 2.3, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(
-                        DroneName.Juliet, Pose.create(2, 0, 1, 0.0),
+                        DroneName.Juliet, attack.finalPosition(DroneName.Juliet),
                         Pose.create(4.54, 4.0, 1.7, 0.0)));
         tamingPositions.add(DronePositionConfiguration
                 .create(DroneName.Dumbo, attack.finalPosition(DroneName.Dumbo),
@@ -135,9 +135,9 @@ public class RatsShow {
         		DroneName.Fievel,
         		DroneName.Dumbo);
 
-//        choreo.addAct(introduction);
+        choreo.addAct(introduction);
 //        choreo.addAct(chaos);
-//        choreo.addAct(attack);
+        choreo.addAct(attack);
         choreo.addAct(taming);
 
         return choreo;
