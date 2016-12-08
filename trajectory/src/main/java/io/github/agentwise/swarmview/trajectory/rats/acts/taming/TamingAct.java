@@ -68,15 +68,17 @@ public class TamingAct extends Act {
 			
 			final double duration = 1; 
 			final double durationInwards = 3; 
-			final double outerCircleRadius = 1.8;
-			final double innerCircleRadius = 0.8;
+			final double outerCircleRadius = 1.6;
+			final double innerCircleRadius = 1.5;
 			final double durationSpiralingOut = 20;
 			final double spiralRate = 0.05;
 			final double durationSmallCircling = 10;
-			final double distanceUp = 1.3;
+			final double distanceUp = 0.6;
 			final double durationLargeCircling = 20;
 			final double durationMoveToFinalPostions = 2;
 			final double durationMoveToLand = 10;
+			//waiting drones to go to initial positions...
+			drones.values().forEach(particle -> particle.hover(5));
 			
 			moveToCirclePosition(drones, center1, outerCircleRadius, duration);
 			moveAwayClose(drones);
@@ -124,6 +126,8 @@ public class TamingAct extends Act {
 			drones.get(Romeo).moveToPoint(Point4D.create(4.5, 0, height, YAW), duration);
 			drones.get(Juliet).moveToPoint(Point4D.create(2.5, 0, height, YAW), duration);
 			drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, height, YAW), duration);
+			
+			drones.values().forEach(drone -> drone.hover(1));
 			
 			drones.forEach((drone, particle) -> {
 				if (drone == Dumbo) {
