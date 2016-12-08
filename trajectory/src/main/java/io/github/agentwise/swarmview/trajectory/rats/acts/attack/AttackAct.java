@@ -1,10 +1,7 @@
 /** */
 package io.github.agentwise.swarmview.trajectory.rats.acts.attack;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
-
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point4D;
 import io.github.agentwise.swarmview.trajectory.control.Act;
@@ -12,6 +9,8 @@ import io.github.agentwise.swarmview.trajectory.control.ActConfiguration;
 import io.github.agentwise.swarmview.trajectory.control.DroneName;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.Swarm;
 import io.github.agentwise.swarmview.trajectory.swarmmovements.decorators.HorizontalCircleDecorator;
+
+import java.util.Map;
 
 /**
  * Attack Act definition
@@ -33,14 +32,15 @@ public class AttackAct extends Act {
    */
   public static Act create(ActConfiguration configuration) {
     final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
-    initialAttackPosition.put(DroneName.Juliet, Point4D.create(1, 0, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Romeo, Point4D.create(4, 0, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Nerve, Point4D.create(6, 1.5, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Fievel, Point4D.create(4, 3, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(1, 3, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Juliet, Point4D.create(2, 1.5, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Romeo, Point4D.create(3.5, 0, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Nerve, Point4D.create(5, 1.5, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Fievel, Point4D.create(3.5, 3, 3.5, YAW));
+    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(4.55, 2.55, 3.5, YAW));
     final Point4D dancerPosition = Point4D.create(3.5, 1.5, 1.7, YAW);
 
-    final Swarm swarmMoveToAttackPosition = Swarm.create(configuration.initialPositionConfiguration());
+    final Swarm swarmMoveToAttackPosition =
+        Swarm.create(configuration.initialPositionConfiguration());
     swarmMoveToAttackPosition.setSwarmMovementsScript(
         drones ->
             drones.forEach(
@@ -50,17 +50,19 @@ public class AttackAct extends Act {
     final Swarm swarmRawAttackMove = Swarm.create(swarmMoveToAttackPosition.getFinalPoses());
     swarmRawAttackMove.setSwarmMovementsScript(
         drones -> {
-          for (int i = 0; i < 10; i++) {
-            drones
-                .values()
-                .forEach(
-                    particle ->
-                        particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(
-                            dancerPosition, 0.5, 1.0, 1.0, 1.5));
+          for (int i = 0; i < 12; i++) {
+            drones.forEach(
+                (drone, particle) ->
+                    particle.moveTowardPointAndStopRandomlyBeforeReachingPoint(
+                        getAttackPoint(dancerPosition, initialAttackPosition.get(drone), 0.75),
+                        0.0,
+                        0.5,
+                        1.5,
+                        2.0));
             drones.forEach(
                 (drone, particle) ->
                     particle.moveTowardPointAndStopRandomlyWithInRange(
-                        initialAttackPosition.get(drone), 0.5, 1.5));
+                        initialAttackPosition.get(drone), 0.25, 1.5));
           }
         });
 
@@ -71,7 +73,9 @@ public class AttackAct extends Act {
                 (drone, particle) ->
                     particle.addMovement(
                         HorizontalCircleDecorator.create(
-                            swarmRawAttackMove.get(drone), Point3D.project(dancerPosition), 0.1))));
+                            swarmRawAttackMove.get(drone),
+                            Point3D.project(dancerPosition),
+                            0.05))));
 
     final Swarm swarmMoveToFinalPosition = Swarm.create(swarmCircleAttackMove.getFinalPoses());
     swarmMoveToFinalPosition.setSwarmMovementsScript(
@@ -92,5 +96,28 @@ public class AttackAct extends Act {
                 }));
 
     return Act.createWithSwarm(configuration, swarmEntireMove);
+  }
+
+  private static Point4D getAttackPoint(
+      Point4D dancerPosition, Point4D initialAttackPosition, double horizontalDistance) {
+    final double centerX = dancerPosition.getX();
+    final double centerY = dancerPosition.getY();
+    final double initialPosX = initialAttackPosition.getX();
+    final double initialPosY = initialAttackPosition.getY();
+
+    final Point3D lineVector =
+        Point3D.minus(
+            Point3D.create(centerX, centerY, 0), Point3D.create(initialPosX, initialPosY, 0));
+    final double normValueOfLineVector = lineVector.norm();
+    final Point3D normVector = Point3D.scale(lineVector, 1 / normValueOfLineVector);
+    final Point3D stoppingPoint =
+        Point3D.minus(
+            Point3D.create(centerX, centerY, 0), Point3D.scale(normVector, horizontalDistance));
+
+    return Point4D.create(
+        stoppingPoint.getX(),
+        stoppingPoint.getY(),
+        dancerPosition.getZ(),
+        initialAttackPosition.getAngle());
   }
 }
