@@ -21,125 +21,163 @@ import java.util.List;
  * @author Mario h.c.t.
  */
 public class RatsShow {
-  private static final double YAW =-StrictMath.PI/2;
+  private static final double YAW = -StrictMath.PI / 2;
 
-    public static ChoreographyView createChoreography() {
-        //
-        //Specification of initial drone positions for Introduction
-        //
-        List<DronePositionConfiguration> introPositions = new ArrayList<>();
-      introPositions.add(
-          DronePositionConfiguration.create(
-              DroneName.Nerve, Pose.create(6.7, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.0, YAW)));
-      introPositions.add(
-          DronePositionConfiguration.create(
-              DroneName.Romeo, Pose.create(0.0, 5.0, 1.0, YAW), Pose.create(6.0, 5.0, 1.0, YAW)));
-      introPositions.add(
-          DronePositionConfiguration.create(
-              DroneName.Juliet, Pose.create(0.0, 3.55, 1.0, YAW), Pose.create(6.7, 5.0, 1.0, YAW)));
-      introPositions.add(
-          DronePositionConfiguration.create(
-              DroneName.Fievel, Pose.create(0.0, 2.0, 1.0, YAW), Pose.create(3.5, 0.0, 1.5, YAW)));
-      introPositions.add(
-          DronePositionConfiguration.create(
-              DroneName.Dumbo, Pose.create(6.7, 1.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
-        ActConfiguration introConfiguration = ActConfiguration
-                .create("Introduction", introPositions);
+  private static final Act INTRODUCTION;
+  private static final Act CHAOS;
+  private static final Act ATTACK;
+  private static final Act TAMING;
 
-        Act introduction = IntroductionAct.create(introConfiguration);
-        introduction.lockAndBuild();
+  static {
+    //
+    //Specification of initial drone positions for Introduction
+    //
+    List<DronePositionConfiguration> introPositions = new ArrayList<>();
+    introPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Nerve, Pose.create(6.2, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.0, YAW)));
+    introPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Romeo, Pose.create(0.5, 5.0, 1.0, YAW), Pose.create(6.0, 5.0, 1.0, YAW)));
+    introPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Juliet, Pose.create(0.5, 3.55, 1.0, YAW), Pose.create(6.7, 5.0, 1.0, YAW)));
+    introPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Fievel, Pose.create(0.5, 2.0, 1.0, YAW), Pose.create(3.5, 0.0, 1.5, YAW)));
+    introPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Dumbo, Pose.create(6.2, 1.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
+    ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions);
 
-        //
-        //Specification of initial drone positions for Chaos
-        //
-        List<DronePositionConfiguration> chaosPositions = new ArrayList<>();
-        chaosPositions.add(DronePositionConfiguration
-                .create(DroneName.Nerve, introduction.finalPosition(DroneName.Nerve),
-                        Pose.create(5.7, 4.0, 2.0, YAW)));
-        chaosPositions.add(DronePositionConfiguration
-                .create(DroneName.Romeo, introduction.finalPosition(DroneName.Romeo),
-                        Pose.create(3.5, 2.0, 1.0, YAW)));
-        chaosPositions.add(DronePositionConfiguration
-                .create(DroneName.Juliet, introduction.finalPosition(DroneName.Juliet),
-                        Pose.create(1.0, 0.0, 2.5, YAW)));
-        chaosPositions.add(DronePositionConfiguration
-                .create(DroneName.Fievel, introduction.finalPosition(DroneName.Fievel),
-                        Pose.create(2.0, 4.0, 2.0, YAW)));
-        chaosPositions.add(DronePositionConfiguration
-                .create(DroneName.Dumbo, introduction.finalPosition(DroneName.Dumbo),
-                        Pose.create(1.5, 3.0, 1.0, YAW)));
-        ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions);
-        Act chaos = ChaosAct.create(chaosConfiguration);
-        chaos.lockAndBuild();
+    INTRODUCTION = IntroductionAct.create(introConfiguration);
+    INTRODUCTION.lockAndBuild();
 
-        //
-        //Specification of initial drone positions for Attack
-        //
-        List<DronePositionConfiguration> attackPositions = new ArrayList<>();
-        attackPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Nerve, chaos.finalPosition(DroneName.Nerve),
-                        Pose.create(5, 3, 1, YAW)));
-        attackPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Romeo, chaos.finalPosition(DroneName.Romeo),
-                        Pose.create(3.5, 1.0, 2.5, 0.0)));
-        attackPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Juliet, chaos.finalPosition(DroneName.Juliet),
-                        Pose.create(2, 0, 2, 0.0)));
-        attackPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Fievel, chaos.finalPosition(DroneName.Fievel),
-                        Pose.create(1, 3, 1.5, 0.0)));
-        attackPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Dumbo, chaos.finalPosition(DroneName.Dumbo),
-                        Pose.create(3.0, 4.1, 1.0, 0.0)));
-        ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions);
-        Act attack = AttackAct.create(attackConfiguration);
-        attack.lockAndBuild();
+    //
+    //Specification of initial drone positions for Chaos
+    //
+    List<DronePositionConfiguration> chaosPositions = new ArrayList<>();
+    chaosPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Nerve,
+            INTRODUCTION.finalPosition(DroneName.Nerve),
+            Pose.create(6.0, 2.0, 2.0, YAW)));
+    chaosPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Romeo,
+            INTRODUCTION.finalPosition(DroneName.Romeo),
+            Pose.create(3.5, 2.0, 1.0, YAW)));
+    chaosPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Juliet,
+            INTRODUCTION.finalPosition(DroneName.Juliet),
+            Pose.create(1.0, 0.0, 2.5, YAW)));
+    chaosPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Fievel,
+            INTRODUCTION.finalPosition(DroneName.Fievel),
+            Pose.create(2.0, 4.0, 2.0, YAW)));
+    chaosPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Dumbo,
+            INTRODUCTION.finalPosition(DroneName.Dumbo),
+            Pose.create(5.5, 4.0, 1.0, YAW)));
+    ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions);
+    CHAOS = ChaosAct.create(chaosConfiguration);
+    CHAOS.lockAndBuild();
 
-        //
-        //Specification of initial drone positions for Taming
-        //
-        List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
-        tamingPositions.add(DronePositionConfiguration
-                .create(DroneName.Nerve, attack.finalPosition(DroneName.Nerve),
-                        Pose.create(1.36, 1.0, 3.5, 0.0)));
-        tamingPositions.add(DronePositionConfiguration
-                .create(DroneName.Romeo, attack.finalPosition(DroneName.Romeo),
-                        Pose.create(2.42, 2.0, 2.9, 0.0)));
-        tamingPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Fievel, attack.finalPosition(DroneName.Fievel),
-                        Pose.create(3.48, 3.0, 2.3, 0.0)));
-        tamingPositions.add(DronePositionConfiguration
-                .create(
-                        DroneName.Juliet, attack.finalPosition(DroneName.Juliet),
-                        Pose.create(4.54, 4.0, 1.7, 0.0)));
-        tamingPositions.add(DronePositionConfiguration
-                .create(DroneName.Dumbo, attack.finalPosition(DroneName.Dumbo),
-                        Pose.create(5.6, 5.0, 1.0, 0.0)));
-        ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions);
-        Act taming = TamingAct.create(tamingConfiguration);
-        taming.lockAndBuild();
+    //
+    //Specification of initial drone positions for Attack
+    //
+    List<DronePositionConfiguration> attackPositions = new ArrayList<>();
+    attackPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Nerve,
+            CHAOS.finalPosition(DroneName.Nerve),
+            Pose.create(5.5, 3.0, 2.0, YAW)));
+    attackPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Romeo,
+            CHAOS.finalPosition(DroneName.Romeo),
+            Pose.create(5.0, 1.0, 2.0, YAW)));
+    attackPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Juliet,
+            CHAOS.finalPosition(DroneName.Juliet),
+            Pose.create(2.5, 1.0, 2.0, YAW)));
+    attackPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Fievel,
+            CHAOS.finalPosition(DroneName.Fievel),
+            Pose.create(2.0, 3, 2.0, YAW)));
+    attackPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Dumbo,
+            CHAOS.finalPosition(DroneName.Dumbo),
+            Pose.create(3.5, 4.1, 2.0, YAW)));
+    ActConfiguration attackConfiguration = ActConfiguration.create("Attack", attackPositions);
+    ATTACK = AttackAct.create(attackConfiguration);
+    ATTACK.lockAndBuild();
 
-        //
-        // Configures the whole TrajectoryComposite
-        //
-        final Choreography choreo = Choreography.create(
-        		DroneName.Nerve,
-        		DroneName.Romeo,
-        		DroneName.Juliet,
-        		DroneName.Fievel,
-        		DroneName.Dumbo);
+    //
+    //Specification of initial drone positions for Taming
+    //
+    List<DronePositionConfiguration> tamingPositions = new ArrayList<>();
+    tamingPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Nerve,
+            ATTACK.finalPosition(DroneName.Nerve),
+            Pose.create(1.36, 1.0, 3.5, 0.0)));
+    tamingPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Romeo,
+            ATTACK.finalPosition(DroneName.Romeo),
+            Pose.create(2.42, 2.0, 2.9, 0.0)));
+    tamingPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Fievel,
+            ATTACK.finalPosition(DroneName.Fievel),
+            Pose.create(3.48, 3.0, 2.3, 0.0)));
+    tamingPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Juliet,
+            ATTACK.finalPosition(DroneName.Juliet),
+            Pose.create(4.54, 4.0, 1.7, 0.0)));
+    tamingPositions.add(
+        DronePositionConfiguration.create(
+            DroneName.Dumbo,
+            ATTACK.finalPosition(DroneName.Dumbo),
+            Pose.create(5.6, 5.0, 1.0, 0.0)));
+    ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions);
+    TAMING = TamingAct.create(tamingConfiguration);
+    TAMING.lockAndBuild();
+  }
 
-//        choreo.addAct(introduction);
-//        choreo.addAct(chaos);
-//        choreo.addAct(attack);
-        choreo.addAct(taming);
+  public static ChoreographyView createChoreography() {
+    //
+    // Configures the whole TrajectoryComposite
+    //
+    final Choreography choreo =
+        Choreography.create(
+            DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel, DroneName.Dumbo);
 
-        return choreo;
-    }
+    choreo.addAct(INTRODUCTION);
+    choreo.addAct(CHAOS);
+    choreo.addAct(ATTACK);
+    choreo.addAct(TAMING);
+
+    return choreo;
+  }
+
+  public static Act getIntroduction() {
+    return INTRODUCTION;
+  }
+
+  public static Act getChaos() {
+    return CHAOS;
+  }
+
+  public static Act getTaming() {
+    return TAMING;
+  }
 }
