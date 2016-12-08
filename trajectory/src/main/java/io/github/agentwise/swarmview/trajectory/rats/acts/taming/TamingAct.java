@@ -120,22 +120,23 @@ public class TamingAct extends Act {
 			final double distance = 4.5;
 			final double durationForward = 3;
 			
-			
-			drones.get(Dumbo).moveToPoint(Point4D.create(3.5, 0, height, YAW), duration);
-			drones.get(Fievel).moveToPoint(Point4D.create(1.5, 0, height, YAW), duration);
-			drones.get(Romeo).moveToPoint(Point4D.create(4.5, 0, height, YAW), duration);
-			drones.get(Juliet).moveToPoint(Point4D.create(2.5, 0, height, YAW), duration);
-			drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, height, YAW), duration);
-			
-			drones.values().forEach(drone -> drone.hover(1));
-			
-			drones.forEach((drone, particle) -> {
-				if (drone == Dumbo) {
-					particle.moveForwardGoingHighInBetween(distance, 1.25, 1.5, durationForward);
-				} else {
-					particle.moveForward(distance, durationForward);
-				}
-			});
+			for (int i=0; i<4; i++) {
+				drones.get(Dumbo).moveToPoint(Point4D.create(3.5, 0, height, YAW), duration);
+				drones.get(Fievel).moveToPoint(Point4D.create(1.5, 0, height, YAW), duration);
+				drones.get(Romeo).moveToPoint(Point4D.create(4.5, 0, height, YAW), duration);
+				drones.get(Juliet).moveToPoint(Point4D.create(2.5, 0, height, YAW), duration);
+				drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0, height, YAW), duration);
+				
+				drones.values().forEach(drone -> drone.hover(3));
+				
+				drones.forEach((drone, particle) -> {
+					if (drone == Dumbo) {
+						particle.moveForwardGoingHighInBetween(distance, 1.25, 1.5, durationForward);
+					} else {
+						particle.moveForward(distance, durationForward);
+					}
+				});
+			}
 			
 		}
 		
