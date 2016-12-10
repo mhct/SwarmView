@@ -180,4 +180,8 @@ public class RatsShow {
   public static Act getTaming() {
     return TAMING;
   }
+  
+  public static Act getAttack() {
+	  return ATTACK;
+  }
 }
