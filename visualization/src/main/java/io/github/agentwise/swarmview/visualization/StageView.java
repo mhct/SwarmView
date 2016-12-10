@@ -10,9 +10,9 @@ public class StageView {
 	  private int stageDrawingInclinedPlaneX;
 	  private int stageDrawingInclinedPlaneZ;
 
-	private RatsView canvas;
+	private MultiDronesUI canvas;
 
-	public StageView(RatsView canvas, int stageWidth, int stageDepth, int stageHeight, int stageDrawingInclinedPlaneX, int stageDrawingInclinedPlaneZ) {
+	public StageView(MultiDronesUI canvas, int stageWidth, int stageDepth, int stageHeight, int stageDrawingInclinedPlaneX, int stageDrawingInclinedPlaneZ) {
 		this.canvas = canvas;
 		this.stageWidth = stageWidth;
 		this.stageDepth = stageDepth;

@@ -2,13 +2,11 @@ package io.github.agentwise.swarmview.visualization;
 
 import com.google.common.base.Preconditions;
 
-import io.github.agentwise.swarmview.trajectory.control.FiniteTrajectory4d;
 import io.github.agentwise.swarmview.trajectory.control.dto.Pose;
 import processing.core.PApplet;
 
-public class DroneView {
-	private final RatsView canvas;
-	private final FiniteTrajectory4d trajectory;
+abstract public class DroneView {
+	private final MultiDronesUI canvas;
 	private final int BUFFER_SIZE;
 	private final Sprite[] previousSprites;
 	private int spriteIndex = 0;
@@ -16,25 +14,26 @@ public class DroneView {
 	private int color;
 	private String name;
 	
-	DroneView(RatsView canvas, FiniteTrajectory4d trajectory, int color, int trailSize, String name) {
+	DroneView(MultiDronesUI canvas, int color, int trailSize, String name) {
 		Preconditions.checkNotNull(color);
 		Preconditions.checkArgument(trailSize >= 0 && trailSize <= 300);
 		
 		this.name = name;
 		this.canvas = canvas;
 
-		this.trajectory = trajectory;
 		this.color = color;
 		this.BUFFER_SIZE = trailSize;
 		this.previousSprites = new Sprite[BUFFER_SIZE];
 	}
 	
-	DroneView(RatsView canvas, FiniteTrajectory4d trajectory) {
-		this(canvas, trajectory, 255, 50, "");
+	DroneView(MultiDronesUI canvas) {
+		this(canvas, 255, 50, "");
 	}
+
+	abstract Pose getDesiredPosition(float timeStep);
 	
 	Pose displayNext(float timeStep) {
-		Pose pose = trajectory.getDesiredPosition(timeStep);
+		Pose pose = getDesiredPosition(timeStep);
 		double x = pose.x();
 		double y = pose.y();
 		double z = pose.z();

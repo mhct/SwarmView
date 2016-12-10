@@ -3,10 +3,10 @@ package io.github.agentwise.swarmview.visualization;
 import io.github.agentwise.swarmview.trajectory.applications.trajectory.geom.point.Point3D;
 
 public class CollisionView {
-	private final RatsView canvas;
+	private final MultiDronesUI canvas;
 	private final Point3D point;
 
-	public CollisionView(RatsView canvas, Point3D point) {
+	public CollisionView(MultiDronesUI canvas, Point3D point) {
 		this.canvas = canvas;
 		this.point = point;
 	}
