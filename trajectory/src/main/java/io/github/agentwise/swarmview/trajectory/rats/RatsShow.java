@@ -177,6 +177,10 @@ public class RatsShow {
     return CHAOS;
   }
 
+  public static Act getAttack() {
+    return ATTACK;
+  }
+
   public static Act getTaming() {
     return TAMING;
   }
