@@ -18,12 +18,12 @@ public class FievelIntroduction {
     if (start > 0) {
       fievel.hover(start);
     }
-    fievel.moveTriangleToPoint(Point4D.create(6, 1, 3, YAW), 1, 1);
-    fievel.moveTriangleToPoint(Point4D.create(2, 1, 3, YAW), 1, 1);
-    fievel.moveTriangleToPoint(Point4D.create(6, 3, 3, YAW), 1, 1);
+    fievel.moveTriangleToPoint(Point4D.create(5, 2, 3, YAW), 1, 1);
+    fievel.moveTriangleToPoint(Point4D.create(2, 2, 3, YAW), 1, 1);
+    fievel.moveTriangleToPoint(Point4D.create(5, 3, 3, YAW), 1, 1);
     fievel.moveTriangleToPoint(Point4D.create(1, 3, 3, YAW), 1, 1);
-    fievel.moveTriangleToPoint(Point4D.create(4.5, 1.8, 3, YAW), 1, 1);
-    fievel.moveTriangleToPoint(Point4D.create(0.5, 0.5, 3, YAW), 1, 1);
+    fievel.moveTriangleToPoint(Point4D.create(3.5, 1.8, 3, YAW), 1, 1);
+    fievel.moveTriangleToPoint(Point4D.create(0.5, 1.8, 3, YAW), 1, 1);
     fievel.moveTriangleToPoint(Point4D.from(finalPose), 1, 1);
   }
 
