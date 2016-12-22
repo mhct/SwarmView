@@ -20,7 +20,7 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
       nerve.hover(start);
     }
     // PHASE 1
-    nerve.moveToPointWithVelocity(Point4D.create(6, 3, 1.0, yaw), 1.5);
+    nerve.moveToPointWithVelocity(Point4D.create(5, 3, 1.0, yaw), 1.5);
     nerve.moveNervouslyToPoint(
         Point4D.create(3.5, 3.55, 1.8, yaw), 0.3, 0.19, 1.0, 0.5, 2.3, 0.19, 1.5, 0.19, 20);
     // PHASE 2
