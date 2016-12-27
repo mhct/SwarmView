@@ -33,7 +33,7 @@ import processing.event.MouseEvent;
  */
 abstract public class MultiDronesUI extends PApplet {
   private static final int STAGE_DEPTH = 530;
-  private static final int STAGE_WIDTH = 700;
+  private static final int STAGE_WIDTH = 600;
   private static final int STAGE_HEIGHT = 350; // Height, Depth, Width, given in centimeters
   private static final int STAGE_DRAWING_INCLINED_PLANE_X = 355;
   private static final int STAGE_DRAWING_INCLINED_PLANE_Z = 100;

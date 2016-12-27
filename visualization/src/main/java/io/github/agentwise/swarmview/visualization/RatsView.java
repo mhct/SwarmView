@@ -19,7 +19,7 @@ import processing.core.PApplet;
  * @author Mario h.c.t.
  *
  */
-public class RatsView extends MultiDronesUI {
+public class RatsView extends MultriDronesUI {
 
   public static void main(String[] args) {
     PApplet.main(RatsView.class);
