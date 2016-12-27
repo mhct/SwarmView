@@ -35,19 +35,19 @@ public class RatsShow {
     List<DronePositionConfiguration> introPositions = new ArrayList<>();
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Nerve, Pose.create(6.2, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.0, YAW)));
+            DroneName.Nerve, Pose.create(5.2, 5.0, 1.0, YAW), Pose.create(2.0, 0.0, 3.0, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Romeo, Pose.create(0.5, 5.0, 1.0, YAW), Pose.create(6.0, 5.0, 1.0, YAW)));
+            DroneName.Romeo, Pose.create(0.5, 5.0, 1.0, YAW), Pose.create(5.0, 5.0, 1.0, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Juliet, Pose.create(0.5, 3.55, 1.0, YAW), Pose.create(6.7, 5.0, 1.0, YAW)));
+            DroneName.Juliet, Pose.create(0.5, 3.55, 1.0, YAW), Pose.create(5.7, 5.0, 1.0, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
             DroneName.Fievel, Pose.create(0.5, 2.0, 1.0, YAW), Pose.create(3.5, 0.0, 1.5, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Dumbo, Pose.create(6.2, 1.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
+            DroneName.Dumbo, Pose.create(5.2, 1.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
     ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions);
 
     INTRODUCTION = IntroductionAct.create(introConfiguration);
@@ -61,7 +61,7 @@ public class RatsShow {
         DronePositionConfiguration.create(
             DroneName.Nerve,
             INTRODUCTION.finalPosition(DroneName.Nerve),
-            Pose.create(6.0, 2.0, 2.0, YAW)));
+            Pose.create(5.0, 2.0, 2.0, YAW)));
     chaosPositions.add(
         DronePositionConfiguration.create(
             DroneName.Romeo,
@@ -81,7 +81,7 @@ public class RatsShow {
         DronePositionConfiguration.create(
             DroneName.Dumbo,
             INTRODUCTION.finalPosition(DroneName.Dumbo),
-            Pose.create(5.5, 4.0, 1.0, YAW)));
+            Pose.create(4.5, 4.0, 1.0, YAW)));
     ActConfiguration chaosConfiguration = ActConfiguration.create("Chaos", chaosPositions);
     CHAOS = ChaosAct.create(chaosConfiguration);
     CHAOS.lockAndBuild();
@@ -161,10 +161,10 @@ public class RatsShow {
         Choreography.create(
             DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel, DroneName.Dumbo);
 
-    choreo.addAct(INTRODUCTION);
+//    choreo.addAct(INTRODUCTION);
     choreo.addAct(CHAOS);
-    choreo.addAct(ATTACK);
-    choreo.addAct(TAMING);
+//    choreo.addAct(ATTACK);
+//    choreo.addAct(TAMING);
 
     return choreo;
   }
@@ -175,6 +175,10 @@ public class RatsShow {
 
   public static Act getChaos() {
     return CHAOS;
+  }
+
+  public static Act getAttack() {
+    return ATTACK;
   }
 
   public static Act getTaming() {

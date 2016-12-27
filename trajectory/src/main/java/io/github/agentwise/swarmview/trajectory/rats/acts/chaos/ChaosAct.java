@@ -33,19 +33,19 @@ public class ChaosAct extends Act {
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(6, 0, 3.2, YAW), 0.3, 0.19, 1.0, 2.0, 3.5, 0.19, 1.5, 0.19, 10);
+                  Point4D.create(5, 0, 3.2, YAW), 0.3, 0.19, 1.0, 2.0, 3.5, 0.19, 1.5, 0.19, 10);
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(6, 4, 3.2, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.5, 0.19, 10);
+                  Point4D.create(5, 4, 3.2, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.5, 0.19, 10);
           drones
               .get(DroneName.Nerve)
               .moveToPointWithVelocity(
                   Point4D.from(configuration.finalPositionConfiguration().get(DroneName.Nerve)),
                   1.0);
 
-          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(6, 0, 3, YAW), 1.0, 1.0);
-          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(6, 3, 3, YAW), 1.0, 1.0);
+          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 0, 3, YAW), 1.0, 1.0);
+          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 3, 3, YAW), 1.0, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(3, 2, 3, YAW), 1.0, 1.0);
           drones
               .get(DroneName.Fievel)
@@ -90,7 +90,7 @@ public class ChaosAct extends Act {
     final Particle drone = new Particle(initialPose);
     drone.moveToPoint(Point4D.create(3.5, 2.5, 2, YAW), 5);
     drone.moveToPoint(Point4D.create(1.0, 1.0, 2, YAW), 5);
-    drone.moveToPoint(Point4D.create(6.0, 1.0, 2, YAW), 10);
+    drone.moveToPoint(Point4D.create(5.0, 1.0, 2, YAW), 10);
 
     // TODO remove
     //    drone.hover(1000);
