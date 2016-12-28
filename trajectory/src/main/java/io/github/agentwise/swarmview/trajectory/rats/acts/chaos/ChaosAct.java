@@ -44,7 +44,7 @@ public class ChaosAct extends Act {
                   Point4D.from(configuration.finalPositionConfiguration().get(DroneName.Nerve)),
                   1.0);
 
-          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 0, 3, YAW), 1.0, 1.0);
+          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 0, 3, YAW), 1.5, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 3, 3, YAW), 1.0, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(3, 2, 3, YAW), 1.0, 1.0);
           drones
@@ -88,9 +88,9 @@ public class ChaosAct extends Act {
 
   private static FiniteTrajectory4d getCommonTrajectoryForRomeoAndJuliet(Pose initialPose) {
     final Particle drone = new Particle(initialPose);
-    drone.moveToPoint(Point4D.create(3.5, 2.5, 2, YAW), 5);
-    drone.moveToPoint(Point4D.create(1.0, 1.0, 2, YAW), 5);
-    drone.moveToPoint(Point4D.create(5.0, 1.0, 2, YAW), 10);
+    drone.moveToPoint(Point4D.create(3.5, 2.5, 2.5, YAW), 5);
+    drone.moveToPoint(Point4D.create(1.0, 1.0, 2.5, YAW), 5);
+    drone.moveToPoint(Point4D.create(5.0, 1.0, 2.5, YAW), 10);
 
     // TODO remove
     //    drone.hover(1000);
