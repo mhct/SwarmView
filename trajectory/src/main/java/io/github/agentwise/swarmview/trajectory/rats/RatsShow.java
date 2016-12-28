@@ -162,9 +162,9 @@ public class RatsShow {
             DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel, DroneName.Dumbo);
 
 //    choreo.addAct(INTRODUCTION);
-    choreo.addAct(CHAOS);
+//    choreo.addAct(CHAOS);
 //    choreo.addAct(ATTACK);
-//    choreo.addAct(TAMING);
+    choreo.addAct(TAMING);
 
     return choreo;
   }
@@ -185,7 +185,4 @@ public class RatsShow {
     return TAMING;
   }
   
-  public static Act getAttack() {
-	  return ATTACK;
-  }
 }
