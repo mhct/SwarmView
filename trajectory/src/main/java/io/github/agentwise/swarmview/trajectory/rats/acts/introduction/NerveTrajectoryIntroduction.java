@@ -29,10 +29,10 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
     nerve.rotateToAngle(yaw + 0.17 * 3, 3);
     nerve.rotateToAngle(yaw + -0.17 * 3, 3);
     nerve.moveNervouslyToPoint(
-        Point4D.create(2, 0, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.0, 0.19, 1.5, 0.19, 20);
+        Point4D.create(2, 1, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.0, 0.19, 1.5, 0.19, 20);
     // PHASE 3
     nerve.moveNervouslyToPoint(
-        Point4D.create(2, 0, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.5, 0.19, 1.5, 0.19, 10);
+        Point4D.create(2, 1, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.5, 0.19, 1.5, 0.19, 10);
     nerve.moveToPointWithVelocity(
         Point4D.create(finalPosition.x(), finalPosition.y(), finalPosition.z(), yaw), 0.5);
   }
