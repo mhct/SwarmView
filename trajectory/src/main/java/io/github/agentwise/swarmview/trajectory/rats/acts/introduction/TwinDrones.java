@@ -35,10 +35,10 @@ public final class TwinDrones {
       drone.hover(startTime);
     }
 
-    drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 1);
-    drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 1);
-    drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 1);
-    drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 1);
+    drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 0.3);
+    drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 0.3);
+    drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 0.3);
+    drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 0.3);
 //    drone.moveVerticalCorkscrew(Point4D.create(4.0, 3.0, 2, YAW), 0.1, 3, 10);
 //    drone.moveVerticalCorkscrew(Point4D.create(4.0, 3.0, 2, YAW), 0.1, 1.5, 10);
 //    drone.moveToPointWithVelocity(Point4D.create(2, 2, 2, YAW), 1);
