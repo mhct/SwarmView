@@ -67,8 +67,8 @@ public class TamingAct extends Act {
 			final double duration = 1; 
 			final double durationInwards = 3; 
 			final double outerCircleRadius = 1.6;
-			final double innerCircleRadius = 1.6;
-			final double durationSpiralingOut = 15;
+			final double innerCircleRadius = 1.7;
+			final double durationSpiralingOut = 10;
 			final double spiralRate = 0.05;
 			final double durationSmallCircling = 10;
 			final double distanceUp = 0.6;
@@ -77,7 +77,7 @@ public class TamingAct extends Act {
 			final double durationMoveToLand = 10;
 			
 			double durationMoveBackwards = 1.2;
-			double distanceBackwards = 0.5;
+			double distanceBackwards = 0.2;
 
 			//waiting drones to go to initial positions...
 			drones.values().forEach(particle -> particle.hover(5));
@@ -116,21 +116,21 @@ public class TamingAct extends Act {
 		
 		private void moveBackAndForward(Map<DroneName, Particle> drones) {
 			final double duration = 2;
-			final double height = 1.5;
-			final double distance = 4.5;
+			final double height = 1.6;
+			final double distance = 3.7;
 			final double durationForward = 3;
 			
 			for (int i=0; i<4; i++) {
-				drones.get(Nerve).moveToPoint(Point4D.create(0, 0, height, YAW), duration);
-				drones.get(Romeo).moveToPoint(Point4D.create(1.5, 0, height, YAW), duration);
-				drones.get(Dumbo).moveToPoint(Point4D.create(3.0, 0, height, YAW), duration);
-				drones.get(Juliet).moveToPoint(Point4D.create(4.5, 0, height, YAW), duration);
-				drones.get(Fievel).moveToPoint(Point4D.create(6.0, 0, height, YAW), duration);
+				drones.get(Juliet).moveToPoint(Point4D.create(0, 0.5, height, YAW), duration);
+				drones.get(Fievel).moveToPoint(Point4D.create(1.5, 0.5, height, YAW), duration);
+				drones.get(Romeo).moveToPoint(Point4D.create(3.0, 0.5, height, YAW), duration);
+				drones.get(Dumbo).moveToPoint(Point4D.create(4.5, 0.5, height, YAW), duration);
+				drones.get(Nerve).moveToPoint(Point4D.create(6.0, 0.5, height, YAW), duration);
 				
 				drones.values().forEach(drone -> drone.hover(3));
 				
 				drones.forEach((drone, particle) -> {
-					if (drone == Dumbo) {
+					if (drone == Romeo) {
 						particle.moveForwardGoingHighInBetween(distance, 1.25, 1.5, durationForward);
 						particle.hover(5);
 
@@ -212,14 +212,14 @@ public class TamingAct extends Act {
 			double distanceAwayDumbo = 0.5;
 			double distanceAwayFievel = 1.5;
 			double distanceAwayNerve = 1.5;
-			double distanceAwayJuliet = 1.8;
-			double distanceAwayRomeo = 1.8;
+			double distanceAwayJuliet = 1.0;
+			double distanceAwayRomeo = 1.0;
 			
 			double distanceAwayDumboFinal = 0.5;
 			double distanceAwayFievelFinal = 1.5;
 			double distanceAwayNerveFinal = 1.5;
-			double distanceAwayJulietFinal = 1.8;
-			double distanceAwayRomeoFinal = 1.8;
+			double distanceAwayJulietFinal = 1.0;
+			double distanceAwayRomeoFinal = 1.0;
 			
 			for (int i=1; i<5; i++) {
 				double multiplier = 1;
