@@ -47,7 +47,7 @@ public final class TwinDrones {
 //    drone.moveToPointWithVelocity(Point4D.create(4.5, 3.3, 2, YAW), 1);
 //    drone.moveVerticalCorkscrew(Point4D.create(5, 3.8, 2, YAW), 0.1, 1.5, 10);
 //    drone.moveVerticalCorkscrew(Point4D.create(6, 3.8, 2, YAW), 0.1, 1.5, 10);
-    drone.moveToPointWithVelocity(Point4D.from(finalPose), 2);
+    drone.moveToPointWithVelocity(Point4D.from(finalPose), 0.3);
 
     return drone.getTrajectory();
   }
