@@ -20,19 +20,25 @@ public class NerveTrajectoryIntroduction implements FiniteTrajectory4d {
       nerve.hover(start);
     }
     // PHASE 1
-    nerve.moveToPointWithVelocity(Point4D.create(5, 3, 1.0, yaw), 1.5);
+    nerve.moveToPointWithVelocity(Point4D.create(5, 4, 1.0, yaw), 1.5);
     nerve.moveNervouslyToPoint(
-        Point4D.create(3.5, 3.55, 1.8, yaw), 0.3, 0.19, 1.0, 0.5, 2.3, 0.19, 1.5, 0.19, 20);
+        Point4D.create(5, 4, 1.0, yaw), 0.3, 0.19, 1.0, 0.5, 2.8, 0.19, 1.0, 0.19, 16);
+    nerve.hover(1);
+    nerve.moveToPointWithVelocity(Point4D.create(3.0, 3.55, 1.0, yaw), 1.0);
     // PHASE 2
-    nerve.rotateToAngle(yaw + 0.17 * 3, 3);
-    nerve.rotateToAngle(yaw + -0.17 * 3, 3);
-    nerve.rotateToAngle(yaw + 0.17 * 3, 3);
-    nerve.rotateToAngle(yaw + -0.17 * 3, 3);
     nerve.moveNervouslyToPoint(
-        Point4D.create(2, 1, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.0, 0.19, 1.5, 0.19, 20);
+        Point4D.create(3.0, 3.55, 2.0, yaw), 0.3, 0.19, 1.0, 0.5, 2.8, 0.19, 1.0, 0.19, 12);
+    nerve.hover(3);
+    nerve.rotateToAngle(yaw + 0.17 * 3, 3);
+    nerve.rotateToAngle(yaw + -0.17 * 3, 3);
+    nerve.rotateToAngle(yaw + 0.17 * 3, 3);
+    nerve.rotateToAngle(yaw + -0.17 * 3, 3);
+    nerve.moveToPointWithVelocity(Point4D.create(3.0, 3.55, 1.0, yaw), 1.0);
+    nerve.hover(1);
+    nerve.moveToPointWithVelocity(Point4D.create(2, 1, 1.0, yaw), 1.0);
     // PHASE 3
     nerve.moveNervouslyToPoint(
-        Point4D.create(2, 1, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.5, 0.19, 1.5, 0.19, 10);
+        Point4D.create(2, 1, 3.2, yaw), 0.3, 0.19, 1.0, 1.0, 3.5, 0.19, 1.5, 0.19, 8);
     nerve.moveToPointWithVelocity(
         Point4D.create(finalPosition.x(), finalPosition.y(), finalPosition.z(), yaw), 0.5);
   }
