@@ -62,7 +62,7 @@ public class ChaosAct extends Act {
 
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 1, 3, YAW), 1.5, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 4, 3, YAW), 1.0, 0.8);
-          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 3, 3, YAW), 1.0, 1.0);
+          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 4, 3, YAW), 1.0, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 1, 3, YAW), 1.0, 1.0);
 //          drones
 //              .get(DroneName.Fievel)
