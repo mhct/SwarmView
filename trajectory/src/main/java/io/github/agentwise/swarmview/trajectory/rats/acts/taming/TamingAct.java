@@ -98,13 +98,8 @@ public class TamingAct extends Act {
 			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, durationLargeCircling)); //big circle high in the air
 			
 			moveBackAndForward(drones);
-//			moveToCirclePosition(drones, center2, innerCircleRadius, durationMoveToFinalPostions);
-//			drones.values().forEach(particle -> particle.moveHorizontalCircle(center2, false, durationSmallCircling)); //small circle around Jeana
-//			drones.values().forEach(particle -> particle.moveDown(center2.getZ()-0.5, durationMoveToLand));
-
-//			drones.forEach((drone, particle) -> particle.moveToPoint(Point4D.from(finalPositions.get(drone)), durationMoveToFinalPostions)); // move to final positions
 			moveToDiagonalLine(drones, 2);
-//			moveToDiagonalLine(drones, 2);
+			moveToDiagonalLine(drones, 2);
 			
 			moveHorizontalLineZ(drones, 1.5);
 			moveHorizontalLineZ(drones, 1.5);
@@ -117,6 +112,7 @@ public class TamingAct extends Act {
 			drones.put(Romeo,  romeoParticle);
 			//end-hack to remove romeo movements
 		}
+		
 		
 		/**
 		 * @param drones
@@ -251,7 +247,7 @@ public class TamingAct extends Act {
 				drones.values().forEach(drone -> drone.hover(3));
 				
 				drones.forEach((drone, particle) -> {
-					if (drone == Nerve) {
+					if (drone == Dumbo || drone == Juliet) {
 						particle.moveForwardGoingHighInBetween(distanceForward, 1.25, 1.5, durationForward);
 						particle.hover(5);
 
@@ -283,9 +279,15 @@ public class TamingAct extends Act {
 			drones.get(Juliet).moveHorizontalCircle(center1, false, durationCircling, 0, spiralRate);
 //			drones.get(Romeo).moveHorizontalCircle(center1, false, durationCircling, 0, spiralRate);
 		}
-		private void moveTwoCircles(Map<DroneName, Particle> drones) {
+		private void moveEllipse(Map<DroneName, Particle> drones) {
 			double durationUp = 1;
 			double durationCircling = 15;
+			
+			double minX = 0;
+			double minY = 1;
+			
+			double a = 5.5;
+			double b = 4;
 			
 			drones.get(Fievel).moveUp(1.5, durationUp);
 			drones.get(Nerve).moveUp(1.5, durationUp);
