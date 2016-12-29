@@ -62,20 +62,20 @@ public class ChaosAct extends Act {
 
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 1, 3, YAW), 1.5, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 4, 3, YAW), 1.0, 0.8);
-          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(0, 3, 3, YAW), 1.0, 1.0);
+          drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 4, 3, YAW), 1.0, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 1, 3, YAW), 1.0, 1.0);
+//          drones
+//              .get(DroneName.Fievel)
+//              .moveTriangleToPoint(Point4D.create(0, 4.5, 2.5, YAW), 1.0, 1.0);
           drones
               .get(DroneName.Fievel)
-              .moveTriangleToPoint(Point4D.create(0, 4.5, 2.5, YAW), 1.0, 1.0);
+              .moveTriangleToPoint(Point4D.create(0.5, 1.0, 3.5, YAW), 1.0, 0.8);
           drones
               .get(DroneName.Fievel)
-              .moveTriangleToPoint(Point4D.create(0, 1.0, 3.5, YAW), 1.0, 1.0);
+              .moveTriangleToPoint(Point4D.create(5, 1.0, 3.5, YAW), 1.0, 0.8);
           drones
               .get(DroneName.Fievel)
-              .moveTriangleToPoint(Point4D.create(6, 1.0, 3.5, YAW), 1.0, 1.3);
-          drones
-              .get(DroneName.Fievel)
-              .moveTriangleToPoint(Point4D.create(6, 4.5, 2.5, YAW), 1.0, 1.3);
+              .moveTriangleToPoint(Point4D.create(5.5, 4.5, 2.5, YAW), 1.0, 0.8);
           drones
               .get(DroneName.Fievel)
               .moveTriangleToPoint(
