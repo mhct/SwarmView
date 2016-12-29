@@ -31,13 +31,23 @@ public class AttackAct extends Act {
    * @return
    */
   public static Act create(ActConfiguration configuration) {
-    final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
-    initialAttackPosition.put(DroneName.Juliet, Point4D.create(2, 2.0, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Romeo, Point4D.create(3.5, 0.5, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Nerve, Point4D.create(5, 2.0, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Fievel, Point4D.create(3.5, 3.5, 3.5, YAW));
-    initialAttackPosition.put(DroneName.Dumbo, Point4D.create(4.55, 3.05, 3.5, YAW));
     final Point4D dancerPosition = Point4D.create(3.5, 2.0, 1.0, YAW);
+    final Map<DroneName, Point4D> initialAttackPosition = Maps.newHashMap();
+    initialAttackPosition.put(
+        DroneName.Romeo,
+        Point4D.create(dancerPosition.getX(), dancerPosition.getY() - 1.5, 3.5, YAW));
+    initialAttackPosition.put(
+        DroneName.Juliet,
+        Point4D.create(dancerPosition.getX() - 1.4266, dancerPosition.getY() - 0.4635, 3.5, YAW));
+    initialAttackPosition.put(
+        DroneName.Fievel,
+        Point4D.create(dancerPosition.getX() - 0.8817, dancerPosition.getY() + 1.2135, 3.5, YAW));
+    initialAttackPosition.put(
+        DroneName.Dumbo,
+        Point4D.create(dancerPosition.getX() + 0.8817, dancerPosition.getY() + 1.2135, 3.5, YAW));
+    initialAttackPosition.put(
+        DroneName.Nerve,
+        Point4D.create(dancerPosition.getX() + 1.4266, dancerPosition.getY() - 0.4635, 3.5, YAW));
 
     final Swarm swarmMoveToAttackPosition =
         Swarm.create(configuration.initialPositionConfiguration());
