@@ -47,7 +47,7 @@ public class RatsShow {
             DroneName.Fievel, Pose.create(0.5, 5.0, 1.0, YAW), Pose.create(3.5, 1.0, 1.5, YAW)));
     introPositions.add(
         DronePositionConfiguration.create(
-            DroneName.Dumbo, Pose.create(5., 1.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
+            DroneName.Dumbo, Pose.create(5.0, 3.0, 1.0, YAW), Pose.create(4.0, 3.5, 2.5, YAW)));
     ActConfiguration introConfiguration = ActConfiguration.create("Introduction", introPositions);
 
     INTRODUCTION = IntroductionAct.create(introConfiguration);
