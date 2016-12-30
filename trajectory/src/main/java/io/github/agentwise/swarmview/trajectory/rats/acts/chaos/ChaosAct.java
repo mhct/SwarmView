@@ -118,7 +118,8 @@ public class ChaosAct extends Act {
     return act;
   }
 
-  private static FiniteTrajectory4d getCommonTrajectoryForRomeoAndJuliet(Pose initialPose) {
+  private static FiniteTrajectory4d getCommonTrajectoryForRomeoAndJuliet() {
+    final Pose initialPose = Pose.create(5, 4, 1.5, -StrictMath.PI / 2);
     final Particle drone = new Particle(initialPose);
     drone.moveToPoint(Point4D.create(3.5, 3.5, 2.5, YAW), 5);
     drone.moveToPoint(Point4D.create(1.0, 2.0, 2.5, YAW), 5);
@@ -132,21 +133,23 @@ public class ChaosAct extends Act {
   }
 
   private static FiniteTrajectory4d getRomeoTrajectory(Pose initialPose, Pose finalPose) {
-    final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
+    final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet();
     final FiniteTrajectory4d romeoCircleTrajectory =
         VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0));
-    final Particle romeoParticle = new Particle(romeoCircleTrajectory.getDesiredPosition(0));
+    final Particle romeoParticle = new Particle(initialPose);
+    romeoParticle.moveToPoint(Point4D.from(romeoCircleTrajectory.getDesiredPosition(0)), 2);
     romeoParticle.addMovement(romeoCircleTrajectory);
     romeoParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
     return romeoParticle.getTrajectory();
   }
 
   private static FiniteTrajectory4d getJulietTrajectory(Pose initialPose, Pose finalPose) {
-    final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
+    final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet();
     final FiniteTrajectory4d julietCircleTrajectory =
         VerticalCircleDecorator.create(
             commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -1.0, 0, 0));
-    final Particle julietParticle = new Particle(julietCircleTrajectory.getDesiredPosition(0));
+    final Particle julietParticle = new Particle(initialPose);
+    julietParticle.moveToPoint(Point4D.from(julietCircleTrajectory.getDesiredPosition(0)), 2);
     julietParticle.addMovement(julietCircleTrajectory);
     julietParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
     return julietParticle.getTrajectory();
