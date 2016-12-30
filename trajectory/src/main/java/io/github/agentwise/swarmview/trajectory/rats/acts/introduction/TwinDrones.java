@@ -19,15 +19,18 @@ public final class TwinDrones {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectory();
     final FiniteTrajectory4d decoratedTrajectory =
         VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0));
-    final Particle romeo = new Particle(initialPose);
-    romeo.moveToPointWithVelocity(Point4D.from(decoratedTrajectory.getDesiredPosition(0)), 0.5);
 
-    final double hoverTime = startTime - romeo.getTrajectory().getTrajectoryDuration();
+    final Particle dummy = new Particle(initialPose);
+    dummy.moveToPointWithVelocity(Point4D.from(decoratedTrajectory.getDesiredPosition(0)), 0.5);
+
+    final Particle romeo = new Particle(initialPose);
+    final double hoverTime = startTime - dummy.getTrajectory().getTrajectoryDuration();
     if (hoverTime > 0) {
       romeo.hover(hoverTime);
     }
-
+    romeo.moveToPointWithVelocity(Point4D.from(decoratedTrajectory.getDesiredPosition(0)), 0.5);
     romeo.addMovement(decoratedTrajectory);
+    romeo.moveToPointWithVelocity(Point4D.from(finalPose), 0.8);
     return romeo.getTrajectory();
   }
 
@@ -37,15 +40,18 @@ public final class TwinDrones {
     final FiniteTrajectory4d decoratedTrajectory =
         VerticalCircleDecorator.create(
             commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -1.0, 0, 0));
-    final Particle juliet = new Particle(initialPose);
-    juliet.moveToPointWithVelocity(Point4D.from(decoratedTrajectory.getDesiredPosition(0)), 0.5);
 
-    final double hoverTime = startTime - juliet.getTrajectory().getTrajectoryDuration();
+    final Particle dummy = new Particle(initialPose);
+    dummy.moveToPointWithVelocity(Point4D.from(decoratedTrajectory.getDesiredPosition(0)), 0.5);
+
+    final Particle juliet = new Particle(initialPose);
+    final double hoverTime = startTime - dummy.getTrajectory().getTrajectoryDuration();
     if (hoverTime > 0) {
       juliet.hover(hoverTime);
     }
-
+    juliet.moveToPointWithVelocity(Point4D.from(decoratedTrajectory.getDesiredPosition(0)), 0.5);
     juliet.addMovement(decoratedTrajectory);
+    juliet.moveToPointWithVelocity(Point4D.from(finalPose), 0.8);
     return juliet.getTrajectory();
   }
 
