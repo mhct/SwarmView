@@ -64,9 +64,9 @@ public class ChaosAct extends Act {
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(5, 4, 3, YAW), 1.0, 0.8);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 4, 3, YAW), 1.0, 1.0);
           drones.get(DroneName.Fievel).moveTriangleToPoint(Point4D.create(1, 1, 3, YAW), 1.0, 1.0);
-//          drones
-//              .get(DroneName.Fievel)
-//              .moveTriangleToPoint(Point4D.create(0, 4.5, 2.5, YAW), 1.0, 1.0);
+          //          drones
+          //              .get(DroneName.Fievel)
+          //              .moveTriangleToPoint(Point4D.create(0, 4.5, 2.5, YAW), 1.0, 1.0);
           drones
               .get(DroneName.Fievel)
               .moveTriangleToPoint(Point4D.create(0.5, 1.0, 3.5, YAW), 1.0, 0.8);
@@ -134,8 +134,7 @@ public class ChaosAct extends Act {
   private static FiniteTrajectory4d getRomeoTrajectory(Pose initialPose, Pose finalPose) {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
     final FiniteTrajectory4d romeoCircleTrajectory =
-        VerticalCircleDecorator.create(
-            commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0), 0);
+        VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0));
     final Particle romeoParticle = new Particle(romeoCircleTrajectory.getDesiredPosition(0));
     romeoParticle.addMovement(romeoCircleTrajectory);
     romeoParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
@@ -146,7 +145,7 @@ public class ChaosAct extends Act {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet(initialPose);
     final FiniteTrajectory4d julietCircleTrajectory =
         VerticalCircleDecorator.create(
-            commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -1.0, 0, 0), 0);
+            commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -1.0, 0, 0));
     final Particle julietParticle = new Particle(julietCircleTrajectory.getDesiredPosition(0));
     julietParticle.addMovement(julietCircleTrajectory);
     julietParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
