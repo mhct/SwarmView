@@ -150,11 +150,17 @@ public class TamingAct extends Act {
 			Point4D d = Point4D.create(minX + 3 * distX, minY + 3 * distY, maxZ - 3 * distZ, YAW); 
 			Point4D e = Point4D.create(minX + 4 * distX, minY + 4 * distY, maxZ - 4 * distZ, YAW); 
 			
-			drones.get(Dumbo).moveToPoint(a, duration);
-			drones.get(Nerve).moveToPoint(b, duration);
-			drones.get(Romeo).moveToPoint(c, duration);
-			drones.get(Juliet).moveToPoint(d, duration);
-			drones.get(Fievel).moveToPoint(e, duration);
+			DroneName droneA = Fievel;
+			DroneName droneB = Juliet;
+			DroneName droneC = Dumbo;
+			DroneName droneD = Romeo;
+			DroneName droneE = Nerve;
+			
+			drones.get(droneA).moveToPoint(a, duration);
+			drones.get(droneB).moveToPoint(b, duration);
+			drones.get(droneC).moveToPoint(c, duration);
+			drones.get(droneD).moveToPoint(d, duration);
+			drones.get(droneE).moveToPoint(e, duration);
 
 			drones.values().forEach(particle -> particle.hover(2));
 			
@@ -165,11 +171,11 @@ public class TamingAct extends Act {
 			d = Point4D.create(minX + 3 * distX, minY + 1 * distY, maxZ - 1 * distZ, YAW); 
 			e = Point4D.create(minX + 4 * distX, minY + 0 * distY, maxZ - 0 * distZ, YAW); 
 			
-			drones.get(Dumbo).moveToPoint(a, duration);
-			drones.get(Nerve).moveToPoint(b, duration);
-			drones.get(Romeo).moveToPoint(c, duration);
-			drones.get(Juliet).moveToPoint(d, duration);
-			drones.get(Fievel).moveToPoint(e, duration);
+			drones.get(droneA).moveToPoint(a, duration);
+			drones.get(droneB).moveToPoint(b, duration);
+			drones.get(droneC).moveToPoint(c, duration);
+			drones.get(droneD).moveToPoint(d, duration);
+			drones.get(droneE).moveToPoint(e, duration);
 			
 			drones.values().forEach(particle -> particle.hover(2));
 		}
@@ -244,11 +250,17 @@ public class TamingAct extends Act {
 			Point4D d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ + 3 * distZ, YAW); 
 			Point4D e = Point4D.create(minX + 4 * distX, minY + 1.5 * distY, minZ + 4 * distZ, YAW); 
 			
-			drones.get(Dumbo).moveToPoint(a, duration);
-			drones.get(Nerve).moveToPoint(b, duration);
-			drones.get(Romeo).moveToPoint(c, duration);
-			drones.get(Juliet).moveToPoint(d, duration);
-			drones.get(Fievel).moveToPoint(e, duration);
+			DroneName droneA = Fievel;
+			DroneName droneB = Juliet;
+			DroneName droneC = Dumbo;
+			DroneName droneD = Romeo;
+			DroneName droneE = Nerve;
+			
+			drones.get(droneA).moveToPoint(a, duration);
+			drones.get(droneB).moveToPoint(b, duration);
+			drones.get(droneC).moveToPoint(c, duration);
+			drones.get(droneD).moveToPoint(d, duration);
+			drones.get(droneE).moveToPoint(e, duration);
 			
 			drones.values().forEach(particle -> particle.hover(2));
 
@@ -261,11 +273,11 @@ public class TamingAct extends Act {
 			d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ + 1 * distZ, YAW); 
 			e = Point4D.create(minX + 4 * distX, minY + 1.5 * distY, minZ + 0.01 * distZ, YAW); 
 			
-			drones.get(Dumbo).moveToPoint(a, duration);
-			drones.get(Nerve).moveToPoint(b, duration);
-			drones.get(Romeo).moveToPoint(c, duration);
-			drones.get(Juliet).moveToPoint(d, duration);
-			drones.get(Fievel).moveToPoint(e, duration);
+			drones.get(droneA).moveToPoint(a, duration);
+			drones.get(droneB).moveToPoint(b, duration);
+			drones.get(droneC).moveToPoint(c, duration);
+			drones.get(droneD).moveToPoint(d, duration);
+			drones.get(droneE).moveToPoint(e, duration);
 			
 			drones.values().forEach(particle -> particle.hover(2));
 		}
@@ -288,11 +300,11 @@ public class TamingAct extends Act {
 			final double maxX = 5.7;
 			final double distX = (maxX - minX)/numSpaceBetweenDrones;
 			
-			DroneName a = Dumbo;
-			DroneName b = Nerve;
-			DroneName c = Romeo;
-			DroneName d = Juliet;
-			DroneName e = Fievel;
+			DroneName a = Fievel;
+			DroneName b = Juliet;
+			DroneName c = Dumbo;
+			DroneName d = Romeo;
+			DroneName e = Nerve;
 			
 			drones.get(a).moveToPoint(Point4D.create(minX + 0 * distX, minY, height, YAW), duration);
 			drones.get(b).moveToPoint(Point4D.create(minX + 1 * distX, minY, height, YAW), duration);
