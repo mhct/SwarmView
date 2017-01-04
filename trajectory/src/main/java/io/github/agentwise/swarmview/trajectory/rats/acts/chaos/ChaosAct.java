@@ -53,7 +53,7 @@ public class ChaosAct extends Act {
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(5, 1, 2.0, YAW), 0.3, 0.19, 1.0, 2.0, 3.0, 0.19, 1.5, 0.19, 7);
+                  Point4D.create(5, 1, 2.0, YAW), 0.3, 0.19, 1.0, 2.0, 3.0, 0.19, 1.0, 0.19, 7);
           drones
               .get(DroneName.Nerve)
               .moveToPointWithVelocity(
@@ -137,7 +137,7 @@ public class ChaosAct extends Act {
     final Particle romeoParticle = new Particle(initialPose);
     romeoParticle.moveToPoint(Point4D.from(romeoCircleTrajectory.getDesiredPosition(0)), 2);
     romeoParticle.addMovement(romeoCircleTrajectory);
-    romeoParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
+    romeoParticle.moveToPointWithVelocity(Point4D.from(finalPose), 0.8);
     return romeoParticle.getTrajectory();
   }
 
@@ -149,7 +149,7 @@ public class ChaosAct extends Act {
     final Particle julietParticle = new Particle(initialPose);
     julietParticle.moveToPoint(Point4D.from(julietCircleTrajectory.getDesiredPosition(0)), 2);
     julietParticle.addMovement(julietCircleTrajectory);
-    julietParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
+    julietParticle.moveToPointWithVelocity(Point4D.from(finalPose), 0.8);
     return julietParticle.getTrajectory();
   }
 }
