@@ -20,7 +20,7 @@ public class DumboIntroduction {
     }
     final double percentageVelocity = 5.0;
     dumbo.wiggle(2, 1);
-    dumbo.moveZigZagToPoint(Point4D.create(0, 3, 2.8, YAW), percentageVelocity);
+    dumbo.moveZigZagToPoint(Point4D.create(1, 3, 2.8, YAW), percentageVelocity);
     dumbo.wiggle(3, 1);
     dumbo.moveZigZagToPoint(Point4D.create(1, 4.5, 1, YAW), percentageVelocity);
     dumbo.wiggle(3, 1);
