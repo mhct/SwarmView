@@ -97,8 +97,8 @@ public class TamingAct extends Act {
 //			drones.values().forEach(particle -> particle.moveHorizontalCircle(center3, true, durationLargeCircling)); //big circle high in the air
 			
 			moveBackAndForward(drones);
-//			moveToDiagonalLine(drones, 3);
-//			moveToDiagonalLine(drones, 3);
+			moveToDiagonalLine(drones, 3);
+			moveToDiagonalLine(drones, 3);
 //			
 //			double minX = 0.3;
 //			double maxX = 5.7;
@@ -130,7 +130,7 @@ public class TamingAct extends Act {
 		 * @param duration
 		 */
 		private void moveToDiagonalLine(Map<DroneName, Particle> drones, double duration) {
-			double numDrones = 3; // hardcoding for 4 drones only
+			double numSpacesBetweenDrones = drones.size() - 1; // hardcoding for 4 drones only
 //			double numDrones = drones.size();
 			double minY = 1.2;
 			double maxY = 4.7;
@@ -139,32 +139,38 @@ public class TamingAct extends Act {
 			double minZ = 1.2;
 			double maxZ = 3.2;
 			
-			double distX = (maxX - minX)/numDrones;
-			double distY = (maxY - minY)/numDrones;
-			double distZ = (maxZ - minZ)/numDrones;
+			double distX = (maxX - minX)/numSpacesBetweenDrones;
+			double distY = (maxY - minY)/numSpacesBetweenDrones;
+			double distZ = (maxZ - minZ)/numSpacesBetweenDrones;
 			
 			//first movement
 			Point4D a = Point4D.create(minX + 0 * distX, minY + 0 * distY, maxZ - 0 * distZ, YAW); 
 			Point4D b = Point4D.create(minX + 1 * distX, minY + 1 * distY, maxZ - 1 * distZ, YAW); 
 			Point4D c = Point4D.create(minX + 2 * distX, minY + 2 * distY, maxZ - 2 * distZ, YAW); 
 			Point4D d = Point4D.create(minX + 3 * distX, minY + 3 * distY, maxZ - 3 * distZ, YAW); 
+			Point4D e = Point4D.create(minX + 4 * distX, minY + 4 * distY, maxZ - 4 * distZ, YAW); 
 			
-			drones.get(Fievel).moveToPoint(a, duration);
-			drones.get(Romeo).moveToPoint(b, duration);
-			drones.get(Dumbo).moveToPoint(c, duration);
-			drones.get(Nerve).moveToPoint(d, duration);
+			drones.get(Dumbo).moveToPoint(a, duration);
+			drones.get(Nerve).moveToPoint(b, duration);
+			drones.get(Romeo).moveToPoint(c, duration);
+			drones.get(Juliet).moveToPoint(d, duration);
+			drones.get(Fievel).moveToPoint(e, duration);
+
 			drones.values().forEach(particle -> particle.hover(2));
 			
 			//second movement
-			a = Point4D.create(minX + 0 * distX, minY + 3 * distY, maxZ - 3 * distZ, YAW); 
-			b = Point4D.create(minX + 1 * distX, minY + 2 * distY, maxZ - 2 * distZ, YAW); 
-			c = Point4D.create(minX + 2 * distX, minY + 1 * distY, maxZ - 1 * distZ, YAW); 
-			d = Point4D.create(minX + 3 * distX, minY + 0 * distY, maxZ - 0 * distZ, YAW); 
+			a = Point4D.create(minX + 0 * distX, minY + 4 * distY, maxZ - 4 * distZ, YAW); 
+			b = Point4D.create(minX + 1 * distX, minY + 3 * distY, maxZ - 3 * distZ, YAW); 
+			c = Point4D.create(minX + 2.001 * distX, minY + 2 * distY, maxZ - 2 * distZ, YAW); 
+			d = Point4D.create(minX + 3 * distX, minY + 1 * distY, maxZ - 1 * distZ, YAW); 
+			e = Point4D.create(minX + 4 * distX, minY + 0 * distY, maxZ - 0 * distZ, YAW); 
 			
-			drones.get(Fievel).moveToPoint(a, duration);
-			drones.get(Romeo).moveToPoint(b, duration);
-			drones.get(Dumbo).moveToPoint(c, duration);
-			drones.get(Nerve).moveToPoint(d, duration);
+			drones.get(Dumbo).moveToPoint(a, duration);
+			drones.get(Nerve).moveToPoint(b, duration);
+			drones.get(Romeo).moveToPoint(c, duration);
+			drones.get(Juliet).moveToPoint(d, duration);
+			drones.get(Fievel).moveToPoint(e, duration);
+			
 			drones.values().forEach(particle -> particle.hover(2));
 		}
 		
