@@ -100,11 +100,11 @@ public class TamingAct extends Act {
 			moveToDiagonalLine(drones, 3);
 			moveToDiagonalLine(drones, 3);
 //			
-//			double minX = 0.3;
-//			double maxX = 5.7;
-//			moveHorizontalLineZ(drones, 1.5, minX, maxX);
-//			moveHorizontalLineZ(drones, 1.5, minX, maxX);
-//			moveHorizontalLineZ(drones, 1.5, minX, maxX);
+			double minX = 0.3;
+			double maxX = 5.7;
+			moveHorizontalLineZ(drones, 1.5, minX, maxX);
+			moveHorizontalLineZ(drones, 1.5, minX, maxX);
+			moveHorizontalLineZ(drones, 1.5, minX, maxX);
 //			moveVerticalV(drones, 1.5, 1.2, 4.8);
 //			
 //			final Point4D center4 = Point4D.create(3, 2.0, 2.5, YAW);
@@ -235,34 +235,38 @@ public class TamingAct extends Act {
 			double distY = (maxY - minY)/numSpacesBetweenDrones;
 			double distZ = (maxZ - minZ)/numSpacesBetweenDrones;
 			
-			//First
-			Point4D a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ, YAW); 
-			Point4D b = Point4D.create(minX + 1 * distX, minY + 1.5 * distY, minZ, YAW); 
-			Point4D c = Point4D.create(minX + 2 * distX, minY + 1.5 * distY, minZ, YAW); 
-			Point4D d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ, YAW); 
-			
+			//
 			//Second
-			a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ + 0.1 * distZ, YAW); 
-			b = Point4D.create(minX + 1 * distX, minY + 1.5 * distY, minZ + 1 * distZ, YAW); 
-			c = Point4D.create(minX + 2 * distX, minY + 1.5 * distY, minZ + 2 * distZ, YAW); 
-			d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ + 3 * distZ, YAW); 
+			//
+			Point4D a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ + 0.1 * distZ, YAW); 
+			Point4D b = Point4D.create(minX + 1 * distX, minY + 1.5 * distY, minZ + 1 * distZ, YAW); 
+			Point4D c = Point4D.create(minX + 2 * distX, minY + 1.5 * distY, minZ + 2 * distZ, YAW); 
+			Point4D d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ + 3 * distZ, YAW); 
+			Point4D e = Point4D.create(minX + 4 * distX, minY + 1.5 * distY, minZ + 4 * distZ, YAW); 
 			
-			drones.get(Fievel).moveToPoint(a, duration);
-			drones.get(Romeo).moveToPoint(b, duration);
-			drones.get(Dumbo).moveToPoint(c, duration);
-			drones.get(Nerve).moveToPoint(d, duration);
+			drones.get(Dumbo).moveToPoint(a, duration);
+			drones.get(Nerve).moveToPoint(b, duration);
+			drones.get(Romeo).moveToPoint(c, duration);
+			drones.get(Juliet).moveToPoint(d, duration);
+			drones.get(Fievel).moveToPoint(e, duration);
+			
 			drones.values().forEach(particle -> particle.hover(2));
 
+			//
 			//third
-			a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ + 3 * distZ, YAW); 
-			b = Point4D.create(minX + 1 * distX, minY + 1.5 * distY, minZ + 2 * distZ, YAW); 
-			c = Point4D.create(minX + 2 * distX, minY + 1.5 * distY, minZ + 1 * distZ, YAW); 
-			d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ + 0.1 * distZ, YAW); 
+			//
+			a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ + 4 * distZ, YAW); 
+			b = Point4D.create(minX + 1 * distX, minY + 1.5 * distY, minZ + 3 * distZ, YAW); 
+			c = Point4D.create(minX + 2 * distX, minY + 1.5 * distY, minZ + 2.01 * distZ, YAW); 
+			d = Point4D.create(minX + 3 * distX, minY + 1.5 * distY, minZ + 1 * distZ, YAW); 
+			e = Point4D.create(minX + 4 * distX, minY + 1.5 * distY, minZ + 0.01 * distZ, YAW); 
 			
-			drones.get(Fievel).moveToPoint(a, duration);
-			drones.get(Romeo).moveToPoint(b, duration);
-			drones.get(Dumbo).moveToPoint(c, duration);
-			drones.get(Nerve).moveToPoint(d, duration);
+			drones.get(Dumbo).moveToPoint(a, duration);
+			drones.get(Nerve).moveToPoint(b, duration);
+			drones.get(Romeo).moveToPoint(c, duration);
+			drones.get(Juliet).moveToPoint(d, duration);
+			drones.get(Fievel).moveToPoint(e, duration);
+			
 			drones.values().forEach(particle -> particle.hover(2));
 		}
 		private void moveToCirclePosition(Map<DroneName, Particle> drones, Point4D circleCenter, double circleRadius, double duration) {
