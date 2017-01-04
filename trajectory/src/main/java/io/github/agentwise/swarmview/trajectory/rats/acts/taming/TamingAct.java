@@ -79,10 +79,11 @@ public class TamingAct extends Act {
 			double durationMoveBackwards = 1.2;
 			double distanceBackwards = 0.2;
 
-			//waiting drones to go to initial positions...
+			//waiting drones before going initial positions...
 			drones.values().forEach(particle -> particle.hover(5));
 			
-			moveToCirclePosition(drones, center1, outerCircleRadius, duration);
+			final double durationToPosition = 3; 
+			moveToCirclePosition(drones, center1, outerCircleRadius, durationToPosition);
 			moveAwayClose(drones);
 			moveToCirclePosition(drones, center11, innerCircleRadius, durationInwards);
 			drones.values().forEach(particle -> particle.moveHorizontalCircle(center3, true, durationSmallCircling)); //small circle around Jeana
@@ -267,26 +268,32 @@ public class TamingAct extends Act {
 		}
 		
 		private void moveBackAndForward(Map<DroneName, Particle> drones) {
-			final int numDrones = 3; // 4 drones need 3 spaces
-			final double duration = 3;
+			final int numSpaceBetweenDrones = drones.size() - 1; 
+			final double duration = 6;
 			final double height = 2.3;
 			final double distanceForward = 3.5;
 			final double durationForward = 3;
 			final double minY = 0.5;
 			final double minX = 0.3;
 			final double maxX = 5.7;
-			final double distX = (maxX - minX)/numDrones;
+			final double distX = (maxX - minX)/numSpaceBetweenDrones;
 			
-			drones.get(Fievel).moveToPoint(Point4D.create(minX + 0 * distX, minY, height, YAW), duration);
-			drones.get(Romeo).moveToPoint(Point4D.create(minX + 1 * distX, minY, height, YAW), duration);
-			drones.get(Dumbo).moveToPoint(Point4D.create(minX + 2 * distX, minY, height, YAW), duration);
-			drones.get(Nerve).moveToPoint(Point4D.create(minX + 3 * distX, minY, height, YAW), duration);
-//				drones.get(Romeo).moveToPoint(Point4D.create(3.0, 0.5, height, YAW), duration);
+			DroneName a = Dumbo;
+			DroneName b = Nerve;
+			DroneName c = Romeo;
+			DroneName d = Juliet;
+			DroneName e = Fievel;
+			
+			drones.get(a).moveToPoint(Point4D.create(minX + 0 * distX, minY, height, YAW), duration);
+			drones.get(b).moveToPoint(Point4D.create(minX + 1 * distX, minY, height, YAW), duration);
+			drones.get(c).moveToPoint(Point4D.create(minX + 2 * distX, minY, height, YAW), duration);
+			drones.get(d).moveToPoint(Point4D.create(minX + 3 * distX, minY, height, YAW), duration);
+			drones.get(e).moveToPoint(Point4D.create(minX + 4 * distX, minY, height, YAW), duration);
 			
 			drones.values().forEach(drone -> drone.hover(3));
 			
 			drones.forEach((drone, particle) -> {
-				if (drone == Dumbo || drone == Romeo) {
+				if (drone == b || drone == d) {
 					particle.moveForwardGoingHighInBetween(distanceForward, 1.25, 1.5, durationForward);
 					particle.hover(5);
 
