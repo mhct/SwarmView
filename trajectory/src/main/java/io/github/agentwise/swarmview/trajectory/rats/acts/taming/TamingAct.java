@@ -51,6 +51,7 @@ public class TamingAct extends Act {
 
 		private Map<DroneName, Pose> finalPositions;
 		private Point4D center1;
+		private Point4D center11;
 		private Point4D center2;
 		private static double YAW = -Math.PI/2;
 		
@@ -59,6 +60,7 @@ public class TamingAct extends Act {
 			// Perform the joint movements
 			//
 			center1 = Point4D.create(3, 3, 1, YAW);
+			center11 = Point4D.create(3, 3, 2, YAW);
 			center2 = Point4D.create(3, 3, 2.5, YAW);
 			this.finalPositions = finalPositions;
 		}
@@ -71,10 +73,7 @@ public class TamingAct extends Act {
 			final double durationInwards = 3; 
 			final double outerCircleRadius = 1.3;
 			final double innerCircleRadius = 1.3;
-			final double durationSpiralingOut = 10;
-			final double spiralRate = 0.02;
-			final double durationSmallCircling = 10;
-			final double distanceUp = 1.0;
+			final double durationSmallCircling = 20;
 			final double durationLargeCircling = 20;
 			
 			double durationMoveBackwards = 1.2;
@@ -85,15 +84,18 @@ public class TamingAct extends Act {
 			
 			moveToCirclePosition(drones, center1, outerCircleRadius, duration);
 			moveAwayClose(drones);
-			moveToCirclePosition(drones, center1, innerCircleRadius, durationInwards);
-//			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, durationSmallCircling)); //small circle around Jeana
+			moveToCirclePosition(drones, center11, innerCircleRadius, durationInwards);
+			drones.values().forEach(particle -> particle.moveHorizontalCircle(center3, true, durationSmallCircling)); //small circle around Jeana
+			
+//			final double durationSpiralingOut = 10;
+//			final double spiralRate = 0.02;
 //			drones.values().forEach(particle -> particle.moveHorizontalCircle(center1, true, durationSpiralingOut, 0, spiralRate)); //ouwards spiral
-//			drones.values().forEach(particle -> particle.moveBackward(distanceBackwards, durationMoveBackwards));
-//			drones.values().forEach(particle -> particle.moveUp(distanceUp, duration));
+
+			// REMOVE?
 //			drones.values().forEach(particle -> particle.moveAway(center1, -0.7, 0.5));
 //			drones.values().forEach(particle -> particle.moveHorizontalCircle(center3, true, durationLargeCircling)); //big circle high in the air
-//			
-//			moveBackAndForward(drones);
+			
+			moveBackAndForward(drones);
 //			moveToDiagonalLine(drones, 3);
 //			moveToDiagonalLine(drones, 3);
 //			
@@ -344,26 +346,16 @@ public class TamingAct extends Act {
 			drones.get(Nerve).moveDown(1.5, durationUp);
 		}
 		
-		private void moveUpDown(Map<DroneName, Particle> drones) {
-			final double duration = 1.0;
+		private void moveUp(Map<DroneName, Particle> drones, double duration) {
 			final double distanceHeightDumbo = 0.5;
 			final double distanceHeightSecondRow = 1.0;
 			final double distanceHeightThirdRow = 2.0;
 			
-
-			for (int i=0; i<3; i++) {
-				drones.get(Dumbo).moveUp(distanceHeightDumbo, duration);
-				drones.get(Fievel).moveUp(distanceHeightSecondRow, duration);
-				drones.get(Nerve).moveUp(distanceHeightSecondRow, duration);
-				drones.get(Romeo).moveUp(distanceHeightThirdRow, duration);
-//				drones.get(Romeo).moveUp(distanceHeightThirdRow, duration);
-				
-				drones.get(Dumbo).moveUp(-distanceHeightDumbo, duration);
-				drones.get(Fievel).moveUp(-distanceHeightSecondRow, duration);
-				drones.get(Nerve).moveUp(-distanceHeightSecondRow, duration);
-				drones.get(Romeo).moveUp(-distanceHeightThirdRow, duration);
-//				drones.get(Romeo).moveUp(-distanceHeightThirdRow, duration);
-			}
+			drones.get(Dumbo).moveUp(distanceHeightDumbo, duration);
+			drones.get(Fievel).moveUp(distanceHeightSecondRow, duration);
+			drones.get(Nerve).moveUp(distanceHeightSecondRow, duration);
+			drones.get(Romeo).moveUp(distanceHeightThirdRow, duration);
+			drones.get(Juliet).moveUp(distanceHeightThirdRow, duration);
 		}
 		
 		//TODO move up as well
