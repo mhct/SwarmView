@@ -144,6 +144,12 @@ public class Particle {
     moveToPoint(destination, duration);
   }
 
+  public void moveDownToHeight(double height, int duration) {
+	  Point4D destination =
+		        Point4D.create(current.getX(), current.getY(), height, YAW);
+	  moveToPoint(destination, duration);
+  }
+  
   public void moveUp(double distance, double duration) {
     Point4D destination =
         Point4D.create(current.getX(), current.getY(), current.getZ() + distance, YAW);
@@ -166,6 +172,18 @@ public class Particle {
     Point4D destination =
         Point4D.create(current.getX(), current.getY() + distance, current.getZ(), YAW);
     moveToPoint(destination, duration);
+  }
+
+  public void moveForwardToYPosition(double yPosition, double duration) {
+	  Point4D destination =
+			  Point4D.create(current.getX(), yPosition, current.getZ(), YAW);
+	  moveToPoint(destination, duration);
+  }
+
+  public void moveForwardToYPositionAtHeight(double yPosition, double height, double duration) {
+	  Point4D destination =
+			  Point4D.create(current.getX(), yPosition, height, YAW);
+	  moveToPoint(destination, duration);
   }
 
   public void moveForwardGoingHighInBetween(double distance, double startAscendingDistance, double heightDistance, double duration) {
@@ -332,7 +350,7 @@ public class Particle {
   }
 
   public void moveTowardPointAndStopRandomlyWithInRange(
-      Point4D destination, double range, double duration) {
+    Point4D destination, double range, double duration) {
     final double rangeX = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
     final double rangeY = -range + 2 * range * RANDOM_GENERATOR.nextDouble();
     final double rangeZ = -range + 2 * range * RANDOM_GENERATOR.nextDouble();

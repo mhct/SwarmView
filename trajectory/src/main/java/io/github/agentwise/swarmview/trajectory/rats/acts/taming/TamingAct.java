@@ -87,10 +87,33 @@ public class TamingAct extends Act {
 			moveHorizontalLineZ(drones, 3.0, minX, maxX);
 			moveHorizontalLineZ(drones, 3.0, minX, maxX);
 			
-			moveVerticalV(drones, 3.0, 1.2, 4.8);
+			final Point4D center = moveVerticalV(drones, 3.0, 1.2, 4.8);
+			
+			final double durationFinalCircle = 21.5;
+			drones.values().forEach(particle -> particle.moveHorizontalCircle(center, true, 0.07, durationFinalCircle)); //big circle high in the air
+			
+			moveLandNerveAndFievel(drones, 6);
+			drones.values().forEach(particle -> particle.hover(10));
+			
 		}
 		
 		
+		private void moveLandNerveAndFievel(Map<DroneName, Particle> drones, int duration) {
+			double yPosition = 5;
+			double height = 1;
+//			drones.get(Nerve).moveDownToHeight(height, duration/2);
+//			drones.get(Fievel).moveDownToHeight(height, duration/2);
+//			drones.get(Nerve).moveForwardToYPosition(yPosition, duration/2);
+//			drones.get(Fievel).moveForwardToYPosition(yPosition, duration/2);
+	
+			drones.get(Nerve).moveForwardToYPositionAtHeight(yPosition, height, duration);
+			drones.get(Fievel).moveForwardToYPositionAtHeight(yPosition, height, duration);
+			
+			drones.get(Dumbo).hover(duration);
+			drones.get(Juliet).hover(duration);
+			drones.get(Romeo).hover(duration);
+		}
+
 		/**
 		 * @param drones
 		 * @param duration
@@ -146,7 +169,7 @@ public class TamingAct extends Act {
 		}
 		
 		
-		private void moveVerticalV(Map<DroneName, Particle> drones, double duration, double minX, double maxX) {
+		private Point4D moveVerticalV(Map<DroneName, Particle> drones, double duration, double minX, double maxX) {
 			double numSpacesBetweenDrones = drones.size() - 1; // hardcoding for 5 drones only
 			double numSpacesZ = 2;
 			double minY = 1;
@@ -167,10 +190,8 @@ public class TamingAct extends Act {
 			Point4D e = Point4D.create(minX + 4 * distX, minY + 1 * distY, minZ + 2 * distZ, YAW); 
 			
 			moveDronesToPositionsAndHover(drones, a, b, c, d, e, duration);
-			final double durationFinalCircle = 20;
-			final Point4D center = c;
-			drones.values().forEach(particle -> particle.moveHorizontalCircle(center, true, 0.07, durationFinalCircle)); //big circle high in the air
 			
+			return c;
 			//Second
 //			a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ + 0.1 * distZ, YAW); 
 //			b = Point4D.create(minX + 1 * distX, minY + 1.5 * distY, minZ + 1.1 * distZ, YAW); 
