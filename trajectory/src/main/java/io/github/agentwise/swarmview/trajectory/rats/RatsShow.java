@@ -161,9 +161,9 @@ public class RatsShow {
         Choreography.create(
             DroneName.Nerve, DroneName.Romeo, DroneName.Juliet, DroneName.Fievel, DroneName.Dumbo);
 
-//    choreo.addAct(INTRODUCTION);
-//    choreo.addAct(CHAOS);
-//    choreo.addAct(ATTACK);
+    choreo.addAct(INTRODUCTION);
+    choreo.addAct(CHAOS);
+    choreo.addAct(ATTACK);
     choreo.addAct(TAMING);
 
     return choreo;

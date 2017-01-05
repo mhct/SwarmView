@@ -49,8 +49,8 @@ public class Particle {
   }
 
   public void moveHorizontalCircle(
-      Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
-    moveHorizontalCircle(center, clockwise, 0.1, duration, waveHeight, openingRate, false);
+      Point4D center, boolean clockwise, double absoluteFrequency, double duration, double waveHeight, double openingRate) {
+    moveHorizontalCircle(center, clockwise, absoluteFrequency, duration, waveHeight, openingRate, false);
   }
 
   private void moveHorizontalCircle(
@@ -144,7 +144,7 @@ public class Particle {
     moveToPoint(destination, duration);
   }
 
-  public void moveDownToHeight(double height, int duration) {
+  public void moveDownToHeight(double height, double duration) {
 	  Point4D destination =
 		        Point4D.create(current.getX(), current.getY(), height, YAW);
 	  moveToPoint(destination, duration);
