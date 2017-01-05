@@ -93,7 +93,7 @@ public class AttackAct extends Act {
             drones.forEach(
                 (drone, particle) ->
                     particle.moveToPointWithVelocity(
-                        Point4D.from(configuration.finalPositionConfiguration().get(drone)), 2)));
+                        Point4D.from(configuration.finalPositionConfiguration().get(drone)), 0.8)));
 
     final Swarm swarmEntireMove = Swarm.create(configuration.initialPositionConfiguration());
     swarmEntireMove.setSwarmMovementsScript(
