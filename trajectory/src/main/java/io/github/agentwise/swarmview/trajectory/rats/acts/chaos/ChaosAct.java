@@ -33,27 +33,27 @@ public class ChaosAct extends Act {
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(5, 1, 3.2, YAW), 0.3, 0.19, 1.0, 2.0, 3.5, 0.19, 1.5, 0.19, 10);
+                  Point4D.create(5, 1, 3.2, YAW), 0.3, 0.19, 1.0, 2.0, 3.5, 0.19, 1.3, 0.19, 10);
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(5, 4, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.5, 0.19, 10);
+                  Point4D.create(5, 4, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.3, 0.19, 10);
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(3, 4.5, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.5, 0.19, 20);
+                  Point4D.create(3, 4.5, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.3, 0.19, 10);
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(2, 3, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.5, 0.19, 5);
+                  Point4D.create(2, 3, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.3, 0.19, 5);
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(2, 1, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.5, 0.19, 5);
+                  Point4D.create(2, 1, 2.0, YAW), 0.3, 0.19, 1.0, 1.0, 2.0, 0.19, 1.3, 0.19, 5);
           drones
               .get(DroneName.Nerve)
               .moveNervouslyToPoint(
-                  Point4D.create(5, 1, 2.0, YAW), 0.3, 0.19, 1.0, 2.0, 3.0, 0.19, 1.5, 0.19, 7);
+                  Point4D.create(5, 1, 2.0, YAW), 0.3, 0.19, 1.0, 2.0, 3.0, 0.19, 1.0, 0.19, 7);
           drones
               .get(DroneName.Nerve)
               .moveToPointWithVelocity(
@@ -120,10 +120,11 @@ public class ChaosAct extends Act {
   private static FiniteTrajectory4d getCommonTrajectoryForRomeoAndJuliet() {
     final Pose initialPose = Pose.create(5, 4, 1.5, -StrictMath.PI / 2);
     final Particle drone = new Particle(initialPose);
-    drone.moveToPoint(Point4D.create(3.5, 3.5, 2.5, YAW), 5);
-    drone.moveToPoint(Point4D.create(1.0, 2.0, 2.5, YAW), 5);
-    drone.moveToPoint(Point4D.create(5.0, 2.0, 1.5, YAW), 10);
-    drone.moveToPoint(Point4D.create(0.5, 4.0, 1.5, YAW), 10);
+    drone.moveToPoint(Point4D.create(3.0, 3.0, 2.5, YAW), 5);
+    drone.hover(5);
+    drone.moveToPoint(Point4D.create(4.0, 4.0, 2.5, YAW), 5);
+    drone.moveToPoint(Point4D.create(1.0, 4.0, 1.5, YAW), 8);
+    drone.moveToPoint(Point4D.create(0.5, 4.0, 1.5, YAW), 6);
     drone.hover(2);
     drone.moveToPoint(Point4D.create(0.5, 2.0, 1.5, YAW), 5);
     drone.moveToPoint(Point4D.create(1.5, 2.0, 1.5, YAW), 3);
@@ -133,11 +134,11 @@ public class ChaosAct extends Act {
   private static FiniteTrajectory4d getRomeoTrajectory(Pose initialPose, Pose finalPose) {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet();
     final FiniteTrajectory4d romeoCircleTrajectory =
-        VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.15, Point4D.create(0, 0, 0, 0));
+        VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.1, Point4D.create(0, 0, 0, 0));
     final Particle romeoParticle = new Particle(initialPose);
     romeoParticle.moveToPoint(Point4D.from(romeoCircleTrajectory.getDesiredPosition(0)), 2);
     romeoParticle.addMovement(romeoCircleTrajectory);
-    romeoParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
+    romeoParticle.moveToPointWithVelocity(Point4D.from(finalPose), 0.8);
     return romeoParticle.getTrajectory();
   }
 
@@ -145,11 +146,11 @@ public class ChaosAct extends Act {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet();
     final FiniteTrajectory4d julietCircleTrajectory =
         VerticalCircleDecorator.create(
-            commonTrajectory, 0.5, StrictMath.PI, 0.15, Point4D.create(0, -1.0, 0, 0));
+            commonTrajectory, 0.5, StrictMath.PI, 0.1, Point4D.create(0, -1.0, 0, 0));
     final Particle julietParticle = new Particle(initialPose);
     julietParticle.moveToPoint(Point4D.from(julietCircleTrajectory.getDesiredPosition(0)), 2);
     julietParticle.addMovement(julietCircleTrajectory);
-    julietParticle.moveToPointWithVelocity(Point4D.from(finalPose), 1.0);
+    julietParticle.moveToPointWithVelocity(Point4D.from(finalPose), 0.8);
     return julietParticle.getTrajectory();
   }
 }

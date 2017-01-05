@@ -238,7 +238,7 @@ public class TamingAct extends Act {
 			final int numSpaceBetweenDrones = drones.size() - 1; 
 			final double height = 2.3;
 			final double distanceForward = 3.5;
-			final double durationForward = 3;
+			final double durationForward = 6;
 			final double minY = 0.5;
 			final double minX = 0.3;
 			final double maxX = 5.7;
