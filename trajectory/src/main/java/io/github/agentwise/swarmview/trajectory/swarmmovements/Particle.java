@@ -44,32 +44,34 @@ public class Particle {
     movementParts = new ArrayList<>();
   }
 
-  public void moveHorizontalCircle(Point4D center, boolean clockwise, double duration) {
-    moveHorizontalCircle(center, clockwise, duration, 0, 0, false);
+  public void moveHorizontalCircle(Point4D center, boolean clockwise, double absoluteFrequency, double duration) {
+    moveHorizontalCircle(center, clockwise, absoluteFrequency, duration, 0, 0, false);
   }
 
   public void moveHorizontalCircle(
       Point4D center, boolean clockwise, double duration, double waveHeight, double openingRate) {
-    moveHorizontalCircle(center, clockwise, duration, waveHeight, openingRate, false);
+    moveHorizontalCircle(center, clockwise, 0.1, duration, waveHeight, openingRate, false);
   }
 
   private void moveHorizontalCircle(
       Point4D center,
       boolean clockwise,
+      double absoluteFrequency,
       double duration,
       double waveHeight,
       double openingRate,
       boolean corkscrew) {
+    checkArgument(absoluteFrequency > 0, "Frequency must be positive");
     double frequency;
     if (clockwise) {
-      frequency = 0.1;
+      frequency = absoluteFrequency;
     } else {
-      frequency = -0.1;
+      frequency = -absoluteFrequency;
     }
-    
+
     // calculates circle center, using the same heigh as the current heigh of the particle
     Point3D tempCenter = Point3D.create(center.getX(), center.getY(), current.getZ());
-    
+
     double dx = current.getX() - center.getX();
     double dy = current.getY() - center.getY();
     //		double dz = current.getZ() - center.getZ();
@@ -165,7 +167,7 @@ public class Particle {
         Point4D.create(current.getX(), current.getY() + distance, current.getZ(), YAW);
     moveToPoint(destination, duration);
   }
-  
+
   public void moveForwardGoingHighInBetween(double distance, double startAscendingDistance, double heightDistance, double duration) {
 	  Point4D firstSegment =
 			  Point4D.create(current.getX(), current.getY() + startAscendingDistance, current.getZ(), YAW);
@@ -175,10 +177,10 @@ public class Particle {
 			  Point4D.create(current.getX(), (current.getY() + (distance - startAscendingDistance)), current.getZ(), YAW);
 	  Point4D fourthSegment =
 			  Point4D.create(current.getX(), (current.getY() + distance), current.getZ(), YAW);
-	  
+
 	  moveToPoint(firstSegment, duration/4);
 	  System.out.println(firstSegment);
-	  
+
 	  moveToPoint(secondSegment, duration/4);
 	  System.out.println(secondSegment);
 
@@ -188,7 +190,7 @@ public class Particle {
 	  moveToPoint(fourthSegment, duration/4);
 	  System.out.println(fourthSegment);
   }
-  
+
   public void moveBackward(double distance, double duration) {
     Point4D destination =
         Point4D.create(current.getX(), current.getY() - distance, current.getZ(), YAW);

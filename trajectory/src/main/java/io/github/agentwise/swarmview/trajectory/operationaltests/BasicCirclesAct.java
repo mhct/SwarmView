@@ -53,8 +53,8 @@ public class BasicCirclesAct extends Act {
 			Point4D center = Point4D.create(4.0, 3.0, 1.0, OTCircleShow.YAW);
 
 			//circling
-			drones.values().forEach(drone -> drone.moveHorizontalCircle(center, true, duration));
-			drones.values().forEach(drone -> drone.moveHorizontalCircle(center, false, duration));
+			drones.values().forEach(drone -> drone.moveHorizontalCircle(center, true, 0.1, duration));
+			drones.values().forEach(drone -> drone.moveHorizontalCircle(center, false, 0.1, duration));
 			
 		}
 		

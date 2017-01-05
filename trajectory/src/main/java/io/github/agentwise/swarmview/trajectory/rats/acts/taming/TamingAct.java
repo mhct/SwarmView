@@ -74,20 +74,20 @@ public class TamingAct extends Act {
 
 			moveAwayClose(drones);
 			moveToCirclePosition(drones, center11, innerCircleRadius, durationInwards);
-			drones.values().forEach(particle -> particle.moveHorizontalCircle(center3, true, durationSmallCircling)); //small circle around Jeana
+			drones.values().forEach(particle -> particle.moveHorizontalCircle(center3, true, 0.1, durationSmallCircling)); //small circle around Jeana
 			
 			moveBackwardAndForward(drones);
 			
-			moveToDiagonalLine(drones, 3);
-			moveToDiagonalLine(drones, 3);
+			moveToDiagonalLine(drones, 4.5);
+			moveToDiagonalLine(drones, 4.5);
 
 			double minX = 0.3;
 			double maxX = 5.7;
-			moveHorizontalLineZ(drones, 1.5, minX, maxX);
-			moveHorizontalLineZ(drones, 1.5, minX, maxX);
-			moveHorizontalLineZ(drones, 1.5, minX, maxX);
+			moveHorizontalLineZ(drones, 3.0, minX, maxX);
+			moveHorizontalLineZ(drones, 3.0, minX, maxX);
+			moveHorizontalLineZ(drones, 3.0, minX, maxX);
 			
-			moveVerticalV(drones, 1.5, 1.2, 4.8);
+			moveVerticalV(drones, 3.0, 1.2, 4.8);
 		}
 		
 		
@@ -169,7 +169,7 @@ public class TamingAct extends Act {
 			moveDronesToPositionsAndHover(drones, a, b, c, d, e, duration);
 			final double durationFinalCircle = 20;
 			final Point4D center = c;
-			drones.values().forEach(particle -> particle.moveHorizontalCircle(center, true, durationFinalCircle)); //big circle high in the air
+			drones.values().forEach(particle -> particle.moveHorizontalCircle(center, true, 0.07, durationFinalCircle)); //big circle high in the air
 			
 			//Second
 //			a = Point4D.create(minX + 0 * distX, minY + 1.5 * distY, minZ + 0.1 * distZ, YAW); 
