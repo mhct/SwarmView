@@ -127,27 +127,27 @@ public class RatsShow {
         DronePositionConfiguration.create(
             DroneName.Nerve,
             ATTACK.finalPosition(DroneName.Nerve),
-            Pose.create(6, 5, 0.8, 0.0)));
+            Pose.create(6, 5, 0.8, YAW)));
     tamingPositions.add(
         DronePositionConfiguration.create(
             DroneName.Romeo,
             ATTACK.finalPosition(DroneName.Romeo),
-            Pose.create(0, 1.0, 0.8, 0.0)));
+            Pose.create(0, 3.5, 0.8, YAW)));
     tamingPositions.add(
         DronePositionConfiguration.create(
             DroneName.Fievel,
             ATTACK.finalPosition(DroneName.Fievel),
-            Pose.create(0, 5, 0.8, 0.0)));
+            Pose.create(0, 5, 0.8, YAW)));
     tamingPositions.add(
         DronePositionConfiguration.create(
             DroneName.Juliet,
             ATTACK.finalPosition(DroneName.Juliet),
-            Pose.create(5, 0, 0.8, 0.0)));
+            Pose.create(5, 2, 0.8, YAW)));
     tamingPositions.add(
         DronePositionConfiguration.create(
             DroneName.Dumbo,
             ATTACK.finalPosition(DroneName.Dumbo),
-            Pose.create(1, 0, 0.8, 0.0)));
+            Pose.create(0, 2, 0.8, YAW)));
     ActConfiguration tamingConfiguration = ActConfiguration.create("Taming", tamingPositions);
     TAMING = TamingAct.create(tamingConfiguration);
     TAMING.lockAndBuild();

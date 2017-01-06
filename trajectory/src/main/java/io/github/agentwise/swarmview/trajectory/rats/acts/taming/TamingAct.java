@@ -89,9 +89,9 @@ public class TamingAct extends Act {
 			double maxX = 5.7;
 			moveHorizontalLineZ(drones, 3.0, minX, maxX);
 			moveHorizontalLineZ(drones, 3.0, minX, maxX);
-			moveHorizontalLineZ(drones, 3.0, minX, maxX);
+//			moveHorizontalLineZ(drones, 3.0, minX, maxX);
 
-			final Point4D center = moveVerticalV(drones, 3.0, 1.2, 4.8);
+			final Point4D center = moveVerticalV(drones, 3.0, 1.4, 4.6);
 			
 			final double durationFinalCircle = 28.5;
 			drones.get(Fievel).moveHorizontalCircle(center, true, 0.07, durationFinalCircle); //big circle high in the air
@@ -106,10 +106,10 @@ public class TamingAct extends Act {
 			List<DroneName> hoveringDrones = Lists.newArrayList(Nerve, Fievel);
 			moveDronesToLineAndSpin(drones, remainingDrones, hoveringDrones, 30);
 			
-			drones.get(Romeo).moveToPoint(Point4D.create(0, 1, 0.8, YAW), 4);
-			drones.get(Dumbo).moveToPoint(Point4D.create(1, 0, 0.8, YAW), 4);
+			drones.get(Romeo).moveToPoint(Point4D.create(0, 3.5, 0.8, YAW), 7);
+			drones.get(Dumbo).moveToPoint(Point4D.create(0, 2, 0.8, YAW), 7);
 			drones.get(Juliet).moveHorizontalCircle(center, false, 0.07, 14);
-			drones.get(Juliet).moveToPoint(Point4D.create(5, 0, 0.8, YAW), 4);
+			drones.get(Juliet).moveToPoint(Point4D.create(5, 2, 0.8, YAW), 5);
 			
 			
 //			drones.values().forEach(particle -> particle.hover(10));
@@ -222,11 +222,11 @@ public class TamingAct extends Act {
 		private Point4D moveVerticalV(Map<DroneName, Particle> drones, double duration, double minX, double maxX) {
 			double numSpacesBetweenDrones = drones.size() - 1; // hardcoding for 5 drones only
 			double numSpacesZ = 2;
-			double minY = 1;
+			double minY = 1.2;
 			double maxY = 5;
 			
-			double minZ = 1.2;
-			double maxZ = 3.3;
+			double minZ = 0.7;
+			double maxZ = 3.0;
 			
 			double distX = (maxX - minX)/numSpacesBetweenDrones;
 			double distY = (maxY - minY)/numSpacesBetweenDrones;
