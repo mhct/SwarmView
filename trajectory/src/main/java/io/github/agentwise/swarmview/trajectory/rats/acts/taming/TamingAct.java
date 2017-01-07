@@ -106,7 +106,7 @@ public class TamingAct extends Act {
 			List<DroneName> hoveringDrones = Lists.newArrayList(Nerve, Fievel);
 			moveDronesToLineAndSpin(drones, remainingDrones, hoveringDrones, 30);
 			
-			drones.get(Romeo).moveToPoint(Point4D.create(4.0, 1.5, 0.8, YAW), 7);
+			drones.get(Romeo).moveToPoint(Point4D.create(3.0, 1.5, 0.8, YAW), 7);
 			drones.get(Dumbo).moveToPoint(Point4D.create(5.0, 1.5, 0.8, YAW), 7);
 			drones.get(Juliet).moveHorizontalCircle(center, false, 0.07, 14);
 			drones.get(Juliet).moveToPoint(Point4D.create(5.5, 3.5, 0.8, YAW), 5);
