@@ -159,7 +159,7 @@ public class TamingAct extends Act {
 					1,
 					0));
 			double durationFeivelMoveDown = 5;
-			drones.get(Fievel).moveToPoint(Point4D.create(0, 5, 0.8, YAW), durationFeivelMoveDown);
+			drones.get(Fievel).moveToPoint(Point4D.create(0.5, 4.5, 0.8, YAW), durationFeivelMoveDown);
 			
 			hoveringDrones.forEach(drone -> drones.get(drone).hover(duration));
 		}

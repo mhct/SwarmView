@@ -137,7 +137,7 @@ public class RatsShow {
         DronePositionConfiguration.create(
             DroneName.Fievel,
             ATTACK.finalPosition(DroneName.Fievel),
-            Pose.create(0, 5, 0.8, YAW)));
+            Pose.create(0.5, 4.5, 0.8, YAW)));
     tamingPositions.add(
         DronePositionConfiguration.create(
             DroneName.Juliet,
