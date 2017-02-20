@@ -134,7 +134,7 @@ public class ChaosAct extends Act {
   private static FiniteTrajectory4d getRomeoTrajectory(Pose initialPose, Pose finalPose) {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet();
     final FiniteTrajectory4d romeoCircleTrajectory =
-        VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.1, Point4D.create(0, 0, 0, 0));
+        VerticalCircleDecorator.create(commonTrajectory, 0.5, 0, 0.08, Point4D.create(0, 0, 0, 0));
     final Particle romeoParticle = new Particle(initialPose);
     romeoParticle.moveToPoint(Point4D.from(romeoCircleTrajectory.getDesiredPosition(0)), 2);
     romeoParticle.addMovement(romeoCircleTrajectory);
@@ -146,7 +146,7 @@ public class ChaosAct extends Act {
     final FiniteTrajectory4d commonTrajectory = getCommonTrajectoryForRomeoAndJuliet();
     final FiniteTrajectory4d julietCircleTrajectory =
         VerticalCircleDecorator.create(
-            commonTrajectory, 0.5, StrictMath.PI, 0.1, Point4D.create(0, -1.0, 0, 0));
+            commonTrajectory, 0.5, StrictMath.PI, 0.08, Point4D.create(0, -1.0, 0, 0));
     final Particle julietParticle = new Particle(initialPose);
     julietParticle.moveToPoint(Point4D.from(julietCircleTrajectory.getDesiredPosition(0)), 2);
     julietParticle.addMovement(julietCircleTrajectory);
