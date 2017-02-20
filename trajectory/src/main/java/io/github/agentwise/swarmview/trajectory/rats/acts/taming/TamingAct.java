@@ -82,8 +82,8 @@ public class TamingAct extends Act {
 			
 			moveBackwardAndForward(drones);
 			
-			moveToDiagonalLine(drones, 4.5);
-			moveToDiagonalLine(drones, 4.5);
+			moveToDiagonalLine(drones, 7.0);
+//			moveToDiagonalLine(drones, 4.5);
 
 			double minX = 0.3;
 			double maxX = 5.7;
@@ -320,7 +320,7 @@ public class TamingAct extends Act {
 		private void moveBackwardAndForward(Map<DroneName, Particle> drones) {
 			final int numSpaceBetweenDrones = drones.size() - 1; 
 			final double height = 2.3;
-			final double durationMoveBackwards = 6;
+			final double durationMoveBackwards = 8;
 			final double distanceForward = 3.5;
 			final double durationForward = 7;
 			final double minY = 0.5;
