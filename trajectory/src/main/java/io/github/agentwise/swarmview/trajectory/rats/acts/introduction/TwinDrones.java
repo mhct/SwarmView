@@ -50,10 +50,11 @@ public final class TwinDrones {
   private static FiniteTrajectory4d getCommonTrajectory() {
     final Particle drone = new Particle(INITIAL_POSE);
 
+    drone.moveToPointWithVelocity(Point4D.create(1, 3.0, 2, YAW), 0.3);
     drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 0.3);
     drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 0.3);
-    drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 0.3);
-    drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 0.3);
+    drone.moveToPointWithVelocity(Point4D.create(4, 3.5, 2, YAW), 0.4);
+    drone.moveToPointWithVelocity(Point4D.create(1, 3.5, 2, YAW), 0.4);
     drone.moveToPointWithVelocity(Point4D.from(FINAL_POSE), 0.3);
 
     return drone.getTrajectory();
